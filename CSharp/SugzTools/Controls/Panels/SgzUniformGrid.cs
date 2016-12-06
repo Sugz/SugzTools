@@ -19,7 +19,7 @@ namespace SugzTools.Controls
         public Thickness InnerMargin { get; set; }
 
 
-        #endregion Dependency Properties
+        #endregion Properties
 
 
 

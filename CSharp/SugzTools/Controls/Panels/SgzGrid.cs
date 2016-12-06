@@ -10,34 +10,10 @@ namespace SugzTools.Controls
         #region Properties
 
 
-        /// <summary>
-        /// Modify the Margin for the panel's children
-        /// </summary>
-        [Description("Modify the Margin for the panel's children"), Category("Common")]
-        public Thickness InnerMargin
-        {
-            get { return (Thickness)GetValue(InnerMarginProperty); }
-            set { SetValue(InnerMarginProperty, value); }
-        }
+        public Thickness InnerMargin { get; set; }
 
 
         #endregion Properties
-
-
-
-        #region Dependency Properties
-
-
-        // DependencyProperty as the backing store for InnerMargin
-        public static readonly DependencyProperty InnerMarginProperty = DependencyProperty.Register(
-            "InnerMargin",
-            typeof(Thickness),
-            typeof(SgzGrid),
-            new UIPropertyMetadata(new Thickness(0, 0, 0, 7))
-        );
-
-
-        #endregion Dependency Properties
 
 
 
@@ -46,6 +22,7 @@ namespace SugzTools.Controls
 
         public SgzGrid()
         {
+            InnerMargin = new Thickness(0, 0, 0, 7);
             Loaded += SetChildrenMargin;
         }
 

@@ -1,0 +1,14 @@
+E:\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\bin\Release\SugzMVVM.dll
+E:\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\bin\Release\SugzMVVM.pdb
+E:\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.csprojResolveAssemblyReference.cache
+E:\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.dll
+E:\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.pdb
+H:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\bin\Release\SugzMVVM.dll
+H:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\bin\Release\SugzMVVM.pdb
+H:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.csprojResolveAssemblyReference.cache
+H:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.dll
+H:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.pdb
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\bin\Release\SugzMVVM.dll
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\bin\Release\SugzMVVM.pdb
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.dll
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzMVVM\obj\Release\SugzMVVM.pdb

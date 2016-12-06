@@ -1,0 +1,174 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SgzControls.Controls"
+                    xmlns:c="clr-namespace:SgzControls.Converters"
+                    xmlns:s="clr-namespace:SgzControls.Src">
+
+    <!--Merged Dictionaries-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SugzControls;component/Resources/Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--Converters-->
+    <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    <c:LabelWidthConverter x:Key="LabelWidth" />
+    <c:LabelPlacementToVisibilityConverter x:Key="LabelPlacementToVisibility" />
+
+
+    <!--SgzRadioButtonStandardStyle-->
+    <Style x:Key="SgzRadioButtonStandardStyle" TargetType="{x:Type local:SgzRadioButton}">
+        <Setter Property="Background" Value="{StaticResource MaxButton}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MaxButtonBorder}" />
+        <Setter Property="Foreground" Value="{StaticResource MaxText}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontFamily" Value="Tahoma" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontStretch" Value="Normal" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    
+                    <!--Template-->
+                    <Grid Background="Transparent"
+                          Width="{TemplateBinding Width}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   Visibility="{Binding LabelPlacement, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource LabelPlacementToVisibility}, ConverterParameter={x:Static s:LabelPlacement.Left}}"
+                                   Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   Width="{TemplateBinding Width, ConverterParameter=16, Converter={StaticResource LabelWidth}}"
+                                   Margin="0,0,3,0" />
+                        <Border x:Name="PART_BULLET" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="6"
+                                Grid.Column="1"
+                                Width="13"
+                                Height="13">
+                            <Ellipse Margin="2"
+                                     Fill="{TemplateBinding Foreground}"
+                                     Visibility="{TemplateBinding IsChecked, Converter={StaticResource BoolToVisibility}}" />
+                        </Border>
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   Visibility="{Binding LabelPlacement, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource LabelPlacementToVisibility}, ConverterParameter={x:Static s:LabelPlacement.Right}}"
+                                   Grid.Column="2"
+                                   VerticalAlignment="Center"
+                                   Width="{TemplateBinding Width, ConverterParameter=16, Converter={StaticResource LabelWidth}}"
+                                   TextAlignment="Right"
+                                   Margin="3,0,0,0" />
+
+                    </Grid>
+
+                    <!--Triggers-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="PART_BULLET"
+                                    Property="Background"
+                                    Value="{StaticResource MaxButtonMouseOver}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--SgzRadioButtonCheckButtonStyle-->
+    <Style x:Key="SgzRadioButtonCheckButtonStyle" TargetType="{x:Type local:SgzRadioButton}">
+        <Setter Property="Background" Value="{StaticResource MaxButton}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MaxButtonBorder}" />
+        <Setter Property="Foreground" Value="{StaticResource MaxText}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontFamily" Value="Tahoma" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontStretch" Value="Normal" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+
+                    <!--Template-->
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border x:Name="PART_MOUSE"
+                                Background="Transparent"
+                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </Border>
+                    </Border>
+
+
+                    <!--Triggers-->
+                    <ControlTemplate.Triggers>
+
+                        <!--IsMouseOver & IsChecked-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver"
+                                           Value="True" />
+                                <Condition Property="IsChecked"
+                                           Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_MOUSE"
+                                    Property="Background"
+                                    Value="{StaticResource MaxBlueMouseOver}" />
+                        </MultiTrigger>
+
+                        <!--not IsMouseOver & IsChecked-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver"
+                                           Value="False" />
+                                <Condition Property="IsChecked"
+                                           Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_MOUSE"
+                                    Property="Background"
+                                    Value="{StaticResource MaxBlue}" />
+                        </MultiTrigger>
+
+                        <!--IsMouseOver & not IsChecked-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver"
+                                           Value="True" />
+                                <Condition Property="IsChecked"
+                                           Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_MOUSE"
+                                    Property="Background"
+                                    Value="{StaticResource MaxButtonMouseOver}" />
+                        </MultiTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

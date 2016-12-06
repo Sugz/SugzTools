@@ -1,0 +1,121 @@
+﻿<Window x:Class="StyleApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StyleApp"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="350"
+        Width="525">
+    <Window.Resources>
+        <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+        <Style x:Key="GroupBoxStyle1" TargetType="{x:Type GroupBox}">
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <!--Header-->
+                            <Border x:Name="Header"
+                                    Margin="5,0,0,0"
+                                    Padding="3,0,3,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
+                                <ContentPresenter ContentSource="Header"
+                                                  RecognizesAccessKey="True"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+
+                            <!--Border-->
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="4"
+                                    Margin="0,9,0,0"
+                                    Grid.RowSpan="2">
+                                <Border.OpacityMask>
+                                    <MultiBinding ConverterParameter="5" Converter="{StaticResource BorderGapMaskConverter}">
+                                        <Binding ElementName="Header" Path="ActualWidth" />
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                    </MultiBinding>
+                                </Border.OpacityMask>
+                            </Border>
+
+                            <!--Content-->
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              Grid.Row="1" />
+                        </Grid>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Header" Value="{x:Null}">
+                                <Setter TargetName="Header" Property="Padding" Value="0" />                                 
+                            </Trigger>
+                            <Trigger Property="Header" Value="">
+                                <Setter TargetName="Header" Property="Padding" Value="0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FF935050">
+        <Grid Width="200"
+              Height="200"
+              Background="#FFB65151"
+              Margin="10,10,307,110">
+            <Border x:Name="headerBorder"
+                    Margin="7,0"
+                    Padding="5,0"
+                    Background="#FF488D4B"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top">
+                <ContentPresenter x:Name="header"
+                                  Content="Test"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" />
+            </Border>
+
+            <Border BorderBrush="Black"
+                    BorderThickness="1"
+                    Margin="0,9,0,0"
+                    CornerRadius="4">
+                <Border.OpacityMask>
+                    <MultiBinding ConverterParameter="7"
+                                  Converter="{StaticResource BorderGapMaskConverter}">
+                        <Binding ElementName="headerBorder"
+                                 Path="ActualWidth" />
+                        <Binding Path="ActualWidth"
+                                 RelativeSource="{RelativeSource Self}" />
+                        <Binding Path="ActualHeight"
+                                 RelativeSource="{RelativeSource Self}" />
+                    </MultiBinding>
+                </Border.OpacityMask>
+
+            </Border>
+        </Grid>
+        <!--<local:SgzProgressBar Style="{DynamicResource ProgressBarStyle1}" Height="20" Margin="20,0" Value="50" />-->
+        <GroupBox Foreground="White"
+                  BorderBrush="Black"
+                  Header="Test"
+                  Style="{DynamicResource GroupBoxStyle1}"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Top"
+                  Width="200"
+                  Height="200"
+                  Margin="10">
+            <Border Background="#FF21BD28" />
+        </GroupBox>
+
+
+    </Grid>
+</Window>

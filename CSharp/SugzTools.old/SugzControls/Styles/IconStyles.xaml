@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <!--IconStyle-->
+    <Style x:Key="IconStyle" TargetType="Path">
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <!--NoStretchIcon-->
+    <Style x:Key="NoStretchIcon" TargetType="Path" BasedOn="{StaticResource ResourceKey=IconStyle}">
+        <Setter Property="Stretch" Value="None"/>
+    </Style>
+
+    <!--FillIcon-->
+    <Style x:Key="FillIcon" TargetType="Path" BasedOn="{StaticResource ResourceKey=IconStyle}">
+        <Setter Property="Stretch" Value="Fill"/>
+    </Style>
+
+    <!--UniformIcon-->
+    <Style x:Key="UniformIcon" TargetType="Path" BasedOn="{StaticResource ResourceKey=IconStyle}">
+        <Setter Property="Stretch" Value="Uniform"/>
+    </Style>
+
+</ResourceDictionary>

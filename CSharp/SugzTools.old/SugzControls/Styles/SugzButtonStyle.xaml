@@ -1,0 +1,112 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SugzControls.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SugzControls;component/Resources/Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- SugzButtonStyle -->
+    <Style x:Key="SugzButtonStyle" TargetType="{x:Type local:SugzButton}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource SugzLightText}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SugzButton}">
+                    <Border Background="{TemplateBinding Background}" 
+                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border x:Name="PART_MOUSE"
+                                Background="Transparent"
+                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+                            <StackPanel Orientation="Horizontal">
+                                <ContentPresenter x:Name="PART_ICON"
+                                                  Width="{TemplateBinding Height}" 
+                                                  Height="{TemplateBinding Height}" 
+                                                  HorizontalAlignment="Left" 
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding Content}" />
+                                <TextBlock x:Name="PART_TEXT" 
+                                           Height="Auto" 
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                           Text="{TemplateBinding Text}" 
+                                           Margin="5,0,0,0"/>
+                            </StackPanel>
+
+                        </Border>
+
+                    </Border>
+
+
+                    <ControlTemplate.Triggers>
+                        <!-- ButtonType Icon -->
+                        <Trigger Property="ButtonType" Value="Icon">
+                            <Setter TargetName="PART_ICON" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_TEXT" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+
+                        <!-- ButtonType Text -->
+                        <Trigger Property="ButtonType" Value="Text">
+                            <Setter TargetName="PART_ICON" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_TEXT" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
+                        <!-- ButtonType IconAndText -->
+                        <Trigger Property="ButtonType" Value="IconAndText">
+                            <Setter TargetName="PART_ICON" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_TEXT" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <!-- End ButtonType -->
+
+                        <!-- Mouse Triggers -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_MOUSE" Property="Background" Value="{Binding OverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="PART_MOUSE" Property="Background" Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <!-- End Mouse Triggers -->
+                    </ControlTemplate.Triggers>
+
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <!-- ButtonType Icon -->
+            <Trigger Property="ButtonType" Value="Icon">
+                <Setter Property="Height" Value="30" />
+                <Setter Property="MaxWidth" Value="{Binding Height, RelativeSource={RelativeSource Self}}"/>
+            </Trigger>
+
+            <!-- ButtonType Text -->
+            <Trigger Property="ButtonType" Value="Text">
+                <Setter Property="Height" Value="18" />
+            </Trigger>
+
+            <!-- ButtonType IconAndText -->
+            <Trigger Property="ButtonType" Value="IconAndText">
+                <Setter Property="Height" Value="22" />
+            </Trigger>
+            <!-- End ButtonType -->
+
+            <!-- Checked State -->
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{Binding CheckedBrush, RelativeSource={RelativeSource Self}}"/>
+            </Trigger>
+            <!-- End Checked State -->
+        </Style.Triggers>
+
+    </Style>
+
+</ResourceDictionary>

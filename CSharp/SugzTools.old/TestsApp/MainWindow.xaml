@@ -1,0 +1,40 @@
+﻿<ctrl:SugzWindow x:Class="TestsApp.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ctrl="clr-namespace:SugzControls.Controls;assembly=SugzControls"
+                 xmlns:src="clr-namespace:SugzControls.Src;assembly=SugzControls"
+                 Height="350" Width="525">
+
+    <ctrl:SugzWindow.Resources>
+        <src:ButtonTypeToOrientationConverter x:Key="ButtonTypeToOrientation"/>
+    </ctrl:SugzWindow.Resources>
+
+    <Grid>
+        <!--Expander-->
+        <ctrl:SgzExpander x:Name="sugzExpander" Header="Object Type" Width="170" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="19,25,0,0" Padding="2,5,2,2" IsExpanded="True" ButtonType="Icon">
+            <WrapPanel x:Name="wrapPanel" 
+                       Orientation="{Binding ButtonType, Converter={StaticResource ButtonTypeToOrientation}, ElementName=sugzExpander, Mode=OneWay}">
+                <ctrl:SugzButton Text="Edit Poly" ButtonType="{Binding ButtonType, ElementName=sugzExpander, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=wrapPanel, Mode=OneWay}" OverBrush="#FF5185A6">
+                    <Image Source="/SugzControls;component/Resources/Icons/Edit_Poly.png"/>
+                </ctrl:SugzButton>
+                <ctrl:SugzButton Text="Edit Poly Modifier" ButtonType="{Binding ButtonType, ElementName=sugzExpander, Mode=OneWay}" OverBrush="#FF5185A6">
+                    <Image Source="/SugzControls;component/Resources/Icons/Add_Edit_Poly.png"/>
+                </ctrl:SugzButton>
+                <ctrl:SugzButton Text="Advance Edit Poly" ButtonType="{Binding ButtonType, ElementName=sugzExpander, Mode=OneWay}" OverBrush="#FF5185A6">
+                    <Image Source="/SugzControls;component/Resources/Icons/Advance_Edit_Poly.png"/>
+                </ctrl:SugzButton>
+                <ctrl:SugzButton Text="Merge Verts" ButtonType="{Binding ButtonType, ElementName=sugzExpander, Mode=OneWay}" OverBrush="#FF5185A6">
+                    <Image Source="/SugzControls;component/Resources/Icons/Merge_Verts.png"/>
+                </ctrl:SugzButton>
+                <ctrl:SugzButton Text="Snap Axis Constrain" ButtonType="{Binding ButtonType, ElementName=sugzExpander, Mode=OneWay}" OverBrush="#FF5185A6">
+                    <Image Source="/SugzControls;component/Resources/Icons/Snap_Axis_Constrain.png"/>
+                </ctrl:SugzButton>
+
+            </WrapPanel>
+        </ctrl:SgzExpander>
+    
+
+    </Grid>
+
+
+</ctrl:SugzWindow>

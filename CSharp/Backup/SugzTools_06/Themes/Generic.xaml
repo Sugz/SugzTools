@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SugzTools.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzButton/SgzButton.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckButton/SgzCheckButton.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckBox/SgzCheckBox.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzComboBox/SgzComboBox.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzExpander/SgzExpander.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzTextBox/SgzTextBox.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzRadioButton/SgzRadioButton.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzNumericUpDown/SgzNumericUpDown.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzToolBar/SgzToolBar.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

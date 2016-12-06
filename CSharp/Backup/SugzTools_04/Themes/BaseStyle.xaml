@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:SugzTools.Converters">
+
+    <!--Merged Dictionaries-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SugzTools;component/Resources/Colors.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Resources/Icons.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Themes/IconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--Converters-->
+    <c:InvertableBooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    <c:ObjectToUIElementConverter x:Key="ObjectToUIElement" />
+    <c:LesserThanConverter x:Key="LesserThan" />
+
+
+    <Style x:Key="BaseStyle" TargetType="{x:Type Control}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+    </Style>
+
+    <Style x:Key="OverridesDefaultStyle" TargetType="{x:Type Control}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,4 @@
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzConverters\bin\Release\SgzConverters.dll
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzConverters\bin\Release\SgzConverters.pdb
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzConverters\obj\Release\SgzConverters.dll
+E:\Travail\CSharp\SugzTools\CSharp\SugzTools\SugzConverters\obj\Release\SgzConverters.pdb

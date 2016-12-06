@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Merged Dictionaries-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SugzTools;component/Themes/BaseStyle.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Themes/ScrollViewerStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style x:Key="MaxStyle" TargetType="{x:Type Control}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontFamily" Value="Tahoma" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontStretch" Value="Normal" />
+    </Style>
+
+
+    <Style x:Key="MaxControlStyle" TargetType="{x:Type Control}" BasedOn="{StaticResource MaxStyle}">
+        <Setter Property="Background" Value="{StaticResource MaxButton}" />
+        <Setter Property="Foreground" Value="{StaticResource MaxText}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MaxButtonBorder}" />
+    </Style>
+
+</ResourceDictionary>

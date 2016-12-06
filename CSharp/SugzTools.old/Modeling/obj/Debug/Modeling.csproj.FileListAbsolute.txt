@@ -1,0 +1,12 @@
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\bin\Debug\Modeling.dll.config
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\bin\Debug\Modeling.dll
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\bin\Debug\Modeling.pdb
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Modeling.csprojResolveAssemblyReference.cache
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Views\ModelingView.baml
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Views\ModelingView.g.cs
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Modeling_MarkupCompile.cache
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Modeling.g.resources
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Modeling.Properties.Resources.resources
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Modeling.csproj.GenerateResource.Cache
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Modeling.dll
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\Modeling\obj\Debug\Modeling.pdb

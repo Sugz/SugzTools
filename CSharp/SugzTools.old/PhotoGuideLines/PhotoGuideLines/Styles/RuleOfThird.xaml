@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PhotoGuideLines.Styles"
+                    xmlns:c="clr-namespace:SugzConverters;assembly=SugzConverters">
+
+    <!-- RuleOfThirdCanvas -->
+    <Grid x:Key="RuleOfThird">
+        <Grid.Resources>
+            <Style TargetType="{x:Type Border}">
+                <!-- All rows -->
+                <Setter Property="BorderBrush" Value="Blue" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+        <Border Grid.Row="0" Grid.Column="0" BorderThickness="2,2,1,1"/>
+        <Border Grid.Row="1" Grid.Column="0" BorderThickness="2,1,1,1"/>
+        <Border Grid.Row="2" Grid.Column="0" BorderThickness="2,1,1,2"/>
+        <Border Grid.Row="0" Grid.Column="1" BorderThickness="1,2,1,1"/>
+        <Border Grid.Row="1" Grid.Column="1" BorderThickness="1,1,1,1"/>
+        <Border Grid.Row="2" Grid.Column="1" BorderThickness="1,1,1,2"/>
+        <Border Grid.Row="0" Grid.Column="2" BorderThickness="1,2,2,1"/>
+        <Border Grid.Row="1" Grid.Column="2" BorderThickness="1,1,2,1"/>
+        <Border Grid.Row="2" Grid.Column="2" BorderThickness="1,1,2,2"/>
+
+    </Grid>
+
+
+</ResourceDictionary>

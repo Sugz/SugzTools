@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--General Brushes-->
+    <SolidColorBrush x:Key="SugzHeader"
+                     Color="#FF2C2C2C" />
+    <SolidColorBrush x:Key="SugzBackground"
+                     Color="#FF444444" />
+    <SolidColorBrush x:Key="SugzDarkBorder"
+                     Color="#FF0B0B0B" />
+    <SolidColorBrush x:Key="SugzGreyBorder"
+                     Color="#FF383838" />
+    <SolidColorBrush x:Key="SugzLightText"
+                     Color="#FFC8C8C8" />
+
+    <SolidColorBrush x:Key="SugzWhite10"
+                     Color="#19FFFFFF" />
+    <SolidColorBrush x:Key="SugzWhite20"
+                     Color="#33FFFFFF" />
+    <SolidColorBrush x:Key="SugzBlack30"
+                     Color="#4C000000" />
+
+    <SolidColorBrush x:Key="SugzBlue"
+                     Color="#FF5185A6" />
+    <SolidColorBrush x:Key="SugzRed"
+                     Color="#FFED1C24" />
+    <SolidColorBrush x:Key="SugzGreen"
+                     Color="#FF39B54A" />
+
+
+    <!--3ds Max 2017 Brushes-->
+    <SolidColorBrush x:Key="MaxBackground"
+                     Color="#FF444444" />
+    
+    <SolidColorBrush x:Key="MaxRollout"
+                     Color="#FF515151" />
+    <SolidColorBrush x:Key="MaxRolloutBorder"
+                     Color="#FF3E3E3E" />
+    <SolidColorBrush x:Key="MaxRolloutIcon"
+                     Color="#FF979797" />
+    
+    <SolidColorBrush x:Key="MaxButton"
+                     Color="#FF646464" />
+    <SolidColorBrush x:Key="MaxButtonBorder"
+                     Color="#FF494949" />
+    <SolidColorBrush x:Key="MaxText"
+                     Color="#FFE1E1E1" />
+    <SolidColorBrush x:Key="MaxTitle"
+                     Color="#F2FFFFFF" />
+
+</ResourceDictionary>

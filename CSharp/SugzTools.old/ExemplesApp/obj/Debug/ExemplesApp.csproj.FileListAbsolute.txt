@@ -1,0 +1,8 @@
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\bin\Debug\ExemplesApp.dll.config
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\bin\Debug\ExemplesApp.dll
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\bin\Debug\ExemplesApp.pdb
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\obj\Debug\ExemplesApp.csprojResolveAssemblyReference.cache
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\obj\Debug\ExemplesApp.Properties.Resources.resources
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\obj\Debug\ExemplesApp.csproj.GenerateResource.Cache
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\obj\Debug\ExemplesApp.dll
+D:\Travail\GitHub\SugzTools\CSharp\SugzTools\ExemplesApp\obj\Debug\ExemplesApp.pdb

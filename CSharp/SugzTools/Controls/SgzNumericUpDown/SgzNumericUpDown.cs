@@ -295,7 +295,7 @@ namespace SugzTools.Controls
             set
             {
                 _Indeterminate = value;
-                if (value)
+                if (value && PART_Textbox != null)
                     PART_Textbox.Text = "";
                 else
                     SetTextboxText();
@@ -1057,24 +1057,6 @@ namespace SugzTools.Controls
     public class SgzMaxNumericUpDown : SgzNumericUpDown
     {
         //TODO: get a callback when user change the unit to refresj the textbox text
-
-
-        [Browsable(false)]
-        public object Range
-        {
-            get
-            {
-                float[] range = new float[] { (float)MinValue, (float)MaxValue, (float)Value };
-                Kernel.ToMxsArray(range);
-                return null;
-            }
-            set
-            {
-                Console.WriteLine(value.ToString());
-
-            }
-        }
-
 
 
         public SgzMaxNumericUpDown()

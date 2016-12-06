@@ -51,9 +51,6 @@ struct WpfStruct
 	_formStartPosition = dotNetClass "FormStartPosition",
 	
 	
-	-- WPF SugzTools Objects ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	_spinner = dotNetClass "SugzTools.Controls.SgzMaxNumericUpDown",
-	
 	
 	-- Return a System.Windows.Media.Color ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Color arg = 
@@ -209,6 +206,27 @@ struct WpfStruct
 			#center: return _horizontalAlignment.Center
 			#right: return _horizontalAlignment.Right
 			#stretch: return _horizontalAlignment.Stretch
+		)
+	),
+
+
+
+	-- Return a System.Windows.HorizontalAlignment ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn VerticalAlignment arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of
+		(
+			#top: return _verticalAlignment.Top
+			#center: return _verticalAlignment.Center
+			#bottom: return _verticalAlignment.Bottom
+			#stretch: return _verticalAlignment.Stretch
 		)
 	),
 	
@@ -393,8 +411,8 @@ struct WpfStruct
 		-- Define the window
 		_wnd = dotNetObject "SugzTools.Controls.SgzMaxForm"
 		_wnd.Width = width
-		_wnd.Height = height
--- 		if background != undefined then _wnd.Background = SolidColorBrush background
+		_wnd.Height = height 		
+		--if background != undefined then _wnd.Background = SolidColorBrush background
 		if title != undefined then _wnd.Text = title
 		if borderStyle != undefined then _wnd.FormBorderStyle = FormBorderStyle borderStyle
 		if location != undefined then _wnd.StartPosition  =  FormStartPosition location
@@ -411,11 +429,15 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzGrid ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Grid 
+		name: undefined
 		tag: undefined
 		width: undefined 
 		height: undefined 
 		background: undefined 
-		margin: undefined =
+		hAlign: undefined
+		vAlign: undefined
+		margin: undefined
+		innerMargin: undefined =
 	(
 		/*<Function>
 		Description:
@@ -425,11 +447,54 @@ struct WpfStruct
 		</Function>*/
 		
 		_panel = dotNetObject "SugzTools.Controls.SgzGrid"
+		if name != undefined then _panel.Name = name
 		if tag != undefined then _panel.Tag = tag
 		if width != undefined then _panel.Width = width
 		if height  != undefined then _panel.Height = height
 		if background != undefined then _panel.background = SolidColorBrush background
+		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _panel.Margin = Thickness margin
+		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
+		
+		_panel
+	),
+
+
+
+	-- Return a SugzTools.Controls.SgzGrid ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn UniformGrid 
+		name: undefined
+		tag: undefined
+		rows: undefined
+		columns: undefined
+		width: undefined 
+		height: undefined 
+		background: undefined 
+		hAlign: undefined
+		vAlign: undefined
+		margin: undefined 
+		innerMargin: undefined =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		_panel = dotNetObject "SugzTools.Controls.SgzUniformGrid"
+		if name != undefined then _panel.Name = name
+		if tag != undefined then _panel.Tag = tag
+		if rows != undefined then _panel.Rows = rows
+		if columns != undefined then _panel.Columns = columns
+		if width != undefined then _panel.Width = width
+		if height  != undefined then _panel.Height = height
+		if background != undefined then _panel.background = SolidColorBrush background
+		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
+		if margin != undefined then _panel.Margin = Thickness margin
+		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
 		
 		_panel
 	),
@@ -437,13 +502,16 @@ struct WpfStruct
 	
 	
 	-- Return a System.Windows.Controls.DockPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn DockPanel 
+	fn DockPanel
+		name: undefined
 		tag: undefined
 		width: undefined 
 		height: undefined 
 		background: undefined 
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
-		lastChildFill: true = 
+		lastChildFill: undefined = 
 	(
 		/*<Function>
 		Description:
@@ -454,12 +522,15 @@ struct WpfStruct
 		</Function>*/
 		
 		_panel = dotNetObject "SugzTools.Controls.SgzDockPanel"
+		if name != undefined then _panel.Name = name
 		if tag != undefined then _panel.Tag = tag
 		if width != undefined then _panel.Width = width
 		if height  != undefined then _panel.Height = height
 		if background != undefined then _panel.background = SolidColorBrush background
+		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _panel.Margin = Thickness margin
-		_panel.LastChildFill = LastChildFill
+		if lastChildFill != undefined then _panel.LastChildFill = lastChildFill
 		
 		_panel
 	),
@@ -467,11 +538,14 @@ struct WpfStruct
 	
 	
 	-- Return a SugzTools.Controls.SgzStackPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn StackPanel 
+	fn StackPanel
+		name: undefined
 		tag: undefined
 		width: undefined 
 		height: undefined 
 		background: undefined 
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
 		innerMargin: undefined
 		orientation: undefined = 
@@ -485,10 +559,13 @@ struct WpfStruct
 		</Function>*/
 		
 		_panel = dotNetObject "SugzTools.Controls.SgzStackPanel"
+		if name != undefined then _panel.Name = name
 		if tag != undefined then _panel.Tag = tag
 		if width != undefined then _panel.width = width
 		if height  != undefined then _panel.height = height
 		if background != undefined then _panel.background = SolidColorBrush background
+		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _panel.Margin = Thickness margin
 		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
 		if orientation != undefined then _panel.Orientation = GetOrientation orientation
@@ -499,14 +576,16 @@ struct WpfStruct
 	
 	
 	-- Return a System.Windows.Controls.TextBlock ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn TextBlock 
+	fn TextBlock
+		name: undefined
 		tag: undefined
 		text:undefined
 		width: undefined 
 		height: undefined 
 		background: undefined
 		foreground: #MaxText
-		align:undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined =
 	(
 		/*<Function>
@@ -517,13 +596,15 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "System.Windows.Controls.TextBlock"
-		if text != undefined then _control.Text = text
+		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
+		if text != undefined then _control.Text = text
 		if width != undefined then _control.Width = width
 		if height  != undefined then _control.Height = height
 		if background != undefined then _control.Background = SolidColorBrush background
 		_control.Foreground = SolidColorBrush foreground
-		if align != undefined then _control.HorizontalAlignment = HorizontalAlignment align
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 			
 		_control
@@ -533,32 +614,74 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzExpander ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Expander
-		header: undefined
+		name: undefined
 		tag: undefined
+		header: undefined
 		width: undefined
 		height: undefined
-		isExpanded: true
+		isExpanded: undefined
 		background: undefined
 		foreground: undefined
 		headerBrush: undefined
 		borderBrush: undefined 
 		borderThickness: undefined 
 		cornerRadius: undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
 		content: undefined = 
 	(
 		_control = dotNetObject "SugzTools.Controls.SgzExpander"
-		if header != undefined then _control.Header = header
+		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
+		if header != undefined then _control.Header = header
 		if width != undefined then _control.Width = width
 		if height != undefined then _control.HeaderHeight = height
-		_control.IsExpanded = isExpanded
+		if isExpanded != undefined then _control.IsExpanded = isExpanded
 		if background != undefined then _control.Background = SolidColorBrush background
 		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
 		if headerBrush != undefined then _control.HeaderBrush = SolidColorBrush headerBrush
 		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
 		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius	
+		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != undefined then _control.Margin = Thickness margin
+		if content != undefined then _control.Content = content
+		
+		_control
+	),
+
+
+
+	-- Return a SugzTools.Controls.SgzGroupBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn GroupBox
+		name: undefined
+		tag: undefined
+		header: undefined
+		width: undefined
+		height: undefined
+		foreground: undefined
+		borderBrush: undefined 
+		borderThickness: undefined 
+		cornerRadius: undefined
+		hAlign: undefined
+		vAlign: undefined
+		margin: undefined 
+		content: undefined = 
+	(
+		_control = dotNetObject "SugzTools.Controls.SgzExpander"
+		if name != undefined then _control.Name = name
+		if tag != undefined then _control.Tag = tag
+		if header != undefined then _control.Header = header
+		if width != undefined then _control.Width = width
+		if height != undefined then _control.HeaderHeight = height
+		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
+		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 		if content != undefined then _control.Content = content
 		
@@ -568,9 +691,10 @@ struct WpfStruct
 	
 	
 	-- Return a SugzTools.Controls.SgzButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn Button 
-		text: undefined
+	fn Button
+		name: undefined
 		tag: undefined
+		text: undefined
 		width: undefined
 		height: undefined
 		transparent: undefined
@@ -581,7 +705,8 @@ struct WpfStruct
 		borderBrush: undefined 
 		borderThickness: undefined 
 		cornerRadius: undefined
-		align:undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
 		click: undefined = 
 	(
@@ -594,8 +719,9 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzButton"
-		if text != undefined then _control.Content = text
+		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
+		if text != undefined then _control.Content = text
 		if width != undefined then _control.Width = width
 		if height  != undefined then _control.Height = height
 		if transparent != undefined then _control.IsTransparent = transparent
@@ -606,7 +732,8 @@ struct WpfStruct
 		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
 		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
 		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if align != undefined then _control.HorizontalAlignment = HorizontalAlignment align
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 			
 		if click != undefined then dotNet.addEventHandler _control "Click" click
@@ -618,9 +745,10 @@ struct WpfStruct
 	
 	
 	-- Return a SugzTools.Controls.SgzCheckButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn CheckButton 
-		text: undefined
+	fn CheckButton
+		name: undefined
 		tag: undefined
+		text: undefined
 		isChecked: undefined
 		width: undefined
 		height: undefined
@@ -633,7 +761,8 @@ struct WpfStruct
 		borderBrush: undefined 
 		borderThickness: undefined 
 		cornerRadius: undefined
-		align:undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
 		click: undefined
 		checked: undefined 
@@ -647,8 +776,9 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzCheckButton"
-		if text != undefined then _control.Content = text
+		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
+		if text != undefined then _control.Content = text
 		if isChecked != undefined then _control.IsChecked = dotNetObject "System.Boolean" isChecked
 		if width != undefined then _control.Width = width
 		if height  != undefined then _control.Height = height
@@ -661,7 +791,8 @@ struct WpfStruct
 		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
 		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
 		if cornerRadius != undefined then _control.CornerRadius = cornerRadius	
-		if align != undefined then _control.HorizontalAlignment = HorizontalAlignment align
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 			
 		if click != undefined then dotNet.addEventHandler _control "Click" click
@@ -674,13 +805,13 @@ struct WpfStruct
 	
 	
 	-- Return a SugzTools.Controls.SgzCheckBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn CheckBox 
-		text: undefined
+	fn CheckBox
+		name: undefined
 		tag: undefined
+		text: undefined
 		isChecked: undefined
 		width: undefined
 		height: undefined
-		align:undefined
 		background: undefined 
 		foreground: undefined
 		mouseOverBrush: undefined
@@ -688,14 +819,17 @@ struct WpfStruct
 		borderBrush: undefined 
 		borderThickness: undefined
 		cornerRadius: undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
 		click: undefined
 		checked: undefined 
 		unchecked: undefined = 
 	(
 		_control = dotNetObject "SugzTools.Controls.SgzCheckBox"
-		if text != undefined then _control.Content = text
+		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
+		if text != undefined then _control.Content = text
 		if isChecked != undefined then _control.IsChecked = dotNetObject "System.Boolean" isChecked
 		if width != undefined then _control.Width = width
 		if height  != undefined then _control.Height = height
@@ -706,7 +840,8 @@ struct WpfStruct
 		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
 		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
 		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if align != undefined then _control.HorizontalAlignment = HorizontalAlignment align
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 		
 		if click != undefined then dotNet.addEventHandler _control "Click" click
@@ -720,9 +855,10 @@ struct WpfStruct
 	
 	
 	-- Return a SugzTools.Controls.SgzRadioButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn RadioButton 
-		text: undefined
+	fn RadioButton
+		name: undefined
 		tag: undefined
+		text: undefined
 		isChecked: undefined
 		group: undefined
 		width: undefined 
@@ -737,7 +873,8 @@ struct WpfStruct
 		borderBrush: undefined 
 		borderThickness: undefined 
 		cornerRadius: undefined
-		align: undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
 		click: undefined
 		checked: undefined 
@@ -751,8 +888,9 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzRadioButton"
-		if text != undefined then _control.Content = text
+		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
+		if text != undefined then _control.Content = text
 		if isChecked != undefined then _control.IsChecked = dotNetObject "System.Boolean" isChecked
 		if group != undefined then _control.GroupName = group
 		if width != undefined then _control.Width = width
@@ -767,7 +905,8 @@ struct WpfStruct
 		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
 		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
 		if cornerRadius != undefined then _control.CornerRadius = cornerRadius	
-		if align != undefined then _control.HorizontalAlignment = HorizontalAlignment align
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 			
 		if click != undefined then dotNet.addEventHandler _control "Click" click
@@ -781,10 +920,11 @@ struct WpfStruct
 	
 	
 	-- Return a SugzTools.Controls.SgzTextBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn TextBox 
+	fn TextBox
+		name: undefined
+		tag: undefined
 		text: undefined
 		watermark: undefined
-		tag: undefined
 		width: undefined 
 		height: undefined
 		background: undefined 
@@ -794,7 +934,8 @@ struct WpfStruct
 		borderBrush: undefined 
 		borderThickness: undefined
 		cornerRadius: undefined
-		align: undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined 
 		validate: undefined
 		textChanged: undefined =
@@ -807,9 +948,10 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzMaxTextbox"
+		if name != undefined then _control.Name = name
+		if tag != undefined then _control.Tag = tag
 		if text != undefined then _control.Text = text
 		if watermark != undefined then _control.Watermark = watermark
-		if tag != undefined then _control.Tag = tag
 		if width != undefined then _control.Width = width
 		if height  != undefined then _control.Height = height
 		if background != undefined then _control.Background = SolidColorBrush background
@@ -819,7 +961,8 @@ struct WpfStruct
 		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
 		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
 		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if align != undefined then _control.HorizontalAlignment = HorizontalAlignment align
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 			
 		if validate != undefined then dotNet.addEventHandler _control "Validate" validate
@@ -834,14 +977,14 @@ struct WpfStruct
 	-- Return a SugzTools.Controls.SgzMaxNumericUpDown ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Spinner
 		name: undefined
-		text: undefined
 		tag: undefined
+		text: undefined
 		type: undefined
 		value: undefined 
 		defaultValue: undefined
 		minValue: undefined
 		maxValue: undefined
-		limits: undefined -- need to implement the method to get the enum
+		limits: undefined
 		range: undefined -- need to be implemented
 		scale: undefined 
 		scaleAccelerator: undefined
@@ -849,7 +992,7 @@ struct WpfStruct
 		minDecimals:undefined
 		alwaysShowValue:undefined
 		indeterminate: undefined
-		format: undefined -- need to implement the method to get the enum
+		format: undefined
 		delay: undefined 
 		interval: undefined
 		hidebuttons: undefined
@@ -863,7 +1006,8 @@ struct WpfStruct
 		borderBrush: undefined 
 		borderThickness: undefined
 		cornerRadius: undefined
-		align: undefined
+		hAlign: undefined
+		vAlign: undefined
 		margin: undefined
 		validate: undefined
 		valueChanged: undefined = 
@@ -877,8 +1021,8 @@ struct WpfStruct
 		
 		_control = dotNetObject "SugzTools.Controls.SgzMaxNumericUpDown"
 		if name != undefined then _control.Name = name
-		if text != undefined then _control.Content = text
 		if tag != undefined then _control.Tag = tag
+		if text != undefined then _control.Content = text
 		if type != undefined then _control.Type = NumericUpDownType type
 		if value != undefined then _control.Value = value
 		if defaultValue != undefined then _control.DefaultValue = defaultValue
@@ -906,7 +1050,8 @@ struct WpfStruct
 		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
 		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
 		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if align != undefined then _control.HorizontalAlignment = HorizontalAlignment align
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _control.Margin = Thickness margin
 			
 		if validate != undefined then dotNet.addEventHandler _control "Validate" validate

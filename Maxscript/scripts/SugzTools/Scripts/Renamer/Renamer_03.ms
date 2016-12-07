@@ -8,7 +8,9 @@ struct renameStc
 	
 	
 	
-	fn GetUI isExpanded:true = 
+	
+	
+	fn GetUI = 
 	(
 		panel = _wpf.StackPanel margin:#(5,5,5,0)
 		panel.Add(dock = _wpf.DockPanel())
@@ -38,7 +40,9 @@ struct renameStc
 			
 		panel.Add(_renameBtn = _wpf.Button text: "Rename :)" margin:#(0,5,0,0))
 
-		_expander =_wpf.Expander header:"Rename" content:panel isExpanded:isExpanded
+		_expander =_wpf.Expander header:"Rename" content:panel
+			
+		_expander
 	),
 
 	
@@ -57,7 +61,7 @@ struct renameStc
 	
 )
 rename = renameStc()
---rename.CreateForm()
+rename.CreateForm()
 
 
 

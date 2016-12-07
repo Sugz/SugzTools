@@ -8,7 +8,9 @@ struct renameStc
 	
 	
 	
-	fn GetUI isExpanded:true = 
+	
+	
+	fn GetUI = 
 	(
 		panel = _wpf.StackPanel margin:#(5,5,5,0)
 		panel.Add(dock = _wpf.DockPanel())
@@ -29,16 +31,20 @@ struct renameStc
 		grid = _wpf.UniformGrid columns:1 innerMargin:#(7,5,5,5)
 		grid.Add(_firstSpn = _wpf.Spinner text:"First:" type:#integer range:[0,100,0] fieldWidth:60 height:18 align:#stretch)
 		grid.Add(_lastSpn = _wpf.Spinner text:"Last:" type:#integer range:[0,100,0] fieldWidth:60 height:18 align:#stretch)
-		panel.Add(grp = _wpf.Expander header:"Remove Chars" content: grid cornerRadius:1 isGroupBox:true isExpanded:false)
+		panel.Add(grp = _wpf.Expander header:"Remove Chars" content: grid cornerRadius:1 IsGroupBox:true)
+-- 		panel.Add(grp = _wpf.GroupBox header:"Remove Chars" content: grid cornerRadius:1)
 			
 		grid = _wpf.UniformGrid columns:1 innerMargin:#(7,5,5,5)
 		grid.Add(_startSpn = _wpf.Spinner text:"Start:" type:#integer range:[1,1000,1] fieldWidth:60 height:18 align:#stretch)
 		grid.Add(_paddingSpn = _wpf.Spinner text:"Padding:" type:#integer range:[1,10,2] fieldWidth:60 height:18 align:#stretch)
-		panel.Add(grp = _wpf.Expander header:"Index" content: grid cornerRadius:1 isGroupBox:true)
+		panel.Add(grp = _wpf.Expander header:"Index" content: grid cornerRadius:1 IsGroupBox:true)
+-- 		panel.Add(grp = _wpf.GroupBox header:"Index :" content: grid cornerRadius:1)
 			
 		panel.Add(_renameBtn = _wpf.Button text: "Rename :)" margin:#(0,5,0,0))
 
-		_expander =_wpf.Expander header:"Rename" content:panel isExpanded:isExpanded
+		_expander =_wpf.Expander header:"Rename" content:panel
+			
+		_expander
 	),
 
 	
@@ -57,7 +63,7 @@ struct renameStc
 	
 )
 rename = renameStc()
---rename.CreateForm()
+rename.CreateForm()
 
 
 

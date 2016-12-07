@@ -18,7 +18,7 @@ plantec.clement@gmail.com
 ###############################################################################*/
 
 
-
+global sgz, rename, dim, _wpf
 struct SugzToolsStc
 (
 	SugzToolsView,
@@ -26,9 +26,8 @@ struct SugzToolsStc
 	
 	fn GetModeling = 
 	(
-		_panel = _wpf.StackPanel margin:#(5,5,5,0) innerMargin:#(0,0,0,0) 
-		_panel.InnerMargin = _wpf.Thickness #(0,0,0,20) 
-		
+		_panel = _wpf.StackPanel margin:#(5,5,5,0) 
+
 		_panel.Add(_grid = _wpf.Grid())
 		_grid.Add(_wpf.RadioButton text:"View" type:#checkButton IsChecked:true) 0 0
 		_grid.Add(_wpf.RadioButton text:"Local" type:#checkButton margin:#(2,0)) 1 0
@@ -56,6 +55,40 @@ struct SugzToolsStc
 			
 		_expander =_wpf.Expander header:"Modeling" content:_panel 
 	),
+
+
+	fn GetRenamer =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		if doesFileExist (file = "$userscripts\SugzTools\Scripts\Renamer.ms") then 
+		(
+			fileIn file 
+			rename.GetUi isExpanded:false
+		)
+	),
+	
+	
+	fn GetDimension =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		if doesFileExist (file = "$userscripts\SugzTools\Scripts\Dimensions_To_Scale.ms") then 
+		(
+			fileIn file 
+			dim.GetUi isExpanded:false
+		)
+	),
 	
 	
 	fn GetView = 
@@ -64,11 +97,13 @@ struct SugzToolsStc
 		(
 			fileIn file 
 			
-			_panel = _wpf.StackPanel margin:#(5,5,5,0) innerMargin:#(0,0,0,0)
+			_panel = _wpf.StackPanel margin:#(5,5,5,0)
 			_panel.Add(GetModeling())
+			_panel.Add(GetRenamer())
+			_panel.Add(GetDimension())	
 				
 			if SugzToolsView != undefined then SugzToolsView.Close()
-			SugzToolsView = _wpf.Window content:_panel width:217
+			SugzToolsView = _wpf.Window content:_panel width:217 height: 500
 			SugzToolsView.ShowInFrame()
 		)
 		
@@ -78,10 +113,11 @@ struct SugzToolsStc
 	fn Run = 
 	(
 		GetView()
+		dim.Run()
 	)
 	
 )
 
 
-global sgz = SugzToolsStc()
+sgz = SugzToolsStc()
 sgz.Run()

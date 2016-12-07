@@ -7,8 +7,13 @@ struct renameStc
 	_renameBtn, _expander, _form,
 	
 	
+	fn Rename s e = 
+	(
+		
+	),
 	
-	fn GetUI isExpanded:true = 
+	
+	fn GetUI = 
 	(
 		panel = _wpf.StackPanel margin:#(5,5,5,0)
 		panel.Add(dock = _wpf.DockPanel())
@@ -26,19 +31,21 @@ struct renameStc
 		dock.Add(_wpf.Button text:"<" width:20 click:(fn x = if _sgz._sel.IsSelectionOne() then rename._suffixTxt.Text = $.name)) (_wpf.Dock #right)
 		dock.Add(_suffixTxt = _wpf.Textbox watermark:"Enter a suffix...")
 			
-		grid = _wpf.UniformGrid columns:1 innerMargin:#(7,5,5,5)
-		grid.Add(_firstSpn = _wpf.Spinner text:"First:" type:#integer range:[0,100,0] fieldWidth:60 height:18 align:#stretch)
-		grid.Add(_lastSpn = _wpf.Spinner text:"Last:" type:#integer range:[0,100,0] fieldWidth:60 height:18 align:#stretch)
-		panel.Add(grp = _wpf.Expander header:"Remove Chars" content: grid cornerRadius:1 isGroupBox:true isExpanded:false)
+		panel.Add(_wpf.Textblock text:"Remove chars :" margin:#(0,5,0,-2))
+		panel.Add(grid = _wpf.Grid())
+		grid.Add(_firstSpn = _wpf.Spinner text:"First:" type:#integer range:[0,100,0] fieldWidth:45 height:18 align:#stretch margin:#(0,0,5,0)) 0 0
+		grid.Add(_lastSpn = _wpf.Spinner text:"Last:" type:#integer range:[0,100,0] fieldWidth:45 height:18 align:#stretch margin:#(5,0,0,0)) 1 0
 			
-		grid = _wpf.UniformGrid columns:1 innerMargin:#(7,5,5,5)
-		grid.Add(_startSpn = _wpf.Spinner text:"Start:" type:#integer range:[1,1000,1] fieldWidth:60 height:18 align:#stretch)
-		grid.Add(_paddingSpn = _wpf.Spinner text:"Padding:" type:#integer range:[1,10,2] fieldWidth:60 height:18 align:#stretch)
-		panel.Add(grp = _wpf.Expander header:"Index" content: grid cornerRadius:1 isGroupBox:true)
+		panel.Add(_indexChk = _wpf.Checkbox text:"Use index :" margin:#(0,0,0,-2) align:#stretch)
+		panel.Add(grid = _wpf.Grid())
+		grid.Add(_startSpn = _wpf.Spinner text:"Start:" type:#integer range:[1,1000,1] fieldWidth:45 height:18 align:#stretch margin:#(0,0,5,0)) 0 0
+		grid.Add(_paddingSpn = _wpf.Spinner text:"Padding:" type:#integer range:[1,10,2] fieldWidth:45 height:18 align:#stretch margin:#(5,0,0,0)) 1 0
 			
 		panel.Add(_renameBtn = _wpf.Button text: "Rename :)" margin:#(0,5,0,0))
 
-		_expander =_wpf.Expander header:"Rename" content:panel isExpanded:isExpanded
+		_expander =_wpf.Expander header:"Rename" content:panel
+			
+		_expander
 	),
 
 	
@@ -57,7 +64,7 @@ struct renameStc
 	
 )
 rename = renameStc()
---rename.CreateForm()
+rename.CreateForm()
 
 
 

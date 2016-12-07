@@ -27,7 +27,7 @@ struct dimStc
 	),
 	
 	
-	fn RemoveCB = 
+	fn Close = 
 	(
 		callbacks.removeScripts #selectionSetChanged id:#GetDimensionsCB
 	),
@@ -97,7 +97,7 @@ struct dimStc
 		panel.Add(GetUI())
 			
 		if _form != undefined then _form.Close()
-		_form = _wpf.Window content:panel title:"Dimensions" width:217 height:500 location:#centerParent closed:RemoveCB()
+		_form = _wpf.Window content:panel title:"Dimensions" width:217 height:500 location:#centerParent closed:Close()
 		_form.ShowInFrame()
 			
 		Run()

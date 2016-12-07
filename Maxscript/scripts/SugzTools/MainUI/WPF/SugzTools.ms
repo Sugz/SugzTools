@@ -103,7 +103,7 @@ struct SugzToolsStc
 			_panel.Add(GetDimension())	
 				
 			if SugzToolsView != undefined then SugzToolsView.Close()
-			SugzToolsView = _wpf.Window content:_panel width:217 height: 500
+			SugzToolsView = _wpf.Window content:_panel width:217 height:500 closed:Close()
 			SugzToolsView.ShowInFrame()
 		)
 		
@@ -114,6 +114,11 @@ struct SugzToolsStc
 	(
 		GetView()
 		dim.Run()
+	),
+
+	fn Close = 
+	(
+		dim.Close()
 	)
 	
 )

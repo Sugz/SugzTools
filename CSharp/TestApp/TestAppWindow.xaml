@@ -1,0 +1,115 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestApp"
+        xmlns:Controls="clr-namespace:SugzTools.Controls;assembly=SugzTools"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        x:Class="TestApp.MainWindow"
+        mc:Ignorable="d"
+        Title="TestApp"
+        Height="500"
+        Width="369.667"
+        Background="#FF444444">
+    <Grid>
+
+
+        <Controls:SgzStackPanel Margin="5"
+                                InnerMargin="0,0,0,5">
+            <Controls:SgzExpander x:Name="sgzExpander"
+                                  Header="Test"
+                                  VerticalAlignment="Top"
+                                  IsExpanded="True">
+
+                <Controls:SgzStackPanel Margin="5,5,5,0">
+                    <Controls:SgzCheckBox HorizontalAlignment="Left"
+                                          IsThreeState="True"
+                                          HorizontalContentAlignment="Stretch" />
+                    <Controls:SgzGroupBox Header="Test">
+                        <UniformGrid Rows="1">
+                            <Controls:SgzButton CornerRadius="3"
+                                                Click="SgzButton_Click" 
+                                                Margin="5"/>
+                            <Controls:SgzCheckButton Content="CheckButton"
+                                                     IsEnabled="False"
+                                                     Margin="5" />
+                        </UniformGrid>
+                    </Controls:SgzGroupBox>
+
+                    <DockPanel>
+                        <Controls:SgzTextBox x:Name="txt"
+                                             DockPanel.Dock="Left"
+                                             Watermark="Enter text here..." />
+                    </DockPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Controls:SgzRadioButton Content="View"
+                                                 GroupName="testRadioButtons"
+                                                 HorizontalAlignment="Stretch"
+                                                 HorizontalContentAlignment="Left"
+                                                 IsEnabled="False" />
+                        <Controls:SgzRadioButton Content="test2"
+                                                 GroupName="testRadioButtons"
+                                                 IsChecked="True"
+                                                 Grid.Column="1"
+                                                 HorizontalAlignment="Center"
+                                                 HorizontalContentAlignment="Right"
+                                                 Width="61" />
+                    </Grid>
+                    <DockPanel LastChildFill="False">
+                        <Controls:SgzRadioButton Content="test1"
+                                                 RadioButtonType="CheckButton"
+                                                 Width="75"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalContentAlignment="Center"
+                                                 IsEnabled="False" />
+                        <Controls:SgzRadioButton Content="test2"
+                                                 DockPanel.Dock="Right"
+                                                 RadioButtonType="CheckButton"
+                                                 Width="75"
+                                                 IsTransparent="True" />
+                    </DockPanel>
+                    <Controls:SgzComboBox>
+                        <ComboBoxItem Content="abc #1" />
+                        <ComboBoxItem IsSelected="True"
+                                      Content="bcd #2" />
+                        <ComboBoxItem Content="gef #3" />
+                        <ComboBoxItem Content="ComboBox Item #4" />
+                        <ComboBoxItem Content="ComboBox Item #5" />
+                        <ComboBoxItem Content="ComboBox Item #6" />
+                        <ComboBoxItem Content="zef #7" />
+                    </Controls:SgzComboBox>
+                    <Controls:SgzNumericUpDown x:Name="intSpinner"
+                                               Content="IntegerSpinner"
+                                               Type="Integer"
+                                               NumericFormatSpecifier="N"
+                                               AlwaysShowValue="False"
+                                               Limits="Int"
+                                               IsEnabled="False" />
+                    <TextBlock x:Name="intTxt" />
+                    <TextBlock x:Name="intTxt2" />
+                    <TextBlock x:Name="intTxt3" />
+                    <Controls:SgzNumericUpDown x:Name="floatSpinner"
+                                               Content="FloatSpinner"
+                                               Type="Float" />
+                    <TextBlock x:Name="floatTxt" />
+                    <TextBlock x:Name="floatTxt2" />
+                    <TextBlock x:Name="floatTxt3" />
+                </Controls:SgzStackPanel>
+            </Controls:SgzExpander>
+            <Controls:SgzExpander HasPopup="False"
+                                  IsGroupBox="True">
+                <Controls:SgzGrid x:Name="grid" Height="20">
+                    <Button/>
+                </Controls:SgzGrid>
+            </Controls:SgzExpander>
+            <Controls:SgzExpander />
+        </Controls:SgzStackPanel>
+
+    </Grid>
+</Window>

@@ -1,5 +1,0 @@
-D:\Travail\GitHub\SugzTools\CSharp\SugzTools\SugzExtensions\bin\Debug\SugzExtensions.dll
-D:\Travail\GitHub\SugzTools\CSharp\SugzTools\SugzExtensions\bin\Debug\SugzExtensions.pdb
-D:\Travail\GitHub\SugzTools\CSharp\SugzTools\SugzExtensions\obj\Debug\SugzExtensions.csprojResolveAssemblyReference.cache
-D:\Travail\GitHub\SugzTools\CSharp\SugzTools\SugzExtensions\obj\Debug\SugzExtensions.dll
-D:\Travail\GitHub\SugzTools\CSharp\SugzTools\SugzExtensions\obj\Debug\SugzExtensions.pdb

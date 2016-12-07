@@ -323,3 +323,10 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
+*.suo
+*.suo
+CSharp/.vs/SugzTools/v14/.suo
+CSharp/StyleApp/App.xaml
+CSharp/StyleApp/bin/Debug/StyleApp.pdb
+CSharp/StyleApp/obj/Debug/StyleApp_MarkupCompile.i.cache
+CSharp/.vs/SugzTools/v14/.suo

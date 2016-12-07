@@ -1,2 +1,0 @@
-﻿//TODO: Check dans le script parser pour les list (prendre en compte les hyperlink et les types)
-// Faire une fonction commune pour avoir les hyperlink, types et text normal, puis l'utiliser dans CDFunctions et CDScript (list et le rest)

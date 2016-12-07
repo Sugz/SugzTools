@@ -6,41 +6,41 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
 
 
     <!-- SgzExpanderHeaderStyle -->
-    <Style x:Key="SgzExpanderHeaderStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MaxStyle}">
-        <Setter Property="Focusable" Value="False"/>
+    <Style x:Key="SgzExpanderHeaderStyle"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource MaxStyle}">
+        <Setter Property="Focusable"
+                Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <StackPanel Background="Transparent"
-                                Orientation="Horizontal">
+                    <DockPanel Background="Transparent">
 
-                        <Path x:Name="PART_ARROW"
+                        <Path x:Name="PART_Arrow"
+                              DockPanel.Dock="Left"
                               Data="{StaticResource RolloutCollapsedGeo}"
                               Style="{StaticResource NoStretchIcon}"
                               Fill="{StaticResource MaxRolloutArrow}"
-                              HorizontalAlignment="Left"
                               VerticalAlignment="Center"
-                              Margin="6,0,0,0" 
-                              Width="6"/>
- 
-                        <TextBlock Text="{TemplateBinding Content}"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Margin="10,0,0,0"
-                                   FontWeight="SemiBold"
-                                   TextOptions.TextFormattingMode="Display" />
-                    </StackPanel>
+                              Margin="6,0,0,0"
+                              Width="6" />
+
+                        <ContentPresenter x:Name="PART_Content"
+                                          DockPanel.Dock="Left"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Margin="10,0,0,0"
+                                          TextOptions.TextFormattingMode="Display" />
+                    </DockPanel>
 
                     <ControlTemplate.Triggers>
                         <!-- Expand State -->
                         <Trigger Property="IsChecked"
                                  Value="true">
-                            <Setter TargetName="PART_ARROW"
+                            <Setter TargetName="PART_Arrow"
                                     Property="Data"
                                     Value="{StaticResource RolloutExpandedGeo}" />
                         </Trigger>
@@ -48,7 +48,73 @@
                         <!-- Mouse Triggers -->
                         <Trigger Property="IsMouseOver"
                                  Value="True">
-                            <Setter TargetName="PART_ARROW"
+                            <Setter TargetName="PART_Arrow"
+                                    Property="Fill"
+                                    Value="{StaticResource MaxTitle}" />
+                        </Trigger>
+
+                        <Trigger Property="HorizontalAlignment"
+                                 Value="Right">
+                            <Setter TargetName="PART_Arrow"
+                                    Property="DockPanel.Dock"
+                                    Value="Right" />
+                            <Setter TargetName="PART_Arrow"
+                                    Property="Margin"
+                                    Value="0,0,6,0" />
+                            <Setter TargetName="PART_Content"
+                                    Property="HorizontalAlignment"
+                                    Value="left" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!-- SgzGroupBoxExpanderHeaderStyle -->
+    <Style x:Key="SgzGroupBoxExpanderHeaderStyle"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource MaxStyle}">
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <DockPanel Background="Transparent">
+
+                        <Path x:Name="PART_Arrow"
+                              DockPanel.Dock="Right"
+                              Data="{StaticResource RolloutCollapsedInvertedGeo}"
+                              Style="{StaticResource NoStretchIcon}"
+                              Fill="{StaticResource MaxRolloutArrow}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,6,0"
+                              Width="6"
+                              RenderTransformOrigin="0.5,0.5">
+                        </Path>
+
+                        <ContentPresenter HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Margin="6,0,0,0"
+                                          TextOptions.TextFormattingMode="Display" />
+                    </DockPanel>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Expand State -->
+                        <Trigger Property="IsChecked"
+                                 Value="true">
+                            <Setter TargetName="PART_Arrow"
+                                    Property="Data"
+                                    Value="{StaticResource RolloutExpandedGeo}" />
+                        </Trigger>
+
+                        <!-- Mouse Triggers -->
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="PART_Arrow"
                                     Property="Fill"
                                     Value="{StaticResource MaxTitle}" />
                         </Trigger>
@@ -58,18 +124,20 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
+
     <!--SgzExpanderDragDropIcon-->
-    <Style x:Key="SgzExpanderDragDropIcon" TargetType="{x:Type Button}" BasedOn="{StaticResource OverridesDefaultStyle}">
-        <Setter Property="Focusable" Value="False"/>
-        
+    <Style x:Key="SgzExpanderDragDropIcon"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource OverridesDefaultStyle}">
+        <Setter Property="Focusable"
+                Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <!--Template-->
                     <Border Background="Transparent">
-                        <Path x:Name="PART_ICON"
+                        <Path x:Name="PART_Icon"
                               Data="{StaticResource RolloutDragDropGeo}"
                               Style="{StaticResource NoStretchIcon}"
                               Fill="{StaticResource MaxRolloutArrow}"
@@ -81,103 +149,170 @@
                         <!-- Mouse Triggers -->
                         <Trigger Property="IsMouseOver"
                                  Value="True">
-                            <Setter TargetName="PART_ICON"
+                            <Setter TargetName="PART_Icon"
                                     Property="Fill"
                                     Value="{StaticResource MaxTitle}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    
-    <!--SgzExpanderStyle-->
-    <Style TargetType="{x:Type local:SgzExpander}" BasedOn="{StaticResource MaxStyle}">
-        <Setter Property="IsExpanded" Value="False"/>
-        <Setter Property="Background" Value="{StaticResource MaxRollout}" />
-        <Setter Property="Foreground" Value="{StaticResource MaxTitle}" />
-        <Setter Property="BorderBrush" Value="{StaticResource MaxRolloutBorder}" />
-        <Setter Property="Header" Value="SgzExpander" />
-        
-        <!--Template-->
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:SgzExpander}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+
+    <!--SgzPopUpExpanderTemplate-->
+    <ControlTemplate x:Key="SgzPopUpExpanderTemplate"
+                     TargetType="{x:Type local:SgzExpander}">
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+
+            <Grid>
+                <!-- Expander -->
+                <StackPanel>
+
+                    <!-- Expander Header -->
+                    <Border Background="{TemplateBinding HeaderBrush}"
+                            Height="{Binding HeaderHeight, RelativeSource={RelativeSource TemplatedParent}}"
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-                        
-                        <Grid>
-                            <!-- Expander -->
-                            <StackPanel>
-                                
-                                <!-- Expander Header -->
-                                <Border Background="{TemplateBinding HeaderBrush}"
-                                        Height="{Binding HeaderHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <DockPanel>
-                                        <Button x:Name="PART_DRAGDROP"
-                                                Width="20"
-                                                DockPanel.Dock="Right"
-                                                Style="{StaticResource SgzExpanderDragDropIcon}" />
-                                        <ToggleButton Content="{TemplateBinding Header}"
-                                                      Foreground="{TemplateBinding Foreground}"
-                                                      IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      Style="{StaticResource SgzExpanderHeaderStyle}" />
-                                    </DockPanel>
-                                </Border>
-
-                                <!-- Content -->
-                                <ContentPresenter x:Name="PART_EXPAND" />
-                            </StackPanel>
-
-                            <!-- PopUp -->
-                            <Popup x:Name="PART_POPUP"
-                                   Placement="{TemplateBinding PopUpPlacementMode}"
-                                   StaysOpen="True"
-                                   Width="{Binding PopupWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                                   AllowsTransparency="True">
-
-                                <Border Background="{StaticResource MaxRollout}"
-                                        BorderBrush="{StaticResource MaxRolloutBorder}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <ContentControl x:Name="PART_POPUP_CONTENT"
-                                                    Focusable="False"/>
-                                </Border>
-
-                            </Popup>
-
-                        </Grid>
+                        <DockPanel>
+                            <Button x:Name="PART_DragDrop"
+                                    Width="20"
+                                    DockPanel.Dock="Right"
+                                    Style="{StaticResource SgzExpanderDragDropIcon}" />
+                            <ToggleButton Content="{TemplateBinding Header}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          FontWeight="SemiBold"
+                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Style="{StaticResource SgzExpanderHeaderStyle}" />
+                        </DockPanel>
                     </Border>
 
-                    <ControlTemplate.Triggers>
-                        <!-- Trigger for showing the popup when Expander control is not expanded and IsMouseOver is true  -->
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsExpanded" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_EXPAND" Property="Content" Value="{x:Null}" />
-                            <Setter TargetName="PART_POPUP_CONTENT" Property="Content"
-                                    Value="{Binding OldContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource ObjectToUIElement}}" />
-                            <Setter TargetName="PART_POPUP" Property="IsOpen" Value="True" />
-                        </MultiTrigger>
+                    <!-- Content -->
+                    <ContentPresenter x:Name="PART_Expand" />
+                </StackPanel>
+
+                <!-- PopUp -->
+                <Popup x:Name="PART_Popup"
+                       Placement="{TemplateBinding PopUpPlacementMode}"
+                       StaysOpen="True"
+                       Width="{Binding PopupWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                       AllowsTransparency="True">
+
+                    <Border Background="{StaticResource MaxRollout}"
+                            BorderBrush="{StaticResource MaxRolloutBorder}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+                        <ContentControl x:Name="PART_PopupContent"
+                                        Focusable="False" />
+                    </Border>
+
+                </Popup>
+
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <!-- Trigger for showing the popup when Expander control is not expanded and IsMouseOver is true  -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver"
+                               Value="True" />
+                    <Condition Property="IsExpanded"
+                               Value="False" />
+                    <Condition Property="HasPopup"
+                               Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="PART_Expand"
+                        Property="Content"
+                        Value="{x:Null}" />
+                <Setter TargetName="PART_PopupContent"
+                        Property="Content"
+                        Value="{Binding OldContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource ObjectToUIElement}}" />
+                <Setter TargetName="PART_Popup"
+                        Property="IsOpen"
+                        Value="True" />
+            </MultiTrigger>
 
 
-                        <!-- Trigger for setting the content of expander when IsExpanded is true -->
-                        <Trigger Property="IsExpanded" Value="True">
-                            <Setter TargetName="PART_POPUP_CONTENT" Property="Content" Value="{x:Null}" />
-                            <Setter TargetName="PART_EXPAND" Property="Content"
-                                    Value="{Binding OldContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+            <!-- Trigger for setting the content of expander when IsExpanded is true -->
+            <Trigger Property="IsExpanded"
+                     Value="True">
+                <Setter TargetName="PART_PopupContent"
+                        Property="Content"
+                        Value="{x:Null}" />
+                <Setter TargetName="PART_Expand"
+                        Property="Content"
+                        Value="{Binding OldContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+    <!--SgzGroupBoxExpanderTemplate-->
+    <ControlTemplate x:Key="SgzGroupBoxExpanderTemplate"
+                     TargetType="{x:Type local:SgzExpander}">
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+            <StackPanel>
+
+                <!-- Expander Header -->
+                <Border Background="{TemplateBinding HeaderBrush}"
+                        Height="{Binding HeaderHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+                    <ToggleButton Content="{TemplateBinding Header}"
+                                  Foreground="{TemplateBinding Foreground}"
+                                  IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  Style="{StaticResource SgzGroupBoxExpanderHeaderStyle}" />
+                </Border>
+
+                <!-- Content -->
+                <ContentPresenter x:Name="PART_Expand"
+                                  Visibility="Collapsed" />
+            </StackPanel>
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsExpanded"
+                     Value="true">
+                <Setter TargetName="PART_Expand"
+                        Property="Visibility"
+                        Value="Visible" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+
+    <!--SgzExpanderStyle-->
+    <Style TargetType="{x:Type local:SgzExpander}"
+           BasedOn="{StaticResource MaxStyle}">
+        <Setter Property="Background"
+                Value="{StaticResource MaxRollout}" />
+        <Setter Property="Foreground"
+                Value="{StaticResource MaxTitle}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource MaxRolloutBorder}" />
+        <Setter Property="Header"
+                Value="SgzExpander" />
+
+        <Style.Triggers>
+            <Trigger Property="IsGroupBox"
+                     Value="true">
+                <Setter Property="Template"
+                        Value="{StaticResource SgzGroupBoxExpanderTemplate}" />
+            </Trigger>
+            <Trigger Property="IsGroupBox"
+                     Value="false">
+                <Setter Property="Template"
+                        Value="{StaticResource SgzPopUpExpanderTemplate}" />
+            </Trigger>
+        </Style.Triggers>
+
     </Style>
 
 </ResourceDictionary>

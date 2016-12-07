@@ -454,13 +454,16 @@ struct CompLocComponentStc
 		
 		-- Set the hotspot hashtable and layer
 		if _cl.hotspotHT.count == 0 then _cl.SetHotspotHT()
-		LayerManager.newLayerFromName "Hotspots_Dummy"
+		LayerManager.newLayerFromName "Hotspots"
 		
 		for item in hotspotHT do 
 		(
-			--c am = Physical_Camera name: item[1] pos:item[2]
- 			-- cam.wireColor = color 28 149 177
-			(LayerManager.getLayerFromName "Hotspots_Dummy").addNode cam
+			cam = Physical_Camera name: item[1] pos:item[2]
+ 			cam.wireColor = color 28 149 177
+ 			(LayerManager.getLayerFromName "Hotspots").addNode cam
+ 			-- pt = Point name: item[1] pos:item[2] Box:on cross:off size:5
+ 			-- pt.wireColor = color 28 149 177
+			-- (LayerManager.getLayerFromName "Hotspots").addNode pt
 		)
 	
 	),
@@ -485,6 +488,9 @@ struct CompLocComponentStc
 			excel.application.Workbooks.Add
 			excel.ActiveSheet.Name = "Hotspots"
 			
+			(excel.application.Range("A1")).value = "Hotspot name"
+			(excel.application.Range("B1")).value = "Hotspot position"
+
 			i = 2
 			for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == "Hotspots" do 
 			(
@@ -712,17 +718,13 @@ struct CompLocComponentStc
 				items = #()
 				for obj in _cl.sceneComponents do
 				(
-					-- Skip the ATA_ part
+					-- Get the ATA number by firltering the object name
 					str = ""
-					ss = StringStream obj.name
-					skipToString ss "_"
-					
-					-- Read the number
-					c = readChar ss
-					while c != "-" do 
+					ss = filterString obj.name "_"
+					if ss[1] == "ATA" then
 					(
-						str += c 
-						c = readChar ss
+						nb = filterString ss[2] "-"
+						if (nb[1] as integer) != undefined then str = nb[1]
 					)
 					
 					-- Set the ATAs filter list
@@ -819,11 +821,14 @@ struct CompLocComponentStc
 		/* Get the assigned hotspot and FOV from required component ***************************************************************************************************************************************************************/
 		on requiredComponentsLbx MouseDown s e do
 		(
-			hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
-			if hit != undefined then 
+			if (requiredComponentsLbx.Items.Count != 0) then
 			(
-				requiredHotspotNameLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.hotspotCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
-				requiredFovValueLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.fovCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
+				hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
+				try
+				(
+					requiredHotspotNameLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.hotspotCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
+					requiredFovValueLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.fovCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
+				) catch()
 			)
 		)
 		
@@ -832,11 +837,14 @@ struct CompLocComponentStc
 		/* Select the required component from the listbox ***************************************************************************************************************************************************************/
 		on requiredComponentsLbx MouseDoubleClick s e do
 		(
-			hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
-			if hit != undefined then 
+			if (requiredComponentsLbx.Items.Count != 0) then
 			(
-				obj = getNodeByName (hit.item.text)
-				if obj != undefined then select obj
+				hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
+				try
+				(
+					obj = getNodeByName (hit.item.text)
+					if obj != undefined then select obj
+				) catch()
 			)
 		)
 		
@@ -856,27 +864,39 @@ struct CompLocComponentStc
 		(
 			for obj in selection do 
 			(
-				-- Check if the object doesn't already have the complocCA
-				if not (_ca.CheckForCustAttr obj #comploc)[1] then 
+				wrongName = "\"" + obj.name + "\" name doesn't start with \"ATA_XX\"... "
+				ss = filterString obj.name "_"
+				if ss[1] == "ATA" then
 				(
-					-- make the object unique to avoid instance
-					convertToPoly obj
-					
-					custAttributes.add obj _cl.compLocCA BaseObject:true
-					cam = Physical_Camera name:(obj.name + "_" + _cl.hotspotHT[1][1]) pos:_cl.hotspotHT[1][2] specify_fov:on
-					cam.fov = 40
-					cam.targeted = true
-					cam.target.pos = obj.center
-					
-					LayerManager.newLayerFromName "Hotspots"
-					(LayerManager.getLayerFromName "Hotspots").addNode cam
-					(LayerManager.getLayerFromName "Hotspots").addNode (cam.target)
-					
-					obj.hotspot = cam
-					
-					setTransformLockFlags cam #{1..9}
-					setTransformLockFlags (cam.target) #{1..9}
+					nb = filterString ss[2] "-"
+					if (nb[1] as integer) == undefined 
+						then MessageBox wrongName
+
+					-- Check if the object doesn't already have the complocCA
+					else if not (_ca.CheckForCustAttr obj #comploc)[1] then 
+					(
+						-- make the object unique to avoid instance
+						convertToPoly obj
+						
+						custAttributes.add obj _cl.compLocCA BaseObject:true
+						cam = Physical_Camera name:(obj.name + "_" + _cl.hotspotHT[1][1]) pos:_cl.hotspotHT[1][2] specify_fov:on
+						cam.fov = 40
+						cam.targeted = true
+						cam.target.pos = obj.center
+						
+						LayerManager.newLayerFromName "Hotspots"
+						(LayerManager.getLayerFromName "Hotspots").addNode cam
+						(LayerManager.getLayerFromName "Hotspots").addNode (cam.target)
+						
+						obj.hotspot = cam
+						
+						setTransformLockFlags cam #{1..9}
+						setTransformLockFlags (cam.target) #{1..9}
+
+					)
 				)
+
+				else MessageBox wrongName
 			)
 			
 			FillSceneComponentsList filter:(sceneComponentsFilterDdl.selection != 1)

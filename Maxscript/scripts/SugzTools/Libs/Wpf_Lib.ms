@@ -617,9 +617,10 @@ struct WpfStruct
 		name: undefined
 		tag: undefined
 		header: undefined
+		isGroupBox: undefined
+		isExpanded: undefined
 		width: undefined
 		height: undefined
-		isExpanded: undefined
 		background: undefined
 		foreground: undefined
 		headerBrush: undefined
@@ -635,9 +636,10 @@ struct WpfStruct
 		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
 		if header != undefined then _control.Header = header
+		if isGroupBox != undefined then _control.IsGroupBox = isGroupBox
+		if isExpanded != undefined then _control.IsExpanded = isExpanded
 		if width != undefined then _control.Width = width
 		if height != undefined then _control.HeaderHeight = height
-		if isExpanded != undefined then _control.IsExpanded = isExpanded
 		if background != undefined then _control.Background = SolidColorBrush background
 		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
 		if headerBrush != undefined then _control.HeaderBrush = SolidColorBrush headerBrush
@@ -670,7 +672,7 @@ struct WpfStruct
 		margin: undefined 
 		content: undefined = 
 	(
-		_control = dotNetObject "SugzTools.Controls.SgzExpander"
+		_control = dotNetObject "SugzTools.Controls.SgzGroupBox"
 		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
 		if header != undefined then _control.Header = header

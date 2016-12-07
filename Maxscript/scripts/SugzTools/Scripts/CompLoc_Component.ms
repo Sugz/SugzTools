@@ -28,6 +28,13 @@ SugzTools Spreadsheet Parser Library
 	- Rewrite everything from the ground up and make a huge simplification
 
 *Use / Modify this script at your own risk !
+
+
+(
+	component = $
+	format "Component: %\nHotspot: %\nFOV: %\nTransparent: %\nHidden: %\nAnimated: %"component.name (_cl.GetHotspot component.hotspot) (component.fov as string) (_cl.GetRelatives component.transparent) (_cl.GetRelatives component.hidden) (_cl.GetRelatives component.animated)
+	
+)
 ###############################################################################*/
 
 
@@ -54,10 +61,10 @@ struct CompLocComponentStc
 	animatedCol = "Animation",
 	
 	compLocCA = undefined,				-- The comploc custom attribute
-	CLView = undefined,						-- The rollout
+	CLView = undefined,					-- The rollout
 	requiredComponents = #(),			-- The required compononts for a given ata
 	sceneComponents = #(),				-- The scene objects whose have the comploc custom attribute
-	hotspotHT = #(),								-- The hotspot hashtable (name, position) 
+	hotspotHT = #(),					-- The hotspot hashtable (name, position) 
 	
 	
 	
@@ -287,7 +294,7 @@ struct CompLocComponentStc
 				append ss (relatives[i].node.name)
 				if i != relatives.count then append ss ", "
 			)
--- 			else format "relatives: %\n" relatives
+			--else format "relatives: %\n" relatives
 		)
 		
 		ss as string
@@ -447,13 +454,13 @@ struct CompLocComponentStc
 		
 		-- Set the hotspot hashtable and layer
 		if _cl.hotspotHT.count == 0 then _cl.SetHotspotHT()
-		LayerManager.newLayerFromName "Hotspots"
+		LayerManager.newLayerFromName "Hotspots_Dummy"
 		
 		for item in hotspotHT do 
 		(
-			cam = Physical_Camera name: item[1] pos:item[2]
-			cam.wireColor = color 28 149 177
-			(LayerManager.getLayerFromName "Hotspots").addNode cam
+			--c am = Physical_Camera name: item[1] pos:item[2]
+ 			-- cam.wireColor = color 28 149 177
+			(LayerManager.getLayerFromName "Hotspots_Dummy").addNode cam
 		)
 	
 	),
@@ -470,21 +477,29 @@ struct CompLocComponentStc
 		Infos:
 		</Function>*/
 		
-		if _csv.GetFile "Open the hotspot file" excel:true != undefined then
+		folder = getSavePath caption:"Choose a folder to save the Hotspots.csv" initialDir:maxFilePath
+		if folder != udnefined then 
 		(
-			_csv.GetExcelOLE()
-			(_csv.excel.Worksheets "Hotspots").Activate 
+			file = (folder + @"\AS365_Hotspots.csv")
+			excel = CreateOLEObject "Excel.Application"
+			excel.application.Workbooks.Add
+			excel.ActiveSheet.Name = "Hotspots"
 			
 			i = 2
 			for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == "Hotspots" do 
 			(
-				(_csv.excel.application.Range("A" + i as string)).value = cam.name
-				(_csv.excel.application.Range("B" + i as string)).value = GetHotspotPos cam 
+				(excel.application.Range("A" + i as string)).value = cam.name
+				(excel.application.Range("B" + i as string)).value = GetHotspotPos cam 
 				i += 1
 			)
 			
-			_csv.excel.application.ActiveWorkbook.SaveAs(_csv.file)
-			_csv.DestroyExcelOLE()
+			excel.DisplayAlerts = false
+			excel.ActiveSheet.SaveAs file 24
+			excel.application.ActiveWorkbook.Close false
+			excel.quit()
+			releaseAllOLEObjects()
+			excel = undefined
+
 		)
 	),
 	
@@ -691,36 +706,40 @@ struct CompLocComponentStc
 		(
 			_cl.sceneComponents = _sgz._extMxs.SortObjects (_ca.GetObjsWithCA #compLoc)
 			
-			atas = #()
-			items = #()
-			for obj in _cl.sceneComponents do
+			try
 			(
-				-- Skip the ATA_ part
-				str = ""
-				ss = StringStream obj.name
-				skipToString ss "_"
-				
-				-- Read the number
-				c = readChar ss
-				while c != "-" do 
+				atas = #()
+				items = #()
+				for obj in _cl.sceneComponents do
 				(
-					str += c 
+					-- Skip the ATA_ part
+					str = ""
+					ss = StringStream obj.name
+					skipToString ss "_"
+					
+					-- Read the number
 					c = readChar ss
+					while c != "-" do 
+					(
+						str += c 
+						c = readChar ss
+					)
+					
+					-- Set the ATAs filter list
+					appendIfUnique atas str
+					
+					if filter then 
+					(
+						if sceneComponentsFilterDdl.selected == str then append items obj.name
+					)
+					else append items obj.name
 				)
 				
-				-- Set the ATAs filter list
-				appendIfUnique atas str
+				sceneComponentsFilterDdl.items = join #("All") atas
+				sceneComponentsLbx.items = items
+				sceneComponentsLbx.selection = sceneComponentsLbx.items.count
 				
-				if filter then 
-				(
-					if sceneComponentsFilterDdl.selected == str then append items obj.name
-				)
-				else append items obj.name
-			)
-			
-			sceneComponentsFilterDdl.items = join #("All") atas
-			sceneComponentsLbx.items = items
-			sceneComponentsLbx.selection = sceneComponentsLbx.items.count
+			) catch()
 		)
 		
 		

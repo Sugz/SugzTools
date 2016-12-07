@@ -102,8 +102,11 @@
                     <TextBlock x:Name="floatTxt3" />
                 </Controls:SgzStackPanel>
             </Controls:SgzExpander>
-            <Controls:SgzExpander IsExpanded="True">
-                <Controls:SgzGrid x:Name="grid" />
+            <Controls:SgzExpander HasPopup="False"
+                                  IsGroupBox="True">
+                <Controls:SgzGrid x:Name="grid" Height="20">
+                    <Button/>
+                </Controls:SgzGrid>
             </Controls:SgzExpander>
             <Controls:SgzExpander />
         </Controls:SgzStackPanel>

@@ -28,6 +28,13 @@ SugzTools Spreadsheet Parser Library
 	- Rewrite everything from the ground up and make a huge simplification
 
 *Use / Modify this script at your own risk !
+
+
+(
+	component = $
+	format "Component: %\nHotspot: %\nFOV: %\nTransparent: %\nHidden: %\nAnimated: %"component.name (_cl.GetHotspot component.hotspot) (component.fov as string) (_cl.GetRelatives component.transparent) (_cl.GetRelatives component.hidden) (_cl.GetRelatives component.animated)
+	
+)
 ###############################################################################*/
 
 
@@ -54,10 +61,10 @@ struct CompLocComponentStc
 	animatedCol = "Animation",
 	
 	compLocCA = undefined,				-- The comploc custom attribute
-	CLView = undefined,						-- The rollout
+	CLView = undefined,					-- The rollout
 	requiredComponents = #(),			-- The required compononts for a given ata
 	sceneComponents = #(),				-- The scene objects whose have the comploc custom attribute
-	hotspotHT = #(),								-- The hotspot hashtable (name, position) 
+	hotspotHT = #(),					-- The hotspot hashtable (name, position) 
 	
 	
 	
@@ -287,7 +294,7 @@ struct CompLocComponentStc
 				append ss (relatives[i].node.name)
 				if i != relatives.count then append ss ", "
 			)
--- 			else format "relatives: %\n" relatives
+			--else format "relatives: %\n" relatives
 		)
 		
 		ss as string
@@ -452,8 +459,11 @@ struct CompLocComponentStc
 		for item in hotspotHT do 
 		(
 			cam = Physical_Camera name: item[1] pos:item[2]
-			cam.wireColor = color 28 149 177
-			(LayerManager.getLayerFromName "Hotspots").addNode cam
+ 			cam.wireColor = color 28 149 177
+ 			(LayerManager.getLayerFromName "Hotspots").addNode cam
+ 			-- pt = Point name: item[1] pos:item[2] Box:on cross:off size:5
+ 			-- pt.wireColor = color 28 149 177
+			-- (LayerManager.getLayerFromName "Hotspots").addNode pt
 		)
 	
 	),
@@ -470,21 +480,32 @@ struct CompLocComponentStc
 		Infos:
 		</Function>*/
 		
-		if _csv.GetFile "Open the hotspot file" excel:true != undefined then
+		folder = getSavePath caption:"Choose a folder to save the Hotspots.csv" initialDir:maxFilePath
+		if folder != udnefined then 
 		(
-			_csv.GetExcelOLE()
-			(_csv.excel.Worksheets "Hotspots").Activate 
+			file = (folder + @"\AS365_Hotspots.csv")
+			excel = CreateOLEObject "Excel.Application"
+			excel.application.Workbooks.Add
+			excel.ActiveSheet.Name = "Hotspots"
 			
+			(excel.application.Range("A1")).value = "Hotspot name"
+			(excel.application.Range("B1")).value = "Hotspot position"
+
 			i = 2
 			for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == "Hotspots" do 
 			(
-				(_csv.excel.application.Range("A" + i as string)).value = cam.name
-				(_csv.excel.application.Range("B" + i as string)).value = GetHotspotPos cam 
+				(excel.application.Range("A" + i as string)).value = cam.name
+				(excel.application.Range("B" + i as string)).value = GetHotspotPos cam 
 				i += 1
 			)
 			
-			_csv.excel.application.ActiveWorkbook.SaveAs(_csv.file)
-			_csv.DestroyExcelOLE()
+			excel.DisplayAlerts = false
+			excel.ActiveSheet.SaveAs file 24
+			excel.application.ActiveWorkbook.Close false
+			excel.quit()
+			releaseAllOLEObjects()
+			excel = undefined
+
 		)
 	),
 	
@@ -691,36 +712,36 @@ struct CompLocComponentStc
 		(
 			_cl.sceneComponents = _sgz._extMxs.SortObjects (_ca.GetObjsWithCA #compLoc)
 			
-			atas = #()
-			items = #()
-			for obj in _cl.sceneComponents do
+			try
 			(
-				-- Skip the ATA_ part
-				str = ""
-				ss = StringStream obj.name
-				skipToString ss "_"
-				
-				-- Read the number
-				c = readChar ss
-				while c != "-" do 
+				atas = #()
+				items = #()
+				for obj in _cl.sceneComponents do
 				(
-					str += c 
-					c = readChar ss
+					-- Get the ATA number by firltering the object name
+					str = ""
+					ss = filterString obj.name "_"
+					if ss[1] == "ATA" then
+					(
+						nb = filterString ss[2] "-"
+						if (nb[1] as integer) != undefined then str = nb[1]
+					)
+					
+					-- Set the ATAs filter list
+					appendIfUnique atas str
+					
+					if filter then 
+					(
+						if sceneComponentsFilterDdl.selected == str then append items obj.name
+					)
+					else append items obj.name
 				)
 				
-				-- Set the ATAs filter list
-				appendIfUnique atas str
+				sceneComponentsFilterDdl.items = join #("All") atas
+				sceneComponentsLbx.items = items
+				sceneComponentsLbx.selection = sceneComponentsLbx.items.count
 				
-				if filter then 
-				(
-					if sceneComponentsFilterDdl.selected == str then append items obj.name
-				)
-				else append items obj.name
-			)
-			
-			sceneComponentsFilterDdl.items = join #("All") atas
-			sceneComponentsLbx.items = items
-			sceneComponentsLbx.selection = sceneComponentsLbx.items.count
+			) catch()
 		)
 		
 		
@@ -800,11 +821,14 @@ struct CompLocComponentStc
 		/* Get the assigned hotspot and FOV from required component ***************************************************************************************************************************************************************/
 		on requiredComponentsLbx MouseDown s e do
 		(
-			hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
-			if hit != undefined then 
+			if (requiredComponentsLbx.Items.Count != 0) then
 			(
-				requiredHotspotNameLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.hotspotCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
-				requiredFovValueLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.fovCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
+				hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
+				try
+				(
+					requiredHotspotNameLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.hotspotCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
+					requiredFovValueLbl.text = " " + (_csv.GetColumn (_csv.GetColumnIndex _cl.fovCol) columnFilter:(_csv.GetColumnIndex _cl.namesCol) filter:(hit.item.text))[1]
+				) catch()
 			)
 		)
 		
@@ -813,11 +837,14 @@ struct CompLocComponentStc
 		/* Select the required component from the listbox ***************************************************************************************************************************************************************/
 		on requiredComponentsLbx MouseDoubleClick s e do
 		(
-			hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
-			if hit != undefined then 
+			if (requiredComponentsLbx.Items.Count != 0) then
 			(
-				obj = getNodeByName (hit.item.text)
-				if obj != undefined then select obj
+				hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
+				try
+				(
+					obj = getNodeByName (hit.item.text)
+					if obj != undefined then select obj
+				) catch()
 			)
 		)
 		
@@ -837,27 +864,39 @@ struct CompLocComponentStc
 		(
 			for obj in selection do 
 			(
-				-- Check if the object doesn't already have the complocCA
-				if not (_ca.CheckForCustAttr obj #comploc)[1] then 
+				wrongName = "\"" + obj.name + "\" name doesn't start with \"ATA_XX\"... "
+				ss = filterString obj.name "_"
+				if ss[1] == "ATA" then
 				(
-					-- make the object unique to avoid instance
-					convertToPoly obj
-					
-					custAttributes.add obj _cl.compLocCA BaseObject:true
-					cam = Physical_Camera name:(obj.name + "_" + _cl.hotspotHT[1][1]) pos:_cl.hotspotHT[1][2] specify_fov:on
-					cam.fov = 40
-					cam.targeted = true
-					cam.target.pos = obj.center
-					
-					LayerManager.newLayerFromName "Hotspots"
-					(LayerManager.getLayerFromName "Hotspots").addNode cam
-					(LayerManager.getLayerFromName "Hotspots").addNode (cam.target)
-					
-					obj.hotspot = cam
-					
-					setTransformLockFlags cam #{1..9}
-					setTransformLockFlags (cam.target) #{1..9}
+					nb = filterString ss[2] "-"
+					if (nb[1] as integer) == undefined 
+						then MessageBox wrongName
+
+					-- Check if the object doesn't already have the complocCA
+					else if not (_ca.CheckForCustAttr obj #comploc)[1] then 
+					(
+						-- make the object unique to avoid instance
+						convertToPoly obj
+						
+						custAttributes.add obj _cl.compLocCA BaseObject:true
+						cam = Physical_Camera name:(obj.name + "_" + _cl.hotspotHT[1][1]) pos:_cl.hotspotHT[1][2] specify_fov:on
+						cam.fov = 40
+						cam.targeted = true
+						cam.target.pos = obj.center
+						
+						LayerManager.newLayerFromName "Hotspots"
+						(LayerManager.getLayerFromName "Hotspots").addNode cam
+						(LayerManager.getLayerFromName "Hotspots").addNode (cam.target)
+						
+						obj.hotspot = cam
+						
+						setTransformLockFlags cam #{1..9}
+						setTransformLockFlags (cam.target) #{1..9}
+
+					)
 				)
+
+				else MessageBox wrongName
 			)
 			
 			FillSceneComponentsList filter:(sceneComponentsFilterDdl.selection != 1)

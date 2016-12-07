@@ -27,13 +27,13 @@ struct dimStc
 	),
 	
 	
-	fn RemoveCB = 
+	fn Close = 
 	(
 		callbacks.removeScripts #selectionSetChanged id:#GetDimensionsCB
 	),
 	
 	
-	fn GetUI = 
+	fn GetUI isExpanded:true = 
 	(
 		panel = _wpf.StackPanel margin:#(5,5,5,0)
 		panel.Add(_objectNameTxt = _wpf.TextBlock text:"No object selected" align:#left)
@@ -43,7 +43,7 @@ struct dimStc
 		panel.Add(grid = _wpf.Grid())
 		grid.Add(_resetScaleBtn = _wpf.Button text:"Reset Scale" margin:#(0,0,1,0) click:ResetSelectionScale) 0 0
 		grid.Add(_applyBtn = _wpf.Button text:"Apply" margin:#(1,0,0,0) click:SetSelectionScale) 1 0
-		_expander =_wpf.Expander header:"Dimensions" content:panel
+		_expander =_wpf.Expander header:"Dimensions" content:panel isExpanded:isExpanded
 			
 		_expander
 	),
@@ -97,7 +97,7 @@ struct dimStc
 		panel.Add(GetUI())
 			
 		if _form != undefined then _form.Close()
-		_form = _wpf.Window content:panel title:"Dimensions" width:217 height:500 location:#centerParent closed:RemoveCB()
+		_form = _wpf.Window content:panel title:"Dimensions" width:217 height:500 location:#centerParent closed:Close()
 		_form.ShowInFrame()
 			
 		Run()

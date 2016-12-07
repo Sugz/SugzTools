@@ -48,7 +48,7 @@ struct SpreadsheetParserLibraryStc
 			false: types = "Spreadsheet(*.csv)|*.csv|Excel(*.xlsx, *.xlsm)|*.xlsx;*.xlsm|All|*.*|"
 		)
 		
-		filename = getOpenFileName caption:title types:types
+		filename = getOpenFileName caption:title types:types filename:MaxFilePath
 		if filename != undefined then file = filename
 		
 		filename

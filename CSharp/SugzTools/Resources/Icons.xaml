@@ -5,6 +5,8 @@
     <!-- Header Arrows -->
     <PathGeometry x:Key="RolloutCollapsedGeo"
                   Figures="M0,0 L4,3 0,6 Z" />
+    <PathGeometry x:Key="RolloutCollapsedInvertedGeo"
+                  Figures="M4,0 L0,3 4,6 Z" />
     <PathGeometry x:Key="RolloutExpandedGeo"
                   Figures="M0,0 L6,0 3,4 Z" />
     <PathGeometry x:Key="RolloutDragDropGeo"

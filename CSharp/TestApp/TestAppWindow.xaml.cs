@@ -52,7 +52,7 @@ namespace TestApp
 
         private void SgzButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
 

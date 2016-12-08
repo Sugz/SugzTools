@@ -39,7 +39,8 @@
                     <DockPanel>
                         <Controls:SgzTextBox x:Name="txt"
                                              DockPanel.Dock="Left"
-                                             Watermark="Enter text here..." />
+                                             Watermark="Enter text here..."
+                                             IsEnabled="False" />
                     </DockPanel>
 
                     <Grid>
@@ -89,8 +90,7 @@
                                                Type="Integer"
                                                NumericFormatSpecifier="N"
                                                AlwaysShowValue="False"
-                                               Limits="Int"
-                                               IsEnabled="False" />
+                                               Limits="Int"/>
                     <TextBlock x:Name="intTxt" />
                     <TextBlock x:Name="intTxt2" />
                     <TextBlock x:Name="intTxt3" />
@@ -103,9 +103,14 @@
                 </Controls:SgzStackPanel>
             </Controls:SgzExpander>
             <Controls:SgzExpander HasPopup="False"
-                                  IsGroupBox="True">
+                                  IsGroupBox="True"
+                                  IsExpanded="True">
                 <Controls:SgzGrid x:Name="grid" Height="20">
-                    <Button/>
+                    <Controls:SgzProgressBar CornerRadius="5"
+                                             Margin="5,0"
+                                             Height="10"
+                                             Value="1"
+                                             IsIndeterminate="True" />
                 </Controls:SgzGrid>
             </Controls:SgzExpander>
             <Controls:SgzExpander />

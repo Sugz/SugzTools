@@ -56,10 +56,7 @@
                     <!--Triggers-->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background"
-                                    Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-                            <Setter Property="Foreground"
-                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground" Value="{StaticResource MaxRolloutBorder}" />
                         </Trigger>
                         
                         <Trigger Property="IsFocused" Value="True">

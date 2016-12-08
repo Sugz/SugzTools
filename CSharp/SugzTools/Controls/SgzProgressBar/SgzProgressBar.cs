@@ -27,6 +27,29 @@ namespace SugzTools.Controls
         }
 
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        //[Description(""), Category(""), DefaultValue()]
+        // [Browsable(false)]
+        public double InderterminateSize
+        {
+            get { return (int)GetValue(InderterminateSizeProperty); }
+            set { SetValue(InderterminateSizeProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for InderterminateSize
+        public static readonly DependencyProperty InderterminateSizeProperty = DependencyProperty.Register(
+            "InderterminateSize",
+            typeof(double),
+            typeof(SgzProgressBar),
+            new PropertyMetadata(10d)
+        );
+
+
+
+
         #endregion Properties
 
 

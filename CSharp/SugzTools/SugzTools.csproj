@@ -93,6 +93,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\SgzNumericUpDown\SgzNumericUpDown.cs" />
+    <Compile Include="Controls\SgzProgressBar\SgzProgressBar.cs" />
     <Compile Include="Controls\SgzRadioButton\SgzRadioButton.cs" />
     <Compile Include="Controls\SgzTextBox\SgzTextBox.cs" />
     <Compile Include="Controls\SgzToolBar\SgzToolBar.cs" />
@@ -162,6 +163,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\SgzProgressBar\SgzProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SgzRadioButton\SgzRadioButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -207,8 +212,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ScrollViewerStyle.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

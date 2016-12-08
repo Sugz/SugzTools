@@ -28,8 +28,8 @@
                     <Controls:SgzGroupBox Header="Test">
                         <UniformGrid Rows="1">
                             <Controls:SgzButton CornerRadius="3"
-                                                Click="SgzButton_Click" 
-                                                Margin="5"/>
+                                                Click="SgzButton_Click"
+                                                Margin="5" />
                             <Controls:SgzCheckButton Content="CheckButton"
                                                      IsEnabled="False"
                                                      Margin="5" />
@@ -90,7 +90,7 @@
                                                Type="Integer"
                                                NumericFormatSpecifier="N"
                                                AlwaysShowValue="False"
-                                               Limits="Int"/>
+                                               Limits="Int" />
                     <TextBlock x:Name="intTxt" />
                     <TextBlock x:Name="intTxt2" />
                     <TextBlock x:Name="intTxt3" />
@@ -105,12 +105,18 @@
             <Controls:SgzExpander HasPopup="False"
                                   IsGroupBox="True"
                                   IsExpanded="True">
-                <Controls:SgzGrid x:Name="grid" Height="20">
+                <Controls:SgzGrid x:Name="grid">
+                    <Controls:SgzGrid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Controls:SgzGrid.RowDefinitions>
                     <Controls:SgzProgressBar CornerRadius="5"
                                              Margin="5,0"
                                              Height="10"
-                                             Value="1"
+                                             Value="92"
                                              IsIndeterminate="True" />
+
+                    
                 </Controls:SgzGrid>
             </Controls:SgzExpander>
             <Controls:SgzExpander />

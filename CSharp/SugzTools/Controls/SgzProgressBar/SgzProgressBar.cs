@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SugzTools.Src;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace SugzTools.Controls
 {
@@ -44,7 +46,7 @@ namespace SugzTools.Controls
             "InderterminateSize",
             typeof(double),
             typeof(SgzProgressBar),
-            new PropertyMetadata(10d)
+            new PropertyMetadata(20d)
         );
 
 
@@ -78,9 +80,20 @@ namespace SugzTools.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzProgressBar), new FrameworkPropertyMetadata(typeof(SgzProgressBar)));
         }
 
+        public SgzProgressBar()
+        {
+
+
+        }
+
 
         #endregion Constructors
 
 
     }
+
 }
+
+
+
+

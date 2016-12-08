@@ -10,9 +10,15 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!--Converters-->
+    <c:CornerRadiusLessThicknessConverter x:Key="CornerRadiusLessThickness" />
     <c:InvertableBooleanToVisibilityConverter x:Key="BoolToVisibility" />
-    <c:ObjectToUIElementConverter x:Key="ObjectToUIElement" />
     <c:LesserThanConverter x:Key="LesserThan" />
+    <c:MultiplyPercentageConverter x:Key="MultiplyPercentage" />
+    <c:NegativeWidthToLeftMarginConverter x:Key="NegativeWidthToLeftMargin" />
+    <c:ObjectToUIElementConverter x:Key="ObjectToUIElement" />
+    <c:ValueMinusConverter x:Key="ValueMinus" />
+    
+    
 
 
     <Style x:Key="BaseStyle" TargetType="{x:Type Control}">

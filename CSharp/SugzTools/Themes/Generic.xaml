@@ -13,6 +13,7 @@
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzRadioButton/SgzRadioButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzNumericUpDown/SgzNumericUpDown.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzToolBar/SgzToolBar.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzProgressBar/SgzProgressBar.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

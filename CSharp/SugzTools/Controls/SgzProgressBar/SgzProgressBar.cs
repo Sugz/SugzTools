@@ -33,7 +33,7 @@ namespace SugzTools.Controls
         /// <summary>
         /// 
         /// </summary>
-        //[Description(""), Category(""), DefaultValue()]
+        //[Description(""), Category("")]
         // [Browsable(false)]
         public double InderterminateSize
         {

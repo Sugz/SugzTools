@@ -9,98 +9,94 @@
 
 
     <ControlTemplate x:Key="ProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
-        <Grid>
-            <Border x:Name="background"
-                    Background="{TemplateBinding Background}"
-                    Margin="1"
-                    ClipToBounds="True">
+        <Border x:Name="PART_Border" 
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Determinate" />
+                    <VisualState x:Name="Indeterminate">
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Animation" 
+                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Animation"
+                                                          Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" >
+                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
+                            </PointAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Border x:Name="PART_Background" 
+                    Background="{TemplateBinding Background}">
                 <Border.CornerRadius>
                     <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
-                        <Binding Path="CornerRadius" ElementName="border" />
-                        <Binding Path="BorderThickness" ElementName="border" />
+                        <Binding Path="CornerRadius" ElementName="PART_Border" />
+                        <Binding Path="BorderThickness" ElementName="PART_Border" />
                     </MultiBinding>
                 </Border.CornerRadius>
-                
-                <Border Background="{TemplateBinding Foreground}"
-                        HorizontalAlignment="Left"
-                        CornerRadius="{Binding CornerRadius, ElementName=background}">
-                    <Border.Width>
-                        <MultiBinding Converter="{StaticResource MultiplyPercentage}">
-                            <Binding Path="ActualWidth" ElementName="background" />
-                            <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
-                        </MultiBinding>
-                    </Border.Width>
-                </Border>
-            </Border>
-
-            <Border x:Name="border"
-                    Height="{TemplateBinding Height}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}" />
-        </Grid>
-    </ControlTemplate>
-
-    <Storyboard x:Key="IndeterminateStoryboard" RepeatBehavior="Forever">
-        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="animation"
-                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
-            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="500"/>
-        </DoubleAnimationUsingKeyFrames>
-    </Storyboard>
-    
-
-    <!--<ControlTemplate x:Key="IndeterminateProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
-        <Grid>
-            <Border x:Name="background"
-                    Background="{TemplateBinding Background}"
-                    Margin="1"
-                    ClipToBounds="True">
-                <Border.CornerRadius>
-                    <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
-                        <Binding Path="CornerRadius" ElementName="border" />
-                        <Binding Path="BorderThickness" ElementName="border" />
+                <Border.Clip>
+                    <MultiBinding Converter="{StaticResource BorderClip}">
+                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                        <Binding Path="CornerRadius" RelativeSource="{RelativeSource Self}" />
                     </MultiBinding>
-                </Border.CornerRadius>
-                
-                <Border x:Name="animation" 
+                </Border.Clip>
+
+                <!--animation-->
+                <Border x:Name="PART_Animation" 
                         Background="{TemplateBinding Foreground}"
-                        HorizontalAlignment="Left"
-                        CornerRadius="{Binding CornerRadius, ElementName=background}"
-                        Margin="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource NegativeWidthToLeftMargin}}">
-                    <Border.Width>
-                        <MultiBinding Converter="{StaticResource MultiplyPercentage}">
-                            <Binding Path="ActualWidth" ElementName="background" />
-                            <Binding Path="InderterminateSize" RelativeSource="{RelativeSource TemplatedParent}" />
-                        </MultiBinding>
-                    </Border.Width>
+                        
+                        CornerRadius="{Binding CornerRadius, ElementName=PART_Background}">
+                    <!--<Border.Width>
+                        
+                    </Border.Width>-->
                     <Border.RenderTransform>
                         <TransformGroup>
-                            <TranslateTransform />
+                            <ScaleTransform />
                         </TransformGroup>
                     </Border.RenderTransform>
-                    <Border.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{StaticResource IndeterminateStoryboard}" />
-                        </EventTrigger>
-                    </Border.Triggers>
                 </Border>
             </Border>
+        </Border>
 
-            <Border x:Name="border"
-                    Height="{TemplateBinding Height}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}" />
-        </Grid>
-    </ControlTemplate>-->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsIndeterminate" Value="False">
+                <Setter TargetName="PART_Animation" Property="HorizontalAlignment" Value="Left"/>
+                <Setter TargetName="PART_Animation" Property="Width">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource MultiplyPercentage}">
+                            <Binding Path="ActualWidth" ElementName="PART_Background" />
+                            <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsIndeterminate" Value="True">
+                <Setter TargetName="PART_Animation" Property="CornerRadius"
+                        Value="{Binding CornerRadius, ElementName=PART_Background, Converter={StaticResource CornerRadiusMultiplier}, ConverterParameter=4}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
-
+    
     <ControlTemplate x:Key="IndeterminateProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
         <Border x:Name="border" 
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-            <Border Background="{TemplateBinding Background}">
+            
+            <Border x:Name="background" 
+                    Background="{TemplateBinding Background}">
                 <Border.CornerRadius>
                     <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
                         <Binding Path="CornerRadius" ElementName="border" />
@@ -116,19 +112,11 @@
                 </Border.Clip>
                 
                 <!--animation-->
-                <Border x:Name="animation" 
-                        Background="{TemplateBinding Foreground}"
-                        Width="50"
-                        Margin="-60,0,0,0"
-                        HorizontalAlignment="Left">
-                    <Border.CornerRadius>
-                        <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
-                            <Binding Path="CornerRadius" ElementName="border" />
-                            <Binding Path="BorderThickness" ElementName="border" />
-                        </MultiBinding>
-                    </Border.CornerRadius>
+                <Border Background="{TemplateBinding Foreground}"
+                        CornerRadius="{Binding CornerRadius, ElementName=background, Converter={StaticResource CornerRadiusMultiplier}, ConverterParameter=4}">
                     <Border.RenderTransform>
                         <TransformGroup>
+                            <ScaleTransform />
                             <TranslateTransform />
                         </TransformGroup>
                     </Border.RenderTransform>
@@ -136,11 +124,16 @@
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard RepeatBehavior="Forever">
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="animation"
-                                                                   Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
-                                        <EasingDoubleKeyFrame KeyTime="0:0:2"
-                                                              Value="500" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                        <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
                                     </DoubleAnimationUsingKeyFrames>
+                                    <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" >
+                                        <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                        <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                        <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
+                                    </PointAnimationUsingKeyFrames>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -153,15 +146,15 @@
 
     <Style TargetType="{x:Type local:SgzProgressBar}" BasedOn="{StaticResource MaxControlStyle}">
         <Setter Property="Foreground" Value="{StaticResource MaxBlue}" />
-
-        <Style.Triggers>
+        <Setter Property="Template" Value="{StaticResource ProgressBarTemplate}"/>
+        <!--<Style.Triggers>
             <Trigger Property="IsIndeterminate" Value="False">
                 <Setter Property="Template" Value="{StaticResource ProgressBarTemplate}" />
             </Trigger>
             <Trigger Property="IsIndeterminate" Value="True">
                 <Setter Property="Template" Value="{StaticResource IndeterminateProgressBarTemplate}" />
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
 
         <Style.Resources>
             
@@ -173,12 +166,6 @@
     
     
     
-    <SolidColorBrush x:Key="ProgressBar.Progress"
-                     Color="#FF06B025" />
-    <SolidColorBrush x:Key="ProgressBar.Background"
-                     Color="#FFE6E6E6" />
-    <SolidColorBrush x:Key="ProgressBar.Border"
-                     Color="#FFBCBCBC" />
     <Style x:Key="ProgressBarStyle1"
            TargetType="{x:Type ProgressBar}">
         <Setter Property="Foreground"

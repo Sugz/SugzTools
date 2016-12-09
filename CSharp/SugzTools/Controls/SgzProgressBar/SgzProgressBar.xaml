@@ -7,6 +7,7 @@
         <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+
     <Style TargetType="{x:Type local:SgzProgressBar}" BasedOn="{StaticResource MaxControlStyle}">
         <Setter Property="Foreground" Value="{StaticResource MaxBlue}" />
         <Setter Property="Template">
@@ -20,8 +21,17 @@
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Determinate" />
                                 <VisualState x:Name="Indeterminate">
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Animation"
+                                                                      Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" >
+                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
+                                        </PointAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Cylon">
                                     <Storyboard RepeatBehavior="Forever" AutoReverse="True">
                                         <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Animation"
                                                                       Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" >
@@ -89,9 +99,15 @@
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="0.25" />
                                     </TransformGroup>
-
                                 </Setter.Value>
                             </Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsCylon" Value="True">
+                            <Setter Property="IsIndeterminate" Value="True" />
+                            <Setter Property="IndeterminateAutoReverse" Value="True" />
+                            <Setter TargetName="PART_Animation" Property="Background"
+                                    Value="{Binding CylonBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -99,6 +115,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
     </Style>
 
 

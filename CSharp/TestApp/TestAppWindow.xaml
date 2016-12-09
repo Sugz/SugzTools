@@ -114,7 +114,7 @@
                                              Margin="5,0"
                                              Height="10"
                                              Value="92"
-                                             IsIndeterminate="True" />
+                                             IsIndeterminate="True"/>
 
                     
                 </Controls:SgzGrid>

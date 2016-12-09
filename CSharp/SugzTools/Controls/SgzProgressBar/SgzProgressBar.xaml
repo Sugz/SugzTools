@@ -47,8 +47,9 @@
             <EasingDoubleKeyFrame KeyTime="0:0:2" Value="500"/>
         </DoubleAnimationUsingKeyFrames>
     </Storyboard>
+    
 
-    <ControlTemplate x:Key="IndeterminateProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
+    <!--<ControlTemplate x:Key="IndeterminateProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
         <Grid>
             <Border x:Name="background"
                     Background="{TemplateBinding Background}"
@@ -91,8 +92,64 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}" />
         </Grid>
-    </ControlTemplate>
+    </ControlTemplate>-->
 
+
+    <ControlTemplate x:Key="IndeterminateProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
+        <Border x:Name="border" 
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+            <Border Background="{TemplateBinding Background}">
+                <Border.CornerRadius>
+                    <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
+                        <Binding Path="CornerRadius" ElementName="border" />
+                        <Binding Path="BorderThickness" ElementName="border" />
+                    </MultiBinding>
+                </Border.CornerRadius>
+                <Border.Clip>
+                    <MultiBinding Converter="{StaticResource BorderClip}">
+                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                        <Binding Path="CornerRadius" RelativeSource="{RelativeSource Self}" />
+                    </MultiBinding>
+                </Border.Clip>
+                
+                <!--animation-->
+                <Border x:Name="animation" 
+                        Background="{TemplateBinding Foreground}"
+                        Width="50"
+                        Margin="-60,0,0,0"
+                        HorizontalAlignment="Left">
+                    <Border.CornerRadius>
+                        <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
+                            <Binding Path="CornerRadius" ElementName="border" />
+                            <Binding Path="BorderThickness" ElementName="border" />
+                        </MultiBinding>
+                    </Border.CornerRadius>
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="animation"
+                                                                   Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+                                        <EasingDoubleKeyFrame KeyTime="0:0:2"
+                                                              Value="500" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                </Border>
+            </Border>
+        </Border>
+
+    </ControlTemplate>
 
     <Style TargetType="{x:Type local:SgzProgressBar}" BasedOn="{StaticResource MaxControlStyle}">
         <Setter Property="Foreground" Value="{StaticResource MaxBlue}" />

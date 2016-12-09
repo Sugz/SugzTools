@@ -7,261 +7,100 @@
         <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-
-    <ControlTemplate x:Key="ProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
-        <Border x:Name="PART_Border" 
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Determinate" />
-                    <VisualState x:Name="Indeterminate">
-                        <Storyboard RepeatBehavior="Forever">
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Animation" 
-                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
-                            </DoubleAnimationUsingKeyFrames>
-                            <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Animation"
-                                                          Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" >
-                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
-                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
-                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
-                            </PointAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-
-            <Border x:Name="PART_Background" 
-                    Background="{TemplateBinding Background}">
-                <Border.CornerRadius>
-                    <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
-                        <Binding Path="CornerRadius" ElementName="PART_Border" />
-                        <Binding Path="BorderThickness" ElementName="PART_Border" />
-                    </MultiBinding>
-                </Border.CornerRadius>
-                <Border.Clip>
-                    <MultiBinding Converter="{StaticResource BorderClip}">
-                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
-                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
-                        <Binding Path="CornerRadius" RelativeSource="{RelativeSource Self}" />
-                    </MultiBinding>
-                </Border.Clip>
-
-                <!--animation-->
-                <Border x:Name="PART_Animation" 
-                        Background="{TemplateBinding Foreground}"
-                        
-                        CornerRadius="{Binding CornerRadius, ElementName=PART_Background}">
-                    <!--<Border.Width>
-                        
-                    </Border.Width>-->
-                    <Border.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform />
-                        </TransformGroup>
-                    </Border.RenderTransform>
-                </Border>
-            </Border>
-        </Border>
-
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsIndeterminate" Value="False">
-                <Setter TargetName="PART_Animation" Property="HorizontalAlignment" Value="Left"/>
-                <Setter TargetName="PART_Animation" Property="Width">
-                    <Setter.Value>
-                        <MultiBinding Converter="{StaticResource MultiplyPercentage}">
-                            <Binding Path="ActualWidth" ElementName="PART_Background" />
-                            <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger Property="IsIndeterminate" Value="True">
-                <Setter TargetName="PART_Animation" Property="CornerRadius"
-                        Value="{Binding CornerRadius, ElementName=PART_Background, Converter={StaticResource CornerRadiusMultiplier}, ConverterParameter=4}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    
-    <ControlTemplate x:Key="IndeterminateProgressBarTemplate" TargetType="{x:Type local:SgzProgressBar}">
-        <Border x:Name="border" 
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-            
-            <Border x:Name="background" 
-                    Background="{TemplateBinding Background}">
-                <Border.CornerRadius>
-                    <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
-                        <Binding Path="CornerRadius" ElementName="border" />
-                        <Binding Path="BorderThickness" ElementName="border" />
-                    </MultiBinding>
-                </Border.CornerRadius>
-                <Border.Clip>
-                    <MultiBinding Converter="{StaticResource BorderClip}">
-                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
-                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
-                        <Binding Path="CornerRadius" RelativeSource="{RelativeSource Self}" />
-                    </MultiBinding>
-                </Border.Clip>
-                
-                <!--animation-->
-                <Border Background="{TemplateBinding Foreground}"
-                        CornerRadius="{Binding CornerRadius, ElementName=background, Converter={StaticResource CornerRadiusMultiplier}, ConverterParameter=4}">
-                    <Border.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform />
-                            <TranslateTransform />
-                        </TransformGroup>
-                    </Border.RenderTransform>
-                    <Border.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard>
-                                <Storyboard RepeatBehavior="Forever">
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
-                                        <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
-                                        <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
-                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
-                                    </DoubleAnimationUsingKeyFrames>
-                                    <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" >
-                                        <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
-                                        <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
-                                        <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
-                                    </PointAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Border.Triggers>
-                </Border>
-            </Border>
-        </Border>
-
-    </ControlTemplate>
-
     <Style TargetType="{x:Type local:SgzProgressBar}" BasedOn="{StaticResource MaxControlStyle}">
         <Setter Property="Foreground" Value="{StaticResource MaxBlue}" />
-        <Setter Property="Template" Value="{StaticResource ProgressBarTemplate}"/>
-        <!--<Style.Triggers>
-            <Trigger Property="IsIndeterminate" Value="False">
-                <Setter Property="Template" Value="{StaticResource ProgressBarTemplate}" />
-            </Trigger>
-            <Trigger Property="IsIndeterminate" Value="True">
-                <Setter Property="Template" Value="{StaticResource IndeterminateProgressBarTemplate}" />
-            </Trigger>
-        </Style.Triggers>-->
-
-        <Style.Resources>
-            
-        </Style.Resources>
-        
-    </Style>
-
-    
-    
-    
-    
-    <Style x:Key="ProgressBarStyle1"
-           TargetType="{x:Type ProgressBar}">
-        <Setter Property="Foreground"
-                Value="{StaticResource ProgressBar.Progress}" />
-        <Setter Property="Background"
-                Value="{StaticResource ProgressBar.Background}" />
-        <Setter Property="BorderBrush"
-                Value="{StaticResource ProgressBar.Border}" />
-        <Setter Property="BorderThickness"
-                Value="1" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ProgressBar}">
-                    <Grid x:Name="TemplateRoot">
+                <ControlTemplate TargetType="{x:Type local:SgzProgressBar}">
+                    
+                    <Border x:Name="PART_Border" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Determinate" />
                                 <VisualState x:Name="Indeterminate">
-                                    <Storyboard RepeatBehavior="Forever">
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
-                                                                       Storyboard.TargetName="Animation">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="0.25" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:1"
-                                                                  Value="0.25" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:2"
-                                                                  Value="0.25" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)"
-                                                                      Storyboard.TargetName="Animation">
-                                            <EasingPointKeyFrame KeyTime="0"
-                                                                 Value="-0.5,0.5" />
-                                            <EasingPointKeyFrame KeyTime="0:0:1"
-                                                                 Value="0.5,0.5" />
-                                            <EasingPointKeyFrame KeyTime="0:0:2"
-                                                                 Value="1.5,0.5" />
+                                    <Storyboard RepeatBehavior="Forever" AutoReverse="True">
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Animation"
+                                                                      Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" >
+                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
                                         </PointAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
-                                CornerRadius="5" />
-                        <Rectangle x:Name="PART_Track"
-                                   RadiusX="5"
-                                   RadiusY="5" />
-                        <Grid x:Name="PART_Indicator"
-                              HorizontalAlignment="Left"
-                              Margin="1">
-                            <Rectangle x:Name="Indicator"
-                                       Fill="{TemplateBinding Foreground}"
-                                       Margin="1"
-                                       RadiusX="4"
-                                       RadiusY="4" />
-                            <Border CornerRadius="4"
-                                    ClipToBounds="True">
-                                <Rectangle x:Name="Animation"
-                                           Fill="{TemplateBinding Foreground}"
-                                           RenderTransformOrigin="0.5,0.5"
-                                           RadiusX="16"
-                                           RadiusY="16">
-                                    <Rectangle.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform />
-                                            <SkewTransform />
-                                            <RotateTransform />
-                                            <TranslateTransform />
-                                        </TransformGroup>
-                                    </Rectangle.RenderTransform>
-                                </Rectangle>
+
+                        <Border x:Name="PART_Background" 
+                                Background="{TemplateBinding Background}">
+                            <Border.CornerRadius>
+                                <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
+                                    <Binding Path="CornerRadius" ElementName="PART_Border" />
+                                    <Binding Path="BorderThickness" ElementName="PART_Border" />
+                                </MultiBinding>
+                            </Border.CornerRadius>
+                            <Border.Clip>
+                                <MultiBinding Converter="{StaticResource BorderClip}">
+                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                    <Binding Path="CornerRadius" RelativeSource="{RelativeSource Self}" />
+                                </MultiBinding>
+                            </Border.Clip>
+
+                            <!--animation-->
+                            <Border x:Name="PART_Animation"
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="{Binding CornerRadius, ElementName=PART_Background}">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                    </TransformGroup>
+                                </Border.RenderTransform>
                             </Border>
-                        </Grid>
-                    </Grid>
+                            
+                        </Border>
+                    </Border>
+
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Orientation"
-                                 Value="Vertical">
-                            <Setter Property="LayoutTransform"
-                                    TargetName="TemplateRoot">
+                        <!--Determinate-->
+                        <Trigger Property="IsIndeterminate" Value="False">
+                            <Setter TargetName="PART_Animation" Property="HorizontalAlignment" Value="Left"/>
+                            <Setter TargetName="PART_Animation" Property="Width">
                                 <Setter.Value>
-                                    <RotateTransform Angle="-90" />
+                                    <MultiBinding Converter="{StaticResource MultiplyPercentage}">
+                                        <Binding Path="ActualWidth" ElementName="PART_Background" />
+                                        <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="IsIndeterminate"
-                                 Value="true">
-                            <Setter Property="Visibility"
-                                    TargetName="Indicator"
-                                    Value="Collapsed" />
+
+                        <!--Indeterminate-->
+                        <Trigger Property="IsIndeterminate" Value="True">
+                            <Setter TargetName="PART_Animation" Property="CornerRadius"
+                                    Value="{Binding CornerRadius, ElementName=PART_Background, Converter={StaticResource CornerRadiusMultiplier}, ConverterParameter=4}"/>
+                            <Setter TargetName="PART_Animation" Property="Background"
+                                    Value="{Binding IndeterminateBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Animation" Property="RenderTransform">
+                                <Setter.Value>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="0.25" />
+                                    </TransformGroup>
+
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
+
                     </ControlTemplate.Triggers>
+        
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
 
 
 

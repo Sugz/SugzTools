@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace SugzTools.Controls
@@ -31,23 +32,44 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// 
+        /// Get or set the Indeterminate brush
         /// </summary>
-        //[Description(""), Category("")]
-        // [Browsable(false)]
-        public double InderterminateSize
+        [Description("Get or set the Indeterminate brush"), Category("Brush")]
+        public Brush IndeterminateBrush
         {
-            get { return (int)GetValue(InderterminateSizeProperty); }
-            set { SetValue(InderterminateSizeProperty, value); }
+            get { return (Brush)GetValue(IndeterminateBrushProperty); }
+            set { SetValue(IndeterminateBrushProperty, value); }
         }
 
-        // DependencyProperty as the backing store for InderterminateSize
-        public static readonly DependencyProperty InderterminateSizeProperty = DependencyProperty.Register(
-            "InderterminateSize",
-            typeof(double),
+        // DependencyProperty as the backing store for IndeterminateBrush
+        public static readonly DependencyProperty IndeterminateBrushProperty = DependencyProperty.Register(
+            "IndeterminateBrush",
+            typeof(Brush),
             typeof(SgzProgressBar),
-            new PropertyMetadata(20d)
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlue"))
         );
+
+
+        /*TODO: FIND A WAY TO IMPLEMENT :(:(:(:(
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Appearance")]
+        public bool IndeterminateAutoReverse
+        {
+            get { return (bool)GetValue(IndeterminateAutoReverseProperty); }
+            set { SetValue(IndeterminateAutoReverseProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for IndeterminateAutoReverse
+        public static readonly DependencyProperty IndeterminateAutoReverseProperty = DependencyProperty.Register(
+            "IndeterminateAutoReverse",
+            typeof(bool),
+            typeof(SgzProgressBar),
+            new PropertyMetadata(false)
+        );
+        */
+
 
 
 

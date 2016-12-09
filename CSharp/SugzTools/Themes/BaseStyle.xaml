@@ -10,6 +10,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!--Converters-->
+    <c:BorderClipConverter x:Key="BorderClip" />
     <c:CornerRadiusLessThicknessConverter x:Key="CornerRadiusLessThickness" />
     <c:InvertableBooleanToVisibilityConverter x:Key="BoolToVisibility" />
     <c:LesserThanConverter x:Key="LesserThan" />

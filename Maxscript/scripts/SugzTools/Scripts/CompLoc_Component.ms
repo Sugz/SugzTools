@@ -483,7 +483,8 @@ struct CompLocComponentStc
 		folder = getSavePath caption:"Choose a folder to save the Hotspots.csv" initialDir:maxFilePath
 		if folder != udnefined then 
 		(
-			file = (folder + @"\AS365_Hotspots.csv")
+
+			file = (folder + "\\" + (getFilenameFile maxFileName) + ".csv")
 			excel = CreateOLEObject "Excel.Application"
 			excel.application.Workbooks.Add
 			excel.ActiveSheet.Name = "Hotspots"
@@ -492,7 +493,8 @@ struct CompLocComponentStc
 			(excel.application.Range("B1")).value = "Hotspot position"
 
 			i = 2
-			for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == "Hotspots" do 
+			cams = _sgz._extMxs.SortObjects(for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == "Hotspots" collect cam)
+			for cam in cams do 
 			(
 				(excel.application.Range("A" + i as string)).value = cam.name
 				(excel.application.Range("B" + i as string)).value = GetHotspotPos cam 
@@ -599,7 +601,7 @@ struct CompLocComponentStc
 		label hotspotLbl "Hotspot :" pos:[506,5]
 		button getHotspotCsvFileBtn "..." width:25 height:15 align:#right offset:[7,-18] tooltip:"Set the hotspot file" 
 		dropdownlist hotspotDdl width:170 align:#right offset:[-63,-1]
-		spinner fovSpn width:60 range:[10,80,40] type:#integer align:#right offset:[7,-25] 
+		spinner fovSpn width:60 range:[10,110,40] type:#integer align:#right offset:[7,-25] 
 		
 		label hiddenLbl "Hidden Objects :" align:#right offset:[-151,10] 
 		checkbox hiddenChk checked:true width:15 align:#right offset:[7,-19] 
@@ -797,7 +799,7 @@ struct CompLocComponentStc
 		(
 			InitListViews()
 			if _cl.hotspotHT.count == 0 then _cl.SetHotspotHT()
-			hotspotDdl.items = for item in _cl.hotspotHT collect item[1]
+			hotspotDdl.items = _sgz._extMxs.SortStrings(for item in _cl.hotspotHT collect item[1])
 			FillSceneComponentsList()
 			SetRelatives()
 		)
@@ -974,7 +976,7 @@ struct CompLocComponentStc
 		on getHotspotCsvFileBtn pressed do 
 		(
 			_cl.SetHotspotHT()
-			hotspotDdl.items = for item in _cl.hotspotHT collect item[1]
+			hotspotDdl.items = _sgz._extMxs.SortStrings(for item in _cl.hotspotHT collect item[1])
 		)
 		
 		

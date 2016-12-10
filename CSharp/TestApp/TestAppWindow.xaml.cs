@@ -52,7 +52,8 @@ namespace TestApp
 
         private void SgzButton_Click(object sender, RoutedEventArgs e)
         {
-
+            progressbar.IndeterminateAutoReverse = !progressbar.IndeterminateAutoReverse; //NO
+            //progressbar.IsCylon = !progressbar.IsCylon;
         }
 
     }

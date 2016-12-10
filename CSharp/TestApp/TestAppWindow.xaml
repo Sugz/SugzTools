@@ -110,15 +110,12 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Controls:SgzGrid.RowDefinitions>
-                    <Controls:SgzProgressBar Margin="5,0"
+                    <Controls:SgzProgressBar x:Name="progressbar"
+                                             Margin="5,0"
                                              Height="6"
                                              Value="33"
                                              CornerRadius="3"
-                                             BorderThickness="1"
-                                             IsIndeterminate="True"
-                                             IndeterminateBrush="Red" />
-
-                    
+                                             IsIndeterminate="True" />
                 </Controls:SgzGrid>
             </Controls:SgzExpander>
             <Controls:SgzExpander />

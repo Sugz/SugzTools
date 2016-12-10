@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 namespace SugzTools.Controls
 {
     [TemplatePart(Name = "PART_Border", Type = typeof(Border))]
+    [TemplatePart(Name = "PART_Animation", Type = typeof(Border))]
     public class SgzProgressBar : ProgressBar
     {
 
@@ -20,8 +21,8 @@ namespace SugzTools.Controls
 
 
         Border PART_Border;                             // The main border where is define the VisualStateGroup
-        //private bool _IndeterminateAutoReverse;         // 
-        //private bool _CylonMode;
+        Border PART_Animation;                          // The border used for the indeterminate animation or tracking the value
+
 
         #endregion Fields
 
@@ -62,25 +63,6 @@ namespace SugzTools.Controls
             set { SetValue(IndeterminateAutoReverseProperty, value); }
         }
 
-        //public bool IndeterminateAutoReverse
-        //{
-        //    get { return _IndeterminateAutoReverse; }
-        //    set
-        //    {
-        //        _IndeterminateAutoReverse = value;
-        //        if (IsIndeterminate && PART_Border != null)
-        //        {
-        //            if (value)
-        //                VisualStateManager.GoToElementState(PART_Border, "Cylon", true);
-        //            else
-        //                VisualStateManager.GoToElementState(PART_Border, "Indeterminate", true);
-        //        }
-        //    }
-        //}
-
-
-
-
 
         /// <summary>
         /// The brush use for the Cylon Mode
@@ -93,7 +75,6 @@ namespace SugzTools.Controls
         }
 
 
-
         /// <summary>
         /// Get or set the Cylon Mode. If true, switch to Indeterminate, IndeterminateBrush become red and IndeterminateAutoReverse is true, false switch everything back to normal
         /// </summary>
@@ -103,8 +84,6 @@ namespace SugzTools.Controls
             get { return (bool)GetValue(IsCylonProperty); }
             set { SetValue(IsCylonProperty, value); }
         }
-
-
 
 
         #endregion Properties
@@ -146,15 +125,8 @@ namespace SugzTools.Controls
             "IsCylon",
             typeof(bool),
             typeof(SgzProgressBar),
-            new PropertyMetadata(false)//, OnIsCylonChanged)
+            new PropertyMetadata(false)
         );
-
-        private static void OnIsCylonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //SgzProgressBar control = d as SgzProgressBar;
-            //if ((bool)e.NewValue)
-            //    control.IndeterminateAutoReverse = true;
-        }
 
 
         // DependencyProperty as the backing store for IndeterminateAutoReverse
@@ -162,20 +134,8 @@ namespace SugzTools.Controls
             "IndeterminateAutoReverse",
             typeof(bool),
             typeof(SgzProgressBar),
-            new PropertyMetadata(false, OnIndeterminateAutoReverseChanged)
+            new FrameworkPropertyMetadata(false, (d, e) => ((SgzProgressBar)d).SetIndeterminateAutoReverse((bool)e.NewValue))//, OnIndeterminateAutoReverseChanged)
         );
-
-        private static void OnIndeterminateAutoReverseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SgzProgressBar control = d as SgzProgressBar;
-            if (control.IsIndeterminate && control.PART_Border != null)
-            {
-                if ((bool)e.NewValue)
-                    VisualStateManager.GoToElementState(control.PART_Border, "Cylon", true);
-                else
-                    VisualStateManager.GoToElementState(control.PART_Border, "Indeterminate", true);
-            }
-        }
 
 
         #endregion Dependency Properties
@@ -191,7 +151,7 @@ namespace SugzTools.Controls
         }
         public SgzProgressBar()
         {
-            
+            Loaded += (s, e) => SetIndeterminateAutoReverse(IndeterminateAutoReverse);
         }
 
 
@@ -210,16 +170,39 @@ namespace SugzTools.Controls
             base.OnApplyTemplate();
             Border border = GetTemplateChild("PART_Border") as Border;
             if (border != null)
-            {
                 PART_Border = border;
-                //if (IsCylon)
-                //    IndeterminateAutoReverse = true;
-            }
-                
+
+            border = GetTemplateChild("PART_Animation") as Border;
+            if (border != null)
+                PART_Animation = border;
         }
 
 
         #endregion Override
+
+
+        #region Private
+
+
+        private void SetIndeterminateAutoReverse(bool state)
+        {
+            // Make sure that the template has been apply
+            if (PART_Border != null && PART_Animation != null)
+            {
+                // If IsIndeterminate is false, then CurrentState is null
+                VisualStateGroup visualStateGroup = (VisualStateGroup)VisualStateManager.GetVisualStateGroups(PART_Border)[0];
+                if (visualStateGroup.CurrentState != null)
+                {
+                    Storyboard storyBoard = visualStateGroup.CurrentState.Storyboard;
+                    storyBoard.Stop();
+                    storyBoard.AutoReverse = state;
+                    storyBoard.Begin(PART_Animation);
+                }
+            }
+        }
+
+
+        #endregion Private
 
 
         #endregion Methods

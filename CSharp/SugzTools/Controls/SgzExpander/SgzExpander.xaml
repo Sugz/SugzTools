@@ -77,7 +77,7 @@
                               RenderTransformOrigin="0.5,0.5">
                         </Path>
 
-                        <ContentPresenter HorizontalAlignment="Left"
+                        <ContentPresenter HorizontalAlignment="Stretch"
                                           VerticalAlignment="Center"
                                           Margin="6,0,0,0"
                                           TextOptions.TextFormattingMode="Display" />

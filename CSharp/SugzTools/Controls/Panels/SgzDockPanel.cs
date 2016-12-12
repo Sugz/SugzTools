@@ -27,6 +27,7 @@ namespace SugzTools.Controls
         public SgzDockPanel()
         {
             InnerMargin = new Thickness(0, 0, 0, 7);
+            Loaded += SetChildrenMargin;
         }
 
 

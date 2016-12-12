@@ -613,15 +613,17 @@ struct CompLocComponentStc
 		label transparentLbl "Transparent Objects :" align:#right offset:[-125,12]
 		checkbox transparentChk checked:true width:15 align:#right offset:[7,-19] 
 		listbox transparentLbx width:240 height:3 align:#right offset:[7,-1]
-		button addTransparentBtn "Add Transparent" width:115 align:#right offset:[-118,-3] 
-		button removeTransparentBtn "Remove Transparent" width:115 align:#right offset:[7,-26] 
+		button addTransparentBtn "Add" width:76 align:#right offset:[-156,-3] 
+		button removeTransparentBtn "Remove" width:76 align:#right offset:[-75,-26] 
+		button clearTransparentBtn "Clear" width:77 align:#right offset:[7,-26] 
 		
 		label animatedLbl "Animated Objects :" align:#right offset:[-139,12]
 		listbox animatedLbx width:240 height:3 align:#right offset:[7,0]
-		button addAnimatedBtn "Add Animated" width:115 align:#right offset:[-118,-3] 
-		button removeAnimatedBtn "Remove Animated" width:115 align:#right offset:[7,-26] 
+		button addAnimatedBtn "Add" width:76 align:#right offset:[-156,-3] 
+		button removeAnimatedBtn "Remove" width:76 align:#right offset:[-75,-26] 
+		button clearAnimatedBtn "Clear" width:77 align:#right offset:[7,-26] 
 		
-		
+
 		/* Functions ############################################################################################*/
 			
 		/* Initialize the look and feeel fo the listviews ***************************************************************************************************************************************************************/
@@ -951,10 +953,7 @@ struct CompLocComponentStc
 		
 		
 		/* Select the object shown in the list ############################################################################################*/
-		on selectComponentBtn pressed do
-		(
-			select (for item in sceneComponentsLbx.items collect (getNodeByName item))
-		)
+		on selectComponentBtn pressed do select (for item in sceneComponentsLbx.items collect (getNodeByName item))
 		
 		
 		
@@ -965,9 +964,12 @@ struct CompLocComponentStc
 		
 		/* Select the component when double clicked ***************************************************************************************************************************************************************/
 		on sceneComponentsLbx doubleClicked item do select (getNodeByName sceneComponentsLbx.selected)
-			
+		on hiddenLbx doubleClicked item do select (getNodeByName hiddenLbx.selected)
+		on transparentLbx doubleClicked item do select (getNodeByName transparentLbx.selected)
+		on animatedLbx doubleClicked item do select (getNodeByName animatedLbx.selected)
 		
 		
+
 		/* Switch to the camera view for the component ***************************************************************************************************************************************************************/
 		on sceneComponentsLbx rightClick item do viewport.setCamera (getNodeByName sceneComponentsLbx.selected).hotspot
 		
@@ -1032,7 +1034,6 @@ struct CompLocComponentStc
 				(
 					canAdd = true
 					for relative in component.hidden while canAdd do if relative.node == obj then canAdd = false
-					
 					if canAdd then 
 					(
 						append component.hidden (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
@@ -1060,8 +1061,21 @@ struct CompLocComponentStc
 				if hiddenLbx.selection == 0 and hiddenLbx.items.count >= 1 then hiddenLbx.selection = hiddenLbx.items.count
 			)
 		)
+
+
+
+		/* Clear hidden object  ***************************************************************************************************************************************************************/
+		on clearHiddenBtn pressed do
+		(
+			if _cl.sceneComponents.count != 0 then
+			(
+				component = getNodeByName sceneComponentsLbx.selected
+				component.hidden = #()
+				SetRelatives()
+			)
+		)
 		
-		
+
 		
 		/* Set the xray of transparent objects ***************************************************************************************************************************************************************/
 		on transparentChk changed state do 
@@ -1113,6 +1127,19 @@ struct CompLocComponentStc
 				if transparentLbx.selection == 0 and transparentLbx.items.count >= 1 then transparentLbx.selection = transparentLbx.items.count
 			)
 		)
+
+
+
+		/* Clear transparent objects  ***************************************************************************************************************************************************************/
+		on clearTransparentBtn pressed do
+		(
+			if _cl.sceneComponents.count != 0 then
+			(
+				component = getNodeByName sceneComponentsLbx.selected
+				component.transparent = #()
+				SetRelatives()
+			)
+		)
 		
 		
 		
@@ -1148,6 +1175,19 @@ struct CompLocComponentStc
 				
 				-- Set the listbox selected item
 				if animatedLbx.selection == 0 and animatedLbx.items.count >= 1 then animatedLbx.selection = animatedLbx.items.count
+			)
+		)
+
+
+
+		/* Clear animated objects  ***************************************************************************************************************************************************************/
+		on clearAnimatedBtn pressed do
+		(
+			if _cl.sceneComponents.count != 0 then
+			(
+				component = getNodeByName sceneComponentsLbx.selected
+				component.animated = #()
+				SetRelatives()
 			)
 		)
 		

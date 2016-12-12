@@ -116,7 +116,7 @@ struct WpfStruct
 		Further Infos:
 		</Function>*/
 		
-		if (classOf arg != dotNetObject) then arg = _wpf.Color arg
+		if (classOf arg != dotNetObject) then arg = this.Color arg
 		return (dotNetObject "System.Windows.Media.SolidColorBrush" arg)
 	),
 	
@@ -511,6 +511,7 @@ struct WpfStruct
 		hAlign: undefined
 		vAlign: undefined
 		margin: undefined 
+		innerMargin: undefined
 		lastChildFill: undefined = 
 	(
 		/*<Function>
@@ -530,6 +531,7 @@ struct WpfStruct
 		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
 		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _panel.Margin = Thickness margin
+		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
 		if lastChildFill != undefined then _panel.LastChildFill = lastChildFill
 		
 		_panel
@@ -568,7 +570,7 @@ struct WpfStruct
 		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
 		if margin != undefined then _panel.Margin = Thickness margin
 		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
-		if orientation != undefined then _panel.Orientation = GetOrientation orientation
+		if orientation != undefined then _panel.Orientation = this.Orientation orientation
 		
 		_panel
 	),
@@ -1061,6 +1063,60 @@ struct WpfStruct
 		dotNet.setLifetimeControl _control #dotnet
 	
 		_control
+	),
+
+
+
+	-- Return a SugzTools.Controls.SgzProgressBar ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn ProgressBar 
+		name: undefined
+		tag: undefined
+		value: undefined 
+		isIndeterminate: undefined
+		indeterminateAutoReverse: undefined
+		isCylon: undefined
+		width: undefined 
+		height: undefined
+		background: undefined 
+		foreground: undefined
+		indeterminateBrush: undefined
+		cylonBrush: undefined
+		borderBrush: undefined 
+		borderThickness: undefined
+		cornerRadius: undefined
+		hAlign: undefined
+		vAlign: undefined
+		margin: undefined 
+		valueChanged: undefined = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		_control = dotNetObject "SugzTools.Controls.SgzProgressBar"
+		if name != undefined then _control.Name = name
+		if tag != undefined then _control.Tag = tag
+		if value != undefined then _control.Value = value
+		if isIndeterminate != undefined then _control.IsIndeterminate = isIndeterminate
+		if indeterminateAutoReverse != undefined then _control.IndeterminateAutoReverse = indeterminateAutoReverse
+		if isCylon != undefined then _control.isCylon = isCylon
+		if width != undefined then _control.Width = width
+		if height  != undefined then _control.Height = height
+		if background != undefined then _control.Background = SolidColorBrush background
+		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
+		if indeterminateBrush != undefined then _control.IndeterminateBrush = SolidColorBrush indeterminateBrush
+		if cylonBrush != undefined then _control.CylonBrush = SolidColorBrush cylonBrush
+		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != undefined then _control.Margin = Thickness margin
+
+		_control
 	)
 	
 	
@@ -1071,3 +1127,4 @@ struct WpfStruct
 )
 
 _wpf = WpfStruct()
+

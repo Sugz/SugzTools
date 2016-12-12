@@ -606,8 +606,9 @@ struct CompLocComponentStc
 		label hiddenLbl "Hidden Objects :" align:#right offset:[-151,10] 
 		checkbox hiddenChk checked:true width:15 align:#right offset:[7,-19] 
 		listbox hiddenLbx width:240 height:8 align:#right offset:[7,-1]
-		button addHiddenBtn "Add Hidden" width:115 align:#right offset:[-118,-3] 
-		button removeHiddenBtn "Remove Hidden" width:115 align:#right offset:[7,-26] 
+		button addHiddenBtn "Add" width:76 align:#right offset:[-156,-3] 
+		button removeHiddenBtn "Remove" width:76 align:#right offset:[-75,-26] 
+		button clearHiddenBtn "Clear" width:77 align:#right offset:[7,-26] 
 		
 		label transparentLbl "Transparent Objects :" align:#right offset:[-125,12]
 		checkbox transparentChk checked:true width:15 align:#right offset:[7,-19] 
@@ -799,7 +800,7 @@ struct CompLocComponentStc
 		(
 			InitListViews()
 			if _cl.hotspotHT.count == 0 then _cl.SetHotspotHT()
-			hotspotDdl.items = _sgz._extMxs.SortStrings(for item in _cl.hotspotHT collect item[1])
+			hotspotDdl.items = for item in _cl.hotspotHT collect item[1]
 			FillSceneComponentsList()
 			SetRelatives()
 		)
@@ -976,7 +977,7 @@ struct CompLocComponentStc
 		on getHotspotCsvFileBtn pressed do 
 		(
 			_cl.SetHotspotHT()
-			hotspotDdl.items = _sgz._extMxs.SortStrings(for item in _cl.hotspotHT collect item[1])
+			hotspotDdl.items = for item in _cl.hotspotHT collect item[1]
 		)
 		
 		

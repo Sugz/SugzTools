@@ -103,22 +103,27 @@
                 </Controls:SgzStackPanel>
             </Controls:SgzExpander>
             <Controls:SgzExpander HasPopup="False"
-                                  IsGroupBox="True"
                                   IsExpanded="True">
+                <Controls:SgzExpander.Header>
+                    <DockPanel>
+                        <TextBlock Text="AutoSave"/>
+                        <Controls:SgzProgressBar x:Name="progressbar"
+                                                 Margin="5,0"
+                                                 Height="6"
+                                                 Value="33"
+                                                 CornerRadius="3" />
+                    </DockPanel>
+                    
+                </Controls:SgzExpander.Header>
                 <Controls:SgzGrid x:Name="grid">
                     <Controls:SgzGrid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Controls:SgzGrid.RowDefinitions>
-                    <Controls:SgzProgressBar x:Name="progressbar"
-                                             Margin="5,0"
-                                             Height="6"
-                                             Value="33"
-                                             CornerRadius="3"
-                                             IsIndeterminate="True" />
+                    
                 </Controls:SgzGrid>
             </Controls:SgzExpander>
-            <Controls:SgzExpander />
+            <Controls:SgzExpander  Header="test"/>
         </Controls:SgzStackPanel>
 
     </Grid>

@@ -111,7 +111,8 @@
                                                  Margin="5,0"
                                                  Height="6"
                                                  Value="33"
-                                                 CornerRadius="3" />
+                                                 CornerRadius="3"
+                                                 IsIndeterminate="True" />
                     </DockPanel>
                     
                 </Controls:SgzExpander.Header>

@@ -64,11 +64,7 @@ namespace SugzTools.Max
 
         public static void ToMxsArray(IEnumerable items)
         {
-            //string[] strs = new string[] { "test01", "test02", "test03", "test04" };
-
             string str = "arr = #()\n";
-            //for (int i = 0; i < strs.Length; i++)
-            //    str += $"append arr \"{strs[i]}\"\n";
             foreach(var item in items)
                 str += $"append arr \"{item}\"\n";
             str += "arr";

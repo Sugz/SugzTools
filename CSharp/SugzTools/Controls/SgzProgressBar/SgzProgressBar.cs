@@ -134,7 +134,7 @@ namespace SugzTools.Controls
             "IndeterminateAutoReverse",
             typeof(bool),
             typeof(SgzProgressBar),
-            new FrameworkPropertyMetadata(false, (d, e) => ((SgzProgressBar)d).SetIndeterminateAutoReverse((bool)e.NewValue))//, OnIndeterminateAutoReverseChanged)
+            new PropertyMetadata(false, (d, e) => (d as SgzProgressBar)?.SetIndeterminateAutoReverse())
         );
 
 
@@ -151,7 +151,7 @@ namespace SugzTools.Controls
         }
         public SgzProgressBar()
         {
-            Loaded += (s, e) => SetIndeterminateAutoReverse(IndeterminateAutoReverse);
+            Loaded += (s, e) => SetIndeterminateAutoReverse();
         }
 
 
@@ -184,7 +184,7 @@ namespace SugzTools.Controls
         #region Private
 
 
-        private void SetIndeterminateAutoReverse(bool state)
+        private void SetIndeterminateAutoReverse()
         {
             // Make sure that the template has been apply
             if (PART_Border != null && PART_Animation != null)
@@ -195,7 +195,7 @@ namespace SugzTools.Controls
                 {
                     Storyboard storyBoard = visualStateGroup.CurrentState.Storyboard;
                     storyBoard.Stop();
-                    storyBoard.AutoReverse = state;
+                    storyBoard.AutoReverse = IndeterminateAutoReverse;
                     storyBoard.Begin(PART_Animation);
                 }
             }

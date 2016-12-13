@@ -1059,6 +1059,16 @@ namespace SugzTools.Controls
         //TODO: get a callback when user change the unit to refresj the textbox text
 
 
+        public Action Range
+        {
+            get
+            {
+                float[] range = new float[] { (float)MinValue, (float)MaxValue, (float)Value };
+                return new Action { Kernel.ToMxsArray(range) };
+            }
+        }
+
+
         public SgzMaxNumericUpDown()
         {
             Decimals = Kernel.Global.SpinnerPrecision_;

@@ -12,8 +12,6 @@ namespace SugzTools.Controls
         #region Properties
 
 
-        
-
 
         /// <summary>
         /// Define the CornerRadius property
@@ -78,9 +76,20 @@ namespace SugzTools.Controls
         }
 
 
+        public void SetItems(object[] items)
+        {
+            Items.Clear();
+            Add(items);
+        }
         public void Add(object item)
         {
             Items.Add(item);
+        }
+
+        public void Add(object[] items)
+        {
+            foreach (object item in items)
+                Items.Add(item);
         }
 
         public void Add(object item, bool selectItem)

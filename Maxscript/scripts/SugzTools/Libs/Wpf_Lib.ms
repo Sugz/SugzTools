@@ -133,11 +133,32 @@ struct WpfStruct
 		</Function>*/
 		
 		local thickness = #()
-		if (not isKindOf arg array ) or (arg.count == 1) then thickness = #(arg, arg, arg, arg)
+		if not isKindOf arg array then thickness = #(arg, arg, arg, arg)
+		else if arg.count == 1 then thickness =#(arg[1], arg[1], arg[1], arg[1])
 		else if arg.count == 2 then thickness =#(arg[1], arg[2], arg[1], arg[2])
 		else thickness = arg
 		
 		return (dotnetObject "System.Windows.Thickness" thickness[1] thickness[2] thickness[3] thickness[4])
+	),
+
+
+
+	-- Return a System.Windows.CornerRadius ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn CornerRadius arg = 
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Further Infos:
+		</Function>*/
+		
+		local cornerRadius = #()
+		if not isKindOf arg array then cornerRadius = #(arg, arg, arg, arg)
+		else if arg.count == 1 then cornerRadius =#(arg[1], arg[1], arg[1], arg[1])
+		else cornerRadius = arg
+		
+		return (dotnetObject "System.Windows.CornerRadius" cornerRadius[1] cornerRadius[2] cornerRadius[3] cornerRadius[4])
 	),
 	
 	
@@ -573,6 +594,48 @@ struct WpfStruct
 		if orientation != undefined then _panel.Orientation = this.Orientation orientation
 		
 		_panel
+	),
+
+
+
+
+	-- Return a System.Windows.Controls.Border ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn Border 
+		name: undefined
+		tag: undefined
+		width: undefined 
+		height: undefined 
+		background: undefined
+		borderBrush: undefined 
+		borderThickness: undefined 
+		cornerRadius: undefined
+		hAlign: undefined
+		vAlign: undefined
+		margin: undefined 
+		child:undefined =
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		_control = dotNetObject "System.Windows.Controls.Border"
+		if name != undefined then _control.Name = name
+		if tag != undefined then _control.Tag = tag
+		if width != undefined then _control.Width = width
+		if height != undefined then _control.HeaderHeight = height
+		if background != undefined then _control.Background = SolidColorBrush background
+		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != undefined then _control.CornerRadius = this.CornerRadius cornerRadius
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != undefined then _control.Margin = Thickness margin
+		if child != undefined then _control.Child = child
+		
+		_control
 	),
 	
 	
@@ -1033,7 +1096,6 @@ struct WpfStruct
 		if minValue != undefined then _control.MinValue = minValue
 		if maxValue != undefined then _control.MaxValue = maxValue
 		if limits != undefined then _control.Limits = NumericUpDownLimits limits
-		if range != undefined then (_control.MinValue = range[1];  _control.MaxValue = range[2]; _control.Value = range[3])
 		if scale != undefined then _control.Scale = scale
 		if scaleAccelerator != undefined then _control.ScaleAccelerator = scaleAccelerator
 		if decimals != undefined then _control.Decimals = decimals
@@ -1117,12 +1179,56 @@ struct WpfStruct
 		if margin != undefined then _control.Margin = Thickness margin
 
 		_control
-	)
+	),
 	
 	
 	
 	-- Return a SugzTools.Controls.SgzComboBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+	fn ComboBox 
+		name: undefined
+		tag: undefined
+		items: undefined
+		selectedItem: undefined
+		width: undefined 
+		height: undefined
+		background: undefined 
+		foreground: undefined
+		borderBrush: undefined 
+		borderThickness: undefined
+		cornerRadius: undefined
+		hAlign: undefined
+		vAlign: undefined
+		margin: undefined 
+		selectionChanged: undefined = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		_control = dotNetObject "SugzTools.Controls.SgzComboBox"
+		if name != undefined then _control.Name = name
+		if tag != undefined then _control.Tag = tag
+		if items != undefined then _control.SetItems items
+		--if selectedItem != undefined then if _control.Items.Count != 0 AND selectedItem <= _control.Items.Count then _control.Items[selectedItem - 1].IsSelected = true
+		if width != undefined then _control.Width = width
+		if height  != undefined then _control.Height = height
+		if background != undefined then _control.Background = SolidColorBrush background
+		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
+		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
+		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != undefined then _control.Margin = Thickness margin
+
+		if selectionChanged != undefined then dotNet.addEventHandler _control "SelectionChanged" selectionChanged
+		dotNet.setLifetimeControl _control #dotnet
+
+		_control
+	)
 	
 )
 

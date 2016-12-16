@@ -1096,6 +1096,7 @@ struct WpfStruct
 		if minValue != undefined then _control.MinValue = minValue
 		if maxValue != undefined then _control.MaxValue = maxValue
 		if limits != undefined then _control.Limits = NumericUpDownLimits limits
+		if range != undefined then _control.Range range
 		if scale != undefined then _control.Scale = scale
 		if scaleAccelerator != undefined then _control.ScaleAccelerator = scaleAccelerator
 		if decimals != undefined then _control.Decimals = decimals

@@ -1,4 +1,5 @@
-﻿using SugzTools.Max;
+﻿using Autodesk.Max;
+using SugzTools.Max;
 using SugzTools.Src;
 using System;
 using System.Collections.Generic;
@@ -1059,14 +1060,39 @@ namespace SugzTools.Controls
         //TODO: get a callback when user change the unit to refresj the textbox text
 
 
-        public Action Range
+        #region Properties
+
+
+        //public Point3 Range
+        //{
+        //    get { return new Point3((float)MinValue, (float)MaxValue, (float)Value); }
+        //    set
+        //    {
+        //        MinValue = Convert.ToDouble(value[0]);
+        //        MaxValue = Convert.ToDouble(value[1]);
+        //        Value = Convert.ToDouble(value[2]);
+        //    }
+        //}
+
+
+        public object[] Range
         {
-            get
+            get { return new object[] { (float)MinValue, (float)MaxValue, (float)Value }; }
+            set
             {
-                float[] range = new float[] { (float)MinValue, (float)MaxValue, (float)Value };
-                return new Action { Kernel.ToMxsArray(range) };
+                MinValue = Convert.ToDouble(value[0]);
+                MaxValue = Convert.ToDouble(value[1]);
+                Value = Convert.ToDouble(value[2]);
             }
         }
+
+
+        #endregion Properties
+
+
+
+
+        #region Constructor
 
 
         public SgzMaxNumericUpDown()
@@ -1075,6 +1101,13 @@ namespace SugzTools.Controls
             GotFocus += (s, e) => ManagedServices.AppSDK.DisableAccelerators();
             LostFocus += (s, e) => ManagedServices.AppSDK.EnableAccelerators();
         }
+
+
+        #endregion Constructor
+
+
+
+        #region Methods
 
 
         protected override void SetTextboxText()
@@ -1104,6 +1137,17 @@ namespace SugzTools.Controls
             else
                 base.PART_Textbox_LostFocus(sender, e);
         }
+
+
+        //public void SetRange(float minValue, float maxValue, float value)
+        //{
+        //    MinValue = minValue;
+        //    MaxValue = maxValue;
+        //    Value = value;
+        //} 
+
+
+        #endregion Methods
 
     }
 }

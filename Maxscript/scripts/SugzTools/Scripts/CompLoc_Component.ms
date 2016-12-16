@@ -774,7 +774,7 @@ struct CompLocComponentStc
 				
 				-- Set hidden
 				hiddenLbx.items = for obj in component.hidden collect obj.node.name
-				(for obj in objects where obj.layer.name != "H135_covers" and obj.layer.name != "Hotspots" collect obj).isHidden = false
+				--(for obj in objects where obj.layer.name != "H135_covers" and obj.layer.name != "Hotspots" collect obj).isHidden = false
 				for obj in component.hidden do obj.node.isHidden = (hiddenChk.state)
 						
 				-- Set transparent 

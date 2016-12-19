@@ -17,7 +17,7 @@ namespace SugzTools.Max
         public Point3(IPoint3 pt) : this(pt.X, pt.Y, pt.Z) { }
         public Point3(float x, float y, float z) { X = x; Y = y; Z = z; }
 
-        public IPoint3 _IPoint3 { get { return Kernel.Global.Point3.Create(X, Y, Z); } }
+        public IPoint3 IPoint3 { get { return Kernel.Global.Point3.Create(X, Y, Z); } }
 
         // Allow array-like access to this class
         public float this[int i]

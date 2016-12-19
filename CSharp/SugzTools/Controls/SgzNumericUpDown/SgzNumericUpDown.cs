@@ -1,14 +1,10 @@
-﻿using Autodesk.Max;
-using SugzTools.Max;
+﻿using SugzTools.Max;
 using SugzTools.Src;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -1063,18 +1059,6 @@ namespace SugzTools.Controls
         #region Properties
 
 
-        //public Point3 Range
-        //{
-        //    get { return new Point3((float)MinValue, (float)MaxValue, (float)Value); }
-        //    set
-        //    {
-        //        MinValue = Convert.ToDouble(value[0]);
-        //        MaxValue = Convert.ToDouble(value[1]);
-        //        Value = Convert.ToDouble(value[2]);
-        //    }
-        //}
-
-
         public object[] Range
         {
             get { return new object[] { (float)MinValue, (float)MaxValue, (float)Value }; }
@@ -1088,7 +1072,6 @@ namespace SugzTools.Controls
 
 
         #endregion Properties
-
 
 
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
@@ -66,6 +68,18 @@ namespace SugzTools.Src
             if (bounds.Contains(e.GetPosition(s)))
                 return true;
             return false;
+        }
+
+
+        /// <summary>
+        /// Cast any IEnumerable to Object[]
+        /// </summary>
+        /// <param name="_items"></param>
+        /// <returns></returns>
+        public static object[] ToArray(IEnumerable _items)
+        {
+            object[] items = _items.Cast<object>().ToArray();
+            return items;
         }
 
     }

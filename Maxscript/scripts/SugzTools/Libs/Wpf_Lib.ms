@@ -415,14 +415,14 @@ struct WpfStruct
 	fn Window 
 		width: 200
 		height: 300 
-		title: undefined 
-		background: undefined
-		borderStyle: undefined 
-		location: undefined
-		content: undefined 
-		show: undefined 
-		load: undefined 
-		closed: undefined =
+		title:
+		background:
+		borderStyle:
+		location:
+		content:
+		show:
+		load:
+		closed: =
 	(
 		/*<Function>
 		Description:
@@ -436,14 +436,14 @@ struct WpfStruct
 		_wnd = dotNetObject "SugzTools.Controls.SgzMaxForm"
 		_wnd.Width = width
 		_wnd.Height = height 		
-		--if background != undefined then _wnd.Background = SolidColorBrush background
-		if title != undefined then _wnd.Text = title
-		if borderStyle != undefined then _wnd.FormBorderStyle = FormBorderStyle borderStyle
-		if location != undefined then _wnd.StartPosition  =  FormStartPosition location
-		if content != undefined then _wnd.Content = content
+		--if background != unsupplied then _wnd.Background = SolidColorBrush background
+		if title != unsupplied then _wnd.Text = title
+		if borderStyle != unsupplied then _wnd.FormBorderStyle = FormBorderStyle borderStyle
+		if location != unsupplied then _wnd.StartPosition  =  FormStartPosition location
+		if content != unsupplied then _wnd.Content = content
 		
-		if load != undefined then dotNet.addEventHandler _wnd "Load" load
-		if closed != undefined then dotNet.addEventHandler _wnd "Closed" closed
+		if load != unsupplied then dotNet.addEventHandler _wnd "Load" load
+		if closed != unsupplied then dotNet.addEventHandler _wnd "Closed" closed
 		dotNet.setLifetimeControl _wnd #dotnet
 		
 		_wnd
@@ -453,15 +453,15 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzGrid ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Grid 
-		name: undefined
-		tag: undefined
-		width: undefined 
-		height: undefined 
-		background: undefined 
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined
-		innerMargin: undefined =
+		name:
+		tag:
+		width:
+		height:
+		background:
+		hAlign:
+		vAlign:
+		margin:
+		innerMargin: =
 	(
 		/*<Function>
 		Description:
@@ -471,15 +471,15 @@ struct WpfStruct
 		</Function>*/
 		
 		_panel = dotNetObject "SugzTools.Controls.SgzGrid"
-		if name != undefined then _panel.Name = name
-		if tag != undefined then _panel.Tag = tag
-		if width != undefined then _panel.Width = width
-		if height  != undefined then _panel.Height = height
-		if background != undefined then _panel.background = SolidColorBrush background
-		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _panel.Margin = Thickness margin
-		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
+		if name != unsupplied then _panel.Name = name
+		if tag != unsupplied then _panel.Tag = tag
+		if width != unsupplied then _panel.Width = width
+		if height  != unsupplied then _panel.Height = height
+		if background != unsupplied then _panel.background = SolidColorBrush background
+		if hAlign != unsupplied then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _panel.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _panel.Margin = Thickness margin
+		if innerMargin != unsupplied then _panel.InnerMargin = Thickness innerMargin
 		
 		_panel
 	),
@@ -488,17 +488,17 @@ struct WpfStruct
 
 	-- Return a SugzTools.Controls.SgzGrid ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn UniformGrid 
-		name: undefined
-		tag: undefined
-		rows: undefined
-		columns: undefined
-		width: undefined 
-		height: undefined 
-		background: undefined 
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		innerMargin: undefined =
+		name:
+		tag:
+		rows:
+		columns:
+		width: 
+		height: 
+		background: 
+		hAlign:
+		vAlign:
+		margin: 
+		innerMargin: =
 	(
 		/*<Function>
 		Description:
@@ -508,17 +508,17 @@ struct WpfStruct
 		</Function>*/
 		
 		_panel = dotNetObject "SugzTools.Controls.SgzUniformGrid"
-		if name != undefined then _panel.Name = name
-		if tag != undefined then _panel.Tag = tag
-		if rows != undefined then _panel.Rows = rows
-		if columns != undefined then _panel.Columns = columns
-		if width != undefined then _panel.Width = width
-		if height  != undefined then _panel.Height = height
-		if background != undefined then _panel.background = SolidColorBrush background
-		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _panel.Margin = Thickness margin
-		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
+		if name != unsupplied then _panel.Name = name
+		if tag != unsupplied then _panel.Tag = tag
+		if rows != unsupplied then _panel.Rows = rows
+		if columns != unsupplied then _panel.Columns = columns
+		if width != unsupplied then _panel.Width = width
+		if height  != unsupplied then _panel.Height = height
+		if background != unsupplied then _panel.background = SolidColorBrush background
+		if hAlign != unsupplied then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _panel.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _panel.Margin = Thickness margin
+		if innerMargin != unsupplied then _panel.InnerMargin = Thickness innerMargin
 		
 		_panel
 	),
@@ -527,16 +527,16 @@ struct WpfStruct
 	
 	-- Return a System.Windows.Controls.DockPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn DockPanel
-		name: undefined
-		tag: undefined
-		width: undefined 
-		height: undefined 
-		background: undefined 
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		innerMargin: undefined
-		lastChildFill: undefined = 
+		name:
+		tag:
+		width: 
+		height: 
+		background: 
+		hAlign:
+		vAlign:
+		margin: 
+		innerMargin:
+		lastChildFill: = 
 	(
 		/*<Function>
 		Description:
@@ -547,16 +547,16 @@ struct WpfStruct
 		</Function>*/
 		
 		_panel = dotNetObject "SugzTools.Controls.SgzDockPanel"
-		if name != undefined then _panel.Name = name
-		if tag != undefined then _panel.Tag = tag
-		if width != undefined then _panel.Width = width
-		if height  != undefined then _panel.Height = height
-		if background != undefined then _panel.background = SolidColorBrush background
-		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _panel.Margin = Thickness margin
-		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
-		if lastChildFill != undefined then _panel.LastChildFill = lastChildFill
+		if name != unsupplied then _panel.Name = name
+		if tag != unsupplied then _panel.Tag = tag
+		if width != unsupplied then _panel.Width = width
+		if height  != unsupplied then _panel.Height = height
+		if background != unsupplied then _panel.background = SolidColorBrush background
+		if hAlign != unsupplied then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _panel.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _panel.Margin = Thickness margin
+		if innerMargin != unsupplied then _panel.InnerMargin = Thickness innerMargin
+		if lastChildFill != unsupplied then _panel.LastChildFill = lastChildFill
 		
 		_panel
 	),
@@ -565,16 +565,16 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzStackPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn StackPanel
-		name: undefined
-		tag: undefined
-		width: undefined 
-		height: undefined 
-		background: undefined 
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		innerMargin: undefined
-		orientation: undefined = 
+		name:
+		tag:
+		width: 
+		height: 
+		background: 
+		hAlign:
+		vAlign:
+		margin: 
+		innerMargin:
+		orientation: = 
 	(
 		/*<Function>
 		Description:
@@ -585,16 +585,16 @@ struct WpfStruct
 		</Function>*/
 		
 		_panel = dotNetObject "SugzTools.Controls.SgzStackPanel"
-		if name != undefined then _panel.Name = name
-		if tag != undefined then _panel.Tag = tag
-		if width != undefined then _panel.width = width
-		if height  != undefined then _panel.height = height
-		if background != undefined then _panel.background = SolidColorBrush background
-		if hAlign != undefined then _panel.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _panel.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _panel.Margin = Thickness margin
-		if innerMargin != undefined then _panel.InnerMargin = Thickness innerMargin
-		if orientation != undefined then _panel.Orientation = this.Orientation orientation
+		if name != unsupplied then _panel.Name = name
+		if tag != unsupplied then _panel.Tag = tag
+		if width != unsupplied then _panel.width = width
+		if height  != unsupplied then _panel.height = height
+		if background != unsupplied then _panel.background = SolidColorBrush background
+		if hAlign != unsupplied then _panel.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _panel.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _panel.Margin = Thickness margin
+		if innerMargin != unsupplied then _panel.InnerMargin = Thickness innerMargin
+		if orientation != unsupplied then _panel.Orientation = this.Orientation orientation
 		
 		_panel
 	),
@@ -604,18 +604,18 @@ struct WpfStruct
 
 	-- Return a System.Windows.Controls.Border ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Border 
-		name: undefined
-		tag: undefined
-		width: undefined 
-		height: undefined 
-		background: undefined
-		borderBrush: undefined 
-		borderThickness: undefined 
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		child:undefined =
+		name:
+		tag:
+		width: 
+		height: 
+		background:
+		borderBrush: 
+		borderThickness: 
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin: 
+		child: =
 	(
 	   /*<Function>
 		Description:
@@ -625,18 +625,18 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "System.Windows.Controls.Border"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if width != undefined then _control.Width = width
-		if height != undefined then _control.HeaderHeight = height
-		if background != undefined then _control.Background = SolidColorBrush background
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = this.CornerRadius cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
-		if child != undefined then _control.Child = child
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if width != unsupplied then _control.Width = width
+		if height != unsupplied then _control.HeaderHeight = height
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = this.CornerRadius cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
+		if child != unsupplied then _control.Child = child
 		
 		_control
 	),
@@ -645,16 +645,16 @@ struct WpfStruct
 	
 	-- Return a System.Windows.Controls.TextBlock ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn TextBlock
-		name: undefined
-		tag: undefined
-		text:undefined
-		width: undefined 
-		height: undefined 
-		background: undefined
+		name:
+		tag:
+		text:
+		width: 
+		height: 
+		background:
 		foreground: #MaxText
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined =
+		hAlign:
+		vAlign:
+		margin: =
 	(
 		/*<Function>
 		Description:
@@ -664,16 +664,16 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "System.Windows.Controls.TextBlock"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if text != undefined then _control.Text = text
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if background != undefined then _control.Background = SolidColorBrush background
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if text != unsupplied then _control.Text = text
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if background != unsupplied then _control.Background = SolidColorBrush background
 		_control.Foreground = SolidColorBrush foreground
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 			
 		_control
 	),
@@ -682,42 +682,42 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzExpander ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Expander
-		name: undefined
-		tag: undefined
-		header: undefined
-		isGroupBox: undefined
-		isExpanded: undefined
-		width: undefined
-		height: undefined
-		background: undefined
-		foreground: undefined
-		headerBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined 
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		content: undefined = 
+		name:
+		tag:
+		header:
+		isGroupBox:
+		isExpanded:
+		width:
+		height:
+		background:
+		foreground:
+		headerBrush:
+		borderBrush: 
+		borderThickness: 
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin: 
+		content: = 
 	(
 		_control = dotNetObject "SugzTools.Controls.SgzExpander"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if header != undefined then _control.Header = header
-		if isGroupBox != undefined then _control.IsGroupBox = isGroupBox
-		if isExpanded != undefined then _control.IsExpanded = isExpanded
-		if width != undefined then _control.Width = width
-		if height != undefined then _control.HeaderHeight = height
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if headerBrush != undefined then _control.HeaderBrush = SolidColorBrush headerBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
-		if content != undefined then _control.Content = content
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if header != unsupplied then _control.Header = header
+		if isGroupBox != unsupplied then _control.IsGroupBox = isGroupBox
+		if isExpanded != unsupplied then _control.IsExpanded = isExpanded
+		if width != unsupplied then _control.Width = width
+		if height != unsupplied then _control.HeaderHeight = height
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if headerBrush != unsupplied then _control.HeaderBrush = SolidColorBrush headerBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
+		if content != unsupplied then _control.Content = content
 		
 		_control
 	),
@@ -726,34 +726,34 @@ struct WpfStruct
 
 	-- Return a SugzTools.Controls.SgzGroupBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn GroupBox
-		name: undefined
-		tag: undefined
-		header: undefined
-		width: undefined
-		height: undefined
-		foreground: undefined
-		borderBrush: undefined 
-		borderThickness: undefined 
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		content: undefined = 
+		name:
+		tag:
+		header:
+		width:
+		height:
+		foreground:
+		borderBrush: 
+		borderThickness: 
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin: 
+		content: = 
 	(
 		_control = dotNetObject "SugzTools.Controls.SgzGroupBox"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if header != undefined then _control.Header = header
-		if width != undefined then _control.Width = width
-		if height != undefined then _control.HeaderHeight = height
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
-		if content != undefined then _control.Content = content
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if header != unsupplied then _control.Header = header
+		if width != unsupplied then _control.Width = width
+		if height != unsupplied then _control.HeaderHeight = height
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
+		if content != unsupplied then _control.Content = content
 		
 		_control
 	),
@@ -762,23 +762,24 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Button
-		name: undefined
-		tag: undefined
-		text: undefined
-		width: undefined
-		height: undefined
-		transparent: undefined
-		background: undefined 
-		foreground: undefined
-		mouseOverBrush: undefined
-		mouseDownBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined 
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		click: undefined = 
+		name:
+		tag:
+		enabled:
+		content:
+		width:
+		height:
+		transparent:
+		background:
+		foreground:
+		mouseOverBrush:
+		mouseDownBrush:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin:
+		click: =
 	(
 		/*<Function>
 		Description:
@@ -789,24 +790,25 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzButton"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if text != undefined then _control.Content = text
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if transparent != undefined then _control.IsTransparent = transparent
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if mouseOverBrush != undefined then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
-		if mouseDownBrush != undefined then _control.MouseDownBrush = SolidColorBrush mouseDownBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if enabled != unsupplied then _control.IsEnabled = enabled
+		if content != unsupplied then _control.Content = content
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if transparent != unsupplied then _control.IsTransparent = transparent
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if mouseOverBrush != unsupplied then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
+		if mouseDownBrush != unsupplied then _control.MouseDownBrush = SolidColorBrush mouseDownBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 			
-		if click != undefined then dotNet.addEventHandler _control "Click" click
+		if click != unsupplied then dotNet.addEventHandler _control "Click" click
 		dotNet.setLifetimeControl _control #dotnet
 		
 		_control
@@ -816,27 +818,27 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzCheckButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn CheckButton
-		name: undefined
-		tag: undefined
-		text: undefined
-		isChecked: undefined
-		width: undefined
-		height: undefined
-		transparent: undefined
-		background: undefined 
-		foreground: undefined
-		mouseOverBrush: undefined
-		mouseDownBrush: undefined
-		checkBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined 
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		click: undefined
-		checked: undefined 
-		unchecked: undefined = 
+		name:
+		tag:
+		content:
+		isChecked:
+		width:
+		height:
+		transparent:
+		background:
+		foreground:
+		mouseOverBrush:
+		mouseDownBrush:
+		checkBrush:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin:
+		click:
+		checked:
+		unchecked: =
 	(
 		/*<Function>
 		Description:
@@ -846,28 +848,28 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzCheckButton"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if text != undefined then _control.Content = text
-		if isChecked != undefined then _control.IsChecked = dotNetObject "System.Boolean" isChecked
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if transparent != undefined then _control.IsTransparent = transparent
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if mouseOverBrush != undefined then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
-		if mouseDownBrush != undefined then _control.MouseDownBrush = SolidColorBrush mouseDownBrush
-		if checkBrush != undefined then _control.CheckedBrush = SolidColorBrush checkBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius	
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if content != unsupplied then _control.Content = content
+		if isChecked != unsupplied then _control.IsChecked = dotNetObject "System.Boolean" isChecked
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if transparent != unsupplied then _control.IsTransparent = transparent
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if mouseOverBrush != unsupplied then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
+		if mouseDownBrush != unsupplied then _control.MouseDownBrush = SolidColorBrush mouseDownBrush
+		if checkBrush != unsupplied then _control.CheckedBrush = SolidColorBrush checkBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius	
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 			
-		if click != undefined then dotNet.addEventHandler _control "Click" click
-		if checked != undefined then dotNet.addEventHandler _control "Checked" checked
-		if unchecked != undefined then dotNet.addEventHandler _control "Unchecked" unchecked
+		if click != unsupplied then dotNet.addEventHandler _control "Click" click
+		if checked != unsupplied then dotNet.addEventHandler _control "Checked" checked
+		if unchecked != unsupplied then dotNet.addEventHandler _control "Unchecked" unchecked
 		dotNet.setLifetimeControl _control #dotnet
 		
 		_control
@@ -876,47 +878,47 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzCheckBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn CheckBox
-		name: undefined
-		tag: undefined
-		text: undefined
-		isChecked: undefined
-		width: undefined
-		height: undefined
-		background: undefined 
-		foreground: undefined
-		mouseOverBrush: undefined
-		checkBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		click: undefined
-		checked: undefined 
-		unchecked: undefined = 
+		name:
+		tag:
+		content:
+		isChecked:
+		width:
+		height:
+		background:
+		foreground:
+		mouseOverBrush:
+		checkBrush:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin:
+		click:
+		checked:
+		unchecked: =
 	(
 		_control = dotNetObject "SugzTools.Controls.SgzCheckBox"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if text != undefined then _control.Content = text
-		if isChecked != undefined then _control.IsChecked = dotNetObject "System.Boolean" isChecked
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if mouseOverBrush != undefined then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
-		if checkBrush != undefined then _control.CheckedBrush = SolidColorBrush checkBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if content != unsupplied then _control.Content = content
+		if isChecked != unsupplied then _control.IsChecked = dotNetObject "System.Boolean" isChecked
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if mouseOverBrush != unsupplied then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
+		if checkBrush != unsupplied then _control.CheckedBrush = SolidColorBrush checkBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 		
-		if click != undefined then dotNet.addEventHandler _control "Click" click
-		if checked != undefined then dotNet.addEventHandler _control "Checked" checked
-		if unchecked != undefined then dotNet.addEventHandler _control "Unchecked" unchecked
+		if click != unsupplied then dotNet.addEventHandler _control "Click" click
+		if checked != unsupplied then dotNet.addEventHandler _control "Checked" checked
+		if unchecked != unsupplied then dotNet.addEventHandler _control "Unchecked" unchecked
 		dotNet.setLifetimeControl _control #dotnet
 		
 		_control
@@ -926,29 +928,29 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzRadioButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn RadioButton
-		name: undefined
-		tag: undefined
-		text: undefined
-		isChecked: undefined
-		group: undefined
-		width: undefined 
-		height: undefined
-		type: undefined
+		name:
+		tag:
+		content:
+		isChecked:
+		group:
+		width:
+		height:
+		type:
 		transparent: false
-		background: undefined 
-		foreground: undefined
-		mouseOverBrush: undefined
-		mouseDownBrush: undefined
-		checkBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined 
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		click: undefined
-		checked: undefined 
-		unchecked: undefined = 
+		background:
+		foreground:
+		mouseOverBrush:
+		mouseDownBrush:
+		checkBrush:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin:
+		click:
+		checked:
+		unchecked: =
 	(
 		/*<Function>
 		Description:
@@ -958,30 +960,30 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzRadioButton"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if text != undefined then _control.Content = text
-		if isChecked != undefined then _control.IsChecked = dotNetObject "System.Boolean" isChecked
-		if group != undefined then _control.GroupName = group
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if type != undefined then _control.RadioButtonType = RadioButtonTypes type
-		if transparent != undefined then _control.IsTransparent = transparent
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if mouseOverBrush != undefined then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
-		if mouseDownBrush != undefined then _control.MouseDownBrush = SolidColorBrush mouseDownBrush
-		if checkBrush != undefined then _control.CheckedBrush = SolidColorBrush checkBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius	
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if content != unsupplied then _control.Content = content
+		if isChecked != unsupplied then _control.IsChecked = dotNetObject "System.Boolean" isChecked
+		if group != unsupplied then _control.GroupName = group
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if type != unsupplied then _control.RadioButtonType = RadioButtonTypes type
+		if transparent != unsupplied then _control.IsTransparent = transparent
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if mouseOverBrush != unsupplied then _control.MouseOverBrush = SolidColorBrush mouseOverBrush
+		if mouseDownBrush != unsupplied then _control.MouseDownBrush = SolidColorBrush mouseDownBrush
+		if checkBrush != unsupplied then _control.CheckedBrush = SolidColorBrush checkBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius	
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 			
-		if click != undefined then dotNet.addEventHandler _control "Click" click
-		if checked != undefined then dotNet.addEventHandler _control "Checked" checked
-		if unchecked != undefined then dotNet.addEventHandler _control "Unchecked" unchecked
+		if click != unsupplied then dotNet.addEventHandler _control "Click" click
+		if checked != unsupplied then dotNet.addEventHandler _control "Checked" checked
+		if unchecked != unsupplied then dotNet.addEventHandler _control "Unchecked" unchecked
 		dotNet.setLifetimeControl _control #dotnet
 		
 		_control
@@ -991,24 +993,24 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzTextBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn TextBox
-		name: undefined
-		tag: undefined
-		text: undefined
-		watermark: undefined
-		width: undefined 
-		height: undefined
-		background: undefined 
-		foreground: undefined
-		caretbrush: undefined
-		selectionBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		validate: undefined
-		textChanged: undefined =
+		name:
+		tag:
+		text:
+		watermark:
+		width: 
+		height:
+		background:
+		foreground:
+		caretbrush:
+		selectionBrush:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin:
+		validate:
+		textChanged: =
 	(
 		/*<Function>
 		Description:
@@ -1018,25 +1020,25 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzMaxTextbox"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if text != undefined then _control.Text = text
-		if watermark != undefined then _control.Watermark = watermark
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if caretbrush != undefined then _control.CaretBrush = SolidColorBrush caretbrush
-		if selectionBrush != undefined then _control.SelectionBrush = SolidColorBrush selectionBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if text != unsupplied then _control.Text = text
+		if watermark != unsupplied then _control.Watermark = watermark
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if caretbrush != unsupplied then _control.CaretBrush = SolidColorBrush caretbrush
+		if selectionBrush != unsupplied then _control.SelectionBrush = SolidColorBrush selectionBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 			
-		if validate != undefined then dotNet.addEventHandler _control "Validate" validate
-		if textChanged != undefined then dotNet.addEventHandler _control "TextChanged" textChanged
+		if validate != unsupplied then dotNet.addEventHandler _control "Validate" validate
+		if textChanged != unsupplied then dotNet.addEventHandler _control "TextChanged" textChanged
 		dotNet.setLifetimeControl _control #dotnet
 	
 		_control
@@ -1046,41 +1048,41 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzMaxNumericUpDown ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Spinner
-		name: undefined
-		tag: undefined
-		text: undefined
-		type: undefined
-		value: undefined 
-		defaultValue: undefined
-		minValue: undefined
-		maxValue: undefined
-		limits: undefined
-		range: undefined -- need to be implemented
-		scale: undefined 
-		scaleAccelerator: undefined
-		decimals:undefined
-		minDecimals:undefined
-		alwaysShowValue:undefined
-		indeterminate: undefined
-		format: undefined
-		delay: undefined 
-		interval: undefined
-		hidebuttons: undefined
-		width: undefined 
-		height: undefined
-		fieldWidth: undefined
-		background: undefined 
-		foreground: undefined
-		caretbrush: undefined
-		selectionBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined
-		validate: undefined
-		valueChanged: undefined = 
+		name:
+		tag:
+		content:
+		type:
+		value:
+		defaultValue:
+		minValue:
+		maxValue:
+		limits:
+		range:
+		scale:
+		scaleAccelerator:
+		decimals:
+		minDecimals:
+		alwaysShowValue:
+		indeterminate:
+		format:
+		delay:
+		interval:
+		hidebuttons:
+		width:
+		height:
+		fieldWidth:
+		background:
+		foreground:
+		caretbrush:
+		selectionBrush:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin:
+		validate:
+		valueChanged: =
 	(
 		/*<Function>
 		Description:
@@ -1090,42 +1092,42 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzMaxNumericUpDown"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if text != undefined then _control.Content = text
-		if type != undefined then _control.Type = NumericUpDownType type
-		if value != undefined then _control.Value = value
-		if defaultValue != undefined then _control.DefaultValue = defaultValue
-		if minValue != undefined then _control.MinValue = minValue
-		if maxValue != undefined then _control.MaxValue = maxValue
-		if limits != undefined then _control.Limits = NumericUpDownLimits limits
-		if range != undefined then _control.Range range
-		if scale != undefined then _control.Scale = scale
-		if scaleAccelerator != undefined then _control.ScaleAccelerator = scaleAccelerator
-		if decimals != undefined then _control.Decimals = decimals
-		if minDecimals != undefined then _control.MinDecimals = minDecimals
-		if alwaysShowValue != undefined then _control.AlwaysShowValue = alwaysShowValue
-		if indeterminate != undefined then _control.Indeterminate = indeterminate
-		if format != undefined then _control.NumericFormatSpecifier = NumericFormatSpecifier format
-		if delay != undefined then _control.Delay = delay
-		if interval != undefined then _control.Interval = interval
-		if hidebuttons != undefined then _control.Hidebuttons = hidebuttons
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if fieldWidth != undefined then _control.FieldWidth = fieldWidth
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if caretbrush != undefined then _control.CaretBrush = SolidColorBrush caretbrush
-		if selectionBrush != undefined then _control.SelectionBrush = SolidColorBrush selectionBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if content != unsupplied then _control.Content = content
+		if type != unsupplied then _control.Type = NumericUpDownType type
+		if value != unsupplied then _control.Value = value
+		if defaultValue != unsupplied then _control.DefaultValue = defaultValue
+		if minValue != unsupplied then _control.MinValue = minValue
+		if maxValue != unsupplied then _control.MaxValue = maxValue
+		if limits != unsupplied then _control.Limits = NumericUpDownLimits limits
+		if range != unsupplied then _control.Range range
+		if scale != unsupplied then _control.Scale = scale
+		if scaleAccelerator != unsupplied then _control.ScaleAccelerator = scaleAccelerator
+		if decimals != unsupplied then _control.Decimals = decimals
+		if minDecimals != unsupplied then _control.MinDecimals = minDecimals
+		if alwaysShowValue != unsupplied then _control.AlwaysShowValue = alwaysShowValue
+		if indeterminate != unsupplied then _control.Indeterminate = indeterminate
+		if format != unsupplied then _control.NumericFormatSpecifier = NumericFormatSpecifier format
+		if delay != unsupplied then _control.Delay = delay
+		if interval != unsupplied then _control.Interval = interval
+		if hidebuttons != unsupplied then _control.Hidebuttons = hidebuttons
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if fieldWidth != unsupplied then _control.FieldWidth = fieldWidth
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if caretbrush != unsupplied then _control.CaretBrush = SolidColorBrush caretbrush
+		if selectionBrush != unsupplied then _control.SelectionBrush = SolidColorBrush selectionBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 			
-		if validate != undefined then dotNet.addEventHandler _control "Validate" validate
-		if valueChanged != undefined then dotNet.addEventHandler _control "ValueChanged" valueChanged
+		if validate != unsupplied then dotNet.addEventHandler _control "Validate" validate
+		if valueChanged != unsupplied then dotNet.addEventHandler _control "ValueChanged" valueChanged
 		dotNet.setLifetimeControl _control #dotnet
 	
 		_control
@@ -1135,25 +1137,25 @@ struct WpfStruct
 
 	-- Return a SugzTools.Controls.SgzProgressBar ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn ProgressBar 
-		name: undefined
-		tag: undefined
-		value: undefined 
-		isIndeterminate: undefined
-		indeterminateAutoReverse: undefined
-		isCylon: undefined
-		width: undefined 
-		height: undefined
-		background: undefined 
-		foreground: undefined
-		indeterminateBrush: undefined
-		cylonBrush: undefined
-		borderBrush: undefined 
-		borderThickness: undefined
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		valueChanged: undefined = 
+		name:
+		tag:
+		value:
+		isIndeterminate:
+		indeterminateAutoReverse:
+		isCylon:
+		width:
+		height:
+		background:
+		foreground:
+		indeterminateBrush:
+		cylonBrush:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin: 
+		valueChanged: =
 	(
 	   /*<Function>
 		Description:
@@ -1163,24 +1165,24 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzProgressBar"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if value != undefined then _control.Value = value
-		if isIndeterminate != undefined then _control.IsIndeterminate = isIndeterminate
-		if indeterminateAutoReverse != undefined then _control.IndeterminateAutoReverse = indeterminateAutoReverse
-		if isCylon != undefined then _control.isCylon = isCylon
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if indeterminateBrush != undefined then _control.IndeterminateBrush = SolidColorBrush indeterminateBrush
-		if cylonBrush != undefined then _control.CylonBrush = SolidColorBrush cylonBrush
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if name != unsupplied then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if value != unsupplied then _control.Value = value
+		if isIndeterminate != unsupplied then _control.IsIndeterminate = isIndeterminate
+		if indeterminateAutoReverse != unsupplied then _control.IndeterminateAutoReverse = indeterminateAutoReverse
+		if isCylon != unsupplied then _control.isCylon = isCylon
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if indeterminateBrush != unsupplied then _control.IndeterminateBrush = SolidColorBrush indeterminateBrush
+		if cylonBrush != unsupplied then _control.CylonBrush = SolidColorBrush cylonBrush
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 
 		_control
 	),
@@ -1189,21 +1191,21 @@ struct WpfStruct
 	
 	-- Return a SugzTools.Controls.SgzComboBox ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn ComboBox 
-		name: undefined
-		tag: undefined
-		items: undefined
+		name:
+		tag:
+		items:
 		selectedIndex: 0
-		width: undefined 
-		height: undefined
-		background: undefined 
-		foreground: undefined
-		borderBrush: undefined 
-		borderThickness: undefined
-		cornerRadius: undefined
-		hAlign: undefined
-		vAlign: undefined
-		margin: undefined 
-		selectionChanged: undefined = 
+		width:
+		height:
+		background:
+		foreground:
+		borderBrush:
+		borderThickness:
+		cornerRadius:
+		hAlign:
+		vAlign:
+		margin:
+		selectionChanged: =
 	(
 	   /*<Function>
 		Description:
@@ -1213,22 +1215,22 @@ struct WpfStruct
 		</Function>*/
 		
 		_control = dotNetObject "SugzTools.Controls.SgzComboBox"
-		if name != undefined then _control.Name = name
-		if tag != undefined then _control.Tag = tag
-		if items != undefined then _control.SetItems items
+		if name != unsupplied  then _control.Name = name
+		if tag != unsupplied then _control.Tag = tag
+		if items != unsupplied then _control.SetItems items
 		_control.SelectedIndex = selectedIndex
-		if width != undefined then _control.Width = width
-		if height  != undefined then _control.Height = height
-		if background != undefined then _control.Background = SolidColorBrush background
-		if foreground != undefined then _control.Foreground = SolidColorBrush foreground
-		if borderBrush != undefined then _control.BorderBrush = SolidColorBrush borderBrush
-		if borderThickness != undefined then _control.BorderThickness = Thickness borderThickness
-		if cornerRadius != undefined then _control.CornerRadius = cornerRadius
-		if hAlign != undefined then _control.HorizontalAlignment = HorizontalAlignment hAlign
-		if vAlign != undefined then _control.VerticalAlignment = VerticalAlignment vAlign
-		if margin != undefined then _control.Margin = Thickness margin
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if background != unsupplied then _control.Background = SolidColorBrush background
+		if foreground != unsupplied then _control.Foreground = SolidColorBrush foreground
+		if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
+		if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+		if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then _control.Margin = Thickness margin
 
-		if selectionChanged != undefined then dotNet.addEventHandler _control "SelectionChanged" selectionChanged
+		if selectionChanged != unsupplied then dotNet.addEventHandler _control "SelectionChanged" selectionChanged
 		dotNet.setLifetimeControl _control #dotnet
 
 		_control

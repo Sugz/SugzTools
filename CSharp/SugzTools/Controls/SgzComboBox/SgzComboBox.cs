@@ -1,4 +1,5 @@
-﻿using SugzTools.Themes;
+﻿using SugzTools.Src;
+using SugzTools.Themes;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,7 +8,6 @@ namespace SugzTools.Controls
 {
     public class SgzComboBox : ComboBox
     {
-
 
         #region Properties
 
@@ -50,6 +50,7 @@ namespace SugzTools.Controls
         static SgzComboBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzComboBox), new FrameworkPropertyMetadata(typeof(SgzComboBox)));
+            
         }
         public SgzComboBox()
         {
@@ -76,11 +77,25 @@ namespace SugzTools.Controls
         }
 
 
+        public object GetItem(int index)
+        {
+            return Items[index];
+        }
+
+
+        public object[] GetItems()
+        {
+            return Helpers.ToArray(Items);
+        }
+
+
         public void SetItems(object[] items)
         {
             Items.Clear();
             Add(items);
         }
+
+
         public void Add(object item)
         {
             Items.Add(item);

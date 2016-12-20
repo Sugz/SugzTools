@@ -8,6 +8,7 @@ namespace SugzTools.Controls
 {
     public class SgzComboBox : ComboBox
     {
+        //TODO: Watermark
 
         #region Properties
 
@@ -112,17 +113,6 @@ namespace SugzTools.Controls
             Items.Add(item);
             if (selectItem)
                 SelectedIndex = Items.Count - 1;
-        }
-
-        public void InsertAt(ItemCollection items, int index, bool selectItem)
-        {
-
-        }
-
-
-        public void RemoveAt(int index, int itemCount)
-        {
-
         }
 
 

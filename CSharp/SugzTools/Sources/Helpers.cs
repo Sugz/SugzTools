@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace SugzTools.Src
 {
-    internal static class Helpers
+    public static class Helpers
     {
         /// <summary>
         /// Switch the focus to the top parent of send control

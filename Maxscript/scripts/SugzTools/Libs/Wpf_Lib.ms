@@ -50,6 +50,9 @@ struct WpfStruct
 	_formBorderStyle = dotNetClass "FormBorderStyle",
 	_formStartPosition = dotNetClass "FormStartPosition",
 	
+
+
+	fn ToArray items = (dotNetClass "SugzTools.Src.Helpers").ToArray items,
 	
 	
 	-- Return a System.Windows.Media.Color ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1189,7 +1192,7 @@ struct WpfStruct
 		name: undefined
 		tag: undefined
 		items: undefined
-		selectedItem: undefined
+		selectedIndex: 0
 		width: undefined 
 		height: undefined
 		background: undefined 
@@ -1213,7 +1216,7 @@ struct WpfStruct
 		if name != undefined then _control.Name = name
 		if tag != undefined then _control.Tag = tag
 		if items != undefined then _control.SetItems items
-		--if selectedItem != undefined then if _control.Items.Count != 0 AND selectedItem <= _control.Items.Count then _control.Items[selectedItem - 1].IsSelected = true
+		_control.SelectedIndex = selectedIndex
 		if width != undefined then _control.Width = width
 		if height  != undefined then _control.Height = height
 		if background != undefined then _control.Background = SolidColorBrush background

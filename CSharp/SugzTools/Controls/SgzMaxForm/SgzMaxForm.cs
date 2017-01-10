@@ -1,8 +1,10 @@
-﻿using MaxCustomControls;
+﻿using ManagedServices;
+using MaxCustomControls;
 using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using System;
 
 namespace SugzTools.Controls
 {
@@ -55,10 +57,43 @@ namespace SugzTools.Controls
             ClientSize = new Size(210, 350);
             Controls.Add(eh);
             ResumeLayout(false);
+
         }
 
 
         #endregion Constructor
 
+
+        #region Overrides
+
+
+        public override void ShowModeless()
+        {
+            //NativeWindow nativeWindow = new NativeWindow();
+            //nativeWindow.AssignHandle(AppSDK.GetMaxHWND());
+            //Show(nativeWindow);
+            //nativeWindow.ReleaseHandle();
+
+            Win32HandleWrapper maxHWND = new Win32HandleWrapper(AppSDK.GetMaxHWND());
+            Show(maxHWND);
+        } 
+
+
+        #endregion Overrides
+
+
+    }
+
+
+    /// <summary>
+    /// Class replacement for missing class in MaxCustomControls, thanks to lo http://forums.cgsociety.org/archive/index.php?t-1166327.html
+    /// </summary>
+    public class Win32HandleWrapper : IWin32Window
+    {
+        public IntPtr Handle { get; set; }
+        public Win32HandleWrapper(IntPtr handle)
+        {
+            Handle = handle;
+        }
     }
 }

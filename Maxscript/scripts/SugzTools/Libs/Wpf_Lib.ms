@@ -36,6 +36,7 @@ struct WpfStruct
 	_verticalAlignment = dotNetClass "System.Windows.VerticalAlignment",
 	_orientation = dotNetClass "System.Windows.Controls.Orientation",
 	_gridUnitType = dotNetClass "System.Windows.GridUnitType",
+	_stretch = dotNetClass "System.Windows.Media.Stretch",
 	
 	
 	-- SugzTools Classes ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -313,6 +314,27 @@ struct WpfStruct
 			#top: return _dock.Top
 		)
 	),
+
+
+
+	-- Return a System.Windows.Media.Stretch ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn Stretch arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of 
+		(
+			#fill: return _stretch.Fill
+			#none: return _stretch.None
+			#uniform: return _stretch.Uniform
+			#uniformToFill: return _stretch.UniformToFill
+		)
+	),
 	
 	
 	
@@ -420,7 +442,6 @@ struct WpfStruct
 		borderStyle:
 		location:
 		content:
-		show:
 		load:
 		closed: =
 	(
@@ -1101,7 +1122,7 @@ struct WpfStruct
 		if minValue != unsupplied then _control.MinValue = minValue
 		if maxValue != unsupplied then _control.MaxValue = maxValue
 		if limits != unsupplied then _control.Limits = NumericUpDownLimits limits
-		if range != unsupplied then _control.Range range
+		if range != unsupplied then _control.Range = range
 		if scale != unsupplied then _control.Scale = scale
 		if scaleAccelerator != unsupplied then _control.ScaleAccelerator = scaleAccelerator
 		if decimals != unsupplied then _control.Decimals = decimals
@@ -1232,6 +1253,39 @@ struct WpfStruct
 
 		if selectionChanged != unsupplied then dotNet.addEventHandler _control "SelectionChanged" selectionChanged
 		dotNet.setLifetimeControl _control #dotnet
+
+		_control
+	),
+
+
+
+	-- Return a System.Windows.Controls.Image ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn Image 
+		uri:
+		stretch: 
+		name:
+		tag:
+		width:
+		height: = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		_control = dotNetObject "System.Windows.Controls.Image"
+		_bmp = dotNetObject "System.Windows.Media.Imaging.BitmapImage"
+		_bmp
+		_bmp.BeginInit()
+        _bmp.UriSource = dotNetObject "System.Uri" uri
+        _bmp.EndInit()
+		_control.Source = _bmp
+		if width != unsupplied then _control.Width = width
+		if height  != unsupplied then _control.Height = height
+		if stretch != unsupplied then _control.Stretch = this.Stretch stretch
+		_control.Focusable = false
 
 		_control
 	)

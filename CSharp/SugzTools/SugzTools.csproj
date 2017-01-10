@@ -86,9 +86,6 @@
     <Compile Include="Controls\SgzExpander\SgzExpander.cs" />
     <Compile Include="Controls\Panels\SgzGrid.cs" />
     <Compile Include="Controls\SgzGroupBox\SgzGroupBox.cs" />
-    <Compile Include="Controls\SgzMaxForm\SgzForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Controls\SgzMaxForm\SgzMaxForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,9 +130,6 @@
     <Compile Include="Sources\TMath.cs" />
     <Compile Include="Themes\FocusVisualStyles.cs" />
     <Compile Include="TODO.cs" />
-    <EmbeddedResource Include="Controls\SgzMaxForm\SgzForm.resx">
-      <DependentUpon>SgzForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -146,7 +140,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Controls\SgzButton\SgzButton.xaml">
       <SubType>Designer</SubType>

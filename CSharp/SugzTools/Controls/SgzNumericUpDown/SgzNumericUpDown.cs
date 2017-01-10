@@ -1122,13 +1122,6 @@ namespace SugzTools.Controls
         }
 
 
-        //public void SetRange(float minValue, float maxValue, float value)
-        //{
-        //    MinValue = minValue;
-        //    MaxValue = maxValue;
-        //    Value = value;
-        //} 
-
 
         #endregion Methods
 

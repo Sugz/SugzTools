@@ -27,7 +27,7 @@ HaywoodTools
 struct MacrosCollectionStc
 (
 	
-	/*  Toggle selection outline ############################################################################################*/
+	-- Toggle selection outline ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	ToggleSelectionOutlineMacro =
 	(
 		MacroScript ToggleSelectionOutline
@@ -49,7 +49,7 @@ struct MacrosCollectionStc
 	
 	
 	
-	/* Set Unique Smoothing Group (HaywoodTools)  ############################################################################################*/
+	-- Set Unique Smoothing Group (HaywoodTools) ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	SetUniqueSmoothingGroupMacro =
 	(
 		MacroScript SetUniqueSmoothingGroup
@@ -68,7 +68,7 @@ struct MacrosCollectionStc
 	
 	
 	
-	/* Make Planar on X ############################################################################################*/
+	-- Make Planar on X ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	MakePlanarXMacro = 
 	(
 		MacroScript EPoly_Make_Planar_X
@@ -97,7 +97,7 @@ struct MacrosCollectionStc
 	
 	
 	
-	/* Make Planar on X ############################################################################################*/
+	-- Make Planar on Y ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	MakePlanarYMacro = 
 	(
 		MacroScript EPoly_Make_Planar_Y
@@ -126,7 +126,7 @@ struct MacrosCollectionStc
 	
 	
 	
-	/* Make Planar on X ############################################################################################*/
+	-- Make Planar on Z ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	MakePlanarZMacro = 
 	(
 		MacroScript EPoly_Make_Planar_Z
@@ -155,7 +155,7 @@ struct MacrosCollectionStc
 	
 	
 	
-	/* Bridge ############################################################################################*/
+	-- Bridge ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	BridgeMacro = 
 	(
 		MacroScript EPoly_Bridge
@@ -206,7 +206,34 @@ struct MacrosCollectionStc
 			
 		) -- End macro
 		
+	),
+
+
+
+	-- Renamer ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	RenamerMacro = 
+	(
+		macroScript Renamer
+			category:"SugzTools"
+			toolTip:"Renamer"
+			Icon:#("Renamer",1)
+		(
+			global Renamer
+			on execute do 
+			(
+				if Renamer != undefined AND Renamer._form != undefined
+					then Renamer._form.Close()
+					else if doesFileExist (file = "$userscripts\SugzTools\WPF Scripts\Renamer.ms") do 
+					(
+						fileIn file
+						Renamer.CreateForm()
+					)	
+			)
+
+			on IsChecked return (Renamer != undefined AND Renamer._form != undefined)
+		)
 	)
+
 
 )
 

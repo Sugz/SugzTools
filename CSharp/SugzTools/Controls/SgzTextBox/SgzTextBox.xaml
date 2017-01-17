@@ -33,7 +33,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <Grid>
+                        <Grid x:Name="PART_Grid">
                             <ScrollViewer x:Name="PART_ContentHost"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             <TextBlock x:Name="PART_Watermark"

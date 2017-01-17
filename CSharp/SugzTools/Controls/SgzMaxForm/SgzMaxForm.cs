@@ -14,8 +14,8 @@ namespace SugzTools.Controls
         #region Fields
 
 
-        private ElementHost eh;
-        private ContentPresenter pnl;
+        private ElementHost elementHost;
+        private ContentPresenter presenter;
 
 
         #endregion Fields
@@ -26,8 +26,8 @@ namespace SugzTools.Controls
 
         public object Content
         {
-            get { return pnl.Content; }
-            set { pnl.Content = value; }
+            get { return presenter.Content; }
+            set { presenter.Content = value; }
         }
 
 
@@ -39,23 +39,22 @@ namespace SugzTools.Controls
 
         public SgzMaxForm()
         {
-            eh = new ElementHost();
-            pnl = new ContentPresenter();
+            elementHost = new ElementHost();
+            presenter = new ContentPresenter();
             SuspendLayout();
 
             // ContentPresenter
-            pnl.Width = 200;
-            pnl.Height = 400;
+            presenter.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+            presenter.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
 
             // ElementHost
-            eh.Dock = DockStyle.Fill;
-            eh.Location = new Point(0, 0);
-            eh.Child = pnl;
+            elementHost.Dock = DockStyle.Fill;
+            elementHost.Location = new Point(0, 0);
+            elementHost.Child = presenter;
 
             // Form
             Text = "SgzMaxForm";
-            ClientSize = new Size(210, 350);
-            Controls.Add(eh);
+            Controls.Add(elementHost);
             ResumeLayout(false);
 
         }

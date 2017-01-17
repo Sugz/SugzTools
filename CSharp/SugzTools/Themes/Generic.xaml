@@ -4,16 +4,18 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzButton/SgzButton.xaml" />
-        <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckButton/SgzCheckButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckBox/SgzCheckBox.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckButton/SgzCheckButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzComboBox/SgzComboBox.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzExpander/SgzExpander.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzGroupBox/SgzGroupBox.xaml" />
-        <ResourceDictionary Source="/SugzTools;component/Controls/SgzTextBox/SgzTextBox.xaml" />
-        <ResourceDictionary Source="/SugzTools;component/Controls/SgzRadioButton/SgzRadioButton.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzIcon/SgzIcon.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzNumericUpDown/SgzNumericUpDown.xaml" />
-        <ResourceDictionary Source="/SugzTools;component/Controls/SgzToolBar/SgzToolBar.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzProgressBar/SgzProgressBar.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzRadioButton/SgzRadioButton.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzTextBox/SgzTextBox.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzToolBar/SgzToolBar.xaml" />
+        
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

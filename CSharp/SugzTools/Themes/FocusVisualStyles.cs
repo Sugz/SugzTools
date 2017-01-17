@@ -25,13 +25,13 @@ namespace SugzTools.Themes
                     "<Setter.Value> " +
                         "<ControlTemplate> " +
                             "<Rectangle Margin = \"" + margin + "\" " +
-                                        "Stroke = \"" + Resource<SolidColorBrush>.GetColor("MaxFocusBorder") + "\" " +
-                                        "StrokeThickness = \"1\" " +
-                                        "StrokeDashArray = \"1 2\" " +
-                                        "RadiusX = \"" + cornerRadius + "\" " +
-                                        "RadiusY = \"" + cornerRadius + "\" " +
-                                        "SnapsToDevicePixels = \"True\" " +
-                                        "UseLayoutRounding = \"True\" /> " +
+                            "Stroke = \"" + Resource<SolidColorBrush>.GetColor("MaxFocusBorder") + "\" " +
+                            "StrokeThickness = \"1\" " +
+                            "StrokeDashArray = \"1 2\" " +
+                            "RadiusX = \"" + cornerRadius + "\" " +
+                            "RadiusY = \"" + cornerRadius + "\" " +
+                            "SnapsToDevicePixels = \"True\" " +
+                            "UseLayoutRounding = \"True\" /> " +
                         "</ControlTemplate> " +
                    " </Setter.Value> " +
                 "</Setter> " +

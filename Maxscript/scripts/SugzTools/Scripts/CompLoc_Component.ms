@@ -280,6 +280,37 @@ struct CompLocComponentStc
 			
 		ss as string
 	),
+
+
+
+	/* Get a formated rotation of the hotspot to export it ############################################################################################*/
+	fn GetHotspotQuat cam = 
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		hasTarget = false
+		if cam.targeted then 
+		(
+			hasTarget = true 
+			cam.targeted = false
+		)
+		
+		ss = StringStream ""
+
+		oldEuler = cam.rotation as eulerAngles
+		quat = eulerToQuat (eulerAngles (oldEuler.x + 90.0) oldEuler.y oldEuler.z)
+		
+		format "%, %, %, %" quat.x -quat.y quat.z -quat.w to:ss
+		
+		if hasTarget then cam.targeted = true
+			
+		ss as string
+	),
 	
 	
 	
@@ -491,13 +522,16 @@ struct CompLocComponentStc
 			
 			(excel.application.Range("A1")).value = "Hotspot name"
 			(excel.application.Range("B1")).value = "Hotspot position"
+			(excel.application.Range("C1")).value = "Hotspot rotation"
+			
 
 			i = 2
 			cams = _sgz._extMxs.SortObjects(for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == "Hotspots" collect cam)
 			for cam in cams do 
 			(
 				(excel.application.Range("A" + i as string)).value = cam.name
-				(excel.application.Range("B" + i as string)).value = GetHotspotPos cam 
+				(excel.application.Range("B" + i as string)).value = GetHotspotPos cam
+				(excel.application.Range("C" + i as string)).value = GetHotspotQuat cam
 				i += 1
 			)
 			

@@ -5,12 +5,21 @@
         xmlns:local="clr-namespace:TestApp"
         xmlns:Controls="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         x:Class="TestApp.MainWindow"
         mc:Ignorable="d"
         Title="TestApp"
         Height="500"
         Width="369.667"
         Background="#FF444444">
+
+    <Window.Resources>
+        <Path x:Key="thePath"
+              Data="M0,0 L4,3 0,6 Z" />
+        <materialDesign:PackIcon x:Key="theIcon"
+                                 Kind="AccessPoint" />
+    </Window.Resources>
+
     <Grid>
 
 
@@ -27,9 +36,10 @@
                                           HorizontalContentAlignment="Stretch" />
                     <Controls:SgzGroupBox Header="Test">
                         <UniformGrid Rows="1">
-                            <Controls:SgzButton CornerRadius="3"
-                                                Click="SgzButton_Click"
-                                                Margin="5" />
+                            <Controls:SgzIcon Icon="Wi3d3ds" />
+                            <Controls:SgzButton Click="SgzButton_Click"
+                                                Margin="5"
+                                                Height="Auto" />
                             <Controls:SgzCheckButton Content="CheckButton"
                                                      IsEnabled="False"
                                                      Margin="5" />
@@ -106,7 +116,7 @@
                                   IsExpanded="True">
                 <Controls:SgzExpander.Header>
                     <DockPanel>
-                        <TextBlock Text="AutoSave"/>
+                        <TextBlock Text="AutoSave" />
                         <Controls:SgzProgressBar x:Name="progressbar"
                                                  Margin="5,0"
                                                  Height="6"
@@ -114,17 +124,17 @@
                                                  CornerRadius="3"
                                                  IsIndeterminate="True" />
                     </DockPanel>
-                    
+
                 </Controls:SgzExpander.Header>
                 <Controls:SgzGrid x:Name="grid">
                     <Controls:SgzGrid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Controls:SgzGrid.RowDefinitions>
-                    
+
                 </Controls:SgzGrid>
             </Controls:SgzExpander>
-            <Controls:SgzExpander  Header="test"/>
+            <Controls:SgzExpander  Header="test" />
         </Controls:SgzStackPanel>
 
     </Grid>

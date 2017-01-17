@@ -16,7 +16,8 @@
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         SnapsToDevicePixels="True"
-        UseLayoutRounding="True">
+        UseLayoutRounding="True"
+        WindowStyle="ToolWindow">
     
     <Window.Resources>
         <ResourceDictionary>
@@ -37,6 +38,7 @@
         </Grid.RowDefinitions>
 
         <Button Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                md:ShadowAssist.ShadowDepth="Depth1"
                 Margin="5"
                 Width="36"
                 Height="36"
@@ -61,7 +63,7 @@
                                   Margin="0,0,5,5"
                                   md:ShadowAssist.ShadowDepth="Depth1"
                                   Height="35"
-                                  CornerRadius="3">
+                                  CornerRadius="5">
                         <DockPanel>
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                                     DockPanel.Dock="Right"
@@ -69,7 +71,9 @@
                                     Width="20"
                                     Height="20"
                                     VerticalAlignment="Center"
-                                    md:ShadowAssist.ShadowDepth="Depth1">
+                                    md:ShadowAssist.ShadowDepth="Depth0"
+                                    Command="{Binding DataContext.RemoveFolderCommand, Mode=OneWay, ElementName=folderListBox}"
+                                    CommandParameter="{Binding Name}">
                                 <md:PackIcon Kind="Close"
                                              HorizontalAlignment="Stretch"
                                              VerticalAlignment="Stretch"
@@ -92,24 +96,28 @@
                       Grid.ColumnSpan="2"
                       Mode="Accent"
                       VerticalAlignment="Stretch">
-            <DockPanel Margin="5,0">
-                <TextBlock x:Name="progressBarTxt"
-                           Text="{Binding Status}"
-                           Margin="0,3,0,0"
-                           Grid.Row="2"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           Width="70" />
-                <Button HorizontalAlignment="Right"
-                        Margin="10,5,0,5"
-                        Content="Process Svgs"
-                        Height="Auto" 
-                        DockPanel.Dock="Right"
-                        Command="{Binding ProcessCommand, Mode=OneWay}" />
+            <DockPanel>
                 <ProgressBar x:Name="progressBar"
-                             Margin="10,0,0,0"
                              Background="Transparent"
-                             BorderThickness="0" />
+                             BorderThickness="0"
+                             IsIndeterminate="True"
+                             DockPanel.Dock="Bottom" />
+                <DockPanel Margin="5,0"
+                           VerticalAlignment="Top">
+                    <Button HorizontalAlignment="Right"
+                            Margin="10,3,0,3"
+                            Content="Process Svgs"
+                            Height="Auto"
+                            DockPanel.Dock="Right"
+                            Command="{Binding ProcessCommand, Mode=OneWay}" />
+                    <TextBlock x:Name="progressBarTxt"
+                               Text="{Binding Status}"
+                               Margin="0,3,0,0"
+                               Grid.Row="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" />
+                </DockPanel>
+                
             </DockPanel>
         </md:ColorZone>
     </Grid>

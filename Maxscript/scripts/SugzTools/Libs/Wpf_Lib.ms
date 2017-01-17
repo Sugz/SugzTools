@@ -26,6 +26,9 @@ Functions to easily create wpf user interface
 
 -- Assemblies
 dotnet.loadAssembly "$max\bin\assemblies\SugzTools.dll"
+dotnet.loadAssembly "$userScripts\SugzTools\Assemblies\MaterialDesignThemes.Wpf.dll"
+
+
 global _wpf
 struct WpfStruct
 (
@@ -37,6 +40,7 @@ struct WpfStruct
 	_orientation = dotNetClass "System.Windows.Controls.Orientation",
 	_gridUnitType = dotNetClass "System.Windows.GridUnitType",
 	_stretch = dotNetClass "System.Windows.Media.Stretch",
+	_double = dotNetClass "System.Double",
 	
 	
 	-- SugzTools Classes ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -55,9 +59,10 @@ struct WpfStruct
 
 	fn ToArray items = (dotNetClass "SugzTools.Src.Helpers").ToArray items,
 	
+
 	
 	-- Return a System.Windows.Media.Color ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn Color arg = 
+	fn GetColor arg = 
 	(
 		/*<Function>
 		Description:
@@ -68,9 +73,9 @@ struct WpfStruct
 			System.Windows.Media.Color
 		Further Infos:
 		</Function>*/
-		
+
 		-- Convert and return a maxscript color to a .NET argb color
-		if classOf arg == Color then return _color.FromArgb (arg.a) (arg.r) (arg.g) (arg.b)
+		if classOf arg == color then return _color.FromArgb (arg.a) (arg.r) (arg.g) (arg.b)
 				
 		-- Return a .NET argb color from a preset
 		else 
@@ -83,24 +88,25 @@ struct WpfStruct
 				#black: return _color.FromArgb 255 0 0 0
 				#grey: return _color.FromArgb 255 128 128 128
 				#white: return _color.FromArgb 255 255 255 255
+				#transparent: return _color.FromArgb 0 255 255 255
 				
-				#MaxBackground: return  _color.FromArgb 255 68 68 68
+				#maxBackground: return  _color.FromArgb 255 68 68 68
 				
-				#MaxRollout: return  _color.FromArgb 255 81 81 81
-				#MaxRolloutBorder: return  _color.FromArgb 255 62 62 62
-				#MaxRolloutArrow: return  _color.FromArgb 255 183 183 183
-				#MaxRolloutIcon: return  _color.FromArgb 255 151 151 151
+				#maxRollout: return  _color.FromArgb 255 81 81 81
+				#maxRolloutBorder: return  _color.FromArgb 255 62 62 62
+				#maxRolloutArrow: return  _color.FromArgb 255 183 183 183
+				#maxRolloutIcon: return  _color.FromArgb 255 151 151 151
 				
-				#MaxControl: return  _color.FromArgb 255 100 100 100
-				#MaxControlBorder: return  _color.FromArgb 255 73 73 73
-				#MaxControlMouseOver: return  _color.FromArgb 255 56 56 56
+				#maxControl: return  _color.FromArgb 255 100 100 100
+				#maxControlBorder: return  _color.FromArgb 255 73 73 73
+				#maxControlMouseOver: return  _color.FromArgb 255 56 56 56
 				
-				#MaxText: return  _color.FromArgb 255 225 225 225
-				#MaxCaret: return  _color.FromArgb 255 155 155 155
-				#MaxFocusBorder: return  _color.FromArgb 255 208 208 208
+				#maxText: return  _color.FromArgb 255 225 225 225
+				#maxCaret: return  _color.FromArgb 255 155 155 155
+				#maxFocusBorder: return  _color.FromArgb 255 208 208 208
 				
-				#MaxBlue: return  _color.FromArgb 255 95 138 193
-				#MaxBlueMouseOver: return  _color.FromArgb 255 73 106 147
+				#maxBlue: return  _color.FromArgb 255 95 138 193
+				#maxBlueMouseOver: return  _color.FromArgb 255 73 106 147
 				
 			)
 		)
@@ -120,7 +126,7 @@ struct WpfStruct
 		Further Infos:
 		</Function>*/
 		
-		if (classOf arg != dotNetObject) then arg = this.Color arg
+		if (classOf arg != dotNetObject) then arg = GetColor arg
 		return (dotNetObject "System.Windows.Media.SolidColorBrush" arg)
 	),
 	
@@ -438,7 +444,6 @@ struct WpfStruct
 		width: 200
 		height: 300 
 		title:
-		background:
 		borderStyle:
 		location:
 		content:
@@ -457,14 +462,13 @@ struct WpfStruct
 		_wnd = dotNetObject "SugzTools.Controls.SgzMaxForm"
 		_wnd.Width = width
 		_wnd.Height = height 		
-		--if background != unsupplied then _wnd.Background = SolidColorBrush background
 		if title != unsupplied then _wnd.Text = title
 		if borderStyle != unsupplied then _wnd.FormBorderStyle = FormBorderStyle borderStyle
 		if location != unsupplied then _wnd.StartPosition  =  FormStartPosition location
 		if content != unsupplied then _wnd.Content = content
 		
 		if load != unsupplied then dotNet.addEventHandler _wnd "Load" load
-		if closed != unsupplied then dotNet.addEventHandler _wnd "Closed" closed
+		if closed != unsupplied then dotNet.addEventHandler _wnd "FormClosed" closed
 		dotNet.setLifetimeControl _wnd #dotnet
 		
 		_wnd
@@ -1288,8 +1292,42 @@ struct WpfStruct
 		_control.Focusable = false
 
 		_control
+	),
+
+
+
+	-- Return a MaterialDesignThemes.Wpf.PackIcon ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn Icon 
+		kind 
+		width:
+		height: 
+		hAlign:
+		vAlign:
+		margin: = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		_control = dotNetObject "MaterialDesignThemes.Wpf.PackIcon"
+		_control.Kind = (dotNetClass "System.Enum").Parse (dotNetClass "MaterialDesignThemes.Wpf.PackIconKind") kind 
+		
+		if hAlign != unsupplied then _control.HorizontalAlignment = HorizontalAlignment hAlign
+		if vAlign != unsupplied then _control.VerticalAlignment = VerticalAlignment vAlign
+		if margin != unsupplied then 
+		(
+			if width == unsupplied then width = _double.NaN
+			if height == unsupplied then height = _double.NaN
+			_control.Margin = Thickness margin
+		)
+		_control.Width = width
+		_control.Height = height
+
+		_control
 	)
-	
 )
 
 _wpf = WpfStruct()

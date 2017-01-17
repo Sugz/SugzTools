@@ -9,19 +9,20 @@ namespace SvgToXaml.Model
 {
     public class Folder : IEquatable<Folder>
     {
-        public string Name { get; set; }
+        public string Path { get; set; }
+        public string Prefix { get; set; }
         public int SvgCount { get; private set; }
         
 
-        public Folder(string name)
+        public Folder(string path)
         {
-            Name = name;
-            SvgCount = Directory.GetFiles(Name, "*.svg").Length;
+            Path = path;
+            SvgCount = Directory.GetFiles(Path, "*.svg").Length;
         }
 
         public bool Equals(Folder other)
         {
-            if (Name == other.Name && SvgCount == other.SvgCount)
+            if (Path == other.Path && Prefix == other.Prefix && SvgCount == other.SvgCount)
                 return true;
             return false;
         }

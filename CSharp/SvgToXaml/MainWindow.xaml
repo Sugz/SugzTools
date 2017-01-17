@@ -73,7 +73,7 @@
                                     VerticalAlignment="Center"
                                     md:ShadowAssist.ShadowDepth="Depth0"
                                     Command="{Binding DataContext.RemoveFolderCommand, Mode=OneWay, ElementName=folderListBox}"
-                                    CommandParameter="{Binding Name}">
+                                    CommandParameter="{Binding Path}">
                                 <md:PackIcon Kind="Close"
                                              HorizontalAlignment="Stretch"
                                              VerticalAlignment="Stretch"
@@ -81,17 +81,21 @@
                                              Height="Auto"
                                              Margin="2" />
                             </Button>
-                            <TextBlock Text="{Binding Name}"
+                            <TextBox Text="{Binding Prefix}"
+                                     Width="100" 
+                                     md:HintAssist.Hint="Prefix"
+                                     VerticalAlignment="Center"
+                                     Margin="5,0,10,0" />
+                            <TextBlock Text="{Binding Path}"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Left"
                                        Margin="5" />
                         </DockPanel>
                     </md:ColorZone>
-                    
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
         <md:ColorZone Grid.Row="1"
                       Grid.ColumnSpan="2"
                       Mode="Accent"
@@ -100,8 +104,9 @@
                 <ProgressBar x:Name="progressBar"
                              Background="Transparent"
                              BorderThickness="0"
-                             IsIndeterminate="True"
-                             DockPanel.Dock="Bottom" />
+                             DockPanel.Dock="Bottom"
+                             Foreground="#FFB82A2A"
+                             Value="{Binding Progress, Mode=OneWay}" />
                 <DockPanel Margin="5,0"
                            VerticalAlignment="Top">
                     <Button HorizontalAlignment="Right"

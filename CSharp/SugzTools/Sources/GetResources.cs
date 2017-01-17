@@ -9,7 +9,15 @@ namespace SugzTools.Src
         public enum ResourceType
         {
             Color,
-            Style
+            Style,
+            Icon,
+        }
+
+
+
+        public static T GetIcon(string key)
+        {
+            return GetResource(ResourceType.Icon, key, key);
         }
 
 
@@ -63,11 +71,11 @@ namespace SugzTools.Src
                 case ResourceType.Color:
                     resource.Source = new Uri(("/SugzTools;component/Resources/Colors.xaml"), UriKind.RelativeOrAbsolute);
                     break;
-                //case ResourceType.Style:
-                //    resource.Source = new Uri(("/SugzTools;component/Themes/" + file + ".xaml"), UriKind.RelativeOrAbsolute);
-                //    break;
                 case ResourceType.Style:
                     resource.Source = new Uri(("/SugzTools;component/Controls/" + file + "/" + file + ".xaml"), UriKind.RelativeOrAbsolute);
+                    break;
+                case ResourceType.Icon:
+                    resource.Source = new Uri(("/SugzTools;component/Resources/ExternalIcons.xaml"), UriKind.RelativeOrAbsolute);
                     break;
                 default:
                     break;

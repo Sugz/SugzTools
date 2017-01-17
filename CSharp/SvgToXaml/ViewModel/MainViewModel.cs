@@ -5,6 +5,7 @@ using SvgToXaml.Model;
 using System.Collections.ObjectModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
+using System.Linq;
 
 namespace SvgToXaml.ViewModel
 {
@@ -21,9 +22,11 @@ namespace SvgToXaml.ViewModel
 
 
         private readonly IDataService _dataService;
-        private string _Status = "Not Ready";
+        private string _Status;
+        // private int _SvgCount;
         private RelayCommand _AddFolderCommand;
         private RelayCommand _ProcessCommand;
+        private RelayCommand<string> _RemoveFolderCommand;
 
 
         #endregion Fields
@@ -39,7 +42,7 @@ namespace SvgToXaml.ViewModel
         public string Status
         {
             get { return _Status; }
-            set { Set(ref _Status, value); }
+            private set { Set(ref _Status, value); }
         }
 
 
@@ -54,7 +57,7 @@ namespace SvgToXaml.ViewModel
         /// </summary>
         public RelayCommand AddFolderCommand
         {
-            get { return _AddFolderCommand = _AddFolderCommand ?? new RelayCommand(AddFolder); ; }
+            get { return  _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(AddFolder)); ; }
         }
 
         
@@ -63,7 +66,18 @@ namespace SvgToXaml.ViewModel
         /// </summary>
         public RelayCommand ProcessCommand
         {
-            get { return _ProcessCommand = _ProcessCommand ?? new RelayCommand(ConvertSvgsToXaml, () => Folders.Count > 0); }
+            get { return  _ProcessCommand ?? (_ProcessCommand = new RelayCommand(ConvertSvgsToXaml, CanConvert)); }
+        }
+
+
+        /// <summary>
+        /// Remove a folder from Folders
+        /// </summary>
+        public RelayCommand<string> RemoveFolderCommand
+        {
+            get { return _RemoveFolderCommand ?? (_RemoveFolderCommand = new RelayCommand<string>(
+                name => Folders.Remove(Folders.Single(x => x.Name == name)))
+            ); }
         }
 
 
@@ -113,20 +127,10 @@ namespace SvgToXaml.ViewModel
             {
                 Folder folder = new Folder(commonOpenFileDialog.FileName);
 
-                if (IsUnique(folder))
+                // Only add a folder if it doesn't already exist in Folders
+                if (!Folders.Any(x => x.Equals(folder)))
                     Folders.Add(folder);
             }
-        }
-
-
-        private bool IsUnique(Folder _folder)
-        {
-            foreach(Folder folder in Folders)
-            {
-                if (folder.Equals(_folder))
-                    return false;
-            }
-            return true;
         }
 
 
@@ -136,7 +140,27 @@ namespace SvgToXaml.ViewModel
         private void ConvertSvgsToXaml()
         {
             throw new NotImplementedException();
-        } 
+        }
+
+
+        /// <summary>
+        /// Check if there is some svg files in Folders
+        /// </summary>
+        /// <returns></returns>
+        private bool CanConvert()
+        {
+            int _SvgCount = 0;
+            Status = "Add a folder";
+
+            if (Folders.Count > 0)
+            {
+                foreach (Folder folder in Folders)
+                    _SvgCount += folder.SvgCount;
+                Status = $"{_SvgCount} SVG found";
+            }
+
+            return _SvgCount > 0;
+        }
 
 
         #endregion Methods

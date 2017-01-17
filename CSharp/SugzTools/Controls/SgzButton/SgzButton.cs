@@ -141,11 +141,6 @@ namespace SugzTools.Controls
         public SgzButton()
         {
             Loaded += (s, e) => FocusVisualStyle = FocusVisualStyles.GetControlStyle(CornerRadius);
-
-            Click += (sender, e) =>
-            {
-
-            };
         }
 
 

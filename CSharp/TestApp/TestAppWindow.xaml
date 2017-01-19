@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestApp"
-        xmlns:Controls="clr-namespace:SugzTools.Controls;assembly=SugzTools"
+        xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         x:Class="TestApp.MainWindow"
@@ -22,32 +22,35 @@
 
     <Grid>
 
+        <sgz:SgzExpanderListBox x:Name="Listbox" 
+                                ItemsSource="{Binding}"
+                                Margin="5"/>
 
-        <Controls:SgzStackPanel Margin="5"
+        <!--<sgz:SgzStackPanel Margin="5"
                                 InnerMargin="0,0,0,5">
-            <Controls:SgzExpander x:Name="sgzExpander"
+            <sgz:SgzExpander x:Name="sgzExpander"
                                   Header="Test"
                                   VerticalAlignment="Top"
                                   IsExpanded="True">
 
-                <Controls:SgzStackPanel Margin="5,5,5,0">
-                    <Controls:SgzCheckBox HorizontalAlignment="Left"
+                <sgz:SgzStackPanel Margin="5,5,5,0">
+                    <sgz:SgzCheckBox HorizontalAlignment="Left"
                                           IsThreeState="True"
                                           HorizontalContentAlignment="Stretch" />
-                    <Controls:SgzGroupBox Header="Test">
+                    <sgz:SgzGroupBox Header="Test">
                         <UniformGrid Rows="1">
-                            <Controls:SgzIcon Icon="Wi3d3ds" />
-                            <Controls:SgzButton Click="SgzButton_Click"
+                            <sgz:SgzIcon Icon="Wi3d3ds" />
+                            <sgz:SgzButton Click="SgzButton_Click"
                                                 Margin="5"
                                                 Height="Auto" />
-                            <Controls:SgzCheckButton Content="CheckButton"
+                            <sgz:SgzCheckButton Content="CheckButton"
                                                      IsEnabled="False"
                                                      Margin="5" />
                         </UniformGrid>
                     </Controls:SgzGroupBox>
 
                     <DockPanel>
-                        <Controls:SgzTextBox x:Name="txt"
+                        <sgz:SgzTextBox x:Name="txt"
                                              DockPanel.Dock="Left"
                                              Watermark="Enter text here..."
                                              IsEnabled="False" />
@@ -59,12 +62,12 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Controls:SgzRadioButton Content="View"
+                        <sgz:SgzRadioButton Content="View"
                                                  GroupName="testRadioButtons"
                                                  HorizontalAlignment="Stretch"
                                                  HorizontalContentAlignment="Left"
                                                  IsEnabled="False" />
-                        <Controls:SgzRadioButton Content="test2"
+                        <sgz:SgzRadioButton Content="test2"
                                                  GroupName="testRadioButtons"
                                                  IsChecked="True"
                                                  Grid.Column="1"
@@ -73,19 +76,19 @@
                                                  Width="61" />
                     </Grid>
                     <DockPanel LastChildFill="False">
-                        <Controls:SgzRadioButton Content="test1"
+                        <sgz:SgzRadioButton Content="test1"
                                                  RadioButtonType="CheckButton"
                                                  Width="75"
                                                  HorizontalAlignment="Center"
                                                  VerticalContentAlignment="Center"
                                                  IsEnabled="False" />
-                        <Controls:SgzRadioButton Content="test2"
+                        <sgz:SgzRadioButton Content="test2"
                                                  DockPanel.Dock="Right"
                                                  RadioButtonType="CheckButton"
                                                  Width="75"
                                                  IsTransparent="True" />
                     </DockPanel>
-                    <Controls:SgzComboBox>
+                    <sgz:SgzComboBox>
                         <ComboBoxItem Content="abc #1" />
                         <ComboBoxItem IsSelected="True"
                                       Content="bcd #2" />
@@ -95,7 +98,7 @@
                         <ComboBoxItem Content="ComboBox Item #6" />
                         <ComboBoxItem Content="zef #7" />
                     </Controls:SgzComboBox>
-                    <Controls:SgzNumericUpDown x:Name="intSpinner"
+                    <sgz:SgzNumericUpDown x:Name="intSpinner"
                                                Content="IntegerSpinner"
                                                Type="Integer"
                                                NumericFormatSpecifier="N"
@@ -104,7 +107,7 @@
                     <TextBlock x:Name="intTxt" />
                     <TextBlock x:Name="intTxt2" />
                     <TextBlock x:Name="intTxt3" />
-                    <Controls:SgzNumericUpDown x:Name="floatSpinner"
+                    <sgz:SgzNumericUpDown x:Name="floatSpinner"
                                                Content="FloatSpinner"
                                                Type="Float" />
                     <TextBlock x:Name="floatTxt" />
@@ -112,12 +115,12 @@
                     <TextBlock x:Name="floatTxt3" />
                 </Controls:SgzStackPanel>
             </Controls:SgzExpander>
-            <Controls:SgzExpander HasPopup="False"
+            <sgz:SgzExpander HasPopup="False"
                                   IsExpanded="True">
-                <Controls:SgzExpander.Header>
+                <sgz:SgzExpander.Header>
                     <DockPanel>
                         <TextBlock Text="AutoSave" />
-                        <Controls:SgzProgressBar x:Name="progressbar"
+                        <sgz:SgzProgressBar x:Name="progressbar"
                                                  Margin="5,0"
                                                  Height="6"
                                                  Value="33"
@@ -126,16 +129,16 @@
                     </DockPanel>
 
                 </Controls:SgzExpander.Header>
-                <Controls:SgzGrid x:Name="grid">
-                    <Controls:SgzGrid.RowDefinitions>
+                <sgz:SgzGrid x:Name="grid">
+                    <sgz:SgzGrid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Controls:SgzGrid.RowDefinitions>
 
                 </Controls:SgzGrid>
             </Controls:SgzExpander>
-            <Controls:SgzExpander  Header="test" />
-        </Controls:SgzStackPanel>
+            <sgz:SgzExpander  Header="test" />
+        </Controls:SgzStackPanel>-->
 
     </Grid>
 </Window>

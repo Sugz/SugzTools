@@ -116,6 +116,28 @@ namespace SugzTools.Controls
         }
 
 
+        /// <summary>
+        /// Show the top indicator
+        /// </summary>
+        [Browsable(false)]
+        public bool TopIndicator
+        {
+            get { return (bool)GetValue(TopIndicatorProperty); }
+            set { SetValue(TopIndicatorProperty, value); }
+        }
+
+        
+        /// <summary>
+        /// Show the bottom indicator
+        /// </summary>
+        [Browsable(false)]
+        public bool BottomIndicator
+        {
+            get { return (bool)GetValue(BottomIndicatorProperty); }
+            set { SetValue(BottomIndicatorProperty, value); }
+        }
+
+
 
         #endregion Properties
 
@@ -200,6 +222,24 @@ namespace SugzTools.Controls
             typeof(int),
             typeof(SgzExpanderItem),
             new PropertyMetadata(200)
+        );
+
+
+        // DependencyProperty as the backing store for TopIndicator
+        public static readonly DependencyProperty TopIndicatorProperty = DependencyProperty.Register(
+            "TopIndicator",
+            typeof(bool),
+            typeof(SgzExpanderItem),
+            new PropertyMetadata(false)
+        );
+
+
+        // DependencyProperty as the backing store for BottomIndicator
+        public static readonly DependencyProperty BottomIndicatorProperty = DependencyProperty.Register(
+            "BottomIndicator",
+            typeof(bool),
+            typeof(SgzExpanderItem),
+            new PropertyMetadata(false)
         );
 
 
@@ -334,7 +374,19 @@ namespace SugzTools.Controls
         {
             SgzExpanderItem sgzExpanderItem = FindVisualParent<SgzExpanderItem>(((DependencyObject)e.OriginalSource));
             if (sgzExpanderItem != null && sgzExpanderItem != _SourceItem)
+            {
                 _TargetItem = sgzExpanderItem;
+
+                //IList<SgzExpanderItem> items = DataContext as IList<SgzExpanderItem>;
+                //if (items != null && _SourceItem != null)
+                //{
+                //    if (Items.IndexOf(_SourceItem) < Items.IndexOf(_TargetItem))
+                //        _TargetItem.BottomIndicator = true;
+                //    else
+                //        _TargetItem.TopIndicator = true;
+
+                //}
+            }
 
         }
 
@@ -412,242 +464,4 @@ namespace SugzTools.Controls
         #endregion Methods
 
     }
-    
-
-
-    /*
-    public class DragAndDropListBox<T> : ListBox
-        where T : class
-    {
-
-        #region Fields
-
-
-        private Point _dragStartPoint;
-        protected T _SourceItem;
-        protected T _TargetItem;
-
-
-        #endregion Fields
-
-
-
-        #region Constructor
-
-
-        public DragAndDropListBox()
-        {
-            AddEventHandlers();
-            SetItemContainerStyle();
-        }
-
-
-        #endregion Constructor
-
-
-
-        #region Methods
-
-
-        #region Privates
-
-
-        /// <summary>
-        /// Helper method to get the first VisualParent of a given type
-        /// </summary>
-        /// <typeparam name="P"></typeparam>
-        /// <param name="child"></param>
-        /// <returns></returns>
-        private P FindVisualParent<P>(DependencyObject child)
-            where P : DependencyObject
-        {
-            do
-            {
-                if (child is P)
-                    return (P)child;
-
-                child = VisualTreeHelper.GetParent(child);
-            }
-            while (child != null);
-            return null;
-        }
-
-
-        /// <summary>
-        /// Add various Event Handlers to handle drag and drop
-        /// </summary>
-        private void AddEventHandlers()
-        {
-            PreviewMouseMove += List_PreviewMouseMove;
-            PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            Drop += List_Drop;
-        }
-
-
-        /// <summary>
-        /// Set the ItemContainerStyle
-        /// </summary>
-        private void SetItemContainerStyle()
-        {
-            ControlTemplate template = new ControlTemplate(typeof(ListBoxItem));
-            template.VisualTree = new FrameworkElementFactory(typeof(ContentPresenter));
-
-            Style style = new Style(typeof(ListBoxItem));
-            style.Setters.Add(new Setter(TemplateProperty, template));
-            style.Setters.Add(new Setter(MarginProperty, new Thickness(0, 0, 0, 5)));
-            style.Setters.Add(new EventSetter(DragEnterEvent, new DragEventHandler(ListBoxItem_DragEnter)));
-
-            ItemContainerStyle = style;
-        }
-
-
-        #endregion Privates
-
-
-        #region Event Handlers
-
-
-        private void ListBoxItem_DragEnter(object sender, DragEventArgs e)
-        {
-            ListBoxItem lbi = FindVisualParent<ListBoxItem>(((DependencyObject)e.OriginalSource));
-            if (lbi != null && lbi != _SourceItem)
-                _TargetItem = lbi.DataContext as T;
-
-        }
-
-
-        private void List_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if (_SourceItem != null)
-            {
-                Point point = e.GetPosition(null);
-                Vector diff = _dragStartPoint - point;
-
-                if (e.LeftButton == MouseButtonState.Pressed &&
-                    (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                        Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
-                {
-                    ListBoxItem lbi = FindVisualParent<ListBoxItem>(((DependencyObject)e.OriginalSource));
-                    if (lbi != null)
-                        DragDrop.DoDragDrop(lbi, lbi.DataContext, DragDropEffects.Move);
-
-                }
-            }
-        }
-
-
-        private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _dragStartPoint = e.GetPosition(null);
-
-            SgzIcon dragIcon = FindVisualParent<SgzIcon>(((DependencyObject)e.OriginalSource));
-            if (dragIcon != null && dragIcon.Name == "PART_Drag")
-            {
-                ListBoxItem lbi = FindVisualParent<ListBoxItem>(((DependencyObject)e.OriginalSource));
-                if (lbi != null)
-                    _SourceItem = lbi.DataContext as T;
-
-            }
-        }
-
-
-        private void List_Drop(object sender, DragEventArgs e)
-        {
-            //IList<T> items = DataContext as IList<T>;
-            //IList<T> items = ItemsSource as IList<T>;
-            ItemCollection items = Items;
-            if (items != null && _SourceItem != null)
-            {
-                int sourceIndex = Items.IndexOf(_SourceItem);
-                int targetIndex = Items.IndexOf(_TargetItem);
-
-                if (sourceIndex < targetIndex)
-                {
-                    items.Insert(targetIndex + 1, _SourceItem);
-                    items.RemoveAt(sourceIndex);
-                }
-                else
-                {
-                    int removeIndex = sourceIndex + 1;
-                    if (items.Count + 1 > removeIndex)
-                    {
-                        items.Insert(targetIndex, _SourceItem);
-                        items.RemoveAt(removeIndex);
-                    }
-                }
-
-                _SourceItem = null;
-            }
-        }
-
-
-        #endregion Event Handlers
-
-
-        #endregion Methods
-
-    }
-    */
-
-    /*
-    public class SgzExpanderListBox : DragAndDropListBox<SgzExpanderItem>
-    {
-        static SgzExpanderListBox()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzExpanderListBox), new FrameworkPropertyMetadata(typeof(SgzExpanderListBox)));
-        }
-    }
-    */
-
-
-
-    /*
-    public class SgzExpanderItem
-    {
-
-        #region Properties
-
-
-        public object Header { get; set; }
-        public bool IsExpanded { get; set; }
-        public object Content { get; set; }
-        public object OldContent { get; set; }
-
-        public Brush Background { get; set; } = Resource<SolidColorBrush>.GetColor("MaxRollout");
-        public Brush Foreground { get; set; } = Resource<SolidColorBrush>.GetColor("MaxTitle");
-        public Brush BorderBrush { get; set; } = Resource<SolidColorBrush>.GetColor("MaxRolloutBorder");
-        public Brush HeaderBrush { get; set; }
-
-        public Thickness BorderThickness { get; set; } = new Thickness(1);
-        public int CornerRadius { get; set; } = 2;
-        public int HeaderHeight { get; set; } = 18;
-
-
-        #endregion Properties
-
-
-
-        #region Constructors
-
-
-
-        public SgzExpanderItem()
-        {
-            
-        }
-        public SgzExpanderItem(string header, bool isExpanded, string content)
-        {
-            Header = header;
-            Content = content;
-            IsExpanded = isExpanded;
-
-            OldContent = Content;
-            Content = null;
-        }
-
-
-        #endregion Constructors
-
-    }
-    */
 }

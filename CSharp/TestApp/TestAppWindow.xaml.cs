@@ -22,24 +22,59 @@ namespace TestApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        IList<ExpanderItem> _items;
+        IList<SgzExpanderItem> _items;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            _items = new ObservableCollection<ExpanderItem>()
+            SgzExpanderItem item1 = new SgzExpanderItem();
+            item1.Header = "Expander 01";
+            item1.IsExpanded = true;
+            StackPanel panel1 = new StackPanel();
+            panel1.Margin = new Thickness(5);
+            SgzButton btn1 = new SgzButton();
+            panel1.Children.Add(btn1);
+            item1.Content = panel1;
+
+            SgzExpanderItem item2 = new SgzExpanderItem();
+            item2.Header = "Expander 02";
+            item2.IsExpanded = true;
+            StackPanel panel2 = new StackPanel();
+            panel2.Margin = new Thickness(5);
+            SgzButton btn2 = new SgzButton();
+            panel2.Children.Add(btn2);
+            item2.Content = panel2;
+
+            SgzExpanderItem item3 = new SgzExpanderItem();
+            item3.Header = "Expander 03";
+            item3.IsExpanded = true;
+            StackPanel panel3 = new StackPanel();
+            panel3.Margin = new Thickness(5);
+            SgzButton btn3 = new SgzButton();
+            panel3.Children.Add(btn3);
+            item3.Content = panel3;
+
+
+            _items = new ObservableCollection<SgzExpanderItem>()
             {
-                new ExpanderItem("1", true),
-                new ExpanderItem("2", false),
-                new ExpanderItem("3", false),
-                new ExpanderItem("4", true),
-                new ExpanderItem("5", false),
-                new ExpanderItem("6", false),
+                item1,
+                item2,
+                item3
             };
 
             Listbox.DataContext = _items;
 
+
+            //SgzExpanderItem item1 = new SgzExpanderItem();
+            //item1.Header = "Expander 01";
+            //item1.IsExpanded = true;
+
+
+
+            //Listbox.Items.Add(new SgzExpanderItem("Expander 01", true, "Content 01"));
+            //Listbox.Items.Add(new SgzExpanderItem("Expander 02", false, "Content 02"));
+            //Listbox.Items.Add(new SgzExpanderItem("Expander 03", false, "Content 03"));
         }
 
 

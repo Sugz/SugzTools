@@ -15,44 +15,198 @@
         <Setter Property="BorderThickness" Value="0" /> 
         <Setter Property="AllowDrop" Value="True" />
 
-        <Setter Property="ItemTemplate">
+        <!--<Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Border x:Name="PART_Border"
-                            Background="{StaticResource MaxRollout}"
-                            BorderBrush="{StaticResource MaxRolloutBorder}"
-                            BorderThickness="1"
-                            CornerRadius="3">
-                        <StackPanel>
-                            <DockPanel>
-                                <local:SgzIcon x:Name="PART_Drag"
-                                               Data="{StaticResource RolloutDragDropGeo}"
-                                               Stretch="None"
-                                               Width="20"
-                                               DockPanel.Dock="Right"
-                                               Foreground="#FF979797"
-                                               MouseDownBrush="{x:Null}"
-                                               MouseOverBrush="White" />
-                                <ToggleButton x:Name="PART_Header"
-                                              Content="{Binding Header}"
-                                              Foreground="{StaticResource MaxTitle}"
-                                              FontWeight="SemiBold"
-                                              IsChecked="{Binding IsExpanded}"
-                                              Style="{StaticResource SgzExpanderHeaderStyle}"/>
 
-                            </DockPanel>
-                            <ContentPresenter Content="{Binding Content}"
-                                              Visibility="{Binding IsChecked, ElementName=PART_Header, Converter={StaticResource BoolToVisibility}}" />
-                        </StackPanel>
+                    <Border x:Name="PART_Border" 
+                            Background="{Binding Background}"
+                            BorderBrush="{Binding BorderBrush}"
+                            BorderThickness="{Binding BorderThickness}"
+                            CornerRadius="{Binding CornerRadius}">
+                        <Grid>
+
+                            <StackPanel>
+                                <DockPanel>
+                                    <local:SgzIcon x:Name="PART_Drag"
+                                                   Data="{StaticResource RolloutDragDropGeo}"
+                                                   Stretch="None"
+                                                   Width="20"
+                                                   DockPanel.Dock="Right"
+                                                   Foreground="{StaticResource MaxRolloutArrow}"
+                                                   MouseDownBrush="{StaticResource MaxTitle}"
+                                                   MouseOverBrush="{StaticResource MaxTitle}" />
+                                    <ToggleButton x:Name="PART_Header"
+                                                  Content="{Binding Header}"
+                                                  Foreground="{StaticResource MaxTitle}"
+                                                  FontWeight="SemiBold"
+                                                  IsChecked="{Binding IsExpanded}"
+                                                  Style="{StaticResource SgzExpanderHeaderStyle}" />
+
+                                </DockPanel>
+                                --><!--<ContentPresenter x:Name="PART_Expand" 
+                                                  Content="{Binding Content}"
+                                                  Visibility="{Binding IsChecked, ElementName=PART_Header, Converter={StaticResource BoolToVisibility}}" />--><!--
+                                <ContentPresenter x:Name="PART_Expand"
+                                                  Content="{Binding Content}"/>
+                            </StackPanel>
+
+                            --><!-- PopUp --><!--
+                            <Popup x:Name="PART_Popup"
+                                   Placement="Right"
+                                   StaysOpen="True"
+                                   Width="250"
+                                   AllowsTransparency="True">
+
+                                <Border Background="{StaticResource MaxRollout}"
+                                        BorderBrush="{StaticResource MaxRolloutBorder}"
+                                        BorderThickness="{Binding BorderThickness}"
+                                        CornerRadius="{Binding CornerRadius}">
+                                    <ContentPresenter x:Name="PART_PopupContent" 
+                                                      Focusable="False" />
+                                </Border>
+
+                            </Popup>
+
+                        </Grid>
                     </Border>
 
                     <DataTemplate.Triggers>
 
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsMouseOver, ElementName=PART_Border}" Value="True" />
+                                <Condition Binding="{Binding IsChecked, ElementName=PART_Header}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="PART_Expand" Property="Content" 
+                                    Value="{x:Null}" />
+                            <Setter TargetName="PART_PopupContent" Property="Content"
+                                    Value="{Binding OldContent, Mode=OneWay, Converter={StaticResource ObjectToUIElement}}" />
+                            <Setter TargetName="PART_Popup" Property="IsOpen"
+                                    Value="True" />
+                        </MultiDataTrigger>
+
+
+                        --><!-- Trigger for setting the content of expander when IsExpanded is true --><!--
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=PART_Header}" Value="True">
+                            <Setter TargetName="PART_PopupContent" Property="Content"
+                                    Value="{x:Null}" />
+                            <Setter TargetName="PART_Expand" Property="Content"
+                                    Value="{Binding OldContent, Mode=OneWay}" />
+                        </DataTrigger>
                     </DataTemplate.Triggers>
 
                 </DataTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
+        
     </Style>
+
+
+    <!--<Style x:Key="SgzExpanderItemStyle" TargetType="{x:Type local:SgzExpanderItem}" BasedOn="{StaticResource MaxStyle}">-->
+    <Style TargetType="{x:Type local:SgzExpanderItem}" BasedOn="{StaticResource MaxStyle}">
+        <Setter Property="Background" Value="{StaticResource MaxRollout}" />
+        <Setter Property="Foreground" Value="{StaticResource MaxTitle}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MaxRolloutBorder}" />
+        <Setter Property="Header" Value="SgzExpander" />
+        <Setter Property="Margin" Value="0,0,0,5" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SgzExpanderItem}">
+
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+
+                        <Grid>
+
+                            <!--Expander-->
+                            <StackPanel>
+
+                                <!-- Expander Header -->
+                                <Border Background="{TemplateBinding HeaderBrush}"
+                                        Height="{Binding HeaderHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+
+                                    <DockPanel>
+                                        <local:SgzIcon x:Name="PART_Drag"
+                                                       Data="{StaticResource RolloutDragDropGeo}"
+                                                       Stretch="None"
+                                                       Width="20"
+                                                       DockPanel.Dock="Right"
+                                                       Foreground="{StaticResource MaxRolloutArrow}"
+                                                       MouseDownBrush="{StaticResource MaxTitle}"
+                                                       MouseOverBrush="{StaticResource MaxTitle}" />
+                                        <ToggleButton x:Name="PART_Header"
+                                                      Content="{TemplateBinding Header}"
+                                                      Foreground="{TemplateBinding Foreground}"
+                                                      FontWeight="SemiBold"
+                                                      IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Style="{StaticResource SgzExpanderHeaderStyle}" />
+
+                                    </DockPanel>
+                                </Border>
+
+                                <!-- Content -->
+                                <ContentPresenter x:Name="PART_Expand" />
+                            </StackPanel>
+
+                            <!-- PopUp -->
+                            <Popup x:Name="PART_Popup"
+                                   Placement="{TemplateBinding PopUpPlacementMode}"
+                                   StaysOpen="True"
+                                   Width="{Binding PopupWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                   AllowsTransparency="True">
+
+                                <Border Background="{StaticResource MaxRollout}"
+                                        BorderBrush="{StaticResource MaxRolloutBorder}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ContentControl x:Name="PART_PopupContent"
+                                                    Focusable="False" />
+                                </Border>
+                            </Popup>
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        
+                        <!-- Trigger for showing the popup when Expander control is not expanded and IsMouseOver is true  -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsExpanded" Value="False" />
+                                <Condition Property="HasPopup" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_Expand" Property="Content"
+                                    Value="{x:Null}" />
+                            <Setter TargetName="PART_PopupContent" Property="Content"
+                                    Value="{Binding OldContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource ObjectToUIElement}}" />
+                            <Setter TargetName="PART_Popup" Property="IsOpen"
+                                    Value="True" />
+                        </MultiTrigger>
+
+
+                        <!-- Trigger for setting the content of expander when IsExpanded is true -->
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="PART_PopupContent" Property="Content"
+                                    Value="{x:Null}" />
+                            <Setter TargetName="PART_Expand" Property="Content"
+                                    Value="{Binding OldContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+    
+    
+    <!--<Style TargetType="{x:Type local:SgzExpanderItem}" BasedOn="{StaticResource SgzExpanderItemStyle}"/>-->
     
 </ResourceDictionary>

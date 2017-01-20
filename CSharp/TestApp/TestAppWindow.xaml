@@ -6,25 +6,24 @@
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        x:Name="window"
         x:Class="TestApp.MainWindow"
         mc:Ignorable="d"
         Title="TestApp"
         Height="500"
         Width="369.667"
-        Background="#FF444444">
+        Background="#FF444444"
+        >
 
     <Window.Resources>
-        <Path x:Key="thePath"
-              Data="M0,0 L4,3 0,6 Z" />
-        <materialDesign:PackIcon x:Key="theIcon"
-                                 Kind="AccessPoint" />
+
     </Window.Resources>
 
     <Grid>
 
-        <sgz:SgzExpanderListBox x:Name="Listbox" 
-                                ItemsSource="{Binding}"
-                                Margin="5"/>
+        <sgz:SgzExpanderListBox x:Name="Listbox" Margin="5" ItemsSource="{Binding}">
+
+        </sgz:SgzExpanderListBox>
 
         <!--<sgz:SgzStackPanel Margin="5"
                                 InnerMargin="0,0,0,5">

@@ -140,6 +140,7 @@
                 CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
 
             <Grid>
+                
                 <!-- Expander -->
                 <StackPanel>
 

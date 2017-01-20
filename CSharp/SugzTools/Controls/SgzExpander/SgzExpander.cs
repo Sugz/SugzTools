@@ -99,15 +99,6 @@ namespace SugzTools.Controls
             set { SetValue(IsGroupBoxProperty, value); }
         }
 
-        // DependencyProperty as the backing store for IsGroupBox
-        public static readonly DependencyProperty IsGroupBoxProperty = DependencyProperty.Register(
-            "IsGroupBox",
-            typeof(bool),
-            typeof(SgzExpander),
-            new PropertyMetadata(false)
-        );
-
-
 
 
         #endregion
@@ -179,13 +170,22 @@ namespace SugzTools.Controls
         );
 
 
+        // DependencyProperty as the backing store for IsGroupBox
+        public static readonly DependencyProperty IsGroupBoxProperty = DependencyProperty.Register(
+            "IsGroupBox",
+            typeof(bool),
+            typeof(SgzExpander),
+            new PropertyMetadata(false)
+        );
+
+
         #endregion Dependency Properties
 
 
 
         #region Constructors
 
-         
+
         static SgzExpander()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzExpander), new FrameworkPropertyMetadata(typeof(SgzExpander)));

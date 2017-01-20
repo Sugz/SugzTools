@@ -10,7 +10,7 @@ using System.Windows.Controls.Primitives;
 
 namespace SugzTools.Controls
 {
-    /*
+    
     public class SgzExpanderItem : ListBoxItem
     {
 

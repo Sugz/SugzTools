@@ -137,7 +137,32 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
+
+        <Style.Triggers>
+            <Trigger Property="IsIndicator" Value="True">
+                <Setter Property="Margin" Value="5,0,5,5" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:SgzExpanderItem}">
+                            <Rectangle Fill="{StaticResource MaxBlue}"
+                                       RadiusX="2"
+                                       RadiusY="2"
+                                       StrokeThickness="0"
+                                       Height="2">
+                                <!--<Rectangle.Effect>
+                                    <DropShadowEffect ShadowDepth="0"
+                                                      Color="#FF7DA8DC"
+                                                      Opacity="1"
+                                                      BlurRadius="5" />
+                                </Rectangle.Effect>-->
+                            </Rectangle>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+
     </Style>
    
     

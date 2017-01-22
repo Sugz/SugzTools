@@ -1,12 +1,14 @@
-﻿using System;
+﻿using SugzTools.Src;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.Generic;
 using System.ComponentModel;
-using SugzTools.Src;
 using System.Windows.Controls.Primitives;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace SugzTools.Controls
 {
@@ -247,6 +249,24 @@ namespace SugzTools.Controls
         #endregion Dependency Properties
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Browsable(false)]
+        public bool IsIndicator
+        {
+            get { return (bool)GetValue(IsIndicatorProperty); }
+            set { SetValue(IsIndicatorProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for IsIndicator
+        public static readonly DependencyProperty IsIndicatorProperty = DependencyProperty.Register(
+            "IsIndicator",
+            typeof(bool),
+            typeof(SgzExpanderItem),
+            new PropertyMetadata(false)
+        );
+
 
 
 
@@ -260,6 +280,10 @@ namespace SugzTools.Controls
         public SgzExpanderItem()
         {
             
+        }
+        public SgzExpanderItem(bool isIndicator)
+        {
+            IsIndicator = isIndicator;
         }
         public SgzExpanderItem(string header, bool isExpanded, object content)
         {
@@ -293,11 +317,12 @@ namespace SugzTools.Controls
 
 
         private Point _DragStartPoint;
-        protected SgzExpanderItem _SourceItem;
-        protected SgzExpanderItem _TargetItem;
+        private SgzExpanderItem _SourceItem;
+        private Window _NewWindow;
 
 
         #endregion Fields
+
 
 
         #region Constructor
@@ -309,12 +334,6 @@ namespace SugzTools.Controls
         public SgzExpanderListBox()
         {
             AddEventHandlers();
-
-            Loaded += (s, e) =>
-            {
-                foreach (SgzExpanderItem item in Items)
-                    item.DragEnter += ListBoxItem_DragEnter;
-            };
         }
 
 
@@ -359,6 +378,17 @@ namespace SugzTools.Controls
             PreviewMouseMove += List_PreviewMouseMove;
             PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
             Drop += List_Drop;
+
+            //Loaded += (s, e) => Items.ForEach(x => ((SgzExpanderItem)x).DragOver += Item_DragOver);
+            Loaded += (s, e) =>
+            {
+                foreach(SgzExpanderItem item in Items)
+                {
+                    item.DragOver += Item_DragOver;
+                    //item.PreviewDragLeave += Item_PreviewDragLeave;
+                }
+            };
+
         }
 
 
@@ -370,28 +400,30 @@ namespace SugzTools.Controls
         #region Event Handlers
 
 
-        private void ListBoxItem_DragEnter(object sender, DragEventArgs e)
+        /// <summary>
+        /// Add the drop indicator depending on the mouse position over the DragOver item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Item_DragOver(object sender, DragEventArgs e)
         {
-            SgzExpanderItem sgzExpanderItem = FindVisualParent<SgzExpanderItem>(((DependencyObject)e.OriginalSource));
-            if (sgzExpanderItem != null && sgzExpanderItem != _SourceItem)
+            SgzExpanderItem item = FindVisualParent<SgzExpanderItem>(((DependencyObject)e.OriginalSource));
+            if (item != null)
             {
-                _TargetItem = sgzExpanderItem;
+                IList<SgzExpanderItem> items = DataContext as IList<SgzExpanderItem>;
+                items.Remove(items.SingleOrDefault(x => x.IsIndicator));
 
-                //IList<SgzExpanderItem> items = DataContext as IList<SgzExpanderItem>;
-                //if (items != null && _SourceItem != null)
-                //{
-                //    if (Items.IndexOf(_SourceItem) < Items.IndexOf(_TargetItem))
-                //        _TargetItem.BottomIndicator = true;
-                //    else
-                //        _TargetItem.TopIndicator = true;
-
-                //}
+                int targetIndex = items.IndexOf(item);
+                items.Insert((e.GetPosition(item).Y >= (item.ActualHeight / 2) ? targetIndex + 1 : targetIndex), new SgzExpanderItem(true));
             }
-
         }
 
 
-
+        /// <summary>
+        /// Start the Drag and Drop process if _SourceItem exist
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void List_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (_SourceItem != null)
@@ -400,19 +432,50 @@ namespace SugzTools.Controls
                 Vector diff = _DragStartPoint - point;
 
                 if (e.LeftButton == MouseButtonState.Pressed &&
-                    (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                        Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+                    (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
                 {
-                    SgzExpanderItem sgzExpanderItem = FindVisualParent<SgzExpanderItem>(((DependencyObject)e.OriginalSource));
-                    if (sgzExpanderItem != null)
-                        DragDrop.DoDragDrop(sgzExpanderItem, sgzExpanderItem.DataContext, DragDropEffects.Move);
+                    QueryContinueDrag += List_QueryContinueDrag;
+                    DragDrop.DoDragDrop(_SourceItem, _SourceItem.DataContext, DragDropEffects.Copy);
+                }
+
+            }
+        }
+
+        private void List_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            if (e.KeyStates == DragDropKeyStates.None)
+            {
+                QueryContinueDrag -= List_QueryContinueDrag;
+                e.Handled = true;
+                Console.WriteLine("I'm gonna drop here, bitch !!");
+
+                if (_NewWindow == null)
+                {
+                    SgzExpanderListBox list = new SgzExpanderListBox();
+                    list.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    list.VerticalAlignment = VerticalAlignment.Stretch;
+                    list.ItemsSource = new ObservableCollection<SgzExpanderItem>() { _SourceItem };
+
+
+                    _NewWindow = new Window();
+                    _NewWindow.Width = 300;
+                    _NewWindow.Height = 500;
+                    _NewWindow.Background = Resource<SolidColorBrush>.GetColor("MaxBackground");
+                    _NewWindow.Content = list;
+                    _NewWindow.Show();
+
 
                 }
+                
             }
         }
 
 
-
+        /// <summary>
+        /// Define _DragStartPoint and _SourceItem
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void List_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _DragStartPoint = e.GetPosition(null);
@@ -423,35 +486,25 @@ namespace SugzTools.Controls
                 SgzExpanderItem sgzExpanderItem = FindVisualParent<SgzExpanderItem>(((DependencyObject)e.OriginalSource));
                 if (sgzExpanderItem != null)
                     _SourceItem = sgzExpanderItem;
-
             }
         }
 
 
-
+        /// <summary>
+        /// Move _SourceItem to the drop indiactor position
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void List_Drop(object sender, DragEventArgs e)
         {
             IList<SgzExpanderItem> items = DataContext as IList<SgzExpanderItem>;
             if (items != null && _SourceItem != null)
             {
-                int sourceIndex = Items.IndexOf(_SourceItem);
-                int targetIndex = Items.IndexOf(_TargetItem);
+                SgzExpanderItem indicator = items.SingleOrDefault(x => x.IsIndicator);
+                items.RemoveAt(items.IndexOf(_SourceItem));
+                items.Insert(items.IndexOf(indicator), _SourceItem);
 
-                if (sourceIndex < targetIndex)
-                {
-                    items.Insert(targetIndex + 1, _SourceItem);
-                    items.RemoveAt(sourceIndex);
-                }
-                else
-                {
-                    int removeIndex = sourceIndex + 1;
-                    if (items.Count + 1 > removeIndex)
-                    {
-                        items.Insert(targetIndex, _SourceItem);
-                        items.RemoveAt(removeIndex);
-                    }
-                }
-
+                items.Remove(indicator);
                 _SourceItem = null;
             }
         }
@@ -465,3 +518,9 @@ namespace SugzTools.Controls
 
     }
 }
+
+
+
+
+//TODO: delete indicator on aborted drag or when mouse leave the listbox
+//TODO: OnApplyTemplate() => GetTemplateChild("") as ; to get stuff like SgzIcon

@@ -127,6 +127,7 @@
     <Compile Include="Resources\ExternalIconsEnum.cs" />
     <Compile Include="Sources\Const.cs" />
     <Compile Include="Sources\Enums.cs" />
+    <Compile Include="Sources\ExtensionMethods.cs" />
     <Compile Include="Sources\GetResources.cs" />
     <Compile Include="Sources\Helpers.cs" />
     <Compile Include="Sources\NativeMethods.cs" />

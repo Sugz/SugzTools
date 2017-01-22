@@ -11,7 +11,7 @@
         mc:Ignorable="d"
         Title="TestApp"
         Height="500"
-        Width="369.667"
+        Width="300"
         Background="#FF444444"
         >
 

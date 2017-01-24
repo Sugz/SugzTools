@@ -10,12 +10,20 @@ using System.Linq;
 namespace SugzTools.Controls
 {
 
-    
+    [TemplatePart(Name = "PART_Grid", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_Focus", Type = typeof(Border))]
     public class SgzTextBox : TextBox
     {
 
+        #region Fields
+
+
         Grid PART_Grid;
         Border PART_Focus;
+
+
+        #endregion Fields
+
 
 
         #region Properties
@@ -141,6 +149,25 @@ namespace SugzTools.Controls
         #region Methods
 
 
+        #region Overrides
+
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            PART_Grid = GetTemplateChild("PART_Grid") as Grid;
+            PART_Focus = GetTemplateChild("PART_Focus") as Border;
+        }
+
+
+        #endregion Overrides
+
+
+
+        #region Event Handlers
+
+
         private void SgzTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return && e.Key == Key.Enter)
@@ -155,19 +182,16 @@ namespace SugzTools.Controls
         }
 
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
+        #endregion Event Handlers
 
-            PART_Grid = GetTemplateChild("PART_Grid") as Grid;
-            PART_Focus = GetTemplateChild("PART_Focus") as Border;
-        }
 
+
+        #region Public
 
 
         public void AddControl(Control control, int column)
         {
-            if (PART_Grid != null && PART_Focus != null && 
+            if (PART_Grid != null && PART_Focus != null &&
                 (column == 0 || column == 2 || column == 3))
             {
                 // Remove existing control
@@ -177,6 +201,9 @@ namespace SugzTools.Controls
                 Grid.SetColumn(control, column);
             }
         }
+
+
+        #endregion Public
 
 
         #endregion Methods

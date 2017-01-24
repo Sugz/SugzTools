@@ -6,131 +6,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ListBoxDragDrop"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
-        xmlns:dg ="clr-namespace:SugzTools.Controls"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="350"
         Width="525">
+    
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
 
     <Grid Background="#FF444444">
-        <!--<local:ItemDragAndDropListBox x:Name="listBox" 
-                            ItemsSource="{Binding}" 
-                            HorizontalContentAlignment="Stretch" 
-                            Margin="5" 
-                            Background="Transparent" 
-                            AllowDrop="True" 
-                            BorderThickness="0" 
-                            BorderBrush="{x:Null}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border x:Name="PART_Border"
-                            Background="#FF555555"
-                            CornerRadius="3"
-                            Grid.Row="1">
-                        <StackPanel>
-                            <DockPanel>
-                                <sgz:SgzIcon x:Name="PART_Drag"
-                                             Data="M0,0 H1 V1 H0 M2,0 H3 V1 H2 M4,0 H5 V1 H4 M0,2 H1 V3 H0 M2,2 H3 V3 H2 M4,2 H5 V3 H4 M0,4 H1 V5 H0 M2,4 H3 V5 H2 M4,4 H5 V5 H4 Z"
-                                             Stretch="None"
-                                             Width="20"
-                                             DockPanel.Dock="Right"
-                                             Foreground="#FF979797"
-                                             MouseDownBrush="{x:Null}"
-                                             MouseOverBrush="White" />
-                                <ToggleButton x:Name="PART_Header"
-                                              Content="{Binding Header}"
-                                              IsChecked="{Binding IsExpanded}"
-                                              Height="20" />
-                                
-                            </DockPanel>
-                            <ContentPresenter Content="{Binding Content}"
-                                              Visibility="{Binding IsChecked, ElementName=PART_Header, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        </StackPanel>
-                    </Border>
-
-                    <DataTemplate.Triggers>
-                        
-                    </DataTemplate.Triggers>
-                    
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Margin" Value="0,0,0,5"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <ContentPresenter />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            
-        </local:ItemDragAndDropListBox>-->
-
-        <dg:ExpanderListBox x:Name="listBox"
-                            ItemsSource="{Binding}"
-                            Margin="5"
-                            HorizontalContentAlignment="Stretch"
-                            Background="#FF991616"
-                            AllowDrop="True"
-                            BorderThickness="0"
-                            BorderBrush="{x:Null}">
-            
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border x:Name="PART_Border"
-                            Background="#FF555555"
-                            CornerRadius="3"
-                            Grid.Row="1">
-                        <StackPanel>
-                            <DockPanel>
-                                <sgz:SgzIcon x:Name="PART_Drag"
-                                             Data="M0,0 H1 V1 H0 M2,0 H3 V1 H2 M4,0 H5 V1 H4 M0,2 H1 V3 H0 M2,2 H3 V3 H2 M4,2 H5 V3 H4 M0,4 H1 V5 H0 M2,4 H3 V5 H2 M4,4 H5 V5 H4 Z"
-                                             Stretch="None"
-                                             Width="20"
-                                             DockPanel.Dock="Right"
-                                             Foreground="#FF979797"
-                                             MouseDownBrush="{x:Null}"
-                                             MouseOverBrush="White" />
-                                <ToggleButton x:Name="PART_Header"
-                                              Content="{Binding Header}"
-                                              IsChecked="{Binding IsExpanded}"
-                                              Height="20" />
-
-                            </DockPanel>
-                            <ContentPresenter Content="{Binding Content}"
-                                              Visibility="{Binding IsChecked, ElementName=PART_Header, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        </StackPanel>
-                    </Border>
-
-                    <DataTemplate.Triggers>
-
-                    </DataTemplate.Triggers>
-
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Margin"
-                            Value="0,0,0,5" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <ContentPresenter />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
-
-        </dg:ExpanderListBox>
+        <local:SgzExpanderList Margin="5"
+                                       AllowDrop="True">
+            <local:SgzExpanderItem Header="Expander 01"/>
+            <local:SgzExpanderItem Header="Expander 02" />
+            <local:SgzExpanderItem Header="Expander 03" />
+        </local:SgzExpanderList>
     </Grid>
 </Window>

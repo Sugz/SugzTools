@@ -196,24 +196,9 @@ namespace ListBoxDragDrop
     /// </summary>
     public partial class MainWindow : Window
     {
-        IList<ExpanderItem> _items;
-
         public MainWindow()
         {
             InitializeComponent();
-
-            _items = new ObservableCollection<ExpanderItem>()
-            {
-                new ExpanderItem("1", true),
-                new ExpanderItem("2", false),
-                new ExpanderItem("3", false),
-                new ExpanderItem("4", true),
-                new ExpanderItem("5", false),
-                new ExpanderItem("6", false),
-            };
-
-            listBox.DataContext = _items;
-
         }
 
     }

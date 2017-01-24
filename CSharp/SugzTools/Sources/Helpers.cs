@@ -82,5 +82,27 @@ namespace SugzTools.Src
             return items;
         }
 
+
+
+        /// <summary>
+        /// Helper method to get the first VisualParent of a given type
+        /// </summary>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="child"></param>
+        /// <returns></returns>
+        public static T FindAnchestor<T>(DependencyObject child) where T : DependencyObject
+        {
+            do
+            {
+                if (child is T)
+                {
+                    return (T)child;
+                }
+                child = VisualTreeHelper.GetParent(child);
+            }
+            while (child != null);
+            return null;
+        }
+
     }
 }

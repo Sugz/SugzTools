@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Linq;
 
 namespace SugzTools.Controls
 {
@@ -12,6 +13,10 @@ namespace SugzTools.Controls
     
     public class SgzTextBox : TextBox
     {
+
+        Grid PART_Grid;
+        Border PART_Focus;
+
 
         #region Properties
 
@@ -146,6 +151,30 @@ namespace SugzTools.Controls
 
                 // Call the Validate event
                 Validate?.Invoke(this, new SgzTextBoxEventArgs(Text));
+            }
+        }
+
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            PART_Grid = GetTemplateChild("PART_Grid") as Grid;
+            PART_Focus = GetTemplateChild("PART_Focus") as Border;
+        }
+
+
+
+        public void AddControl(Control control, int column)
+        {
+            if (PART_Grid != null && PART_Focus != null && 
+                (column == 0 || column == 2 || column == 3))
+            {
+                // Remove existing control
+                PART_Grid.Children.Remove(PART_Grid.Children.Cast<UIElement>().SingleOrDefault(x => Grid.GetColumn(x) == column && x != PART_Focus));
+
+                PART_Grid.Children.Add(control);
+                Grid.SetColumn(control, column);
             }
         }
 

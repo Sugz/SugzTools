@@ -12,16 +12,20 @@
         Title="TestApp"
         Height="500"
         Width="300"
-        Background="#FF444444"
-        >
+        Background="#FF444444">
 
     <Window.Resources>
 
     </Window.Resources>
 
-    <Grid>
-
-        <sgz:SgzExpanderListBox x:Name="Listbox" Margin="5" ItemsSource="{Binding}">
+    <StackPanel>
+        <sgz:SgzIcon Icon="MdiClose"
+                     Width="Auto"
+                     Height="9"
+                     Margin="138,2,142,2" />
+        <sgz:SgzExpanderListBox x:Name="Listbox"
+                                Margin="5"
+                                ItemsSource="{Binding}">
 
         </sgz:SgzExpanderListBox>
 
@@ -139,5 +143,5 @@
             <sgz:SgzExpander  Header="test" />
         </Controls:SgzStackPanel>-->
 
-    </Grid>
+    </StackPanel>
 </Window>

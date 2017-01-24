@@ -11,7 +11,7 @@
 
     <!--SgzTextBoxStyle-->
     <Style TargetType="{x:Type local:SgzTextBox}" BasedOn="{StaticResource MaxControlStyle}">
-        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="Cursor" Value="IBeam" />
         <Setter Property="CaretBrush" Value="{StaticResource MaxCaretBrush}"/>
         <Setter Property="SelectionBrush" Value="{StaticResource MaxBlue}" />
         <Setter Property="Padding" Value="1" />
@@ -34,8 +34,16 @@
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <Grid x:Name="PART_Grid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
                             <ScrollViewer x:Name="PART_ContentHost"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                          Grid.Column="1"/>
                             <TextBlock x:Name="PART_Watermark"
                                        Text="{TemplateBinding Watermark}"
                                        Foreground="{TemplateBinding WaterMarkForeground}"
@@ -44,12 +52,14 @@
                                        FontStyle="Italic" 
                                        VerticalAlignment="Center"
                                        Margin="2,0,0,0"
-                                       Visibility="Collapsed"/>
-                            <Border x:Name="PART_FOCUS"
+                                       Visibility="Collapsed"
+                                       Grid.Column="1" />
+                            <Border x:Name="PART_Focus"
                                     BorderBrush="{StaticResource MaxFocusBorder}"
                                     BorderThickness="0"
                                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    Grid.ColumnSpan="4"/>
                         </Grid>
                     </Border>
 
@@ -60,9 +70,10 @@
                         </Trigger>
                         
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="PART_FOCUS" Property="BorderThickness" Value="1" />
+                            <Setter TargetName="PART_Focus" Property="BorderThickness" Value="1" />
                         </Trigger>
 
+                        <!--Watermark-->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Text" Value="{x:Static sys:String.Empty}" />
@@ -70,6 +81,8 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible"/>
                         </MultiTrigger>
+                        
+                        
                         
                     </ControlTemplate.Triggers>
                     

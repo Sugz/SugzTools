@@ -1,4 +1,6 @@
 ﻿using SugzTools.Controls;
+using SugzTools.Icons;
+using SugzTools.Src;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +25,7 @@ namespace TestApp
     public partial class MainWindow : Window
     {
         IList<SgzExpanderItem> _items;
+        SgzTextBox txt;
 
         public MainWindow()
         {
@@ -34,7 +37,14 @@ namespace TestApp
             StackPanel panel1 = new StackPanel();
             panel1.Margin = new Thickness(5);
             SgzButton btn1 = new SgzButton();
+            btn1.Click += Btn1_Click;
             panel1.Children.Add(btn1);
+
+            txt = new SgzTextBox();
+            txt.Watermark = "test";
+            
+            panel1.Children.Add(txt);
+
             item1.Content = panel1;
 
             SgzExpanderItem item2 = new SgzExpanderItem();
@@ -64,17 +74,35 @@ namespace TestApp
             };
 
             Listbox.DataContext = _items;
-
-
-            //SgzExpanderItem item1 = new SgzExpanderItem();
-            //item1.Header = "Expander 01";
-            //item1.IsExpanded = true;
+        }
 
 
 
-            //Listbox.Items.Add(new SgzExpanderItem("Expander 01", true, "Content 01"));
-            //Listbox.Items.Add(new SgzExpanderItem("Expander 02", false, "Content 02"));
-            //Listbox.Items.Add(new SgzExpanderItem("Expander 03", false, "Content 03"));
+        private void Btn1_Click(object sender, RoutedEventArgs e)
+        {
+            SgzIcon icon1 = new SgzIcon();
+            icon1.Cursor = Cursors.Arrow;
+            icon1.Icon = Geo.MdiAccessPoint;
+            icon1.Width = 23;
+            icon1.Padding = new Thickness(4, 2, 4, 2);
+            txt.AddControl(icon1, 0);
+
+
+            SgzIcon icon2 = new SgzIcon();
+            icon2.Cursor = Cursors.Arrow;
+            icon2.Icon = Geo.MdiClose;
+            icon2.Width = 19;
+            icon2.Padding = new Thickness(4);
+            txt.AddControl(icon2, 3);
+
+
+            SgzIcon icon3 = new SgzIcon();
+            icon3.Cursor = Cursors.Arrow;
+            icon3.Icon = Geo.MdiCodeString;
+            icon3.Width = 19;
+            icon3.Padding = new Thickness(4);
+            txt.AddControl(icon3, 2);
+
         }
 
 

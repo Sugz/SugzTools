@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ListBoxDragDrop"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
+        xmlns:b="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="350"
@@ -17,11 +18,13 @@
 
 
     <Grid Background="#FF444444">
-        <local:SgzExpanderList Margin="5"
-                                       AllowDrop="True">
-            <local:SgzExpanderItem Header="Expander 01"/>
-            <local:SgzExpanderItem Header="Expander 02" />
-            <local:SgzExpanderItem Header="Expander 03" />
-        </local:SgzExpanderList>
+        <local:SgzExpandersControl Margin="5" 
+                                   AllowDrop="True"
+                                   Background="Transparent">
+
+            <local:SgzExpanderItem x:Name="Expander01" Header="Expander 01"/>
+            <local:SgzExpanderItem x:Name="Expander02" Header="Expander 02"/>
+            <local:SgzExpanderItem x:Name="Expander03" Header="Expander 03"/>
+        </local:SgzExpandersControl>
     </Grid>
 </Window>

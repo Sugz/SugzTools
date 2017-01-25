@@ -10,6 +10,32 @@
     </ResourceDictionary.MergedDictionaries>
 
 
+    <Style x:Key="ExpanderThumbStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource MaxRolloutArrow}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Background="Transparent">
+                        <Path Data="{StaticResource RolloutDragDropGeo}"
+                              Stretch="None"
+                              Fill="{TemplateBinding Foreground}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource MaxTitle}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style TargetType="{x:Type local:SgzExpanderItem}" BasedOn="{StaticResource MaxStyle}">
         <Setter Property="Background" Value="{StaticResource MaxRollout}" />
         <Setter Property="Foreground" Value="{StaticResource MaxTitle}" />
@@ -34,14 +60,9 @@
                                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
 
                                     <DockPanel>
-                                        <sgz:SgzIcon x:Name="PART_Drag"
-                                                     Data="{StaticResource RolloutDragDropGeo}"
-                                                     Stretch="None"
-                                                     Width="20"
-                                                     DockPanel.Dock="Right"
-                                                     Foreground="{StaticResource MaxRolloutArrow}"
-                                                     MouseDownBrush="{StaticResource MaxTitle}"
-                                                     MouseOverBrush="{StaticResource MaxTitle}" />
+                                        <Thumb x:Name="PART_Drag"
+                                               DockPanel.Dock="Right"
+                                               Style="{StaticResource ExpanderThumbStyle}"/>
                                         <ToggleButton x:Name="PART_Header"
                                                       Content="{TemplateBinding Header}"
                                                       Foreground="{TemplateBinding Foreground}"
@@ -107,25 +128,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-
-        <Style.Triggers>
-            <Trigger Property="IsIndicator" Value="True">
-                <Setter Property="Margin" Value="5,0,5,5" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type local:SgzExpanderItem}">
-                            <Rectangle Fill="{StaticResource MaxBlue}"
-                                       RadiusX="2"
-                                       RadiusY="2"
-                                       StrokeThickness="0"
-                                       Height="2">
-                            </Rectangle>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>
 
     </Style>
 

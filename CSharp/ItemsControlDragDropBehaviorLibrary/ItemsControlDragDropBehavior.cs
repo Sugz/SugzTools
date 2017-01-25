@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Expression.Interactivity;
 using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Documents;
-using System.Windows.Shapes;
-using System.Windows.Controls.Primitives;
-using System.Collections;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Input;
+using System.Windows.Documents;
 
-namespace DragAndDropLib
+namespace ItemsControlDragDropBehavior.Library
 {
-    public class ItemsControlDragDropDecorator : BaseDecorator, IDisposable 
+    public class ItemsControlDragDropBehavior : Behavior<ItemsControl>
     {
         private bool _isMouseDown;
         private object _data;
@@ -27,68 +21,56 @@ namespace DragAndDropLib
         private int _dragScrollWaitCounter;
         private const int DRAG_WAIT_COUNTER_LIMIT = 10;
 
-        static ItemsControlDragDropDecorator()
-        {
-            ItemTypeProperty = DependencyProperty.Register("ItemType", typeof(Type), typeof(ItemsControlDragDropDecorator), new FrameworkPropertyMetadata(null));
-            DataTemplateProperty = DependencyProperty.Register("DataTemplate", typeof(DataTemplate), typeof(ItemsControlDragDropDecorator), new FrameworkPropertyMetadata(null));
-        }
 
-        public ItemsControlDragDropDecorator() : base()
+        public ItemsControlDragDropBehavior()
         {
             _isMouseDown = false;
             _isDragging = false;
             _dragScrollWaitCounter = DRAG_WAIT_COUNTER_LIMIT;
-            this.Loaded += new RoutedEventHandler(DraggableItemsControl_Loaded);
         }
 
 
-        void DraggableItemsControl_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnAttached()
         {
-            if (!(base.DecoratedUIElement is ItemsControl))
-            {
-                throw new InvalidCastException(string.Format("ItemsControlDragDecorator cannot have child of type {0}", Child.GetType()));
-            }
-            ItemsControl itemsControl = (ItemsControl)DecoratedUIElement;
-            itemsControl.AllowDrop = true;
-            itemsControl.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(itemsControl_PreviewMouseLeftButtonDown);
-            itemsControl.PreviewMouseMove += new MouseEventHandler(itemsControl_PreviewMouseMove);
-            itemsControl.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(itemsControl_PreviewMouseLeftButtonUp);
-            itemsControl.PreviewDrop += new DragEventHandler(itemsControl_PreviewDrop);
-            itemsControl.PreviewQueryContinueDrag += new QueryContinueDragEventHandler(itemsControl_PreviewQueryContinueDrag);
-            itemsControl.PreviewDragEnter += new DragEventHandler(itemsControl_PreviewDragEnter);
-            itemsControl.PreviewDragOver += new DragEventHandler(itemsControl_PreviewDragOver);
-            itemsControl.DragLeave += new DragEventHandler(itemsControl_DragLeave);
+            this.AssociatedObject.AllowDrop = true;
+            this.AssociatedObject.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(itemsControl_PreviewMouseLeftButtonDown);
+            this.AssociatedObject.PreviewMouseMove += new MouseEventHandler(itemsControl_PreviewMouseMove);
+            this.AssociatedObject.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(itemsControl_PreviewMouseLeftButtonUp);
+            this.AssociatedObject.PreviewDrop += new DragEventHandler(itemsControl_PreviewDrop);
+            this.AssociatedObject.PreviewQueryContinueDrag += new QueryContinueDragEventHandler(itemsControl_PreviewQueryContinueDrag);
+            this.AssociatedObject.PreviewDragEnter += new DragEventHandler(itemsControl_PreviewDragEnter);
+            this.AssociatedObject.PreviewDragOver += new DragEventHandler(itemsControl_PreviewDragOver);
+            this.AssociatedObject.DragLeave += new DragEventHandler(itemsControl_DragLeave);
         }
 
 
-        #region Dependency Properties
 
-        public static readonly DependencyProperty ItemTypeProperty;
 
-        public Type ItemType
-        {
-            get { return (Type)base.GetValue(ItemTypeProperty); }
-            set { base.SetValue(ItemTypeProperty, value); }
-        }
+        #region Properties
 
-        public static readonly DependencyProperty DataTemplateProperty;
 
-        public DataTemplate DataTemplate
-        {
-            get { return (DataTemplate)base.GetValue(DataTemplateProperty); }
-            set { base.SetValue(DataTemplateProperty, value); }
-        }
+
+        public Type ItemType { get; set; }
+
+
+        public DataTemplate DataTemplate { get; set; }
+
+
 
         #endregion
 
 
+
+
         #region Button Events
+
 
 
         void itemsControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             ResetState();
         }
+
 
 
         void itemsControl_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -106,6 +88,7 @@ namespace DragAndDropLib
         }
 
 
+
         void itemsControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ItemsControl itemsControl = (ItemsControl)sender;
@@ -119,16 +102,22 @@ namespace DragAndDropLib
         }
 
 
-        #endregion 
+
+        #endregion
+
+
 
 
         #region Drag Events
+
+
 
         void itemsControl_DragLeave(object sender, DragEventArgs e)
         {
             DetachAdorners();
             e.Handled = true;
         }
+
 
 
         void itemsControl_PreviewDragOver(object sender, DragEventArgs e)
@@ -144,6 +133,7 @@ namespace DragAndDropLib
         }
 
 
+
         void itemsControl_PreviewDragEnter(object sender, DragEventArgs e)
         {
             ItemsControl itemsControl = (ItemsControl)sender;
@@ -155,6 +145,7 @@ namespace DragAndDropLib
             }
             e.Handled = true;
         }
+
 
 
         void itemsControl_PreviewQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
@@ -169,6 +160,7 @@ namespace DragAndDropLib
         }
 
 
+
         void itemsControl_PreviewDrop(object sender, DragEventArgs e)
         {
             ItemsControl itemsControl = (ItemsControl)sender;
@@ -177,7 +169,7 @@ namespace DragAndDropLib
             if (e.Data.GetDataPresent(ItemType))
             {
                 object itemToAdd = e.Data.GetData(ItemType);
-                if ((e.KeyStates & DragDropKeyStates.ControlKey) != 0 && 
+                if ((e.KeyStates & DragDropKeyStates.ControlKey) != 0 &&
                     Helper.DoesItemExists(itemsControl, itemToAdd))
                 {
                     if (MessageBox.Show("Item already exists. Do you want to overwrite it?", "Copy File",
@@ -201,7 +193,10 @@ namespace DragAndDropLib
             }
         }
 
+
+
         #endregion
+
 
 
 
@@ -214,7 +209,7 @@ namespace DragAndDropLib
             {
                 return;
             }
-            
+
             UIElement draggedItemContainer = Helper.GetItemContainerFromPoint(itemsControl, _dragStartPosition);
             _isDragging = true;
             DataObject dObject = new DataObject(ItemType, _data);
@@ -231,8 +226,10 @@ namespace DragAndDropLib
                     Helper.RemoveItem(itemsControl, _data);
                 }
             }
+
             ResetState();
         }
+
 
 
         private void HandleDragScrolling(ItemsControl itemsControl, DragEventArgs e)
@@ -273,6 +270,7 @@ namespace DragAndDropLib
         }
 
 
+
         private int FindInsertionIndex(ItemsControl itemsControl, DragEventArgs e)
         {
             UIElement dropTargetContainer = Helper.GetItemContainerFromPoint(itemsControl, e.GetPosition(itemsControl));
@@ -289,6 +287,7 @@ namespace DragAndDropLib
         }
 
 
+
         private void ResetState()
         {
             _isMouseDown = false;
@@ -296,6 +295,7 @@ namespace DragAndDropLib
             _data = null;
             _dragScrollWaitCounter = DRAG_WAIT_COUNTER_LIMIT;
         }
+
 
 
         private void InitializeDragAdorner(ItemsControl itemsControl, object dragData, Point startPosition)
@@ -312,6 +312,7 @@ namespace DragAndDropLib
         }
 
 
+
         private void UpdateDragAdorner(Point currentPosition)
         {
             if (_dragAdorner != null)
@@ -319,6 +320,7 @@ namespace DragAndDropLib
                 _dragAdorner.UpdatePosition(currentPosition.X, currentPosition.Y);
             }
         }
+
 
 
         private void InitializeInsertAdorner(ItemsControl itemsControl, DragEventArgs e)
@@ -337,6 +339,7 @@ namespace DragAndDropLib
         }
 
 
+
         private void UpdateInsertAdorner(ItemsControl itemsControl, DragEventArgs e)
         {
             if (_insertAdorner != null)
@@ -345,6 +348,7 @@ namespace DragAndDropLib
                 _insertAdorner.InvalidateVisual();
             }
         }
+
 
 
         private void DetachAdorners()
@@ -361,29 +365,8 @@ namespace DragAndDropLib
             }
         }
 
-
         #endregion
 
 
-
-
-        #region IDisposable Members
-
-
-        public void Dispose()
-        {
-            ItemsControl itemsControl = (ItemsControl)DecoratedUIElement;
-            itemsControl.PreviewMouseLeftButtonDown -= new MouseButtonEventHandler(itemsControl_PreviewMouseLeftButtonDown);
-            itemsControl.PreviewMouseMove -= new MouseEventHandler(itemsControl_PreviewMouseMove);
-            itemsControl.PreviewMouseLeftButtonUp -= new MouseButtonEventHandler(itemsControl_PreviewMouseLeftButtonUp);
-            itemsControl.PreviewDrop -= new DragEventHandler(itemsControl_PreviewDrop);
-            itemsControl.PreviewQueryContinueDrag -= new QueryContinueDragEventHandler(itemsControl_PreviewQueryContinueDrag);
-            itemsControl.PreviewDragEnter -= new DragEventHandler(itemsControl_PreviewDragEnter);
-            itemsControl.PreviewDragOver -= new DragEventHandler(itemsControl_PreviewDragOver);
-            itemsControl.DragLeave -= new DragEventHandler(itemsControl_DragLeave);
-        }
-
-
-        #endregion
     }
 }

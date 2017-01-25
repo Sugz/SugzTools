@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Documents;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows;
+using System.Windows.Documents;
 
-namespace DragAndDropLib
+namespace ItemsControlDragDropBehavior.Library
 {
     public class InsertAdorner : Adorner
     {
@@ -17,7 +17,7 @@ namespace DragAndDropLib
         private bool _drawHorizontal;
 
         public InsertAdorner(bool isTopHalf, bool drawHorizontal, UIElement adornedElement, AdornerLayer adornerLayer)
-            :base(adornedElement)
+            : base(adornedElement)
         {
             this.IsTopHalf = IsTopHalf;
             _adornerLayer = adornerLayer;

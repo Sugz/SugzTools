@@ -248,26 +248,6 @@ namespace ListBoxDragDrop
         #endregion Dependency Properties
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Browsable(false)]
-        public bool IsIndicator
-        {
-            get { return (bool)GetValue(IsIndicatorProperty); }
-            set { SetValue(IsIndicatorProperty, value); }
-        }
-
-        // DependencyProperty as the backing store for IsIndicator
-        public static readonly DependencyProperty IsIndicatorProperty = DependencyProperty.Register(
-            "IsIndicator",
-            typeof(bool),
-            typeof(SgzExpanderItem),
-            new PropertyMetadata(false)
-        );
-
-
-
 
         #region Constructors
 
@@ -279,10 +259,6 @@ namespace ListBoxDragDrop
         public SgzExpanderItem()
         {
 
-        }
-        public SgzExpanderItem(bool isIndicator)
-        {
-            IsIndicator = isIndicator;
         }
         public SgzExpanderItem(string header, bool isExpanded, object content)
         {

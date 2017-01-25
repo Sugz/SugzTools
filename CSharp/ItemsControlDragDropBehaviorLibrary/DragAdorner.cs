@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Documents;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
-namespace DragAndDropLib
+namespace ItemsControlDragDropBehavior.Library
 {
     public class DragAdorner : Adorner
     {
@@ -21,8 +20,7 @@ namespace DragAndDropLib
             : base(adornedElement)
         {
             _adornerLayer = adornerLayer;
-            _contentPresenter = new ContentPresenter()
-                { Content = data, ContentTemplate = dataTemplate, Opacity = 0.75 };
+            _contentPresenter = new ContentPresenter() { Content = data, ContentTemplate = dataTemplate, Opacity = 0.75 };
 
             _adornerLayer.Add(this);
         }

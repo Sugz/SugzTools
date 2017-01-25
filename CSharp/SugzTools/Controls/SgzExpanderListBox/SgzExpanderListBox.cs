@@ -393,6 +393,29 @@ namespace SugzTools.Controls
 
 
 
+        private void CreateNewWindow()
+        {
+            if (_NewWindow == null)
+            {
+                SgzExpanderListBox list = new SgzExpanderListBox();
+                list.HorizontalAlignment = HorizontalAlignment.Stretch;
+                list.VerticalAlignment = VerticalAlignment.Stretch;
+                list.ItemsSource = new ObservableCollection<SgzExpanderItem>() { _SourceItem };
+
+
+                _NewWindow = new Window();
+                _NewWindow.Width = 300;
+                _NewWindow.Height = 500;
+                _NewWindow.Background = Resource<SolidColorBrush>.GetColor("MaxBackground");
+                _NewWindow.Content = list;
+                _NewWindow.Show();
+
+
+            }
+        }
+
+
+
         #endregion Privates
 
 
@@ -434,12 +457,15 @@ namespace SugzTools.Controls
                 if (e.LeftButton == MouseButtonState.Pressed &&
                     (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
                 {
-                    QueryContinueDrag += List_QueryContinueDrag;
+                    //QueryContinueDrag += List_QueryContinueDrag;
                     DragDrop.DoDragDrop(_SourceItem, _SourceItem.DataContext, DragDropEffects.Copy);
+                    //DragDrop.DoDragDrop(_SourceItem, _SourceItem, DragDropEffects.Copy);
                 }
 
             }
         }
+
+
 
         private void List_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
@@ -449,23 +475,7 @@ namespace SugzTools.Controls
                 e.Handled = true;
                 Console.WriteLine("I'm gonna drop here, bitch !!");
 
-                if (_NewWindow == null)
-                {
-                    SgzExpanderListBox list = new SgzExpanderListBox();
-                    list.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    list.VerticalAlignment = VerticalAlignment.Stretch;
-                    list.ItemsSource = new ObservableCollection<SgzExpanderItem>() { _SourceItem };
-
-
-                    _NewWindow = new Window();
-                    _NewWindow.Width = 300;
-                    _NewWindow.Height = 500;
-                    _NewWindow.Background = Resource<SolidColorBrush>.GetColor("MaxBackground");
-                    _NewWindow.Content = list;
-                    _NewWindow.Show();
-
-
-                }
+                
                 
             }
         }

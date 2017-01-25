@@ -8,10 +8,12 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace DragAndDropLib
+
+namespace ItemsControlDragDropBehavior.Library
 {
     public static class Helper
     {
+
         public static bool DoesItemExists(ItemsControl itemsControl, object item)
         {
             if (itemsControl.Items.Count > 0)
@@ -20,6 +22,7 @@ namespace DragAndDropLib
             }
             return false;
         }
+
 
 
         public static void AddItem(ItemsControl itemsControl, object item, int insertIndex)
@@ -48,6 +51,7 @@ namespace DragAndDropLib
         }
 
 
+
         public static void RemoveItem(ItemsControl itemsControl, object itemToRemove)
         {
             if (itemToRemove != null)
@@ -59,6 +63,7 @@ namespace DragAndDropLib
                 }
             }
         }
+
 
 
         public static void RemoveItem(ItemsControl itemsControl, int removeIndex)
@@ -90,6 +95,7 @@ namespace DragAndDropLib
         }
 
 
+
         public static object GetDataObjectFromItemsControl(ItemsControl itemsControl, Point p)
         {
             UIElement element = itemsControl.InputHitTest(p) as UIElement;
@@ -110,6 +116,7 @@ namespace DragAndDropLib
             }
             return null;
         }
+
 
 
         public static UIElement GetItemContainerFromPoint(ItemsControl itemsControl, Point p)
@@ -134,6 +141,7 @@ namespace DragAndDropLib
         }
 
 
+
         public static UIElement GetItemContainerFromItemsControl(ItemsControl itemsControl)
         {
             UIElement container = null;
@@ -141,12 +149,13 @@ namespace DragAndDropLib
             {
                 container = itemsControl.ItemContainerGenerator.ContainerFromIndex(0) as UIElement;
             }
-            else 
+            else
             {
                 container = itemsControl;
             }
             return container;
         }
+
 
 
         public static bool IsPointInTopHalf(ItemsControl itemsControl, DragEventArgs e)
@@ -161,12 +170,14 @@ namespace DragAndDropLib
         }
 
 
+
         public static bool IsItemControlOrientationHorizontal(ItemsControl itemsControl)
         {
             if (itemsControl is TabControl)
                 return false;
             return true;
         }
+
 
 
         public static bool? IsMousePointerAtTop(ItemsControl itemsControl, Point pt)
@@ -181,6 +192,7 @@ namespace DragAndDropLib
             }
             return null;
         }
+
 
 
         public static ScrollViewer FindScrollViewer(ItemsControl itemsControl)
@@ -203,11 +215,10 @@ namespace DragAndDropLib
         }
 
 
+
         public static double ScrollOffsetUp(double verticaloffset, double offset)
         {
             return verticaloffset - offset < 0.0 ? 0.0 : verticaloffset - offset;
         }
-
-       
     }
 }

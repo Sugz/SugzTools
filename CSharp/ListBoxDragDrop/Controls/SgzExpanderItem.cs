@@ -140,6 +140,8 @@ namespace ListBoxDragDrop
 
 
 
+
+
         #endregion Properties
 
 
@@ -258,8 +260,11 @@ namespace ListBoxDragDrop
         }
         public SgzExpanderItem()
         {
-
+            //DragLeave += (s, e) => { TopIndicator = false; BottomIndicator = false; };
         }
+
+        
+
         public SgzExpanderItem(string header, bool isExpanded, object content)
         {
             Header = header;

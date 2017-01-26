@@ -114,6 +114,7 @@ namespace ItemsControlDragDropBehavior.Library
 
         void itemsControl_DragLeave(object sender, DragEventArgs e)
         {
+            Console.WriteLine("here");
             DetachAdorners();
             e.Handled = true;
         }

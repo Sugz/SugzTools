@@ -71,6 +71,10 @@ namespace SugzTools.Src
         }
 
 
+
+        
+
+
         /// <summary>
         /// Cast any IEnumerable to Object[]
         /// </summary>
@@ -106,3 +110,7 @@ namespace SugzTools.Src
 
     }
 }
+
+
+
+//TODO: switch to internal 

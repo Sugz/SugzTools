@@ -1,0 +1,40 @@
+﻿<Window x:Class="HeadersControl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HeadersControl"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="600"
+        Width="400"
+        Background="#FF444444">
+    <Grid>
+
+        <local:SgzHeadersControl Background="Transparent"
+                                 Margin="5"
+                                 AllowDrop="True">
+            <local:SgzHeaderItem Header="Expander 01">
+                <StackPanel Margin="5"
+                            Height="50" />
+            </local:SgzHeaderItem>
+            <local:SgzHeaderItem Header="Expander 02">
+                <StackPanel Margin="5"
+                            Height="50" />
+            </local:SgzHeaderItem>
+            <local:SgzHeaderItem Header="Expander 03">
+                <StackPanel Margin="5"
+                            Height="50" />
+            </local:SgzHeaderItem>
+            <local:SgzHeaderItem Header="Expander 04">
+                <StackPanel Margin="5"
+                            Height="50" />
+            </local:SgzHeaderItem>
+            <local:SgzHeaderItem Header="Expander 05">
+                <StackPanel Margin="5"
+                            Height="50" />
+            </local:SgzHeaderItem>
+        </local:SgzHeadersControl>
+
+    </Grid>
+</Window>

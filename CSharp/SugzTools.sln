@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{63607B5B-EF9B-4071-90D3-23218CF4D73B}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListBoxDragDrop", "ListBoxDragDrop\ListBoxDragDrop.csproj", "{E9445EFA-0A74-4056-8384-96B162A80F56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemsControlDragDropBehaviorLibrary", "ItemsControlDragDropBehaviorLibrary\ItemsControlDragDropBehaviorLibrary.csproj", "{58FB9182-45C4-4ED3-BE42-4B3C237AD84E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadersControl", "HeadersControl\HeadersControl.csproj", "{EA54458F-755D-4468-BFCF-B5BA193ACCD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{58FB9182-45C4-4ED3-BE42-4B3C237AD84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58FB9182-45C4-4ED3-BE42-4B3C237AD84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58FB9182-45C4-4ED3-BE42-4B3C237AD84E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA54458F-755D-4468-BFCF-B5BA193ACCD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA54458F-755D-4468-BFCF-B5BA193ACCD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA54458F-755D-4468-BFCF-B5BA193ACCD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA54458F-755D-4468-BFCF-B5BA193ACCD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

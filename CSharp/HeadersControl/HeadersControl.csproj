@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -64,6 +65,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Control\SgzExpandersListBox.cs" />
     <Compile Include="Control\SgzHeaderItem.cs" />
     <Compile Include="Control\SgzHeadersControl.cs" />
     <Compile Include="MainWindow.xaml.cs">

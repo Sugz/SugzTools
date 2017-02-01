@@ -1,6 +1,7 @@
 ﻿using SugzTools.Src;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,15 @@ namespace HeadersControl
     public class SgzHeadersControl : ItemsControl
     {
         private SgzDropIndicator _DropIndicator;
-        private SgzHeaderItem _SourceItem;
+        private SgzExpanderItem _SourceItem;
         private Point _DragStartPoint;
         bool _WentOutside = false;
 
+
+        static SgzHeadersControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzHeadersControl), new FrameworkPropertyMetadata(typeof(SgzHeadersControl)));
+        }
         public SgzHeadersControl()
         {
             MouseEnter += SgzHeadersControl_MouseEnter;
@@ -28,37 +34,39 @@ namespace HeadersControl
             PreviewDragOver += SgzExpandersControl_PreviewDragOver;
             PreviewDragLeave += SgzHeadersControl_PreviewDragLeave;
             PreviewDrop += SgzExpandersControl_PreviewDrop;
-
         }
 
 
-        private T GetContainerAtPoint<T>(Point p)  
+
+
+
+        public T GetContainerAtPoint<T>(Point p)  
             where T : DependencyObject
         {
-            HitTestResult result = VisualTreeHelper.HitTest(this, p);
-            DependencyObject obj = result.VisualHit;
+            DependencyObject obj = VisualTreeHelper.HitTest(this, p).VisualHit;
 
             while (VisualTreeHelper.GetParent(obj) != null && !(obj is T))
-            {
                 obj = VisualTreeHelper.GetParent(obj);
-            }
 
             // Will return null if not found
             return obj as T;
         }
 
 
-        private SgzHeaderItem GetClosestItem(int mouseYPos)
+        public T GetClosestContainerAtPoint<T>(Point p)
+            where T : UIElement
         {
-            SgzHeaderItem nearest = null;
-            int lastNearest = int.MaxValue;
-            foreach (SgzHeaderItem item in Items)
+            T nearest = null;
+            double lastDistance = short.MaxValue;
+            foreach (T item in Items)
             {
-                int itemYPos = (int)item.TranslatePoint(new Point(0, 0), this).Y;
-                int distance = Math.Abs(mouseYPos - itemYPos);
-                if (distance < lastNearest)
+                Point itemPos = item.TranslatePoint(new Point(0, 0), this);
+                double distance = Math.Abs(p.Y - itemPos.Y);
+                if (distance > lastDistance && lastDistance != short.MaxValue)
+                    return nearest;
+                else
                 {
-                    lastNearest = distance;
+                    lastDistance = distance;
                     nearest = item;
                 }
             }
@@ -74,7 +82,7 @@ namespace HeadersControl
             if (_SourceItem != null && e.LeftButton == MouseButtonState.Released)
             {
                 _SourceItem = null;
-                Items.ForEach(x => ((SgzHeaderItem)x).IsHitTestVisible = true);
+                Items.ForEach(x => ((SgzExpanderItem)x).IsHitTestVisible = true);
             }
         }
 
@@ -82,13 +90,12 @@ namespace HeadersControl
         private void SgzHeadersControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Thumb thumb = Helpers.FindAnchestor<Thumb>((DependencyObject)e.OriginalSource);
-            //Thumb thumb = GetContainerAtPoint<Thumb>(e.GetPosition(this));
             if (thumb != null)
             {
-                _SourceItem = Helpers.FindAnchestor<SgzHeaderItem>(thumb);
+                _SourceItem = Helpers.FindAnchestor<SgzExpanderItem>(thumb);
                 _DragStartPoint = e.GetPosition(this);
 
-                Items.ForEach(x => ((SgzHeaderItem)x).IsHitTestVisible = false);
+                Items.ForEach(x => ((SgzExpanderItem)x).IsHitTestVisible = false);
             }
         }
 
@@ -113,8 +120,8 @@ namespace HeadersControl
             if (_WentOutside)
             {
                 _WentOutside = false;
-                int mouseYPos = (int)e.GetPosition(this).Y;
-                SgzHeaderItem item = GetClosestItem(mouseYPos);
+
+                SgzExpanderItem item = GetClosestContainerAtPoint<SgzExpanderItem>(e.GetPosition(this));
                 if (item != null)
                 {
                     int index = Items.IndexOf(item);
@@ -122,8 +129,8 @@ namespace HeadersControl
                         index = (e.GetPosition(item).Y >= item.ActualHeight / 2) ? Items.IndexOf(item) + 1 : Items.IndexOf(item);
 
                     Items.Insert(index, _DropIndicator = new SgzDropIndicator());
-
                 }
+
                 e.Handled = true;
             }
         }
@@ -131,7 +138,8 @@ namespace HeadersControl
 
         private void SgzExpandersControl_PreviewDragOver(object sender, DragEventArgs e)
         {
-            SgzHeaderItem item = GetContainerAtPoint<SgzHeaderItem>(e.GetPosition(this));
+            // Set the drop indicator relative to the item under the mouse when dragging
+            SgzExpanderItem item = GetContainerAtPoint<SgzExpanderItem>(e.GetPosition(this));
             if (item != null)
             {
                 Items.Remove(_DropIndicator ?? (_DropIndicator = new SgzDropIndicator()));
@@ -162,7 +170,7 @@ namespace HeadersControl
 
                 _SourceItem = null;
                 _DropIndicator = null;
-                Items.ForEach(x => ((SgzHeaderItem)x).IsHitTestVisible = true);
+                Items.ForEach(x => ((SgzExpanderItem)x).IsHitTestVisible = true);
             }
             e.Handled = true;
         }

@@ -11,30 +11,20 @@
         Background="#FF444444">
     <Grid>
 
-        <local:SgzHeadersControl Background="Transparent"
-                                 Margin="5"
-                                 AllowDrop="True">
-            <local:SgzHeaderItem Header="Expander 01">
-                <StackPanel Margin="5"
-                            Height="50" />
-            </local:SgzHeaderItem>
-            <local:SgzHeaderItem Header="Expander 02">
-                <StackPanel Margin="5"
-                            Height="50" />
-            </local:SgzHeaderItem>
-            <local:SgzHeaderItem Header="Expander 03">
-                <StackPanel Margin="5"
-                            Height="50" />
-            </local:SgzHeaderItem>
-            <local:SgzHeaderItem Header="Expander 04">
-                <StackPanel Margin="5"
-                            Height="50" />
-            </local:SgzHeaderItem>
-            <local:SgzHeaderItem Header="Expander 05">
-                <StackPanel Margin="5"
-                            Height="50" />
-            </local:SgzHeaderItem>
-        </local:SgzHeadersControl>
-
+        <!--<ScrollViewer Template="{DynamicResource ScrollViewerControlTemplate1}" />-->
+        <local:SgzExpandersListBox x:Name="ExpandersControl">
+            <local:SgzExpanderItem>
+                <StackPanel Height="200"/>
+            </local:SgzExpanderItem>
+            <local:SgzExpanderItem>
+                <StackPanel Height="200" />
+            </local:SgzExpanderItem>
+            <local:SgzExpanderItem>
+                <StackPanel Height="200" />
+            </local:SgzExpanderItem>
+            <local:SgzExpanderItem>
+                <StackPanel Height="200" />
+            </local:SgzExpanderItem>
+        </local:SgzExpandersListBox>
     </Grid>
 </Window>

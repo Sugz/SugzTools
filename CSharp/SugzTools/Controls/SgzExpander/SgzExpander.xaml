@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SugzTools.Controls"
-                    xmlns:c="clr-namespace:SugzTools.Converters">
+                    xmlns:local="clr-namespace:SugzTools.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />

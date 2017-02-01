@@ -34,13 +34,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ScrollBarPageButton"
-           TargetType="{x:Type RepeatButton}"
-           BasedOn="{StaticResource OverridesDefaultStyle}">
-        <Setter Property="IsTabStop"
-                Value="false" />
-        <Setter Property="Focusable"
-                Value="false" />
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource OverridesDefaultStyle}">
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -58,7 +54,7 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border x:Name="PART_Thumb" 
                             Background="{TemplateBinding Foreground}"
-                            Margin="{TemplateBinding Foreground}"/>
+                            Margin="{TemplateBinding Margin}"/>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

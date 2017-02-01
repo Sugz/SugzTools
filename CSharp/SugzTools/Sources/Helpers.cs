@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -72,9 +73,6 @@ namespace SugzTools.Src
 
 
 
-        
-
-
         /// <summary>
         /// Cast any IEnumerable to Object[]
         /// </summary>
@@ -89,9 +87,9 @@ namespace SugzTools.Src
 
 
         /// <summary>
-        /// Helper method to get the first VisualParent of a given type
+        /// Get the first VisualParent of a given type
         /// </summary>
-        /// <typeparam name="P"></typeparam>
+        /// <typeparam name="T">The type of the control to return</typeparam>
         /// <param name="child"></param>
         /// <returns></returns>
         public static T FindAnchestor<T>(DependencyObject child) where T : DependencyObject
@@ -99,13 +97,62 @@ namespace SugzTools.Src
             do
             {
                 if (child is T)
-                {
                     return (T)child;
-                }
+
                 child = VisualTreeHelper.GetParent(child);
             }
             while (child != null);
+
             return null;
+        }
+
+
+
+        /// <summary>
+        /// Get the container of a given type under the cursor in a ItemsControl
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static T GetContainerAtPoint<T>(ItemsControl itemsControl, System.Windows.Point p)
+            where T : DependencyObject
+        {
+            DependencyObject obj = VisualTreeHelper.HitTest(itemsControl, p).VisualHit;
+
+            while (VisualTreeHelper.GetParent(obj) != null && !(obj is T))
+                obj = VisualTreeHelper.GetParent(obj);
+
+            // Will return null if not found
+            return obj as T;
+        }
+
+
+
+        /// <summary>
+        /// Get the container of a given type closest from the cursor in a ItemsControl
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static T GetClosestContainerFromPoint<T>(ItemsControl itemsControl, System.Windows.Point p)
+            where T : UIElement
+        {
+            T nearest = null;
+            double lastDistance = short.MaxValue;
+            foreach (T item in itemsControl.Items)
+            {
+                System.Windows.Point itemPos = item.TranslatePoint(new System.Windows.Point(0, 0), itemsControl);
+                double distance = Math.Abs(p.Y - itemPos.Y);
+                if (distance > lastDistance && lastDistance != short.MaxValue)
+                    return nearest;
+                else
+                {
+                    lastDistance = distance;
+                    nearest = item;
+                }
+            }
+
+            return nearest;
         }
 
     }

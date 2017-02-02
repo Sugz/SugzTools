@@ -18,16 +18,39 @@
 
     </Window.Resources>
 
-    <StackPanel>
-        <sgz:SgzIcon Icon="MdiClose"
-                     Width="Auto"
-                     Height="9"
-                     Margin="138,2,142,2" />
-        <sgz:SgzExpanderListBox x:Name="Listbox"
-                                Margin="5"
-                                ItemsSource="{Binding}">
-
-        </sgz:SgzExpanderListBox>
+    <sgz:SgzExpandersControl Margin="3">
+        <sgz:SgzButton/>
+        <sgz:SgzExpander Header="Expander 01">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 02">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 03">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 04">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 05">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 06">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 07">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 08">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 09">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 10">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+    </sgz:SgzExpandersControl>
 
         <!--<sgz:SgzStackPanel Margin="5"
                                 InnerMargin="0,0,0,5">
@@ -143,5 +166,4 @@
             <sgz:SgzExpander  Header="test" />
         </Controls:SgzStackPanel>-->
 
-    </StackPanel>
 </Window>

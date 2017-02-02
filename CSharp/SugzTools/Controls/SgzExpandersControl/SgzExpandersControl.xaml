@@ -1,0 +1,161 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SugzTools.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style TargetType="{x:Type local:SgzDropIndicator}" BasedOn="{StaticResource MaxStyle}">
+        <Setter Property="Background" Value="{StaticResource MaxBlue}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MaxRolloutBorder}" />
+        <Setter Property="Height" Value="4" />
+        <Setter Property="Margin" Value="0,0,0,2" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SgzDropIndicator}">
+                    <Rectangle Fill="{TemplateBinding Background}"
+                               Stroke="{TemplateBinding BorderBrush}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+    <Style x:Key="SgzExpandersControlScrollBarPageButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource OverridesDefaultStyle}">
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="SgzExpandersControlScrollBarThumb" TargetType="{x:Type Thumb}" BasedOn="{StaticResource OverridesDefaultStyle}">
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border x:Name="PART_Thumb"
+                            Background="{StaticResource MaxRollout}"
+                            CornerRadius="2"
+                            Margin="1" />
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="PART_Thumb"
+                                    Property="Background"
+                                    Value="{StaticResource MaxButton}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+
+    <Style x:Key="SgzExpandersControlScrollBarStyle" TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource OverridesDefaultStyle}">
+        <Setter Property="Width" Value="6" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Border x:Name="Bg"
+                            Background="{StaticResource MaxRolloutBorder}"
+                            CornerRadius="3"
+                            SnapsToDevicePixels="true">
+                        <Track x:Name="PART_Track"
+                               IsDirectionReversed="true"
+                               IsEnabled="{TemplateBinding IsMouseOver}">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}"
+                                              Style="{StaticResource SgzExpandersControlScrollBarPageButton}" />
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}"
+                                              Style="{StaticResource SgzExpandersControlScrollBarPageButton}" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource SgzExpandersControlScrollBarThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style x:Key="SgzExpandersControlScrollViewerStyle" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource OverridesDefaultStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                CanHorizontallyScroll="False"
+                                                CanVerticallyScroll="False"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Content="{TemplateBinding Content}"
+                                                Margin="{TemplateBinding Padding}" />
+                        <ScrollBar x:Name="PART_VerticalScrollBar"
+                                   Grid.Column="1"
+                                   Value="{TemplateBinding VerticalOffset}"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                   Style="{StaticResource SgzExpandersControlScrollBarStyle}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="{x:Type local:SgzExpandersControl}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="AllowDrop" Value="True"/>
+        <Setter Property="Padding" Value="0,0,2,0" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalOnly" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SgzExpandersControl}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <ScrollViewer x:Name="PART_ScrollViewer"
+                                      Focusable="false"
+                                      Padding="{TemplateBinding Padding}"
+                                      Style="{StaticResource SgzExpandersControlScrollViewerStyle}">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+</ResourceDictionary>

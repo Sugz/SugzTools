@@ -24,61 +24,69 @@ namespace TestApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        IList<SgzExpanderItem> _items;
-        SgzTextBox txt;
+        //IList<SgzExpanderItem> _items;
+        //SgzTextBox txt;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            SgzExpanderItem item1 = new SgzExpanderItem();
-            item1.Header = "Expander 01";
-            item1.IsExpanded = true;
-            StackPanel panel1 = new StackPanel();
-            panel1.Margin = new Thickness(5);
-            SgzButton btn1 = new SgzButton();
-            btn1.Click += Btn1_Click;
-            panel1.Children.Add(btn1);
+            //Main()
+        }
 
-            txt = new SgzTextBox();
-            txt.Watermark = "test";
+
+        /*void Main()
+        {
             
-            panel1.Children.Add(txt);
+            sgzexpanderitem item1 = new sgzexpanderitem();
+            item1.header = "expander 01";
+            item1.isexpanded = true;
+            stackpanel panel1 = new stackpanel();
+            panel1.margin = new thickness(5);
+            sgzbutton btn1 = new sgzbutton();
+            btn1.click += btn1_click;
+            panel1.children.add(btn1);
 
-            item1.Content = panel1;
+            txt = new sgztextbox();
+            txt.watermark = "test";
 
-            SgzExpanderItem item2 = new SgzExpanderItem();
-            item2.Header = "Expander 02";
-            item2.IsExpanded = true;
-            StackPanel panel2 = new StackPanel();
-            panel2.Margin = new Thickness(5);
-            SgzButton btn2 = new SgzButton();
-            panel2.Children.Add(btn2);
-            item2.Content = panel2;
+            panel1.children.add(txt);
 
-            SgzExpanderItem item3 = new SgzExpanderItem();
-            item3.Header = "Expander 03";
-            item3.IsExpanded = true;
-            StackPanel panel3 = new StackPanel();
-            panel3.Margin = new Thickness(5);
-            SgzButton btn3 = new SgzButton();
-            panel3.Children.Add(btn3);
-            item3.Content = panel3;
+            item1.content = panel1;
+
+            sgzexpanderitem item2 = new sgzexpanderitem();
+            item2.header = "expander 02";
+            item2.isexpanded = true;
+            stackpanel panel2 = new stackpanel();
+            panel2.margin = new thickness(5);
+            sgzbutton btn2 = new sgzbutton();
+            panel2.children.add(btn2);
+            item2.content = panel2;
+
+            sgzexpanderitem item3 = new sgzexpanderitem();
+            item3.header = "expander 03";
+            item3.isexpanded = true;
+            stackpanel panel3 = new stackpanel();
+            panel3.margin = new thickness(5);
+            sgzbutton btn3 = new sgzbutton();
+            panel3.children.add(btn3);
+            item3.content = panel3;
 
 
-            _items = new ObservableCollection<SgzExpanderItem>()
+            _items = new observablecollection<sgzexpanderitem>()
             {
                 item1,
                 item2,
                 item3
             };
 
-            Listbox.DataContext = _items;
-        }
+            listbox.datacontext = _items;
+            
+        }*/
 
 
 
-        private void Btn1_Click(object sender, RoutedEventArgs e)
+        /*private void Btn1_Click(object sender, RoutedEventArgs e)
         {
             SgzIcon icon1 = new SgzIcon();
             icon1.Cursor = Cursors.Arrow;
@@ -103,7 +111,7 @@ namespace TestApp
             icon3.Padding = new Thickness(4);
             txt.AddControl(icon3, 2);
 
-        }
+        }*/
 
 
         //public MainWindow()

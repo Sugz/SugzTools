@@ -100,30 +100,28 @@
     </Style>
 
 
-    
+
     <!--SgzExpanderDragDropIcon-->
-    <Style x:Key="SgzExpanderDragDropIcon" TargetType="{x:Type Button}" BasedOn="{StaticResource OverridesDefaultStyle}">
-        <Setter Property="Focusable" Value="False" />
+    <Style x:Key="SgzExpanderDragDropIcon" TargetType="{x:Type Thumb}">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource MaxRolloutArrow}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <!--Template-->
+                <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border Background="Transparent">
-                        <Path x:Name="PART_Icon"
-                              Data="{StaticResource RolloutDragDropGeo}"
-                              Style="{StaticResource NoStretchIcon}"
-                              Fill="{StaticResource MaxRolloutArrow}"
+                        <Path Data="{StaticResource RolloutDragDropGeo}"
+                              Stretch="None"
+                              Fill="{TemplateBinding Foreground}"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center" />
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <!-- Mouse Triggers -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Icon" Property="Fill" Value="{StaticResource MaxTitle}" />
+                            <Setter Property="Foreground" Value="{StaticResource MaxTitle}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -148,10 +146,9 @@
                             Height="{Binding HeaderHeight, RelativeSource={RelativeSource TemplatedParent}}"
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
                         <DockPanel>
-                            <Button x:Name="PART_DragDrop"
-                                    Width="20"
-                                    DockPanel.Dock="Right"
-                                    Style="{StaticResource SgzExpanderDragDropIcon}" />
+                            <Thumb x:Name="PART_DragDrop"
+                                   DockPanel.Dock="Right"
+                                   Style="{StaticResource SgzExpanderDragDropIcon}" />
                             <ToggleButton Content="{TemplateBinding Header}"
                                           Foreground="{TemplateBinding Foreground}"
                                           FontWeight="SemiBold"
@@ -259,6 +256,7 @@
             </Trigger>
             <Trigger Property="IsGroupBox" Value="false">
                 <Setter Property="Template" Value="{StaticResource SgzPopUpExpanderTemplate}" />
+                <Setter Property="Margin" Value="0,0,0,2" />
             </Trigger>
         </Style.Triggers>
 

@@ -78,7 +78,7 @@ namespace SugzTools.Src
         /// </summary>
         /// <param name="_items"></param>
         /// <returns></returns>
-        public static object[] ToArray(IEnumerable _items)
+        internal static object[] ToArray(IEnumerable _items)
         {
             object[] items = _items.Cast<object>().ToArray();
             return items;
@@ -92,7 +92,7 @@ namespace SugzTools.Src
         /// <typeparam name="T">The type of the control to return</typeparam>
         /// <param name="child"></param>
         /// <returns></returns>
-        public static T FindAnchestor<T>(DependencyObject child) where T : DependencyObject
+        internal static T FindAnchestor<T>(DependencyObject child) where T : DependencyObject
         {
             do
             {
@@ -114,7 +114,7 @@ namespace SugzTools.Src
         /// <typeparam name="T"></typeparam>
         /// <param name="p"></param>
         /// <returns></returns>
-        public static T GetContainerAtPoint<T>(ItemsControl itemsControl, System.Windows.Point p)
+        internal static T GetContainerAtPoint<T>(ItemsControl itemsControl, System.Windows.Point p)
             where T : DependencyObject
         {
             DependencyObject obj = VisualTreeHelper.HitTest(itemsControl, p).VisualHit;
@@ -134,7 +134,7 @@ namespace SugzTools.Src
         /// <typeparam name="T"></typeparam>
         /// <param name="p"></param>
         /// <returns></returns>
-        public static T GetClosestContainerFromPoint<T>(ItemsControl itemsControl, System.Windows.Point p)
+        internal static T GetClosestContainerFromPoint<T>(ItemsControl itemsControl, System.Windows.Point p)
             where T : UIElement
         {
             T nearest = null;

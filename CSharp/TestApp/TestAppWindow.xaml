@@ -19,7 +19,6 @@
     </Window.Resources>
 
     <sgz:SgzExpandersControl Margin="3">
-        <sgz:SgzButton/>
         <sgz:SgzExpander Header="Expander 01">
             <StackPanel Height="75" />
         </sgz:SgzExpander>

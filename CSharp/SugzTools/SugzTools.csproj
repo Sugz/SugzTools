@@ -83,7 +83,6 @@
     <Compile Include="Controls\SgzCheckBox\SgzCheckBox.cs" />
     <Compile Include="Controls\SgzCheckButton\SgzCheckButton.cs" />
     <Compile Include="Controls\SgzComboBox\SgzComboBox.cs" />
-    <Compile Include="Controls\SgzExpanderListBox\SgzExpanderListBox.cs" />
     <Compile Include="Controls\SgzExpandersControl\SgzExpandersControl.cs" />
     <Compile Include="Controls\SgzExpander\SgzExpander.cs" />
     <Compile Include="Controls\Panels\SgzGrid.cs" />
@@ -155,10 +154,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SgzCheckButton\SgzCheckButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SgzExpanderListBox\SgzExpanderListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

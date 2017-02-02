@@ -36,6 +36,7 @@ namespace SugzTools.Controls
         }
         public SgzExpandersControl()
         {
+            Loaded += SgzExpandersControl_Loaded;
             MouseEnter += SgzExpandersControl_MouseEnter;
             PreviewMouseDown += SgzExpandersControl_PreviewMouseDown;
             PreviewMouseMove += SgzExpandersControl_PreviewMouseMove;
@@ -44,6 +45,9 @@ namespace SugzTools.Controls
             PreviewDragLeave += SgzExpandersControl_PreviewDragLeave;
             PreviewDrop += SgzExpandersControl_PreviewDrop;
         }
+
+
+        
 
 
         #endregion Constructors
@@ -71,7 +75,29 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// 
+        /// Remove any children that isn't a SgzExpander
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SgzExpandersControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<object> itemToRemove = new List<object>();
+            foreach (object item in Items)
+            {
+                if (!(item is SgzExpander))
+                    itemToRemove.Add(item);
+            }
+
+            if (itemToRemove.Count != 0)
+            {
+                itemToRemove.ForEach(x => Items.Remove(x));
+                throw new SystemException("SgzExpandersControl can only accept SgzExpander as children");
+            }
+        }
+
+
+        /// <summary>
+        /// Check if the drop has been canceled by droping outside and enabled HitTestVisible for all Expanders
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -80,14 +106,13 @@ namespace SugzTools.Controls
             if (_SourceItem != null && e.LeftButton == MouseButtonState.Released)
             {
                 _SourceItem = null;
-                //Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = true);
-                Items.ForEach(x => ((UIElement)x).IsHitTestVisible = true);
+                Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = true);
             }
         }
 
 
         /// <summary>
-        /// 
+        /// Initiate the dragging process if the mouse if over the drag Thumb
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -96,14 +121,18 @@ namespace SugzTools.Controls
             Thumb thumb = Helpers.FindAnchestor<Thumb>((DependencyObject)e.OriginalSource);
             if (thumb != null && thumb.Name == "PART_DragDrop")
             {
-                _SourceItem = Helpers.FindAnchestor<SgzExpander>(thumb);
-                _DragStartPoint = e.GetPosition(this);
+                SgzExpander item = Helpers.FindAnchestor<SgzExpander>(thumb);
+                if (item != null)
+                {
+                    _SourceItem = item;
+                    _DragStartPoint = e.GetPosition(this);
+                }
             }
         }
 
 
         /// <summary>
-        /// 
+        /// Start to drag and disabled HitTestVisible for all Expanders
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -115,8 +144,7 @@ namespace SugzTools.Controls
                 if (e.LeftButton == MouseButtonState.Pressed &&
                     (Math.Abs(delta.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(delta.Y) > SystemParameters.MinimumVerticalDragDistance))
                 {
-                    //Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = false);
-                    Items.ForEach(x => ((UIElement)x).IsHitTestVisible = false);
+                    Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = false);
                     DragDrop.DoDragDrop(_SourceItem, _SourceItem, DragDropEffects.Copy);
                 }
             }
@@ -124,7 +152,7 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// 
+        /// When draging went outside, get the closest Expander from the cursor and set the drop indicator 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -150,7 +178,8 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// 
+        /// Set the drop indicator depending on the mouse position over an expander
+        /// Scroll if the cursor is near the vertical extremities
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -187,7 +216,7 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// 
+        /// Remove the drop indicator when dragging outside
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -201,7 +230,7 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// 
+        /// Replace the drop indicator by the dragged Expander and enabled HitTestVisible for all Expanders
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -215,8 +244,7 @@ namespace SugzTools.Controls
 
                 _SourceItem = null;
                 _DropIndicator = null;
-                //Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = true);
-                Items.ForEach(x => ((UIElement)x).IsHitTestVisible = true);
+                Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = true);
             }
             e.Handled = true;
         } 

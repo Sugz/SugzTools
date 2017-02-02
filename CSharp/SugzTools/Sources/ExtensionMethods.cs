@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,11 +17,12 @@ namespace SugzTools.Src
         /// </summary>
         /// <param name="items"></param>
         /// <param name="action"></param>
-        public static void ForEach(this ItemCollection items, Action<object> action)
+        public static void ForEach(this IEnumerable items, Action<object> action)
         {
             foreach (object item in items)
                 action(item);
         }
+
 
 
     }

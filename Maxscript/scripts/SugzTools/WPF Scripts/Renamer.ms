@@ -56,21 +56,18 @@ struct renamerStc
 	fn GetUI isExpanded:true = 
 	(
 		_panel = _wpf.StackPanel margin:#(5,5,5,0) vAlign:#top
-		_panel.Add(dock = _wpf.DockPanel innerMargin:0)
 
-		dock.Add(_wpf.Button content:(_wpf.Icon "WindowClose" margin:2) width:20 click:(fn x s e = print s.ActualWidth)) (_wpf.Dock #right)
-		dock.Add(_wpf.Button content:(_wpf.Icon "StepBackward" margin:2) width:20 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._nameTxt.Text = $.name)) (_wpf.Dock #right)
-		dock.Add(_nameTxt = _wpf.Textbox watermark:"Enter a name...")
+		getIcon = _wpf.Icon icon:"MdiStepForward" margin:5 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._nameTxt.Text = $.name)
+		closeIcon = _wpf.Icon icon:"MdiWindowClose" margin:5 click:(fn x = Renamer._nameTxt.Text = "")
+		_panel.Add(_nameTxt = _wpf.Textbox watermark:"Enter a name..." uiElement0:getIcon uiElement2:closeIcon)
 			
-		_panel.Add(dock = _wpf.DockPanel innerMargin:0)
-		dock.Add(_wpf.Button content:(_wpf.Icon "WindowClose" margin:2) width:20 click:(fn x = Renamer._prefixTxt.Text = "")) (_wpf.Dock #right)
-		dock.Add(_wpf.Button content:(_wpf.Icon "StepBackward" margin:2) width:20 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._prefixTxt.Text = $.name)) (_wpf.Dock #right)
-		dock.Add(_prefixTxt = _wpf.Textbox watermark:"Enter a prefix...")
+		getIcon = _wpf.Icon icon:"MdiStepForward" margin:5 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._prefixTxt.Text = $.name)
+		closeIcon = _wpf.Icon icon:"MdiWindowClose" margin:5 click:(fn x = Renamer._prefixTxt.Text = "")
+		_panel.Add(_prefixTxt = _wpf.Textbox watermark:"Enter a prefix..." uiElement0:getIcon uiElement2:closeIcon)
 			
-		_panel.Add(dock = _wpf.DockPanel innerMargin:0)
-		dock.Add(_wpf.Button content:(_wpf.Icon "WindowClose" margin:2) width:20 click:(fn x = Renamer._suffixTxt.Text = "")) (_wpf.Dock #right)
-		dock.Add(_wpf.Button content:(_wpf.Icon "StepBackward" margin:2) width:20 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._suffixTxt.Text = $.name)) (_wpf.Dock #right)
-		dock.Add(_suffixTxt = _wpf.Textbox watermark:"Enter a suffix...")
+		getIcon = _wpf.Icon icon:"MdiStepForward" margin:5 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._suffixTxt.Text = $.name)
+		closeIcon = _wpf.Icon icon:"MdiWindowClose" margin:5 click:(fn x = Renamer._suffixTxt.Text = "")
+		_panel.Add(_suffixTxt = _wpf.Textbox watermark:"Enter a suffix..." uiElement0:getIcon uiElement2:closeIcon)
 			
 		grid = _wpf.UniformGrid columns:1 innerMargin:#(7,5,5,5)
 		grid.Add(_firstSpn = _wpf.Spinner content:"First:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 align:#stretch)
@@ -84,7 +81,7 @@ struct renamerStc
 			
 		btnPanel = _wpf.StackPanel innerMargin:0 orientation:#horizontal
 		btnPanel.Add(_wpf.Textblock text:"Rename" vAlign:#center)
-		btnPanel.Add(_wpf.Icon "Bike" margin:#(10,4,0,4) vAlign:#center)
+		btnPanel.Add(_wpf.Icon icon:"MdiBike" margin:#(10,4,0,4) vAlign:#center)
 		_panel.Add(_renameBtn = _wpf.Button content:btnPanel height:25 margin:#(0,2,0,0) click:Rename)
 
 		dotNet.addEventHandler _panel "SizeChanged" (fn x = Renamer._form.Height = Renamer._panel.ActualHeight + 40)

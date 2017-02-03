@@ -72,6 +72,11 @@ namespace SugzTools.Controls
         }
 
 
+        public UIElement UIElement0 { get; set; }
+        public UIElement UIElement1 { get; set; }
+        public UIElement UIElement2 { get; set; }
+
+
         #endregion
 
 
@@ -139,6 +144,12 @@ namespace SugzTools.Controls
         public SgzTextBox()
         {
             KeyDown += SgzTextBox_KeyDown;
+            Loaded += (s, e) =>
+            {
+                if (UIElement0 != null) SetUIElement(UIElement0, 0);
+                if (UIElement1 != null) SetUIElement(UIElement1, 1);
+                if (UIElement2 != null) SetUIElement(UIElement2, 2);
+            };
         }
 
 
@@ -188,12 +199,13 @@ namespace SugzTools.Controls
 
         #region Public
 
-
-        public void AddControl(Control control, int column)
+        public void SetUIElement(UIElement control, int index)
         {
             if (PART_Grid != null && PART_Focus != null &&
-                (column == 0 || column == 2 || column == 3))
+                (index == 0 || index == 1 || index == 2))
             {
+                int column = (index == 0) ? index : index + 1;
+
                 // Remove existing control
                 PART_Grid.Children.Remove(PART_Grid.Children.Cast<UIElement>().SingleOrDefault(x => Grid.GetColumn(x) == column && x != PART_Focus));
 
@@ -201,6 +213,7 @@ namespace SugzTools.Controls
                 Grid.SetColumn(control, column);
             }
         }
+
 
 
         #endregion Public

@@ -17,48 +17,56 @@
     <Window.Resources>
 
     </Window.Resources>
-    <StackPanel>
-        
-        <sgz:SgzIcon HorizontalAlignment="Center"
-                     VerticalAlignment="Top"
-                     Icon="MdiAccessPoint" />
-        
-        <sgz:SgzExpandersControl Margin="3">
-            <sgz:SgzExpander Header="Expander 01">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 02">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 03">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 04">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 05">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 06">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 07">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 08">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 09">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 10">
-                <StackPanel Height="75" />
-            </sgz:SgzExpander>
-        </sgz:SgzExpandersControl>
-    </StackPanel>
-    
+    <sgz:SgzExpandersControl Margin="3">
+        <sgz:SgzExpander Header="Expander 01"
+                         IsExpanded="False">
+            <StackPanel Margin="5">
+                <sgz:SgzExpander IsGroupBox="True"
+                                 Header="Test"
+                                 Margin="0,20,0,0">
+                    <StackPanel Height="50"
+                                Margin="5">
+                        <sgz:SgzExpander />
+                    </StackPanel>
+                </sgz:SgzExpander>
+                <StackPanel Height="50" />
+            </StackPanel>
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 02"
+                         IsExpanded="False">
+            <sgz:SgzStackPanel InnerMargin="0,0,0,5">
+                <sgz:SgzButton Content="Button 01" />
+                <sgz:SgzButton Content="Button 02" />
+                <sgz:SgzButton Content="Button 03" />
+            </sgz:SgzStackPanel>
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 03">
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 04">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 05">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 06">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 07">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 08">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 09">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 10">
+            <StackPanel Height="75" />
+        </sgz:SgzExpander>
+    </sgz:SgzExpandersControl>
 
-        <!--<sgz:SgzStackPanel Margin="5"
+
+    <!--<sgz:SgzStackPanel Margin="5"
                                 InnerMargin="0,0,0,5">
             <sgz:SgzExpander x:Name="sgzExpander"
                                   Header="Test"

@@ -189,6 +189,10 @@ namespace SugzTools.Controls
             SgzExpander item = Helpers.GetContainerAtPoint<SgzExpander>(this, e.GetPosition(this));
             if (item != null)
             {
+                // Avoid nested expanders
+                while (item.Parent != this)
+                    item = Helpers.FindAnchestor<SgzExpander>(item.Parent);
+
                 Items.Remove(_DropIndicator ?? (_DropIndicator = new SgzDropIndicator()));
 
                 int index = (e.GetPosition(item).Y >= item.ActualHeight / 2) ? Items.IndexOf(item) + 1 : Items.IndexOf(item);
@@ -202,13 +206,9 @@ namespace SugzTools.Controls
                 double tolerance = 20;
 
                 if (mouseYPos < tolerance)
-                {
                     _ScrollViewer.LineUp();
-                }
                 if (mouseYPos > ActualHeight - tolerance)
-                {
                     _ScrollViewer.LineDown();
-                }
             }
 
             e.Handled = true;
@@ -252,9 +252,7 @@ namespace SugzTools.Controls
 
         #endregion Event Handlers
 
-
     }
-
 
 
     public class SgzDropIndicator : Control

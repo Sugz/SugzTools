@@ -12,7 +12,7 @@ namespace SugzTools.Behaviors
     public class PanelInnerMarginBehavior : Behavior<Panel>
     {
 
-        public Thickness InnerMargin { get; set; } = new Thickness(0);
+        public Thickness Value { get; set; } = new Thickness(0);
 
         protected override void OnAttached()
         {
@@ -38,10 +38,10 @@ namespace SugzTools.Behaviors
 
                 child.Margin = new Thickness
                 (
-                    child.Margin.Left + InnerMargin.Left,
-                    child.Margin.Top + InnerMargin.Top,
-                    child.Margin.Right + InnerMargin.Right,
-                    child.Margin.Bottom + InnerMargin.Bottom
+                    child.Margin.Left + Value.Left,
+                    child.Margin.Top + Value.Top,
+                    child.Margin.Right + Value.Right,
+                    child.Margin.Bottom + Value.Bottom
                 );
             }
 

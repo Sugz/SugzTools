@@ -1,6 +1,10 @@
-﻿using System.ComponentModel;
+﻿using SugzTools.Src;
+using SugzTools.Behaviors;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interactivity;
 
 namespace SugzTools.Controls
 {
@@ -10,7 +14,7 @@ namespace SugzTools.Controls
         #region Properties
 
 
-        public Thickness InnerMargin { get; set; }
+        public Thickness InnerMargin { get; set; } = new Thickness(0);
 
 
         #endregion Properties
@@ -22,7 +26,6 @@ namespace SugzTools.Controls
 
         public SgzGrid()
         {
-            InnerMargin = new Thickness(0, 0, 0, 7);
             Loaded += SetChildrenMargin;
         }
 
@@ -44,18 +47,7 @@ namespace SugzTools.Controls
         /// <param name="e"></param>
         private void SetChildrenMargin(object sender, RoutedEventArgs e)
         {
-            foreach (FrameworkElement child in Children)
-            {
-                if (child == null)
-                    continue;
-
-                child.Margin = new Thickness(child.Margin.Left + InnerMargin.Left,
-                    child.Margin.Top + InnerMargin.Top,
-                    child.Margin.Right + InnerMargin.Right,
-                    child.Margin.Bottom + InnerMargin.Bottom
-                );
-            }
-
+            Helpers.SetChildrenMargin(this, InnerMargin);
             Loaded -= SetChildrenMargin;
         }
 

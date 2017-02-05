@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SugzTools.Src;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace SugzTools.Controls
         #region Properties
 
 
-        public Thickness InnerMargin { get; set; }
+        public Thickness InnerMargin { get; set; } = new Thickness(0);
 
 
         #endregion Properties
@@ -28,7 +29,6 @@ namespace SugzTools.Controls
 
         public SgzUniformGrid()
         {
-            InnerMargin = new Thickness(5, 5, 5, 5);
             Loaded += SetChildrenMargin;
         }
 
@@ -50,39 +50,13 @@ namespace SugzTools.Controls
         /// <param name="e"></param>
         private void SetChildrenMargin(object sender, RoutedEventArgs e)
         {
-            foreach (FrameworkElement child in Children)
-            {
-                if (child == null)
-                    continue;
-
-                child.Margin = new Thickness(child.Margin.Left + InnerMargin.Left,
-                    child.Margin.Top + InnerMargin.Top,
-                    child.Margin.Right + InnerMargin.Right,
-                    child.Margin.Bottom + InnerMargin.Bottom
-                );
-            }
-
+            Helpers.SetChildrenMargin(this, InnerMargin);
             Loaded -= SetChildrenMargin;
         }
 
 
         #endregion Private
 
-
-        #region Public
-
-
-        /// <summary>
-        /// Add a children
-        /// </summary>
-        /// <param name="child"></param>
-        public void Add(FrameworkElement child)
-        {
-            Children.Add(child);
-        }
-
-
-        #endregion Public
 
 
         #endregion Methods

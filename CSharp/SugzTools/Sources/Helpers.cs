@@ -72,7 +72,6 @@ namespace SugzTools.Src
         }
 
 
-
         /// <summary>
         /// Cast any IEnumerable to Object[]
         /// </summary>
@@ -83,7 +82,6 @@ namespace SugzTools.Src
             object[] items = _items.Cast<object>().ToArray();
             return items;
         }
-
 
 
         /// <summary>
@@ -107,7 +105,6 @@ namespace SugzTools.Src
         }
 
 
-
         /// <summary>
         /// Get the container of a given type under the cursor in a ItemsControl
         /// </summary>
@@ -125,7 +122,6 @@ namespace SugzTools.Src
             // Will return null if not found
             return obj as T;
         }
-
 
 
         /// <summary>
@@ -153,6 +149,26 @@ namespace SugzTools.Src
             }
 
             return nearest;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="panel"></param>
+        internal static void SetChildrenMargin(System.Windows.Controls.Panel panel, Thickness InnerMargin)
+        {
+            foreach (FrameworkElement child in panel.Children)
+            {
+                if (child == null)
+                    continue;
+
+                child.Margin = new Thickness(child.Margin.Left + InnerMargin.Left,
+                    child.Margin.Top + InnerMargin.Top,
+                    child.Margin.Right + InnerMargin.Right,
+                    child.Margin.Bottom + InnerMargin.Bottom
+                );
+            }
         }
 
     }

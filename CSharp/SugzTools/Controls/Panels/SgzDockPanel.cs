@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SugzTools.Src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace SugzTools.Controls
         #region Properties
 
 
-        public Thickness InnerMargin { get; set; }
+        public Thickness InnerMargin { get; set; } = new Thickness(0);
 
 
         #endregion Properties
@@ -26,7 +27,6 @@ namespace SugzTools.Controls
 
         public SgzDockPanel()
         {
-            InnerMargin = new Thickness(0, 0, 0, 7);
             Loaded += SetChildrenMargin;
         }
 
@@ -48,49 +48,13 @@ namespace SugzTools.Controls
         /// <param name="e"></param>
         private void SetChildrenMargin(object sender, RoutedEventArgs e)
         {
-            foreach (FrameworkElement child in Children)
-            {
-                if (child == null)
-                    continue;
-
-                child.Margin = new Thickness(child.Margin.Left + InnerMargin.Left,
-                    child.Margin.Top + InnerMargin.Top,
-                    child.Margin.Right + InnerMargin.Right,
-                    child.Margin.Bottom + InnerMargin.Bottom
-                );
-            }
-
+            Helpers.SetChildrenMargin(this, InnerMargin);
             Loaded -= SetChildrenMargin;
         }
 
 
         #endregion Private
 
-
-        #region Public
-
-
-        /// <summary>
-        /// Add a child
-        /// </summary>
-        /// <param name="child"></param>
-        public void Add(UIElement child)
-        {
-            Children.Add(child);
-        }
-        /// <summary>
-        /// Add a child with specified dock
-        /// </summary>
-        /// <param name="child"></param>
-        /// <param name="dock"></param>
-        public void Add(UIElement child, Dock dock)
-        {
-            Children.Add(child);
-            SetDock(child, dock);
-        }
-
-
-        #endregion Public
 
 
         #endregion Methods

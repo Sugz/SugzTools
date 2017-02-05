@@ -100,6 +100,17 @@ namespace SugzTools.Controls
         }
 
 
+        /// <summary>
+        /// Get or set the visibility of the drag drag thumb. 
+        /// False by default, automaticaly switch to true if the parent is a SgzExpandersControl
+        /// </summary>
+        [Browsable(false)]
+        public bool CanDragDrop
+        {
+            get { return (bool)GetValue(CanDragDropProperty); }
+            set { SetValue(CanDragDropProperty, value); }
+        }
+
 
         #endregion
 
@@ -179,6 +190,15 @@ namespace SugzTools.Controls
         );
 
 
+        // DependencyProperty as the backing store for CanDragDrop
+        public static readonly DependencyProperty CanDragDropProperty = DependencyProperty.Register(
+            "CanDragDrop",
+            typeof(bool),
+            typeof(SgzExpander),
+            new PropertyMetadata(false)
+        );
+
+
         #endregion Dependency Properties
 
 
@@ -193,7 +213,8 @@ namespace SugzTools.Controls
         }
         public SgzExpander()
         {
-
+            // Enable the drag drop icon if it's a children of a SgzExpandersControl
+            Loaded += (s, e) => CanDragDrop = Parent is SgzExpandersControl;
         }
 
 

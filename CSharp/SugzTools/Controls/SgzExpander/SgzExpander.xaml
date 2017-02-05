@@ -148,7 +148,8 @@
                         <DockPanel>
                             <Thumb x:Name="PART_DragDrop"
                                    DockPanel.Dock="Right"
-                                   Style="{StaticResource SgzExpanderDragDropIcon}" />
+                                   Style="{StaticResource SgzExpanderDragDropIcon}"
+                                   Visibility="{Binding CanDragDrop, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibility}}"/>
                             <ToggleButton Content="{TemplateBinding Header}"
                                           Foreground="{TemplateBinding Foreground}"
                                           FontWeight="SemiBold"
@@ -206,6 +207,7 @@
                         Value="{Binding OldContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
             </Trigger>
         </ControlTemplate.Triggers>
+        
     </ControlTemplate>
 
     

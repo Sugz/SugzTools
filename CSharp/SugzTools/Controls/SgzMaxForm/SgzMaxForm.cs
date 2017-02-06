@@ -56,7 +56,6 @@ namespace SugzTools.Controls
             Text = "SgzMaxForm";
             Controls.Add(elementHost);
             ResumeLayout(false);
-
         }
 
 
@@ -68,11 +67,6 @@ namespace SugzTools.Controls
 
         public override void ShowModeless()
         {
-            //NativeWindow nativeWindow = new NativeWindow();
-            //nativeWindow.AssignHandle(AppSDK.GetMaxHWND());
-            //Show(nativeWindow);
-            //nativeWindow.ReleaseHandle();
-
             Win32HandleWrapper maxHWND = new Win32HandleWrapper(AppSDK.GetMaxHWND());
             Show(maxHWND);
         } 

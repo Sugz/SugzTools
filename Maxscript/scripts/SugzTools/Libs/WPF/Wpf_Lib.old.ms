@@ -480,20 +480,52 @@ struct WpfStruct
 
 	fn Control 
 		_control
-		name: 
-		tag: 
-		content:
-		enabled:
-		width: 
-		height: 
-		background: 
-		foreground: 
+		background:
 		borderbrush:
 		borderthickness:
+		contextMenu:
+		cursor:
+		content:
 		cornerRadius:
+		flowDirection:
+		focusable:
+		fontFamily:
+		fontSize:
+		fontStretch:
+		fontStyle:
+		fontWeight:
+		foreground:
+		height:
 		hAlign:
+		hContentAlign:
+		isEnabled:
+		isHitTestVisible:
+		isTabStop:
+		language:
+		layoutTransform:
+		margin:
+		maxHeight:
+		maxWidth:
+		minHeight:
+		minWidth:
+		name:
+		opacity:
+		padding:
+		renderTransform:
+		renderTransformOrigin:
+		resources:
+		snapsToDevicePixels:
+		style:
+		tabIndex:
+		tag:
+		template:
+		tooltip:
+		uid:
+		useLayoutRounding:
 		vAlign:
-		margin: =
+		vContentAlign:
+		visibility:
+		width: =
 	(
 	   /*<Function>
 		Description:
@@ -505,7 +537,7 @@ struct WpfStruct
 		if name != unsupplied then _control.Name = name
 		if tag != unsupplied then _control.Tag = tag
 		if content != unsupplied then _control.Content = content
-		if enabled != unsupplied then _control.IsEnabled = enabled
+		if isEnabled != unsupplied then _control.IsEnabled = isEnabled
 		if width != unsupplied then _control.Width = width
 		if height  != unsupplied then _control.Height = height
 		if background != unsupplied then _control.background = SolidColorBrush background

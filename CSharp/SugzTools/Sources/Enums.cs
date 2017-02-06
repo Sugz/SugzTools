@@ -11,15 +11,6 @@
     }
 
 
-    /// <summary>
-    /// Enumeration to define where the text should be placed in the NumericUpDown
-    /// </summary>
-    public enum InputFieldTextSide
-    {
-        Left,
-        Right
-    }
-
 
     /// <summary>
     /// Enumeration to define how the text should be formated in the NumericUpDow

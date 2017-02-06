@@ -32,12 +32,12 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_Path" Property="Fill"
-                                    Value="{Binding MouseOverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    Value="{Binding HoverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                             
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="PART_Path" Property="Fill" 
-                                    Value="{Binding MouseDownBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                         
                     </ControlTemplate.Triggers>

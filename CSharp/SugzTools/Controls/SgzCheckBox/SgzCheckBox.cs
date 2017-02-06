@@ -41,10 +41,10 @@ namespace SugzTools.Controls
         /// Define the MouseOver brush color
         /// </summary>
         [Description("Define the MouseOver brush color"), Category("Brush")]
-        public Brush MouseOverBrush
+        public Brush HoverBrush
         {
-            get { return (Brush)GetValue(MouseOverBrushProperty); }
-            set { SetValue(MouseOverBrushProperty, value); }
+            get { return (Brush)GetValue(HoverBrushProperty); }
+            set { SetValue(HoverBrushProperty, value); }
         }
 
 
@@ -95,9 +95,9 @@ namespace SugzTools.Controls
         );
 
 
-        // DependencyProperty as the backing store for MouseOverBrush
-        public static readonly DependencyProperty MouseOverBrushProperty = DependencyProperty.Register(
-            "MouseOverBrush",
+        // DependencyProperty as the backing store for HoverBrush
+        public static readonly DependencyProperty HoverBrushProperty = DependencyProperty.Register(
+            "HoverBrush",
             typeof(Brush),
             typeof(SgzCheckBox),
             new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxButtonMouseOver"))

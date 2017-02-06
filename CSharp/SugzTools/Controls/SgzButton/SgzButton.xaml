@@ -35,14 +35,14 @@
                         <!--Mouse State-->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_Mouse" Property="Background" 
-                                    Value="{Binding MouseOverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    Value="{Binding HoverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter TargetName="PART_Mouse" Property="BorderThickness" 
                                     Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="PART_Mouse" Property="Background" 
-                                    Value="{Binding MouseDownBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter TargetName="PART_Mouse" Property="BorderThickness" 
                                     Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>

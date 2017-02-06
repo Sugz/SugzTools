@@ -51,7 +51,7 @@
                     <!--Triggers-->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding MouseOverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding HoverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
             
                         <Trigger Property="IsChecked" Value="{x:Null}">

@@ -35,7 +35,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsChecked" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding MouseDownBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter TargetName="PART_Mouse" Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
                         </MultiTrigger>
 
@@ -55,7 +55,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsChecked" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding MouseOverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding HoverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter TargetName="PART_Mouse" Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
                         </MultiTrigger>
 
@@ -65,7 +65,7 @@
                                 <Condition Property="IsPressed" Value="True" />
                                 <Condition Property="IsChecked" Value="false" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding MouseDownBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Mouse" Property="Background" Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter TargetName="PART_Mouse" Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

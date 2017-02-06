@@ -54,10 +54,10 @@ namespace SugzTools.Controls
         /// Define the MouseOver brush color
         /// </summary>
         [Description("Define the MouseOver brush color"), Category("Brush")]
-        public Brush MouseOverBrush
+        public Brush HoverBrush
         {
-            get { return (Brush)GetValue(MouseOverBrushProperty); }
-            set { SetValue(MouseOverBrushProperty, value); }
+            get { return (Brush)GetValue(HoverBrushProperty); }
+            set { SetValue(HoverBrushProperty, value); }
         }
 
 
@@ -66,10 +66,10 @@ namespace SugzTools.Controls
         /// Define the MouseDown brush color
         /// </summary>
         [Description("Define the MouseDown brush color"), Category("Brush")]
-        public Brush MouseDownBrush
+        public Brush PressedBrush
         {
-            get { return (Brush)GetValue(MouseDownBrushProperty); }
-            set { SetValue(MouseDownBrushProperty, value); }
+            get { return (Brush)GetValue(PressedBrushProperty); }
+            set { SetValue(PressedBrushProperty, value); }
         }
 
 
@@ -131,18 +131,18 @@ namespace SugzTools.Controls
         );
 
 
-        // DependencyProperty as the backing store for MouseOverBrush
-        public static readonly DependencyProperty MouseOverBrushProperty = DependencyProperty.Register(
-            "MouseOverBrush",
+        // DependencyProperty as the backing store for HoverBrush
+        public static readonly DependencyProperty HoverBrushProperty = DependencyProperty.Register(
+            "HoverBrush",
             typeof(Brush),
             typeof(SgzRadioButton),
             new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxButtonMouseOver"))
         );
 
 
-        // DependencyProperty as the backing store for MouseDownBrush
-        public static readonly DependencyProperty MouseDownBrushProperty = DependencyProperty.Register(
-            "MouseDownBrush",
+        // DependencyProperty as the backing store for PressedBrush
+        public static readonly DependencyProperty PressedBrushProperty = DependencyProperty.Register(
+            "PressedBrush",
             typeof(Brush),
             typeof(SgzRadioButton),
             new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlueMouseOver"))

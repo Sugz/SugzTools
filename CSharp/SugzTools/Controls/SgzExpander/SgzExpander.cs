@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SugzTools.Src;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -71,10 +72,10 @@ namespace SugzTools.Controls
         /// Get or set the placement for the  Popup. Default to Right.
         /// </summary>
         [Description("Get or set the height of the header"), Category("Common")]
-        public PlacementMode PopUpPlacementMode
+        public Side PopupSide
         {
-            get { return (PlacementMode)GetValue(PopUpPlacementModeProperty); }
-            set { SetValue(PopUpPlacementModeProperty, value); }
+            get { return (Side)GetValue(PopupSideProperty); }
+            set { SetValue(PopupSideProperty, value); }
         }
 
 
@@ -163,12 +164,12 @@ namespace SugzTools.Controls
         );
 
 
-        // DependencyProperty as the backing store for PopUpPlacementMode
-        public static readonly DependencyProperty PopUpPlacementModeProperty = DependencyProperty.Register(
-            "PopUpPlacementMode",
-            typeof(PlacementMode),
+        // DependencyProperty as the backing store for PopupSide
+        public static readonly DependencyProperty PopupSideProperty = DependencyProperty.Register(
+            "PopupSide",
+            typeof(Side),
             typeof(SgzExpander),
-            new PropertyMetadata(PlacementMode.Right)
+            new PropertyMetadata(Side.Right)
         );
 
 

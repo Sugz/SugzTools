@@ -57,7 +57,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,7 +79,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\PanelInnerMarginBehavior.cs" />
+    <Compile Include="Behaviors\InnerMarginBehavior.cs" />
     <Compile Include="Controls\Panels\SgzDockPanel.cs" />
     <Compile Include="Controls\Panels\SgzStackPanel.cs" />
     <Compile Include="Controls\Panels\SgzUniformGrid.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Converters\LesserThanConverter.cs" />
     <Compile Include="Converters\MultiplyPercentageConverter.cs" />
     <Compile Include="Converters\NegativeWidthToLeftMarginConverter.cs" />
+    <Compile Include="Converters\SideToPlacementModeConverter.cs" />
     <Compile Include="Converters\ValueMinusConverter.cs" />
     <Compile Include="Converters\ObjectToUIElementConverter.cs" />
     <Compile Include="Max\Cui\Cui.cs" />

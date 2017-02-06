@@ -164,7 +164,7 @@
 
                 <!-- PopUp -->
                 <Popup x:Name="PART_Popup"
-                       Placement="{TemplateBinding PopUpPlacementMode}"
+                       Placement="{TemplateBinding PopupSide, Converter={StaticResource SideToPlacementMode}}"
                        StaysOpen="True"
                        Width="{Binding PopupWidth, RelativeSource={RelativeSource TemplatedParent}}"
                        AllowsTransparency="True">

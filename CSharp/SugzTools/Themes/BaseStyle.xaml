@@ -18,9 +18,9 @@
     <c:MultiplyPercentageConverter x:Key="MultiplyPercentage" />
     <c:NegativeWidthToLeftMarginConverter x:Key="NegativeWidthToLeftMargin" />
     <c:ObjectToUIElementConverter x:Key="ObjectToUIElement" />
+    <c:SideToPlacementModeConverter x:Key="SideToPlacementMode" />
     <c:ValueMinusConverter x:Key="ValueMinus" />
-    
-    
+
 
 
     <Style x:Key="BaseStyle" TargetType="{x:Type Control}">

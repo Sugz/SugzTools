@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestApp"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
+        xmlns:b="clr-namespace:SugzTools.Behaviors;assembly=SugzTools"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         x:Name="window"
@@ -33,12 +34,13 @@
             </StackPanel>
         </sgz:SgzExpander>
         <sgz:SgzExpander Header="Expander 02"
-                         IsExpanded="False">
-            <sgz:SgzStackPanel InnerMargin="0,0,0,5">
+                         IsExpanded="False"
+                         PopupSide="Left">
+            <StackPanel b:InnerMargin.Value="0,0,0,5">
                 <sgz:SgzButton Content="Button 01" />
                 <sgz:SgzButton Content="Button 02" />
                 <sgz:SgzButton Content="Button 03" />
-            </sgz:SgzStackPanel>
+            </StackPanel>
         </sgz:SgzExpander>
         <sgz:SgzExpander Header="Expander 03">
         </sgz:SgzExpander>

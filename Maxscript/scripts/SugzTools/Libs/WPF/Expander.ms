@@ -1,14 +1,35 @@
--- Set most of the properties and event handlers for a System.Windows.Controls.Panel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-fn Panel
-	_panel
+-- Return a SugzTools.Controls.SgzExpander ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn Expander
+	hasPopup:
+	header:
+	headerBrush:
+	headerHeight:
+	isGroupBox:
+	isExpanded:
+	popupSide:
+	popupWidth:
+	collapsed:
+	expanded:
 	background:
+	borderBrush:
+	borderThickness:
 	clipToBounds:
 	contextMenu:
 	cursor:
+	content:
+	cornerRadius:
 	focusable:
+	fontFamily:
+	fontSize:
+	fontStretch:
+	fontStyle:
+	fontWeight:
+	foreground:
 	height:
 	hAlign:
+	hContentAlign:
 	isEnabled:
+	isTabStop:
 	margin:
 	maxHeight:
 	maxWidth:
@@ -16,23 +37,22 @@ fn Panel
 	minWidth:
 	name:
 	opacity:
-	spacingAll:
-	spacingHorizontal:
-	spacingLeaveLastItem:
-	spacingVertical:
+	padding:
 	snapsToDevicePixels:
+	tabIndex:
 	tag:
 	tooltip:
 	uid:
 	useLayoutRounding:
 	vAlign:
+	vContentAlign:
 	visibility:
 	width:
 	initialized:
 	isEnabledChanged:
+	loaded:
 	keyDown:
 	keyUp:
-	loaded:
 	mouseDoubleClick:
 	mouseDown:
 	mouseEnter:
@@ -46,28 +66,48 @@ fn Panel
 	mouseWheel:
 	sizeChanged: =
 (
-   /*<Function>
+	/*<Function>
 	Description:
+		Return a SgzExpander
 	Arguments:
 	Return:
 	Infos:
 	</Function>*/
-
-	if spacingAll != unsupplied then _spacing.Setall _panel spacingAll
-	if spacingHorizontal != unsupplied then _spacing.SetHorizontal _panel spacingHorizontal
-	if spacingLeaveLastItem != unsupplied then _spacing.SetLeaveLastItem _panel spacingLeaveLastItem
-	if spacingVertical != unsupplied then _spacing.SetVertical _panel spacingVertical
-
+	
+	_control = dotNetObject "SugzTools.Controls.SgzExpander"
+	if hasPopup != unsupplied then _control.HasPopup = hasPopup
+	if header != unsupplied then _control.Header = header
+	if headerBrush != unsupplied then _control.HeaderBrush = SolidColorBrush headerBrush
+	if headerHeight != unsupplied then _control.HeaderHeight = headerHeight
+	if isGroupBox != unsupplied then _control.IsGroupBox = isGroupBox
+	if isExpanded != unsupplied then _control.IsExpanded = isExpanded
+	if popupSide != unsupplied then _control.PopupSide = _enum.Side popupSide
+	if popupWidth != unsupplied then _control.PopupWidth = popupWidth
+	if collapsed != unsupplied then dotNet.addEventHandler _control "Collapsed" collapsed
+	if expanded != unsupplied then dotNet.addEventHandler _control "Expanded" expanded
+	
 	ContentControl \
-	_panel \
+	_control \
 	background:background \
+	borderbrush:borderbrush \
+	borderthickness:borderthickness \
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	content:content \
+	cornerRadius:cornerRadius \
 	focusable:focusable \
+	fontFamily:fontFamily \
+	fontSize:fontSize \
+	fontStretch:fontStretch \
+	fontStyle:fontStyle \
+	fontWeight:fontWeight \
+	foreground:foreground \
 	height:height \
 	hAlign:hAlign \
+	hContentAlign:hContentAlign \
 	isEnabled:isEnabled \
+	isTabStop:isTabStop \
 	margin:margin \
 	maxHeight:maxHeight \
 	maxWidth:maxWidth \
@@ -75,12 +115,15 @@ fn Panel
 	minWidth:minWidth \
 	name:name \
 	opacity:opacity \
+	padding:padding \
 	snapsToDevicePixels:snapsToDevicePixels \
+	tabIndex:tabIndex \
 	tag:tag \
 	tooltip:tooltip \
 	uid:uid \
 	useLayoutRounding:useLayoutRounding \
 	vAlign:vAlign \
+	vContentAlign:vContentAlign \
 	visibility:visibility \
 	width:width \
 	initialized:initialized \
@@ -103,17 +146,26 @@ fn Panel
 ),
 
 
-
-fn StackPanel
-	orientation:
+-- Return a SugzTools.Controls.SgzExpandersControl ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn ExpandersControl
 	background:
+	borderBrush:
+	borderThickness:
 	clipToBounds:
 	contextMenu:
 	cursor:
 	focusable:
+	fontFamily:
+	fontSize:
+	fontStretch:
+	fontStyle:
+	fontWeight:
+	foreground:
 	height:
 	hAlign:
+	hContentAlign:
 	isEnabled:
+	isTabStop:
 	margin:
 	maxHeight:
 	maxWidth:
@@ -121,23 +173,22 @@ fn StackPanel
 	minWidth:
 	name:
 	opacity:
-	spacingAll:
-	spacingHorizontal:
-	spacingLeaveLastItem:
-	spacingVertical:
+	padding:
 	snapsToDevicePixels:
+	tabIndex:
 	tag:
 	tooltip:
 	uid:
 	useLayoutRounding:
 	vAlign:
+	vContentAlign:
 	visibility:
 	width:
 	initialized:
 	isEnabledChanged:
+	loaded:
 	keyDown:
 	keyUp:
-	loaded:
 	mouseDoubleClick:
 	mouseDown:
 	mouseEnter:
@@ -153,24 +204,32 @@ fn StackPanel
 (
 	/*<Function>
 	Description:
+		Return a Button
 	Arguments:
 	Return:
 	Infos:
 	</Function>*/
-
-	_panel = dotNetObject "System.Windows.Controls.StackPanel"
-	if orientation != unsupplied then _panel.Orientation = Enums.Orientation orientation
-
-	Panel \
-	_panel \
+	
+	ContentControl \
+	(dotNetObject "SugzTools.Controls.SgzExpandersControl") \
 	background:background \
+	borderbrush:borderbrush \
+	borderthickness:borderthickness \
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
 	focusable:focusable \
+	fontFamily:fontFamily \
+	fontSize:fontSize \
+	fontStretch:fontStretch \
+	fontStyle:fontStyle \
+	fontWeight:fontWeight \
+	foreground:foreground \
 	height:height \
 	hAlign:hAlign \
+	hContentAlign:hContentAlign \
 	isEnabled:isEnabled \
+	isTabStop:isTabStop \
 	margin:margin \
 	maxHeight:maxHeight \
 	maxWidth:maxWidth \
@@ -178,16 +237,15 @@ fn StackPanel
 	minWidth:minWidth \
 	name:name \
 	opacity:opacity \
-	spacingAll:spacingAll\
-	spacingHorizontal:spacingHorizontal\
-	spacingLeaveLastItem:spacingLeaveLastItem\
-	spacingVertical:spacingVertical\
+	padding:padding \
 	snapsToDevicePixels:snapsToDevicePixels \
+	tabIndex:tabIndex \
 	tag:tag \
 	tooltip:tooltip \
 	uid:uid \
 	useLayoutRounding:useLayoutRounding \
 	vAlign:vAlign \
+	vContentAlign:vContentAlign \
 	visibility:visibility \
 	width:width \
 	initialized:initialized \

@@ -1,5 +1,5 @@
 -- Return a SugzTools.Controls.SgzExpandersControl ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-fn SgzExpandersControl
+fn ExpandersControl
 	background:
 	borderBrush:
 	borderThickness:
@@ -62,5 +62,59 @@ fn SgzExpandersControl
 	Infos:
 	</Function>*/
 	
-	ContentControl (dotNetObject "SugzTools.Controls.SgzExpandersControl") background:background borderbrush:borderbrush borderthickness:borderthickness clipToBounds:clipToBounds contextMenu:contextMenu cursor:cursor focusable:focusable fontFamily:fontFamily fontSize:fontSize fontStretch:fontStretch fontStyle:fontStyle fontWeight:fontWeight foreground:foreground height:height hAlign:hAlign hContentAlign:hContentAlign isEnabled:isEnabled isTabStop:isTabStop margin:margin maxHeight:maxHeight maxWidth:maxWidth minHeight:minHeight minWidth:minWidth name:name opacity:opacity padding:padding snapsToDevicePixels:snapsToDevicePixels tabIndex:tabIndex tag:tag tooltip:tooltip uid:uid useLayoutRounding:useLayoutRounding vAlign:vAlign vContentAlign:vContentAlign visibility:visibility width:width initialized:initialized isEnabledChanged:isEnabledChanged keyDown:keyDown keyUp:keyUp loaded:loaded mouseDoubleClick:mouseDoubleClick mouseDown:mouseDown mouseEnter:mouseEnter mouseLeave:mouseLeave mouseLeftButtonDown:mouseLeftButtonDown mouseLeftButtonUp:mouseLeftButtonUp mouseMove:mouseMove mouseRightButtonDown:mouseRightButtonDown mouseRightButtonUp:mouseRightButtonUp mouseUp:mouseUp mouseWheel:mouseWheel sizeChanged:sizeChanged
+	ContentControl \
+	(dotNetObject "SugzTools.Controls.SgzExpandersControl") \
+	background:background \
+	borderbrush:borderbrush \
+	borderthickness:borderthickness \
+	clipToBounds:clipToBounds \
+	contextMenu:contextMenu \
+	cursor:cursor \
+	focusable:focusable \
+	fontFamily:fontFamily \
+	fontSize:fontSize \
+	fontStretch:fontStretch \
+	fontStyle:fontStyle \
+	fontWeight:fontWeight \
+	foreground:foreground \
+	height:height \
+	hAlign:hAlign \
+	hContentAlign:hContentAlign \
+	isEnabled:isEnabled \
+	isTabStop:isTabStop \
+	margin:margin \
+	maxHeight:maxHeight \
+	maxWidth:maxWidth \
+	minHeight:minHeight \
+	minWidth:minWidth \
+	name:name \
+	opacity:opacity \
+	padding:padding \
+	snapsToDevicePixels:snapsToDevicePixels \
+	tabIndex:tabIndex \
+	tag:tag \
+	tooltip:tooltip \
+	uid:uid \
+	useLayoutRounding:useLayoutRounding \
+	vAlign:vAlign \
+	vContentAlign:vContentAlign \
+	visibility:visibility \
+	width:width \
+	initialized:initialized \
+	isEnabledChanged:isEnabledChanged \
+	keyDown:keyDown \
+	keyUp:keyUp \
+	loaded:loaded \
+	mouseDoubleClick:mouseDoubleClick \
+	mouseDown:mouseDown \
+	mouseEnter:mouseEnter \
+	mouseLeave:mouseLeave \
+	mouseLeftButtonDown:mouseLeftButtonDown \
+	mouseLeftButtonUp:mouseLeftButtonUp \
+	mouseMove:mouseMove \
+	mouseRightButtonDown:mouseRightButtonDown \
+	mouseRightButtonUp:mouseRightButtonUp \
+	mouseUp:mouseUp \
+	mouseWheel:mouseWheel \
+	sizeChanged:sizeChanged
 )

@@ -59,30 +59,30 @@ struct renamerStc
 
 		getIcon = _wpf.Icon icon:"MdiStepForward" margin:5 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._nameTxt.Text = $.name)
 		closeIcon = _wpf.Icon icon:"MdiWindowClose" margin:5 click:(fn x = Renamer._nameTxt.Text = "")
-		_panel.Add(_nameTxt = _wpf.Textbox watermark:"Enter a name..." uiElement0:getIcon uiElement2:closeIcon)
+		_panel.Children.Add(_nameTxt = _wpf.Textbox watermark:"Enter a name..." uiElement0:getIcon uiElement2:closeIcon)
 			
 		getIcon = _wpf.Icon icon:"MdiStepForward" margin:5 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._prefixTxt.Text = $.name)
 		closeIcon = _wpf.Icon icon:"MdiWindowClose" margin:5 click:(fn x = Renamer._prefixTxt.Text = "")
-		_panel.Add(_prefixTxt = _wpf.Textbox watermark:"Enter a prefix..." uiElement0:getIcon uiElement2:closeIcon)
+		_panel.Children.Add(_prefixTxt = _wpf.Textbox watermark:"Enter a prefix..." uiElement0:getIcon uiElement2:closeIcon)
 			
 		getIcon = _wpf.Icon icon:"MdiStepForward" margin:5 click:(fn x = if _sgz._sel.IsSelectionOne() then Renamer._suffixTxt.Text = $.name)
 		closeIcon = _wpf.Icon icon:"MdiWindowClose" margin:5 click:(fn x = Renamer._suffixTxt.Text = "")
-		_panel.Add(_suffixTxt = _wpf.Textbox watermark:"Enter a suffix..." uiElement0:getIcon uiElement2:closeIcon)
+		_panel.Children.Add(_suffixTxt = _wpf.Textbox watermark:"Enter a suffix..." uiElement0:getIcon uiElement2:closeIcon)
 			
 		grid = _wpf.UniformGrid columns:1 innerMargin:#(7,5,5,5)
-		grid.Add(_firstSpn = _wpf.Spinner content:"First:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 align:#stretch)
-		grid.Add(_lastSpn = _wpf.Spinner content:"Last:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 align:#stretch)
-		_panel.Add(_removeGrp = _wpf.Expander header:"Remove Chars" content: grid cornerRadius:1 isGroupBox:true isExpanded:false)
+		grid.Children.Add(_firstSpn = _wpf.Spinner content:"First:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 align:#stretch)
+		grid.Children.Add(_lastSpn = _wpf.Spinner content:"Last:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 align:#stretch)
+		_panel.Children.Add(_removeGrp = _wpf.Expander header:"Remove Chars" content: grid cornerRadius:1 isGroupBox:true isExpanded:false)
 			
 		grid = _wpf.UniformGrid columns:1 innerMargin:#(7,5,5,5)
-		grid.Add(_startSpn = _wpf.Spinner content:"Start:" type:#integer range:#(0,100000,1) fieldWidth:60 height:18 align:#stretch)
-		grid.Add(_paddingSpn = _wpf.Spinner content:"Padding:" type:#integer range:#(0,10,2) fieldWidth:60 height:18 align:#stretch)
-		_panel.Add(_indexGrp = _wpf.Expander header:"Index" content: grid cornerRadius:1 isGroupBox:true isExpanded:false)
+		grid.Children.Add(_startSpn = _wpf.Spinner content:"Start:" type:#integer range:#(0,100000,1) fieldWidth:60 height:18 align:#stretch)
+		grid.Children.Add(_paddingSpn = _wpf.Spinner content:"Padding:" type:#integer range:#(0,10,2) fieldWidth:60 height:18 align:#stretch)
+		_panel.Children.Add(_indexGrp = _wpf.Expander header:"Index" content: grid cornerRadius:1 isGroupBox:true isExpanded:false)
 			
 		btnPanel = _wpf.StackPanel innerMargin:0 orientation:#horizontal
-		btnPanel.Add(_wpf.Textblock text:"Rename" vAlign:#center)
-		btnPanel.Add(_wpf.Icon icon:"MdiBike" margin:#(10,4,0,4) vAlign:#center)
-		_panel.Add(_renameBtn = _wpf.Button content:btnPanel height:25 margin:#(0,2,0,0) click:Rename)
+		btnPanel.Children.Add(_wpf.Textblock text:"Rename" vAlign:#center)
+		btnPanel.Children.Add(_wpf.Icon icon:"MdiBike" margin:#(10,4,0,4) vAlign:#center)
+		_panel.Children.Add(_renameBtn = _wpf.Button content:btnPanel height:25 margin:#(0,2,0,0) click:Rename)
 
 		dotNet.addEventHandler _panel "SizeChanged" (fn x = Renamer._form.Height = Renamer._panel.ActualHeight + 40)
 		_panel
@@ -92,7 +92,7 @@ struct renamerStc
 	
 	fn CreateForm = 
 	(
-		if doesFileExist (file = "$userscripts\SugzTools\Libs\Wpf_Lib.ms") then fileIn file 
+		if doesFileExist (file = "$userScripts\SugzTools\Libs\WPF\Wpf_Lib.old.ms") then fileIn file 
 		border = _wpf.Border background:#maxRollout child:(GetUI())
 
 		_form = _wpf.Window title:"Renamer" content:border width:217 location:#centerParent closed:(fn x = (Renamer._form = undefined; updateToolbarButtons()))

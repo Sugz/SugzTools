@@ -1,14 +1,29 @@
--- Set most of the properties and event handlers for a System.Windows.Controls.Panel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-fn Panel
-	_panel
+-- Return a SugzTools.Controls.SgzButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn Button
+	isTransparent:
+	hoverBrush:
+	pressedBrush:
+	click:
 	background:
+	borderBrush:
+	borderThickness:
 	clipToBounds:
 	contextMenu:
 	cursor:
+	content:
+	cornerRadius:
 	focusable:
+	fontFamily:
+	fontSize:
+	fontStretch:
+	fontStyle:
+	fontWeight:
+	foreground:
 	height:
 	hAlign:
+	hContentAlign:
 	isEnabled:
+	isTabStop:
 	margin:
 	maxHeight:
 	maxWidth:
@@ -16,23 +31,22 @@ fn Panel
 	minWidth:
 	name:
 	opacity:
-	spacingAll:
-	spacingHorizontal:
-	spacingLeaveLastItem:
-	spacingVertical:
+	padding:
 	snapsToDevicePixels:
+	tabIndex:
 	tag:
 	tooltip:
 	uid:
 	useLayoutRounding:
 	vAlign:
+	vContentAlign:
 	visibility:
 	width:
 	initialized:
 	isEnabledChanged:
+	loaded:
 	keyDown:
 	keyUp:
-	loaded:
 	mouseDoubleClick:
 	mouseDown:
 	mouseEnter:
@@ -46,28 +60,42 @@ fn Panel
 	mouseWheel:
 	sizeChanged: =
 (
-   /*<Function>
+	/*<Function>
 	Description:
+		Return a Button
 	Arguments:
 	Return:
 	Infos:
 	</Function>*/
-
-	if spacingAll != unsupplied then _spacing.Setall _panel spacingAll
-	if spacingHorizontal != unsupplied then _spacing.SetHorizontal _panel spacingHorizontal
-	if spacingLeaveLastItem != unsupplied then _spacing.SetLeaveLastItem _panel spacingLeaveLastItem
-	if spacingVertical != unsupplied then _spacing.SetVertical _panel spacingVertical
-
+	
+	_control = dotNetObject "SugzTools.Controls.SgzButton"
+	if isTransparent != unsupplied then _control.IsTransparent = isTransparent
+	if hoverBrush != unsupplied then _control.HoverBrush = SolidColorBrush hoverBrush
+	if pressedBrush != unsupplied then _control.PressedBrush = SolidColorBrush pressedBrush
+	if click != unsupplied then dotNet.addEventHandler _control "Click" click
+	
 	ContentControl \
-	_panel \
+	_control \
 	background:background \
+	borderbrush:borderbrush \
+	borderthickness:borderthickness \
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	content:content \
+	cornerRadius:cornerRadius \
 	focusable:focusable \
+	fontFamily:fontFamily \
+	fontSize:fontSize \
+	fontStretch:fontStretch \
+	fontStyle:fontStyle \
+	fontWeight:fontWeight \
+	foreground:foreground \
 	height:height \
 	hAlign:hAlign \
+	hContentAlign:hContentAlign \
 	isEnabled:isEnabled \
+	isTabStop:isTabStop \
 	margin:margin \
 	maxHeight:maxHeight \
 	maxWidth:maxWidth \
@@ -75,12 +103,15 @@ fn Panel
 	minWidth:minWidth \
 	name:name \
 	opacity:opacity \
+	padding:padding \
 	snapsToDevicePixels:snapsToDevicePixels \
+	tabIndex:tabIndex \
 	tag:tag \
 	tooltip:tooltip \
 	uid:uid \
 	useLayoutRounding:useLayoutRounding \
 	vAlign:vAlign \
+	vContentAlign:vContentAlign \
 	visibility:visibility \
 	width:width \
 	initialized:initialized \
@@ -103,17 +134,31 @@ fn Panel
 ),
 
 
-
-fn StackPanel
-	orientation:
+fn Icon
+	borderThickness:
+	data:
+	hoverBrush:
+	icon:
+	pressedBrush:
+	stretch:
+	click:
 	background:
+	borderBrush:
 	clipToBounds:
 	contextMenu:
 	cursor:
 	focusable:
+	fontFamily:
+	fontSize:
+	fontStretch:
+	fontStyle:
+	fontWeight:
+	foreground:
 	height:
 	hAlign:
+	hContentAlign:
 	isEnabled:
+	isTabStop:
 	margin:
 	maxHeight:
 	maxWidth:
@@ -121,23 +166,22 @@ fn StackPanel
 	minWidth:
 	name:
 	opacity:
-	spacingAll:
-	spacingHorizontal:
-	spacingLeaveLastItem:
-	spacingVertical:
+	padding:
 	snapsToDevicePixels:
+	tabIndex:
 	tag:
 	tooltip:
 	uid:
 	useLayoutRounding:
 	vAlign:
+	vContentAlign:
 	visibility:
 	width:
 	initialized:
 	isEnabledChanged:
+	loaded:
 	keyDown:
 	keyUp:
-	loaded:
 	mouseDoubleClick:
 	mouseDown:
 	mouseEnter:
@@ -153,24 +197,46 @@ fn StackPanel
 (
 	/*<Function>
 	Description:
+		Return a Button
 	Arguments:
 	Return:
 	Infos:
 	</Function>*/
+	
+	_control = dotNetObject "SugzTools.Controls.SgzIcon"
+	if borderThickness != unsupplied then _control.BorderThickness = borderThickness
+	if data != unsupplied then _control.Data = data
+	if hoverBrush != unsupplied then _control.HoverBrush = SolidColorBrush hoverBrush
+	if icon != unsupplied then _control.Icon = Enums._enum.Parse Enums._geo icon 
 
-	_panel = dotNetObject "System.Windows.Controls.StackPanel"
-	if orientation != unsupplied then _panel.Orientation = Enums.Orientation orientation
-
-	Panel \
-	_panel \
+	if pressedBrush != unsupplied then _control.PressedBrush = SolidColorBrush pressedBrush
+	if stretch != unsupplied then _control.Stretch = Enums.Stretch stretch
+	if margin != unsupplied then 
+	(
+		if width == unsupplied then width = _double.NaN
+		if height == unsupplied then height = _double.NaN
+	)
+	if click != unsupplied then dotNet.addEventHandler _control "Click" click
+	
+	ContentControl \
+	_control \
 	background:background \
+	borderbrush:borderbrush \
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
 	focusable:focusable \
+	fontFamily:fontFamily \
+	fontSize:fontSize \
+	fontStretch:fontStretch \
+	fontStyle:fontStyle \
+	fontWeight:fontWeight \
+	foreground:foreground \
 	height:height \
 	hAlign:hAlign \
+	hContentAlign:hContentAlign \
 	isEnabled:isEnabled \
+	isTabStop:isTabStop \
 	margin:margin \
 	maxHeight:maxHeight \
 	maxWidth:maxWidth \
@@ -178,16 +244,15 @@ fn StackPanel
 	minWidth:minWidth \
 	name:name \
 	opacity:opacity \
-	spacingAll:spacingAll\
-	spacingHorizontal:spacingHorizontal\
-	spacingLeaveLastItem:spacingLeaveLastItem\
-	spacingVertical:spacingVertical\
+	padding:padding \
 	snapsToDevicePixels:snapsToDevicePixels \
+	tabIndex:tabIndex \
 	tag:tag \
 	tooltip:tooltip \
 	uid:uid \
 	useLayoutRounding:useLayoutRounding \
 	vAlign:vAlign \
+	vContentAlign:vContentAlign \
 	visibility:visibility \
 	width:width \
 	initialized:initialized \
@@ -208,7 +273,6 @@ fn StackPanel
 	mouseWheel:mouseWheel \
 	sizeChanged:sizeChanged
 )
-
 
 
 

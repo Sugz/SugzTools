@@ -1,29 +1,31 @@
 global Sgz, Wpf
 struct sugzToolsStc
 (
+	_panel, _nameTxt, _prefixTxt, _suffixTxt, 
+	
 	_rols,
 	
 	fn GetUI = 
 	(
--- 		_rols = dotNetObject "SugzTools.Controls.SgzExpandersControl"
--- 		_rols.Margin = Wpf.Thickness 3
+		_panel = Wpf.StackPanel margin:5 spacingVertical:5
 
-		panel = Wpf.StackPanel margin:5 innerMargin:#(0,0,0,5)
-		panel.Children.Add (Wpf.SgzButton content:"My Awesome Button 01")
-		panel.Children.Add (Wpf.SgzButton content:"My Awesome Button 02")
-		panel.Children.Add (Wpf.SgzButton content:"My Awesome Button 03")
+		getIcon = Wpf.Icon icon:"MdiStepForward" margin:5 cursor:#Arrow click:(fn x = if _sgz._sel.IsSelectionOne() then this._nameTxt.Text = $.name)
+		closeIcon = Wpf.Icon icon:"MdiWindowClose" margin:5 cursor:#Arrow click:(fn x = this._nameTxt.Text = "")
+		_panel.Children.Add(_nameTxt = Wpf.Textbox watermark:"Enter a name..." uiElement0:getIcon uiElement2:closeIcon)
 
--- 		panel02 = _wpf.StackPanel margin:5 height:75
--- 		panel03 = _wpf.StackPanel margin:5 height:75
--- 		panel04 = _wpf.StackPanel margin:5 height:75
--- 		panel05 = _wpf.StackPanel margin:5 height:75
+		getIcon = Wpf.Icon icon:"MdiStepForward" margin:5 cursor:#Arrow
+		closeIcon = Wpf.Icon icon:"MdiWindowClose" margin:5 cursor:#Arrow
+		_panel.Children.Add(_prefixTxt = Wpf.Textbox watermark:"Enter a name..." uiElement0:getIcon uiElement2:closeIcon)
+
+		getIcon = Wpf.Icon icon:"MdiStepForward" margin:5 cursor:#Arrow 
+		closeIcon = Wpf.Icon icon:"MdiWindowClose" margin:5 cursor:#Arrow
+		_panel.Children.Add(_suffixTxt = Wpf.Textbox watermark:"Enter a name..." uiElement0:getIcon uiElement2:closeIcon)
+
+
+
 		
-		_rols = Wpf.SgzExpandersControl margin:3
-		_rols.Items.Add (Wpf.SgzExpander header:"Expander 01" content:panel)
--- 		_rols.Items.Add (_wpf.Expander header:"Expander 02" content:panel02)
--- 		_rols.Items.Add (_wpf.Expander header:"Expander 03" content:panel03)
--- 		_rols.Items.Add (_wpf.Expander header:"Expander 04" content:panel04)
--- 		_rols.Items.Add (_wpf.Expander header:"Expander 05" content:panel05)
+		_rols = Wpf.ExpandersControl margin:3
+		_rols.Items.Add (Wpf.Expander header:"Expander 01" content:_panel)
 		
 		_rols
 	),

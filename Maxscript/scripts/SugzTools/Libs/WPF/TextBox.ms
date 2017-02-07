@@ -1,16 +1,22 @@
 -- Return a SugzTools.Controls.SgzButton ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-fn SgzButton
-	isTransparent:
-	hoverBrush:
-	pressedBrush:
-	click:
+fn Textbox
+	caretBrush:
+	selectionBrush:
+	text:
+	uiElement0:
+	uiElement1:
+	uiElement2:
+	watermark:
+	watermarkFontStyle:
+	watermarkForeground:
+	validate:
+	textChanged:
 	background:
 	borderBrush:
 	borderThickness:
 	clipToBounds:
 	contextMenu:
 	cursor:
-	content:
 	cornerRadius:
 	focusable:
 	fontFamily:
@@ -68,11 +74,19 @@ fn SgzButton
 	Infos:
 	</Function>*/
 	
-	_control = dotNetObject "SugzTools.Controls.SgzButton"
-	if isTransparent != unsupplied then _control.IsTransparent = isTransparent
-	if hoverBrush != unsupplied then _control.HoverBrush = SolidColorBrush hoverBrush
-	if pressedBrush != unsupplied then _control.PressedBrush = SolidColorBrush pressedBrush
-	if click != unsupplied then dotNet.addEventHandler _control "Click" click
+	_control = dotNetObject "SugzTools.Controls.SgzMaxTextbox"
+	if caretBrush != unsupplied then _control.CaretBrush = SolidColorBrush caretBrush
+	if selectionBrush != unsupplied then _control.SelectionBrush = SolidColorBrush selectionBrush
+	if text != unsupplied then _control.Text = text
+	if uiElement0 != unsupplied then _control.UIElement0 = uiElement0
+	if uiElement1 != unsupplied then _control.UIElement1 = uiElement1
+	if uiElement2 != unsupplied then _control.UIElement2 = uiElement2
+	if watermark != unsupplied then _control.Watermark = watermark
+	if watermarkFontStyle != unsupplied then _control.WatermarkFontStyle = Enums.FontStyles WatermarkFontStyle
+	if watermarkForeground != unsupplied then _control.WatermarkForeground = SolidColorBrush watermarkForeground
+
+	if validate != unsupplied then dotNet.addEventHandler _control "Validate" validate
+	if textChanged != unsupplied then dotNet.addEventHandler _control "TextChanged" textChanged
 	
 	ContentControl \
 	_control \
@@ -82,7 +96,6 @@ fn SgzButton
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
-	content:content \
 	cornerRadius:cornerRadius \
 	focusable:focusable \
 	fontFamily:fontFamily \
@@ -132,7 +145,4 @@ fn SgzButton
 	mouseWheel:mouseWheel \
 	sizeChanged:sizeChanged
 )
-
-
-
 

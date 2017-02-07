@@ -24,6 +24,7 @@ struct WpfEnumStruct
 
 
 	-- SugzTools Enums ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	_geo = dotNetClass "SugzTools.Icons.Geo",
 	_numericFormatSpecifier = dotNetClass "SugzTools.Src.NumericFormatSpecifier",
 	_numericUpDownLimits = dotNetClass "SugzTools.Src.NumericUpDownLimits",
 	_numericUpDownType = dotNetClass "SugzTools.Src.NumericUpDownType",

@@ -11,6 +11,7 @@ fn Textbox
 	watermarkForeground:
 	validate:
 	textChanged:
+
 	background:
 	borderBrush:
 	borderThickness:
@@ -50,9 +51,9 @@ fn Textbox
 	width:
 	initialized:
 	isEnabledChanged:
-	loaded:
 	keyDown:
 	keyUp:
+	loaded:
 	mouseDoubleClick:
 	mouseDown:
 	mouseEnter:
@@ -129,6 +130,116 @@ fn Textbox
 	width:width \
 	initialized:initialized \
 	isEnabledChanged:isEnabledChanged \
+	keyDown:keyDown \
+	keyUp:keyUp \
+	loaded:loaded \
+	mouseDoubleClick:mouseDoubleClick \
+	mouseDown:mouseDown \
+	mouseEnter:mouseEnter \
+	mouseLeave:mouseLeave \
+	mouseLeftButtonDown:mouseLeftButtonDown \
+	mouseLeftButtonUp:mouseLeftButtonUp \
+	mouseMove:mouseMove \
+	mouseRightButtonDown:mouseRightButtonDown \
+	mouseRightButtonUp:mouseRightButtonUp \
+	mouseUp:mouseUp \
+	mouseWheel:mouseWheel \
+	sizeChanged:sizeChanged
+),
+
+
+
+fn Textblock
+	background:
+	clipToBounds:
+	contextMenu:
+	cursor:
+	focusable:
+	fontFamily:
+	fontSize:
+	fontStretch:
+	fontStyle:
+	fontWeight:
+	foreground:
+	height:
+	hAlign:
+	inlines:
+	margin:
+	maxHeight:
+	maxWidth:
+	minHeight:
+	minWidth:
+	name:
+	opacity:
+	padding:
+	snapsToDevicePixels:
+	tag:
+	text:
+	uid:
+	useLayoutRounding:
+	vAlign:
+	visibility:
+	width:
+	initialized:
+	keyDown:
+	keyUp:
+	loaded:
+	mouseDoubleClick:
+	mouseDown:
+	mouseEnter:
+	mouseLeave:
+	mouseLeftButtonDown:
+	mouseLeftButtonUp:
+	mouseMove:
+	mouseRightButtonDown:
+	mouseRightButtonUp:
+	mouseUp:
+	mouseWheel:
+	sizeChanged: =
+(
+	/*<Function>
+	Description:
+		Return a Button
+	Arguments:
+	Return:
+	Infos:
+	</Function>*/
+
+	_control = dotNetObject "System.Windows.Controls.TextBlock"
+	if inlines != unsupplied then _control.Inlines = inlines
+	if text != unsupplied then _control.Text = text
+
+	ContentControl \
+	_control \
+	background:background \
+	clipToBounds:clipToBounds \
+	contextMenu:contextMenu \
+	cursor:cursor \
+	focusable:focusable \
+	fontFamily:fontFamily \
+	fontSize:fontSize \
+	fontStretch:fontStretch \
+	fontStyle:fontStyle \
+	fontWeight:fontWeight \
+	foreground:foreground \
+	height:height \
+	hAlign:hAlign \
+	margin:margin \
+	maxHeight:maxHeight \
+	maxWidth:maxWidth \
+	minHeight:minHeight \
+	minWidth:minWidth \
+	name:name \
+	opacity:opacity \
+	padding:padding \
+	snapsToDevicePixels:snapsToDevicePixels \
+	tag:tag \
+	uid:uid \
+	useLayoutRounding:useLayoutRounding \
+	vAlign:vAlign \
+	visibility:visibility \
+	width:width \
+	initialized:initialized \
 	keyDown:keyDown \
 	keyUp:keyUp \
 	loaded:loaded \

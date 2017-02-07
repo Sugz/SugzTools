@@ -143,7 +143,6 @@ namespace SugzTools.Controls
             Loaded += (s, e) => FocusVisualStyle = FocusVisualStyles.GetControlStyle(CornerRadius);
         }
 
-
         #endregion Constructors
 
 

@@ -25,5 +25,18 @@ namespace SugzTools.Src
 
 
 
+        public static void Add(this Panel panel, UIElement obj)
+        {
+            panel.Children.Add(obj);
+        }
+
+
+        public static void AddRange(this Panel panel, UIElement[] objs)
+        {
+            foreach(UIElement obj in objs)
+                panel.Children.Add(obj);
+        }
+
+
     }
 }

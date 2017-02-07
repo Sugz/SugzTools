@@ -34,13 +34,34 @@
             </StackPanel>
         </sgz:SgzExpander>
         <sgz:SgzExpander Header="Expander 02"
-                         IsExpanded="False"
+                         IsExpanded="True"
                          PopupSide="Left">
-            <StackPanel b:InnerMargin.Value="0,0,0,5">
-                <sgz:SgzButton Content="Button 01" />
-                <sgz:SgzButton Content="Button 02" />
-                <sgz:SgzButton Content="Button 03" />
+            <StackPanel>
+                <StackPanel Margin="5"
+                            b:Spacing.Vertical="5"
+                            Background="#FFD81D1D">
+                    <sgz:SgzButton Content="Button 01" />
+                    <sgz:SgzButton Content="Button 02" Margin="5,0"/>
+                    <sgz:SgzButton Content="Button 03" />
+                </StackPanel>
+                <StackPanel Margin="5"
+                            Orientation="Horizontal"
+                            b:Spacing.Horizontal="5"
+                            Background="#FF316FAE">
+                    <sgz:SgzButton Content="Button 01" />
+                    <sgz:SgzButton Content="Button 02" />
+                    <sgz:SgzButton Content="Button 03" />
+                </StackPanel>
+                <UniformGrid b:Spacing.All="2"
+                             Background="#FF20BD35">
+                    <sgz:SgzButton Content="Button 01" />
+                    <sgz:SgzButton Content="Button 02" />
+                    <sgz:SgzButton Content="Button 03" />
+                    <sgz:SgzButton Content="Button 04" />
+                </UniformGrid>
             </StackPanel>
+            
+            
         </sgz:SgzExpander>
         <sgz:SgzExpander Header="Expander 03">
         </sgz:SgzExpander>

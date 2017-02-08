@@ -306,6 +306,7 @@ struct WpfStruct
 		if content != unsupplied then _control.Content = content
 		if cornerRadius != unsupplied then _control.CornerRadius =
 		(
+			if (isKindOf (getProperty _control "CornerRadius") Integer) 
 				then cornerRadius
 				else CornerRadius cornerRadius
 		)

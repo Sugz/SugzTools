@@ -273,9 +273,9 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// Force the control to always display the value, except when indetermiante is true
+        /// Get or set if the control always display the value, except when indetermiante is true
         /// </summary>
-        [Description("Force the control to always display the value, except when indetermiante is true"), Category("Value Formating")]
+        [Description("Get or set if the control always display the value, except when indetermiante is true"), Category("Value Formating")]
         public bool AlwaysShowValue { get; set; }
 
 
@@ -390,9 +390,9 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// Get or set thethe width of the input field
+        /// Get or set the width of the input field
         /// </summary>
-        [Description("Get or set thethe width of the input field"), Category("Layout")]
+        [Description("Get or set the width of the input field"), Category("Layout")]
         public int FieldWidth
         {
             get { return (int)GetValue(FieldWidthProperty); }

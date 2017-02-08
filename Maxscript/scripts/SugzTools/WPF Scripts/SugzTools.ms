@@ -13,7 +13,7 @@ struct sugzToolsStc
 
 		getIcon = Wpf.Icon icon:"MdiStepForward" padding:#(6,7,6,6) cursor:#Arrow vAlign:#center 
 		closeIcon = Wpf.Icon icon:"MdiWindowClose" padding:6 cursor:#Arrow vAlign:#center 
-		_panel.Children.Add(_nameTxt = Wpf.Textbox watermark:"Enter a name..." )--uiElement0:getIcon uiElement2:closeIcon)
+		_panel.Children.Add(_nameTxt = Wpf.Textbox watermark:"Enter a name..." uiElement0:getIcon uiElement2:closeIcon)
 
 		getIcon = Wpf.Icon icon:"MdiStepForward" padding:#(6,7,6,6) cursor:#Arrow vAlign:#center 
 		closeIcon = Wpf.Icon icon:"MdiWindowClose" padding:6 cursor:#Arrow vAlign:#center 
@@ -23,7 +23,13 @@ struct sugzToolsStc
 		closeIcon = Wpf.Icon icon:"MdiWindowClose"padding:6 cursor:#Arrow vAlign:#center 
 		_panel.Children.Add(_suffixTxt = Wpf.Textbox watermark:"Enter a suffix..." uiElement0:getIcon uiElement2:closeIcon)
 
-		_panel.Children.Add(_removeGrp = Wpf.Expander header:"Remove Chars" isGroupBox:true isExpanded:false margin:#(0,2,0,0))
+		panel = Wpf.StackPanel margin:#(7,5,5,5) spacingVertical:7
+		panel.Children.Add(_firstSpn = Wpf.Spinner content:"First:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 align:#stretch)
+		panel.Children.Add(_lastSpn = Wpf.Spinner content:"Last:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 align:#stretch)
+		_panel.Children.Add(_removeGrp = Wpf.Expander header:"Remove Chars" content:panel isGroupBox:true isExpanded:false margin:#(0,2,0,0))
+		
+
+
 		_panel.Children.Add(_indexGrp = Wpf.Expander header:"Index" isGroupBox:true isExpanded:false margin:#(0,2,0,0))
 
 		btnPanel = Wpf.StackPanel orientation:#horizontal

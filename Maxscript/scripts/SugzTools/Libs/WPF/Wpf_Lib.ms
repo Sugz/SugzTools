@@ -304,7 +304,11 @@ struct WpfStruct
 		if contextMenu != unsupplied then _control.ContextMenu = contextMenu
 		if cursor != unsupplied then _control.Cursor = this.Cursor cursor
 		if content != unsupplied then _control.Content = content
-		if cornerRadius != unsupplied then _control.CornerRadius = CornerRadius cornerRadius
+		if cornerRadius != unsupplied then _control.CornerRadius =
+		(
+				then cornerRadius
+				else CornerRadius cornerRadius
+		)
 		if focusable != unsupplied then _control.Focusable = focusable
 		if fontFamily != unsupplied then _control.FontFamily = this.FontFamily fontFamily
 		if fontSize != unsupplied then _control.FontSize = fontSize

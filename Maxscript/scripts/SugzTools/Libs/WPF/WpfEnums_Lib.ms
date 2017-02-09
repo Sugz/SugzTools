@@ -110,7 +110,7 @@ struct WpfEnumStruct
 			#ScrollS: return _cursors.ScrollS
 			#ScrollSE: return _cursors.ScrollSE
 			#ScrollSW: return _cursors.ScrollSW
-			#ScrollW	: return _cursors.ScrollW
+			#ScrollW: return _cursors.ScrollW
 			#ScrollWE: return _cursors.ScrollWE
 			#SizeAll: return _cursors.SizeAll
 			#SizeNESW: return _cursors.SizeNESW

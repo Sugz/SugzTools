@@ -3,48 +3,21 @@ fn Panel
 	_panel
 	background:
 	clipToBounds:
-	contextMenu:
 	cursor:
-	focusable:
-	height:
+	dock:
 	hAlign:
-	isEnabled:
+	height:
 	margin:
-	maxHeight:
-	maxWidth:
-	minHeight:
-	minWidth:
 	name:
-	opacity:
 	spacingAll:
 	spacingHorizontal:
 	spacingLeaveLastItem:
 	spacingVertical:
-	snapsToDevicePixels:
 	tag:
-	tooltip:
-	uid:
-	useLayoutRounding:
 	vAlign:
 	visibility:
 	width:
-	initialized:
-	isEnabledChanged:
-	keyDown:
-	keyUp:
-	loaded:
-	mouseDoubleClick:
-	mouseDown:
-	mouseEnter:
-	mouseLeave:
-	mouseLeftButtonDown:
-	mouseLeftButtonUp:
-	mouseMove:
-	mouseRightButtonDown:
-	mouseRightButtonUp:
-	mouseUp:
-	mouseWheel:
-	sizeChanged: =
+	loaded: =
 (
    /*<Function>
 	Description:
@@ -53,103 +26,99 @@ fn Panel
 	Infos:
 	</Function>*/
 
+	if background != unsupplied then _panel.background = SolidColorBrush background
+	if clipToBounds != unsupplied then _panel.ClipToBounds = clipToBounds
+	if cursor != unsupplied then _panel.Cursor = this.Cursor cursor
+	if dock != unsupplied then _dock.SetDock _panel (Enums.Dock dock)
+	if hAlign != unsupplied then _panel.HorizontalAlignment = Enums.HorizontalAlignment hAlign
+	if height != unsupplied then _panel.Height = height
+	if margin != unsupplied then _panel.Margin = Thickness margin
+	if name != unsupplied then _panel.Name = name
 	if spacingAll != unsupplied then _spacing.Setall _panel spacingAll
 	if spacingHorizontal != unsupplied then _spacing.SetHorizontal _panel spacingHorizontal
 	if spacingLeaveLastItem != unsupplied then _spacing.SetLeaveLastItem _panel spacingLeaveLastItem
 	if spacingVertical != unsupplied then _spacing.SetVertical _panel spacingVertical
+	if tag != unsupplied then _panel.Tag = tag
+	if vAlign != unsupplied then _panel.VerticalAlignment = Enums.VerticalAlignment vAlign
+	if visibility != unsupplied then _panel.Visibility = Enums.Visibility visibility
+	if width != unsupplied then _panel.Width = width
+	if loaded != unsupplied then dotNet.addEventHandler _panel "Loaded" loaded
 
-	ContentControl \
-	_panel \
-	background:background \
-	clipToBounds:clipToBounds \
-	contextMenu:contextMenu \
-	cursor:cursor \
-	focusable:focusable \
-	height:height \
-	hAlign:hAlign \
-	isEnabled:isEnabled \
-	margin:margin \
-	maxHeight:maxHeight \
-	maxWidth:maxWidth \
-	minHeight:minHeight \
-	minWidth:minWidth \
-	name:name \
-	opacity:opacity \
-	snapsToDevicePixels:snapsToDevicePixels \
-	tag:tag \
-	tooltip:tooltip \
-	uid:uid \
-	useLayoutRounding:useLayoutRounding \
-	vAlign:vAlign \
-	visibility:visibility \
-	width:width \
-	initialized:initialized \
-	isEnabledChanged:isEnabledChanged \
-	keyDown:keyDown \
-	keyUp:keyUp \
-	loaded:loaded \
-	mouseDoubleClick:mouseDoubleClick \
-	mouseDown:mouseDown \
-	mouseEnter:mouseEnter \
-	mouseLeave:mouseLeave \
-	mouseLeftButtonDown:mouseLeftButtonDown \
-	mouseLeftButtonUp:mouseLeftButtonUp \
-	mouseMove:mouseMove \
-	mouseRightButtonDown:mouseRightButtonDown \
-	mouseRightButtonUp:mouseRightButtonUp \
-	mouseUp:mouseUp \
-	mouseWheel:mouseWheel \
-	sizeChanged:sizeChanged
+	dotNet.setLifetimeControl _panel #dotnet
+
+	_panel
 ),
 
 
-
-fn StackPanel
-	orientation:
+-- Return a SugzTools.Controls.SgzCanvas ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn Canvas
 	background:
 	clipToBounds:
-	contextMenu:
 	cursor:
-	focusable:
-	height:
+	dock:
 	hAlign:
-	isEnabled:
+	height:
 	margin:
-	maxHeight:
-	maxWidth:
-	minHeight:
-	minWidth:
 	name:
-	opacity:
 	spacingAll:
 	spacingHorizontal:
 	spacingLeaveLastItem:
 	spacingVertical:
-	snapsToDevicePixels:
 	tag:
-	tooltip:
-	uid:
-	useLayoutRounding:
 	vAlign:
 	visibility:
 	width:
-	initialized:
-	isEnabledChanged:
-	keyDown:
-	keyUp:
-	loaded:
-	mouseDoubleClick:
-	mouseDown:
-	mouseEnter:
-	mouseLeave:
-	mouseLeftButtonDown:
-	mouseLeftButtonUp:
-	mouseMove:
-	mouseRightButtonDown:
-	mouseRightButtonUp:
-	mouseUp:
-	mouseWheel:
-	sizeChanged: =
+	loaded: =
+(
+   /*<Function>
+	Description:
+	Arguments:
+	Return:
+	Infos:
+	</Function>*/
+
+	Panel \
+	(dotNetObject "SugzTools.Controls.SgzCanvas") \
+	background:background \
+	clipToBounds:clipToBounds \
+	cursor:cursor \
+	dock: dock \
+	hAlign:hAlign \
+	height:height \
+	margin:margin \
+	name:name \
+	spacingAll:spacingAll \
+	spacingHorizontal:spacingHorizontal \
+	spacingLeaveLastItem:spacingLeaveLastItem \
+	spacingVertical:spacingVertical \
+	tag:tag \
+	vAlign:vAlign \
+	visibility:visibility \
+	width:width \
+	loaded:loaded
+),
+
+
+-- Return a SugzTools.Controls.SgzDockPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn DockPanel
+	lastChildFill:
+	background:
+	clipToBounds:
+	cursor:
+	dock:
+	hAlign:
+	height:
+	margin:
+	name:
+	spacingAll:
+	spacingHorizontal:
+	spacingLeaveLastItem:
+	spacingVertical:
+	tag:
+	vAlign:
+	visibility:
+	width:
+	loaded: =
 (
 	/*<Function>
 	Description:
@@ -158,107 +127,101 @@ fn StackPanel
 	Infos:
 	</Function>*/
 
-	_panel = dotNetObject "System.Windows.Controls.StackPanel"
-	if orientation != unsupplied then _panel.Orientation = Enums.Orientation orientation
+	_panel = dotNetObject "SugzTools.Controls.SgzDockPanel"
+	if lastChildFill != unsupplied then _panel.LastChildFill = lastChildFill
 
 	Panel \
 	_panel \
 	background:background \
 	clipToBounds:clipToBounds \
-	contextMenu:contextMenu \
 	cursor:cursor \
-	focusable:focusable \
-	height:height \
+	dock: dock \
 	hAlign:hAlign \
-	isEnabled:isEnabled \
+	height:height \
 	margin:margin \
-	maxHeight:maxHeight \
-	maxWidth:maxWidth \
-	minHeight:minHeight \
-	minWidth:minWidth \
 	name:name \
-	opacity:opacity \
-	spacingAll:spacingAll\
-	spacingHorizontal:spacingHorizontal\
-	spacingLeaveLastItem:spacingLeaveLastItem\
-	spacingVertical:spacingVertical\
-	snapsToDevicePixels:snapsToDevicePixels \
+	spacingAll:spacingAll \
+	spacingHorizontal:spacingHorizontal \
+	spacingLeaveLastItem:spacingLeaveLastItem \
+	spacingVertical:spacingVertical \
 	tag:tag \
-	tooltip:tooltip \
-	uid:uid \
-	useLayoutRounding:useLayoutRounding \
 	vAlign:vAlign \
 	visibility:visibility \
 	width:width \
-	initialized:initialized \
-	isEnabledChanged:isEnabledChanged \
-	keyDown:keyDown \
-	keyUp:keyUp \
-	loaded:loaded \
-	mouseDoubleClick:mouseDoubleClick \
-	mouseDown:mouseDown \
-	mouseEnter:mouseEnter \
-	mouseLeave:mouseLeave \
-	mouseLeftButtonDown:mouseLeftButtonDown \
-	mouseLeftButtonUp:mouseLeftButtonUp \
-	mouseMove:mouseMove \
-	mouseRightButtonDown:mouseRightButtonDown \
-	mouseRightButtonUp:mouseRightButtonUp \
-	mouseUp:mouseUp \
-	mouseWheel:mouseWheel \
-	sizeChanged:sizeChanged
+	loaded:loaded
 ),
 
 
+-- Return a SugzTools.Controls.SgzGrid ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn Grid
+	background:
+	clipToBounds:
+	cursor:
+	dock:
+	hAlign:
+	height:
+	margin:
+	name:
+	spacingAll:
+	spacingHorizontal:
+	spacingLeaveLastItem:
+	spacingVertical:
+	tag:
+	vAlign:
+	visibility:
+	width:
+	loaded: =
+(
+   /*<Function>
+	Description:
+	Arguments:
+	Return:
+	Infos:
+	</Function>*/
+
+	Panel \
+	(dotNetObject "SugzTools.Controls.SgzGrid") \
+	background:background \
+	clipToBounds:clipToBounds \
+	cursor:cursor \
+	dock: dock \
+	hAlign:hAlign \
+	height:height \
+	margin:margin \
+	name:name \
+	spacingAll:spacingAll \
+	spacingHorizontal:spacingHorizontal \
+	spacingLeaveLastItem:spacingLeaveLastItem \
+	spacingVertical:spacingVertical \
+	tag:tag \
+	vAlign:vAlign \
+	visibility:visibility \
+	width:width \
+	loaded:loaded
+),
 
 
+-- Return a SugzTools.Controls.SgzUniformGrid ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 fn UniformGrid
 	columns:
 	rows:
 	background:
 	clipToBounds:
-	contextMenu:
 	cursor:
-	focusable:
-	height:
+	dock:
 	hAlign:
-	isEnabled:
+	height:
 	margin:
-	maxHeight:
-	maxWidth:
-	minHeight:
-	minWidth:
 	name:
-	opacity:
 	spacingAll:
 	spacingHorizontal:
 	spacingLeaveLastItem:
 	spacingVertical:
-	snapsToDevicePixels:
 	tag:
-	tooltip:
-	uid:
-	useLayoutRounding:
 	vAlign:
 	visibility:
 	width:
-	initialized:
-	isEnabledChanged:
-	keyDown:
-	keyUp:
-	loaded:
-	mouseDoubleClick:
-	mouseDown:
-	mouseEnter:
-	mouseLeave:
-	mouseLeftButtonDown:
-	mouseLeftButtonUp:
-	mouseMove:
-	mouseRightButtonDown:
-	mouseRightButtonUp:
-	mouseUp:
-	mouseWheel:
-	sizeChanged: =
+	loaded: =
 (
 	/*<Function>
 	Description:
@@ -267,7 +230,7 @@ fn UniformGrid
 	Infos:
 	</Function>*/
 
-	_panel = dotNetObject "System.Windows.Controls.Primitives.UniformGrid"
+	_panel = dotNetObject "SugzTools.Controls.SgzUniformGrid"
 	if rows != unsupplied then _panel.Rows = rows
 	if columns != unsupplied then _panel.Columns = columns
 
@@ -275,49 +238,130 @@ fn UniformGrid
 	_panel \
 	background:background \
 	clipToBounds:clipToBounds \
-	contextMenu:contextMenu \
 	cursor:cursor \
-	focusable:focusable \
-	height:height \
+	dock: dock \
 	hAlign:hAlign \
-	isEnabled:isEnabled \
+	height:height \
 	margin:margin \
-	maxHeight:maxHeight \
-	maxWidth:maxWidth \
-	minHeight:minHeight \
-	minWidth:minWidth \
 	name:name \
-	opacity:opacity \
-	spacingAll:spacingAll\
-	spacingHorizontal:spacingHorizontal\
-	spacingLeaveLastItem:spacingLeaveLastItem\
-	spacingVertical:spacingVertical\
-	snapsToDevicePixels:snapsToDevicePixels \
+	spacingAll:spacingAll \
+	spacingHorizontal:spacingHorizontal \
+	spacingLeaveLastItem:spacingLeaveLastItem \
+	spacingVertical:spacingVertical \
 	tag:tag \
-	tooltip:tooltip \
-	uid:uid \
-	useLayoutRounding:useLayoutRounding \
 	vAlign:vAlign \
 	visibility:visibility \
 	width:width \
-	initialized:initialized \
-	isEnabledChanged:isEnabledChanged \
-	keyDown:keyDown \
-	keyUp:keyUp \
-	loaded:loaded \
-	mouseDoubleClick:mouseDoubleClick \
-	mouseDown:mouseDown \
-	mouseEnter:mouseEnter \
-	mouseLeave:mouseLeave \
-	mouseLeftButtonDown:mouseLeftButtonDown \
-	mouseLeftButtonUp:mouseLeftButtonUp \
-	mouseMove:mouseMove \
-	mouseRightButtonDown:mouseRightButtonDown \
-	mouseRightButtonUp:mouseRightButtonUp \
-	mouseUp:mouseUp \
-	mouseWheel:mouseWheel \
-	sizeChanged:sizeChanged
+	loaded:loaded
+),
+
+
+-- Return a SugzTools.Controls.SgzStackPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn StackPanel
+	orientation:
+	background:
+	clipToBounds:
+	cursor:
+	dock:
+	hAlign:
+	height:
+	margin:
+	name:
+	spacingAll:
+	spacingHorizontal:
+	spacingLeaveLastItem:
+	spacingVertical:
+	tag:
+	vAlign:
+	visibility:
+	width:
+	loaded: =
+(
+	/*<Function>
+	Description:
+	Arguments:
+	Return:
+	Infos:
+	</Function>*/
+
+	_panel = dotNetObject "SugzTools.Controls.SgzStackPanel"
+	if orientation != unsupplied then _panel.Orientation = Enums.Orientation orientation
+	if background != unsupplied then _panel.background = SolidColorBrush background
+	if clipToBounds != unsupplied then _panel.ClipToBounds = clipToBounds
+	if cursor != unsupplied then _panel.Cursor = this.Cursor cursor
+	if dock != unsupplied then _dock.SetDock _panel (Enums.Dock dock)
+	if hAlign != unsupplied then _panel.HorizontalAlignment = Enums.HorizontalAlignment hAlign
+	if height != unsupplied then _panel.Height = height
+	if margin != unsupplied then _panel.Margin = Thickness margin
+	if name != unsupplied then _panel.Name = name
+	if spacingAll != unsupplied then _spacing.Setall _panel spacingAll
+	if spacingHorizontal != unsupplied then _spacing.SetHorizontal _panel spacingHorizontal
+	if spacingLeaveLastItem != unsupplied then _spacing.SetLeaveLastItem _panel spacingLeaveLastItem
+	if spacingVertical != unsupplied then _spacing.SetVertical _panel spacingVertical
+	if tag != unsupplied then _panel.Tag = tag
+	if vAlign != unsupplied then _panel.VerticalAlignment = Enums.VerticalAlignment vAlign
+	if visibility != unsupplied then _panel.Visibility = Enums.Visibility visibility
+	if width != unsupplied then _panel.Width = width
+-- 	if loaded != unsupplied then dotNet.addEventHandler _panel "Loaded" loaded
+
+	dotNet.setLifetimeControl _panel #dotnet
+	
+	_panel
+),
+
+
+-- Return a SugzTools.Controls.SgzWrapPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn WrapPanel
+	itemHeight:
+	itemwidth:
+	orientation:
+	background:
+	clipToBounds:
+	cursor:
+	dock:
+	hAlign:
+	height:
+	margin:
+	name:
+	spacingAll:
+	spacingHorizontal:
+	spacingLeaveLastItem:
+	spacingVertical:
+	tag:
+	vAlign:
+	visibility:
+	width:
+	loaded: =
+(
+	/*<Function>
+	Description:
+	Arguments:
+	Return:
+	Infos:
+	</Function>*/
+
+	_panel = dotNetObject "SugzTools.Controls.SgzWrapPanel"
+	if itemHeight != unsupplied then _panel.ItemHeight = itemHeight
+	if itemWidth != unsupplied then _panel.ItemWidth = itemWidth
+	if orientation != unsupplied then _panel.Orientation = Enums.Orientation orientation
+
+	Panel \
+	_panel \
+	background:background \
+	clipToBounds:clipToBounds \
+	cursor:cursor \
+	dock: dock \
+	hAlign:hAlign \
+	height:height \
+	margin:margin \
+	name:name \
+	spacingAll:spacingAll \
+	spacingHorizontal:spacingHorizontal \
+	spacingLeaveLastItem:spacingLeaveLastItem \
+	spacingVertical:spacingVertical \
+	tag:tag \
+	vAlign:vAlign \
+	visibility:visibility \
+	width:width \
+	loaded:loaded
 )
-
-
-

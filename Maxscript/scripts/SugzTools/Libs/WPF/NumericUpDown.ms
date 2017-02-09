@@ -95,16 +95,16 @@ fn Spinner
 	if hidebuttons != unsupplied then _control.Hidebuttons = hidebuttons
 	if indeterminate != unsupplied then _control.Indeterminate = indeterminate
 	if interval != unsupplied then _control.Interval = interval
-	if limits != unsupplied then _control.Limits = NumericUpDownLimits limits
+	if limits != unsupplied then _control.Limits = Enums.NumericUpDownLimits limits
 	if maxValue != unsupplied then _control.MaxValue = maxValue
 	if minDecimals != unsupplied then _control.MinDecimals = minDecimals
 	if minValue != unsupplied then _control.MinValue = minValue
-	if numericFormatSpecifier != unsupplied then _control.NumericFormatSpecifier = this.NumericFormatSpecifier numericFormatSpecifier
+	if numericFormatSpecifier != unsupplied then _control.NumericFormatSpecifier = Enums.NumericFormatSpecifier numericFormatSpecifier
 	if range != unsupplied then _control.Range = range
 	if scale != unsupplied then _control.Scale = scale
 	if scaleAccelerator != unsupplied then _control.ScaleAccelerator = scaleAccelerator
 	if selectionBrush != unsupplied then _control.SelectionBrush = SolidColorBrush selectionBrush
-	if type != unsupplied then _control.Type = NumericUpDownType type
+	if type != unsupplied then _control.Type = Enums.NumericUpDownType type
 	if value != unsupplied then _control.Value = value
 	if validate != unsupplied then dotNet.addEventHandler _control "Validate" validate
 	if valueChanged != unsupplied then dotNet.addEventHandler _control "ValueChanged" valueChanged

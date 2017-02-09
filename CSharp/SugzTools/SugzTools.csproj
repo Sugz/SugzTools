@@ -77,9 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\PanelInnerSpacing.cs" />
-    <Compile Include="Controls\Panels\SgzDockPanel.cs" />
-    <Compile Include="Controls\Panels\SgzStackPanel.cs" />
-    <Compile Include="Controls\Panels\SgzUniformGrid.cs" />
+    <Compile Include="Controls\Panels\Panels.cs" />
     <Compile Include="Controls\SgzButton\SgzButton.cs" />
     <Compile Include="Controls\SgzCheckBox\SgzCheckBox.cs" />
     <Compile Include="Controls\SgzCheckButton\SgzCheckButton.cs" />

@@ -10,22 +10,12 @@ namespace SugzTools.Controls
     public class SgzGrid : Grid
     {
 
-        #region Properties
-
-
-        public Thickness InnerMargin { get; set; } = new Thickness(0);
-
-
-        #endregion Properties
-
-
-
         #region Constructors
 
 
         public SgzGrid()
         {
-            Loaded += SetChildrenMargin;
+            
         }
 
 
@@ -34,24 +24,6 @@ namespace SugzTools.Controls
 
 
         #region Methods
-
-
-        #region Private
-
-
-        /// <summary>
-        /// Modify the Margin for the panel's children
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SetChildrenMargin(object sender, RoutedEventArgs e)
-        {
-            Helpers.SetChildrenMargin(this, InnerMargin);
-            Loaded -= SetChildrenMargin;
-        }
-
-
-        #endregion Private
 
 
         #region Public

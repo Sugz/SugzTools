@@ -36,7 +36,7 @@
         <sgz:SgzExpander Header="Expander 02"
                          IsExpanded="True"
                          PopupSide="Left">
-            <StackPanel>
+            <sgz:SgzStackPanel>
                 <StackPanel Margin="5"
                             b:Spacing.Vertical="5"
                             Background="#FFD81D1D">
@@ -59,7 +59,7 @@
                     <sgz:SgzButton Content="Button 03" />
                     <sgz:SgzButton Content="Button 04" />
                 </UniformGrid>
-            </StackPanel>
+            </sgz:SgzStackPanel>
             
             
         </sgz:SgzExpander>

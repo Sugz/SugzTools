@@ -151,26 +151,6 @@ namespace SugzTools.Src
             return nearest;
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="panel"></param>
-        internal static void SetChildrenMargin(System.Windows.Controls.Panel panel, Thickness InnerMargin)
-        {
-            foreach (FrameworkElement child in panel.Children)
-            {
-                if (child == null)
-                    continue;
-
-                child.Margin = new Thickness(child.Margin.Left + InnerMargin.Left,
-                    child.Margin.Top + InnerMargin.Top,
-                    child.Margin.Right + InnerMargin.Right,
-                    child.Margin.Bottom + InnerMargin.Bottom
-                );
-            }
-        }
-
     }
 }
 

@@ -30,7 +30,8 @@ namespace TestApp
         public MainWindow()
         {
             InitializeComponent();
-
+            Window1 wnd = new Window1();
+            wnd.Show();
             //Main()
         }
 

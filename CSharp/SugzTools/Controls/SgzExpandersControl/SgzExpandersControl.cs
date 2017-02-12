@@ -20,8 +20,6 @@ namespace SugzTools.Controls
         private SgzDropIndicator _DropIndicator;
         private SgzExpander _SourceItem;
         private Point _DragStartPoint;
-        bool _WentOutside = false;
-
 
         #endregion Fields
 
@@ -68,6 +66,21 @@ namespace SugzTools.Controls
 
 
         #endregion Overrides
+
+
+
+        #region Privates
+
+
+        private void Reset(SgzExpandersControl control)
+        {
+            control._SourceItem = null;
+            control._DropIndicator = null;
+            control.Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = true);
+        }
+
+
+        #endregion Privates
 
 
 
@@ -158,22 +171,17 @@ namespace SugzTools.Controls
         /// <param name="e"></param>
         private void SgzExpandersControl_PreviewDragEnter(object sender, DragEventArgs e)
         {
-            if (_WentOutside)
+            int index = 0;
+            SgzExpander item = Helpers.GetClosestContainerFromPoint<SgzExpander>(this, e.GetPosition(this));
+            if (item != null)
             {
-                _WentOutside = false;
-
-                SgzExpander item = Helpers.GetClosestContainerFromPoint<SgzExpander>(this, e.GetPosition(this));
-                if (item != null)
-                {
-                    int index = Items.IndexOf(item);
-                    if (index == Items.Count - 1)
-                        index = (e.GetPosition(item).Y >= item.ActualHeight / 2) ? Items.IndexOf(item) + 1 : Items.IndexOf(item);
-
-                    Items.Insert(index, _DropIndicator = new SgzDropIndicator());
-                }
-
-                e.Handled = true;
+                index = Items.IndexOf(item);
+                if (index == Items.Count - 1)
+                    index = (e.GetPosition(item).Y >= item.ActualHeight / 2) ? Items.IndexOf(item) + 1 : Items.IndexOf(item);
             }
+
+            Items.Insert(index, _DropIndicator = new SgzDropIndicator());
+            e.Handled = true;
         }
 
 
@@ -224,7 +232,6 @@ namespace SugzTools.Controls
         {
             Items.Remove(_DropIndicator);
             _DropIndicator = null;
-            _WentOutside = true;
             e.Handled = true;
         }
 
@@ -236,16 +243,20 @@ namespace SugzTools.Controls
         /// <param name="e"></param>
         private void SgzExpandersControl_PreviewDrop(object sender, DragEventArgs e)
         {
-            if (_SourceItem != null && _DropIndicator != null)
+            // faire des test pour savoir si on est tjs sur le même parent....
+            SgzExpander dropItem = e.Data.GetData(typeof(SgzExpander)) as SgzExpander;
+            if (dropItem != null && _DropIndicator != null)
             {
-                Items.Remove(_SourceItem);
-                Items.Insert(Items.IndexOf(_DropIndicator), _SourceItem);
+                SgzExpandersControl dropControl = (SgzExpandersControl)dropItem.Parent;
+                dropControl.Items.Remove(dropItem);
+                Items.Insert(Items.IndexOf(_DropIndicator), dropItem);
                 Items.Remove(_DropIndicator);
 
-                _SourceItem = null;
-                _DropIndicator = null;
-                Items.ForEach(x => ((SgzExpander)x).IsHitTestVisible = true);
+                Reset(this);
+                if (dropControl != this)
+                    Reset(dropControl);
             }
+
             e.Handled = true;
         } 
 
@@ -263,3 +274,7 @@ namespace SugzTools.Controls
         }
     }
 }
+
+
+
+//TODO: ne pas utiliser let GetClosestContainer. A la place, mettre un panel trasnaprent qui integre le margin de l'expander. Si en rentrant on n'en touche aucun, on est forcement sous le dernier expander de la liste...

@@ -17,7 +17,7 @@ namespace SugzTools.Controls
         }
 
 
-        public void AddRange(UIElement[] objs)
+        public void Add(UIElement[] objs)
         {
             foreach (UIElement obj in objs)
                 Children.Add(obj);
@@ -34,7 +34,7 @@ namespace SugzTools.Controls
         }
 
 
-        public void AddRange(UIElement[] objs)
+        public void Add(UIElement[] objs)
         {
             foreach (UIElement obj in objs)
                 Children.Add(obj);
@@ -51,7 +51,7 @@ namespace SugzTools.Controls
         }
 
 
-        public void AddRange(UIElement[] objs)
+        public void Add(UIElement[] objs)
         {
             foreach (UIElement obj in objs)
                 Children.Add(obj);
@@ -62,16 +62,13 @@ namespace SugzTools.Controls
 
     public class SgzStackPanel : StackPanel
     {
-        public SgzStackPanel() { }
-
-
         public void Add(UIElement obj)
         {
             Children.Add(obj);
         }
 
 
-        public void AddRange(UIElement[] objs)
+        public void Add(UIElement[] objs)
         {
             foreach (UIElement obj in objs)
                 Children.Add(obj);
@@ -88,7 +85,7 @@ namespace SugzTools.Controls
         }
 
 
-        public void AddRange(UIElement[] objs)
+        public void Add(UIElement[] objs)
         {
             foreach (UIElement obj in objs)
                 Children.Add(obj);

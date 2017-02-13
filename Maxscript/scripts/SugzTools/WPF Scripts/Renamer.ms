@@ -1,4 +1,4 @@
-global Renamer, _wpf
+global Renamer, Wpf
 struct renamerStc
 (
 	-- WPF Controls ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ struct renamerStc
 		if doesFileExist (file = "$userScripts\SugzTools\Libs\WPF\Wpf_Lib.ms") then 
 		(
 			fileIn file
-			for control in SetUI() do dotNet.setLifetimeControl control #dotnet
+			for ctrl in SetUI() do dotNet.setLifetimeControl ctrl #dotnet
 		)
 	)
 	

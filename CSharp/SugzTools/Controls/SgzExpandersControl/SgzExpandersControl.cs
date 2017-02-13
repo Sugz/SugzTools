@@ -89,6 +89,7 @@ namespace SugzTools.Controls
 
         /// <summary>
         /// Remove any children that isn't a SgzExpander
+        /// If there is only one expander, hide the header
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -258,10 +259,29 @@ namespace SugzTools.Controls
             }
 
             e.Handled = true;
-        } 
+        }
 
 
         #endregion Event Handlers
+
+
+
+        #region Public
+
+
+        public void Add(SgzExpander expander)
+        {
+            Items.Add(expander);
+        }
+
+        public void Add(SgzExpander[] expanders)
+        {
+            foreach (SgzExpander expander in expanders)
+                Items.Add(expander);
+        } 
+
+
+        #endregion Public
 
     }
 
@@ -274,7 +294,3 @@ namespace SugzTools.Controls
         }
     }
 }
-
-
-
-//TODO: ne pas utiliser let GetClosestContainer. A la place, mettre un panel trasnaprent qui integre le margin de l'expander. Si en rentrant on n'en touche aucun, on est forcement sous le dernier expander de la liste...

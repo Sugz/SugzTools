@@ -13,8 +13,10 @@
     
     <Grid>
         <sgz:SgzExpandersControl Margin="3">
-            <sgz:SgzExpander Header="Expander DG">
-                <StackPanel>
+            <sgz:SgzExpander x:Name="expander"
+                             Header="Expander DG"
+                             IsExpanded="True">
+                <StackPanel Margin="5">
                     <Button Content="Button 01"/>
                     <Button Content="Button 01" />
                 </StackPanel>

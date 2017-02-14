@@ -5,8 +5,6 @@ struct LinkInfoStc
 	_moveLocksChk, _rotateLocksChk, _scaleLocksChk,
 	_moveInheritChk, _rotateInheritChk, _scaleInheritChk,
 
-	expanders = #(),
-
 	
 	fn SetUI = 
 	(
@@ -24,7 +22,7 @@ struct LinkInfoStc
 		grid.Add (_scaleInheritChk = Wpf.Checkbox content:"Scale" hContentAlign:#Right spacing:4)
 		LinkInfoPanel.Add (inheritGrp = Wpf.GroupBox header:"Inherit" content:grid)
 
-		append expanders (_LinkInfoExpander = Wpf.Expander header:"Link Info" content:linkInfoPanel name:"linkinfo" tag:(getThisScriptFilename()))
+		_LinkInfoExpander = Wpf.Expander header:"Link Info" content:linkInfoPanel var:"LinkInfo._LinkInfoExpander" file:(getThisScriptFilename()) 
 	),
 	
 
@@ -53,4 +51,4 @@ struct LinkInfoStc
 )
 LinkInfo = LinkInfoStc()
 LinkInfo.Run()
-LinkInfo.CreateForm()
+--LinkInfo.CreateForm()

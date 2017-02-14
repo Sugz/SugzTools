@@ -12,6 +12,9 @@ namespace SugzTools.Controls
 
         #region Properties
 
+        public string File { get; set; }
+        public string Var { get; set; }
+
 
         /// <summary>
         /// Get or set a content backup to exchange it between Content and the Popup.
@@ -217,7 +220,10 @@ namespace SugzTools.Controls
         public SgzExpander()
         {
             // Enable the drag drop icon if it's a children of a SgzExpandersControl
-            Loaded += (s, e) => CanDragDrop = Parent is SgzExpandersControl;
+            Loaded += (s, e) =>
+            {
+                CanDragDrop = Parent is SgzExpandersControl;
+            };
         }
 
 

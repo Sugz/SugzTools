@@ -4,35 +4,42 @@ DotNet.LoadAssembly "System.Xml"
 global Xml
 struct xmlStc 
 (
-	file,
 	doc = dotNetObject "system.xml.xmlDocument",
+	file,
 	root,
 
-
-	-- Create the xml root node ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	fn CreateRoot name = 
-	(
-		/*<Function>
-		Description:
-		Arguments:
-		Return:
-		Infos:
-		</Function>*/
-
-		root = this.CreateNode name
-		this.AddNode doc root
-	),
 
 
 	-- Save the xml file ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Save = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+
 		if file != undefined then doc.save file
 	),
 
 
+	-- Load the xml file ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn Load = 
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		if file != undefined then doc.load file
+	),
 
-	fn CreateNode name = 
+
+	-- Create the xml root node ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn SetRoot _name = 
 	(
 		/*<Function>
 		Description:
@@ -41,32 +48,60 @@ struct xmlStc
 		Infos:
 		</Function>*/
 
-		node = doc.createElement name
-		node
-	), 
-
-
-	fn AddAttribute node attribute value = 
-	(
-		node.SetAttribute attribute value
+		root = this.SetNode _name
+		this.AppendNode doc root
 	),
 
 
-	fn AddNode parent node =
+	-- Get the xml root node ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn GetRoot = 
 	(
 		/*<Function>
 		Description:
-		Create a new xml element as child of a given xml element
 		Arguments:
-		<xml Element> parent : the xml element to add the new xml element to
-		<String> type : the type of  the new xml element
 		Return:
-		<xml Element> newElem : the new xml element
+		Infos:
 		</Function>*/
 
-		-- Create a new element and add it to its parent
+		element = doc.documentElement
+		if (element != undefined) then
+			root = element
+	),
 
-		parent.AppendChild node
+
+
+	fn SetNode _name = 
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+
+		doc.createElement _name
+	), 
+
+
+	fn SetAttribute _node _attribute _value = 
+	(
+		_node.SetAttribute _attribute _value
+	),
+
+
+	fn AppendNode _parent _node =
+	(
+		/*<Function>
+		Description:
+			Create a new xml element as child of a given xml element
+		Arguments:
+			<xml Element> parent : the xml element to add the new xml element to
+			<String> type : the type of  the new xml element
+		Return:
+			<xml Element> newElem : the new xml element
+		</Function>*/
+
+		_parent.AppendChild _node
 	)
 
 )

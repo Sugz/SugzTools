@@ -1,5 +1,7 @@
 -- Return a SugzTools.Controls.SgzExpander ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 fn Expander
+	file:
+	var:
 	hasPopup:
 	header:
 	headerBrush:
@@ -75,6 +77,8 @@ fn Expander
 	</Function>*/
 	
 	_control = dotNetObject "SugzTools.Controls.SgzExpander"
+	if file != unsupplied then _control.File = file
+	if var != unsupplied then _control.Var = var
 	if hasPopup != unsupplied then _control.HasPopup = hasPopup
 	if header != unsupplied then _control.Header = header
 	if headerBrush != unsupplied then _control.HeaderBrush = SolidColorBrush headerBrush

@@ -1,6 +1,8 @@
 global Renamer, Wpf
 struct renamerStc
 (
+	file = getThisScriptFilename(),
+	
 	-- WPF Controls ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	_nameTxt, _prefixTxt, _suffixTxt, 
 	_removeGrp, _firstSpn, _lastSpn,

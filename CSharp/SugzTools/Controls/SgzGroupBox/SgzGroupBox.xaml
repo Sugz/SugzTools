@@ -75,6 +75,13 @@
 
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource MaxRolloutBorder}" />
+            </Trigger>
+        </Style.Triggers>
+
     </Style>
     
 </ResourceDictionary>

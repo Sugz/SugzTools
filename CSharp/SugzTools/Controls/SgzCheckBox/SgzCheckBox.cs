@@ -16,9 +16,9 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// Define the checkstate that can be set either with a bool? or a int (0, 1, 2)
+        /// Get or set the checkstate that can be set either with a bool? or a int (0, 1, 2)
         /// </summary>
-        [Description("Define the checkstate property with int:\n0: false\n1: true\n2: null"), Category("Common")]
+        [Description("Get or set the checkstate property with int:\n0: false\n1: true\n2: null"), Category("Common")]
         public int TriState
         {
             get { return (int)GetValue(TriStateProperty); }
@@ -27,9 +27,9 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// Define the CornerRadius property
+        /// Get or set the CornerRadius property
         /// </summary>
-        [Description("Define the CornerRadius property"), Category("Appearance")]
+        [Description("Get or set the CornerRadius property"), Category("Appearance")]
         public int CornerRadius
         {
             get { return (int)GetValue(CornerRadiusProperty); }
@@ -38,9 +38,9 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// Define the MouseOver brush color
+        /// Get or set the Hover brush color
         /// </summary>
-        [Description("Define the MouseOver brush color"), Category("Brush")]
+        [Description("Get or set the Hover brush color"), Category("Brush")]
         public Brush HoverBrush
         {
             get { return (Brush)GetValue(HoverBrushProperty); }
@@ -49,9 +49,9 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// Define the Checked brush
+        /// Get or set the Checked brush
         /// </summary>
-        [Description("Define the Checked brush"), Category("Brush")]
+        [Description("Get or set the Checked brush"), Category("Brush")]
         public Brush CheckedBrush
         {
             get { return (Brush)GetValue(CheckedBrushProperty); }
@@ -60,13 +60,25 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// Define the Intermediate brush
+        /// Get or set the Indeterminate brush
         /// </summary>
-        [Description("Define the Intermediate brush"), Category("Brush")]
-        public Brush IntermediateBrush
+        [Description("Get or set the Indeterminate brush"), Category("Brush")]
+        public Brush IndeterminateBrush
         {
-            get { return (Brush)GetValue(IntermediateBrushProperty); }
-            set { SetValue(IntermediateBrushProperty, value); }
+            get { return (Brush)GetValue(IndeterminateBrushProperty); }
+            set { SetValue(IndeterminateBrushProperty, value); }
+        }
+
+
+
+        /// <summary>
+        /// Get or set the space bewteen the checkbox and the content
+        /// </summary>
+        [Description("Get or set the space bewteen the checkbox and the content"), Category("Layout")]
+        public int Spacing
+        {
+            get { return (int)GetValue(SpacingProperty); }
+            set { SetValue(SpacingProperty, value); }
         }
 
 
@@ -114,11 +126,20 @@ namespace SugzTools.Controls
 
 
         // DependencyProperty as the backing store for IntermediateBrush
-        public static readonly DependencyProperty IntermediateBrushProperty = DependencyProperty.Register(
-            "IntermediateBrush",
+        public static readonly DependencyProperty IndeterminateBrushProperty = DependencyProperty.Register(
+            "IndeterminateBrus",
             typeof(Brush),
             typeof(SgzCheckBox),
             new PropertyMetadata(new SolidColorBrush(Colors.Black))
+        );
+
+
+        // DependencyProperty as the backing store for Spacing
+        public static readonly DependencyProperty SpacingProperty = DependencyProperty.Register(
+            "Spacing",
+            typeof(int),
+            typeof(SgzCheckBox),
+            new PropertyMetadata(2)
         );
 
 

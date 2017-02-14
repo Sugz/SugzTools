@@ -199,7 +199,7 @@ struct WpfStruct
 
 	-- Return a SugzTools.Controls.SgzMaxForm (Inherit from MaxForm) ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	fn Window 
-		width: 200
+		width: 217
 		height: 300 
 		title:
 		borderStyle:

@@ -464,8 +464,9 @@ fn UniformGrid
 	</Function>*/
 
 	_panel = dotNetObject "SugzTools.Controls.SgzUniformGrid"
-	if rows != unsupplied then _panel.Rows = rows
 	if columns != unsupplied then _panel.Columns = columns
+	if rows != unsupplied then _panel.Rows = rows
+	
 
 	Panel \
 	_panel \

@@ -19,6 +19,15 @@
                 <StackPanel Margin="5">
                     <Button Content="Button 01"/>
                     <Button Content="Button 01" />
+                    <sgz:SgzUniformGrid Columns="3">
+                        <sgz:SgzCheckBox Content="Move"
+                                         Spacing="10" />
+                        <sgz:SgzCheckBox HorizontalContentAlignment="Right"
+                                         Content="Rotate"
+                                         Spacing="10" />
+                        <sgz:SgzCheckBox HorizontalContentAlignment="Right"
+                                         Content="Scale" />
+                    </sgz:SgzUniformGrid>
                 </StackPanel>
             </sgz:SgzExpander>
         </sgz:SgzExpandersControl>

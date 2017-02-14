@@ -104,6 +104,7 @@
     <Compile Include="Converters\MultiplyPercentageConverter.cs" />
     <Compile Include="Converters\NegativeWidthToLeftMarginConverter.cs" />
     <Compile Include="Converters\SideToPlacementModeConverter.cs" />
+    <Compile Include="Converters\SpacingToMarginConverter.cs" />
     <Compile Include="Converters\ValueMinusConverter.cs" />
     <Compile Include="Converters\ObjectToUIElementConverter.cs" />
     <Compile Include="Max\Cui\Cui.cs" />

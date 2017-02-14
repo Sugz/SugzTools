@@ -9,6 +9,7 @@
         <ResourceDictionary Source="/SugzTools;component/Themes/IconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    
     <!--Converters-->
     <c:BorderClipConverter x:Key="BorderClip" />
     <c:CornerRadiusLessThicknessConverter x:Key="CornerRadiusLessThickness" />
@@ -19,8 +20,8 @@
     <c:NegativeWidthToLeftMarginConverter x:Key="NegativeWidthToLeftMargin" />
     <c:ObjectToUIElementConverter x:Key="ObjectToUIElement" />
     <c:SideToPlacementModeConverter x:Key="SideToPlacementMode" />
+    <c:SpacingToMarginConverter x:Key="SpacingToMargin" />
     <c:ValueMinusConverter x:Key="ValueMinus" />
-
 
 
     <Style x:Key="BaseStyle" TargetType="{x:Type Control}">

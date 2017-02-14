@@ -258,7 +258,7 @@ namespace SugzTools.Controls
                     Reset(dropControl);
             }
 
-            e.Handled = true;
+            //e.Handled = true;
         }
 
 

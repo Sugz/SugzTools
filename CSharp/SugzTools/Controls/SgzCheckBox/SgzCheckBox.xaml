@@ -12,7 +12,6 @@
     <!--SgzCheckBoxStyle-->
     <Style TargetType="{x:Type local:SgzCheckBox}" BasedOn="{StaticResource MaxControlStyle}">
         <Setter Property="Height" Value="15"/>
-        <Setter Property="Content" Value="SgzCheckBox" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Template">

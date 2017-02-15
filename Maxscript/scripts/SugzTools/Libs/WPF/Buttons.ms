@@ -12,6 +12,7 @@ fn Button
 	cursor:
 	content:
 	cornerRadius:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -84,6 +85,7 @@ fn Button
 	cursor:cursor \
 	content:content \
 	cornerRadius:cornerRadius \
+	dock:dock \
 	focusable:focusable \
 	fontFamily:fontFamily \
 	fontSize:fontSize \
@@ -147,6 +149,7 @@ fn Icon
 	clipToBounds:
 	contextMenu:
 	cursor:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -225,6 +228,7 @@ fn Icon
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	focusable:focusable \
 	fontFamily:fontFamily \
 	fontSize:fontSize \

@@ -19,6 +19,7 @@ fn Textbox
 	contextMenu:
 	cursor:
 	cornerRadius:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -98,6 +99,7 @@ fn Textbox
 	contextMenu:contextMenu \
 	cursor:cursor \
 	cornerRadius:cornerRadius \
+	dock:dock \
 	focusable:focusable \
 	fontFamily:fontFamily \
 	fontSize:fontSize \
@@ -154,6 +156,7 @@ fn Textblock
 	clipToBounds:
 	contextMenu:
 	cursor:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -215,6 +218,7 @@ fn Textblock
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	focusable:focusable \
 	fontFamily:fontFamily \
 	fontSize:fontSize \

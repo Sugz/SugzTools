@@ -20,6 +20,7 @@ fn Expander
 	cursor:
 	content:
 	cornerRadius:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -100,6 +101,7 @@ fn Expander
 	cursor:cursor \
 	content:content \
 	cornerRadius:cornerRadius \
+	dock:dock \
 	focusable:focusable \
 	fontFamily:fontFamily \
 	fontSize:fontSize \
@@ -161,6 +163,7 @@ fn GroupBox
 	cursor:
 	content:
 	cornerRadius:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -230,6 +233,7 @@ fn GroupBox
 	cursor:cursor \
 	content:content \
 	cornerRadius:cornerRadius \
+	dock:dock \
 	focusable:focusable \
 	fontFamily:fontFamily \
 	fontSize:fontSize \
@@ -288,6 +292,7 @@ fn ExpandersControl
 	clipToBounds:
 	contextMenu:
 	cursor:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -352,6 +357,7 @@ fn ExpandersControl
 	clipToBounds:clipToBounds \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	focusable:focusable \
 	fontFamily:fontFamily \
 	fontSize:fontSize \

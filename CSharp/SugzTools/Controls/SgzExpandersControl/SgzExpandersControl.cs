@@ -182,7 +182,6 @@ namespace SugzTools.Controls
             }
 
             Items.Insert(index, _DropIndicator = new SgzDropIndicator());
-            e.Handled = true;
         }
 
 
@@ -219,8 +218,6 @@ namespace SugzTools.Controls
                 if (mouseYPos > ActualHeight - tolerance)
                     _ScrollViewer.LineDown();
             }
-
-            e.Handled = true;
         }
 
 
@@ -233,7 +230,6 @@ namespace SugzTools.Controls
         {
             Items.Remove(_DropIndicator);
             _DropIndicator = null;
-            e.Handled = true;
         }
 
 
@@ -257,8 +253,6 @@ namespace SugzTools.Controls
                 if (dropControl != this)
                     Reset(dropControl);
             }
-
-            //e.Handled = true;
         }
 
 

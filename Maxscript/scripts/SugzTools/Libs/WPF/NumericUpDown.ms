@@ -30,6 +30,7 @@ fn Spinner
 	cursor:
 	content:
 	cornerRadius:
+	dock:
 	focusable:
 	fontFamily:
 	fontSize:
@@ -119,6 +120,7 @@ fn Spinner
 	cursor: cursor \
 	content: content \
 	cornerRadius: cornerRadius \
+	dock:dock \
 	focusable: focusable \
 	fontFamily: fontFamily \
 	fontSize: fontSize \

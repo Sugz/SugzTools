@@ -126,7 +126,7 @@
 
     <!--SgzComboBoxStyle-->
     <Style TargetType="{x:Type local:SgzComboBox}" BasedOn="{StaticResource MaxControlStyle}">
-        <Setter Property="Height" Value="21" />
+        <Setter Property="FieldHeight" Value="21" />
         <Setter Property="MaxDropDownHeight" Value="5" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -142,59 +142,81 @@
                 <ControlTemplate TargetType="{x:Type local:SgzComboBox}">
                     
                     <!--Template-->
-                    <Grid x:Name="MainGrid"
-                          SnapsToDevicePixels="true">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"
-                                              Width="0" />
-                        </Grid.ColumnDefinitions>
-                        
-                        <!--Popup-->
-                        <Popup x:Name="PART_Popup"
-                               AllowsTransparency="true"
-                               Grid.ColumnSpan="2"
-                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                               Margin="0"
-                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                               Placement="Bottom">
-                            <Border x:Name="DropDownBorder"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="1"
-                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                    MinWidth="{Binding ActualWidth, ElementName=MainGrid}"
-                                    Margin="0,0,8,8">
-                                <Border.Effect>
-                                    <DropShadowEffect Opacity="0.25" />
-                                </Border.Effect>
-                                    
-                                <ScrollViewer x:Name="DropDownScrollViewer"
-                                              CanContentScroll="True"
-                                              Style="{StaticResource ScrollViewerStyle}">
-                                    <ItemsPresenter x:Name="ItemsPresenter"
-                                                    KeyboardNavigation.DirectionalNavigation="Contained"
-                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                </ScrollViewer>
-                            </Border>
-                        </Popup>
-                        
-                        <!--Header-->
-                        <ToggleButton Grid.ColumnSpan="2"
-                                      Style="{StaticResource SgzComboBoxToggleButton}" />
-                        <ContentPresenter ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                          Content="{TemplateBinding SelectionBoxItem}"
-                                          ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          IsHitTestVisible="false"
-                                          Margin="{TemplateBinding Padding}"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
+                    <DockPanel>
+                        <ContentPresenter x:Name="PART_Title" 
+                                          Content="{TemplateBinding Title}" 
+                                          DockPanel.Dock="{TemplateBinding TitleSide}"
+                                          VerticalAlignment="Center" />
+                        <Grid x:Name="MainGrid"
+                              SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"
+                                                  Width="0" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--Popup-->
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="true"
+                                   Grid.ColumnSpan="2"
+                                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Margin="0"
+                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                   Placement="Bottom">
+                                <Border x:Name="DropDownBorder"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="1"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        MinWidth="{Binding ActualWidth, ElementName=MainGrid}"
+                                        Margin="0,0,8,8">
+                                    <Border.Effect>
+                                        <DropShadowEffect Opacity="0.25" />
+                                    </Border.Effect>
+
+                                    <ScrollViewer x:Name="DropDownScrollViewer"
+                                                  CanContentScroll="True"
+                                                  Style="{StaticResource ScrollViewerStyle}">
+                                        <ItemsPresenter x:Name="ItemsPresenter"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+
+                            <!--Header-->
+                            <ToggleButton Grid.ColumnSpan="2"
+                                          Height="{TemplateBinding FieldHeight}"
+                                          Style="{StaticResource SgzComboBoxToggleButton}"/>
+                            <ContentPresenter ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              IsHitTestVisible="false"
+                                              Margin="{TemplateBinding Padding}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                        </Grid>
+                    </DockPanel>
+                    
 
                     <!--Triggers-->
                     <ControlTemplate.Triggers>
+                        
+                        <Trigger Property="TitleSide" Value="Left">
+                            <Setter TargetName="PART_Title" Property="Margin" Value="0,0,5,2"/>
+                        </Trigger>
+                        <Trigger Property="TitleSide" Value="Top">
+                            <Setter TargetName="PART_Title" Property="Margin" Value="2,0,0,2"/>
+                        </Trigger>
+                        <Trigger Property="TitleSide" Value="Right">
+                            <Setter TargetName="PART_Title" Property="Margin" Value="5,0,0,2"/>
+                        </Trigger>
+                        <Trigger Property="TitleSide" Value="Bottom">
+                            <Setter TargetName="PART_Title" Property="Margin" Value="2,2,0,0"/>
+                        </Trigger>
                         
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="Height" Value="95" />

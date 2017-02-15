@@ -13,6 +13,7 @@ Maxscript wrapper for WPF, aim to easily design WPF UI inside maxscript
 
 # ToDo:
 	- Cursor: check if it's a string, valid path to a .cur file then use it...
+	- Add dock property to every constructor
 
 # History:
 2.1:
@@ -234,23 +235,14 @@ struct WpfStruct
 
 
 
-	-- Return a SugzTools.Controls.SgzExpandersControl 
 	include "$userScripts\SugzTools\Libs\WPF\BaseClass.ms",
-
-	-- Return a SugzTools.Controls.SgzExpandersControl 
+	include "$userScripts\SugzTools\Libs\WPF\ItemsControl.ms",
 	include "$userScripts\SugzTools\Libs\WPF\Panels.ms",
-
-	-- Return a SugzTools.Controls.SgzExpander 
 	include "$userScripts\SugzTools\Libs\WPF\Expander.ms",
-
-	-- Return a SugzTools.Controls.SgzButton 
 	include "$userScripts\SugzTools\Libs\WPF\Buttons.ms",
-
-	-- Return a SugzTools.Controls.SgzTextBox 
 	include "$userScripts\SugzTools\Libs\WPF\TextBox.ms",
-
-	-- Return a SugzTools.Controls.SgzMaxNumericUpDown 
 	include "$userScripts\SugzTools\Libs\WPF\NumericUpDown.ms",
+	include "$userScripts\SugzTools\Libs\WPF\Divers.ms",
 
 
 

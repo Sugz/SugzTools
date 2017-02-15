@@ -19,6 +19,7 @@ struct WpfEnumStruct
 	_gridUnitType = dotNetClass "System.Windows.GridUnitType",
 	_orientation = dotNetClass "System.Windows.Controls.Orientation",
 	_stretch = dotNetClass "System.Windows.Media.Stretch",
+	_stretchDirection = dotNetClass "System.Windows.Controls.StretchDirection",
 	_verticalAlignment = dotNetClass "System.Windows.VerticalAlignment",
 	_visibility = dotNetClass "System.Windows.Visibility",
 
@@ -296,6 +297,27 @@ struct WpfEnumStruct
 			#UniformToFill: return _stretch.UniformToFill
 		)
 	),
+
+
+	
+	-- Return a System.Windows.Controls.StretchDirection ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn StretchDirection arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of 
+		(
+			#Both: return _stretchDirection.Both
+			#DownOnly: return _stretchDirection.DownOnly
+			#UpOnly: return _stretchDirection.UpOnly
+		)
+	),
+
 
 
 	-- Return a System.Windows.HorizontalAlignment ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

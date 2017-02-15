@@ -1,5 +1,6 @@
 ﻿using SugzTools.Src;
 using SugzTools.Themes;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,6 @@ namespace SugzTools.Controls
         #region Properties
 
 
-
         /// <summary>
         /// Define the CornerRadius property
         /// </summary>
@@ -23,6 +23,67 @@ namespace SugzTools.Controls
             get { return (int)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
+
+
+
+        /// <summary>
+        /// Get or set the title of the control
+        /// </summary>
+        [Description("Get or set the title of the control"), Category("Common")]
+        public object Title
+        {
+            get { return (object)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for Content
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+            "Title",
+            typeof(object),
+            typeof(SgzComboBox)
+        );
+
+
+
+        /// <summary>
+        /// Get or set the position of the title
+        /// </summary>
+        [Description("Get or set the position of the title"), Category("Appearance")]
+        public Dock TitleSide
+        {
+            get { return (Dock)GetValue(TitleSideProperty); }
+            set { SetValue(TitleSideProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for TitleSide
+        public static readonly DependencyProperty TitleSideProperty = DependencyProperty.Register(
+            "TitleSide",
+            typeof(Dock),
+            typeof(SgzComboBox),
+            new PropertyMetadata(Dock.Left)
+        );
+
+
+
+        /// <summary>
+        /// Set the height of the field when TitleSide is set on top or bottom
+        /// </summary>
+        [Description("Get or set the height of the field"), Category("Layout")]
+        public double FieldHeight
+        {
+            get { return (double)GetValue(FieldHeightProperty); }
+            set { SetValue(FieldHeightProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for FieldHeight
+        public static readonly DependencyProperty FieldHeightProperty = DependencyProperty.Register(
+            "FieldHeight",
+            typeof(double),
+            typeof(SgzComboBox)
+        );
+
+
+
 
 
         #endregion
@@ -55,7 +116,14 @@ namespace SugzTools.Controls
         }
         public SgzComboBox()
         {
-            Loaded += (s, e) => FocusVisualStyle = FocusVisualStyles.GetControlStyle(CornerRadius);
+            
+            Loaded += (s, e) =>
+            {
+                FocusVisualStyle = FocusVisualStyles.GetControlStyle(CornerRadius);
+                //FieldHeight = Height;
+
+
+            };
         }
 
 
@@ -75,6 +143,10 @@ namespace SugzTools.Controls
 
             MaxDropDownHeight *= 18;
             MaxDropDownHeight += 2;
+
+
+            //if (TitleSide == Dock.Top && TitleSide == Dock.Bottom)
+            //    Height = double.NaN;
         }
 
 

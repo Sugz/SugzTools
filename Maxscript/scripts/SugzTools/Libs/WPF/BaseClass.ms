@@ -2,6 +2,7 @@
 fn UIElement 
 	_control
 	clipToBounds:
+	dock:
 	focusable:
 	isEnabled:
 	opacity:
@@ -30,6 +31,7 @@ fn UIElement
 	</Function>*/
 
 	if clipToBounds != unsupplied then _control.ClipToBounds = clipToBounds
+	if dock != unsupplied then _dock.SetDock _control (Enums.Dock dock)
 	if focusable != unsupplied then _control.Focusable = focusable
 	if isEnabled != unsupplied then _control.IsEnabled = isEnabled
 	if opacity != unsupplied then _control.Opacity = opacity
@@ -78,6 +80,7 @@ fn FrameworkElement
 	loaded:
 	sizeChanged:
 	clipToBounds:
+	dock:
 	focusable:
 	isEnabled:
 	opacity:
@@ -128,6 +131,7 @@ fn FrameworkElement
 	UIElement \
 	_control \
 	clipToBounds:clipToBounds \
+	dock:dock \
 	focusable:focusable \
 	isEnabled:isEnabled \
 	opacity:opacity \
@@ -188,6 +192,7 @@ fn Control
 	loaded:
 	sizeChanged:
 	clipToBounds:
+	dock:
 	focusable:
 	isEnabled:
 	opacity:
@@ -253,6 +258,7 @@ fn Control
 	loaded:loaded \
 	sizeChanged:sizeChanged \
 	clipToBounds:clipToBounds \
+	dock:dock \
 	focusable:focusable \
 	isEnabled:isEnabled \
 	opacity:opacity \
@@ -315,6 +321,7 @@ fn ContentControl
 	loaded:
 	sizeChanged:
 	clipToBounds:
+	dock:
 	focusable:
 	isEnabled:
 	opacity:
@@ -386,6 +393,7 @@ fn ContentControl
 	loaded:loaded \
 	sizeChanged:sizeChanged \
 	clipToBounds:clipToBounds \
+	dock:dock \
 	focusable:focusable \
 	isEnabled:isEnabled \
 	opacity:opacity \

@@ -4,6 +4,7 @@ fn Panel
 	background:
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -62,6 +63,7 @@ fn Panel
 	_panel\
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \
@@ -106,6 +108,7 @@ fn Canvas
 	background:
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -159,6 +162,7 @@ fn Canvas
 	background:background \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \
@@ -208,6 +212,7 @@ fn DockPanel
 	background:
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -264,6 +269,7 @@ fn DockPanel
 	background:background \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \
@@ -312,6 +318,7 @@ fn Grid
 	background:
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -365,6 +372,7 @@ fn Grid
 	background:background \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \
@@ -415,6 +423,7 @@ fn UniformGrid
 	background:
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -473,6 +482,7 @@ fn UniformGrid
 	background:background \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \
@@ -522,6 +532,7 @@ fn StackPanel
 	background:
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -578,6 +589,7 @@ fn StackPanel
 	background:background \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \
@@ -629,6 +641,7 @@ fn WrapPanel
 	background:
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -687,6 +700,7 @@ fn WrapPanel
 	background:background \
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \
@@ -738,9 +752,9 @@ fn Border
 	child:
 	cornerRadius:
 	padding:
-
 	contextMenu:
 	cursor:
+	dock:
 	height:
 	hAlign:
 	margin:
@@ -798,6 +812,7 @@ fn Border
 	_control\
 	contextMenu:contextMenu \
 	cursor:cursor \
+	dock:dock \
 	height:height \
 	hAlign:hAlign \
 	margin:margin \

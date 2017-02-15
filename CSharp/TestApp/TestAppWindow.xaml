@@ -18,7 +18,7 @@
     <Window.Resources>
 
     </Window.Resources>
-    <sgz:SgzExpandersControl Margin="3">
+    <!--<sgz:SgzExpandersControl Margin="3">
         <sgz:SgzExpander Header="Expander 01"
                          IsExpanded="False">
             <StackPanel Margin="5">
@@ -86,31 +86,31 @@
         <sgz:SgzExpander Header="Expander 10">
             <StackPanel Height="75" />
         </sgz:SgzExpander>
-    </sgz:SgzExpandersControl>
+    </sgz:SgzExpandersControl>-->
 
 
-    <!--<sgz:SgzStackPanel Margin="5"
-                                InnerMargin="0,0,0,5">
+    <sgz:SgzStackPanel Margin="5"
+                       >
             <sgz:SgzExpander x:Name="sgzExpander"
                                   Header="Test"
                                   VerticalAlignment="Top"
                                   IsExpanded="True">
 
-                <sgz:SgzStackPanel Margin="5,5,5,0">
+            <sgz:SgzStackPanel Margin="5,5,5,0"
+                               b:Spacing.Vertical="5">
                     <sgz:SgzCheckBox HorizontalAlignment="Left"
                                           IsThreeState="True"
                                           HorizontalContentAlignment="Stretch" />
                     <sgz:SgzGroupBox Header="Test">
                         <UniformGrid Rows="1">
                             <sgz:SgzIcon Icon="Wi3d3ds" />
-                            <sgz:SgzButton Click="SgzButton_Click"
-                                                Margin="5"
-                                                Height="Auto" />
+                            <sgz:SgzButton Margin="5"
+                                           Height="Auto" />
                             <sgz:SgzCheckButton Content="CheckButton"
                                                      IsEnabled="False"
                                                      Margin="5" />
                         </UniformGrid>
-                    </Controls:SgzGroupBox>
+                </sgz:SgzGroupBox>
 
                     <DockPanel>
                         <sgz:SgzTextBox x:Name="txt"
@@ -151,8 +151,9 @@
                                                  Width="75"
                                                  IsTransparent="True" />
                     </DockPanel>
-                    <sgz:SgzComboBox>
-                        <ComboBoxItem Content="abc #1" />
+                    <sgz:SgzComboBox Title="Test:"
+                                 TitleSide="Top">
+                    <ComboBoxItem Content="abc #1" />
                         <ComboBoxItem IsSelected="True"
                                       Content="bcd #2" />
                         <ComboBoxItem Content="gef #3" />
@@ -160,7 +161,7 @@
                         <ComboBoxItem Content="ComboBox Item #5" />
                         <ComboBoxItem Content="ComboBox Item #6" />
                         <ComboBoxItem Content="zef #7" />
-                    </Controls:SgzComboBox>
+                    </sgz:SgzComboBox>
                     <sgz:SgzNumericUpDown x:Name="intSpinner"
                                                Content="IntegerSpinner"
                                                Type="Integer"
@@ -176,8 +177,8 @@
                     <TextBlock x:Name="floatTxt" />
                     <TextBlock x:Name="floatTxt2" />
                     <TextBlock x:Name="floatTxt3" />
-                </Controls:SgzStackPanel>
-            </Controls:SgzExpander>
+                </sgz:SgzStackPanel>
+            </sgz:SgzExpander>
             <sgz:SgzExpander HasPopup="False"
                                   IsExpanded="True">
                 <sgz:SgzExpander.Header>
@@ -191,16 +192,16 @@
                                                  IsIndeterminate="True" />
                     </DockPanel>
 
-                </Controls:SgzExpander.Header>
+                </sgz:SgzExpander.Header>
                 <sgz:SgzGrid x:Name="grid">
                     <sgz:SgzGrid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-                    </Controls:SgzGrid.RowDefinitions>
+                    </sgz:SgzGrid.RowDefinitions>
 
-                </Controls:SgzGrid>
-            </Controls:SgzExpander>
+                </sgz:SgzGrid>
+            </sgz:SgzExpander>
             <sgz:SgzExpander  Header="test" />
-        </Controls:SgzStackPanel>-->
+        </sgz:SgzStackPanel>
 
 </Window>

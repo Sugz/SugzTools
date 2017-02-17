@@ -110,6 +110,7 @@
     <Compile Include="Max\Cui\Cui.cs" />
     <Compile Include="Max\Cui\Custom_CuiActionCommandAdapter.cs" />
     <Compile Include="Max\Cui\Custom_CuiDockableContentAdapter.cs" />
+    <Compile Include="Max\Helper.cs" />
     <Compile Include="Max\Kernel.cs" />
     <Compile Include="Max\Structs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

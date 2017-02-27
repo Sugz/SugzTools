@@ -232,8 +232,52 @@ struct MacrosCollectionStc
 
 			on IsChecked return (Renamer != undefined AND Renamer._form != undefined)
 		)
-	)
+	),
 
+
+	-- Cut ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	CutMacro = 
+	(
+		macroScript Cut 
+			category:"SugzTools" 
+			toolTip:"Cut Selection"
+			Icon:#("Ccp",1)
+		(
+			global _sgz
+			if _sgz != undefined AND not _sgz._sel.IsSelectionEmpty() then 
+			(
+				saveNodes selection "$autoback\CopyPaste.max"
+				delete selection
+			)
+		)
+	),
+
+
+	-- Copy ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	CopyMacro = 
+	(
+		macroScript Copy 
+			category:"SugzTools" 
+			toolTip:"Copy Selection"
+			Icon:#("Ccp",2)
+		(
+			global _sgz
+			if _sgz != undefined AND not _sgz._sel.IsSelectionEmpty() then saveNodes selection "$autoback\CopyPaste.max"
+		)
+	),
+
+
+	-- Paste ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	PasteMacro = 
+	(
+		macroScript Paste 
+			category:"SugzTools" 
+			toolTip:"Paste Selection"
+			Icon:#("Ccp",3)
+		(
+			mergemaxfile "$autoback\CopyPaste.max" #select
+		)
+	)
 
 )
 

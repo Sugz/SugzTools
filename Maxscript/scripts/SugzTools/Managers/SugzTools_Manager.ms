@@ -17,6 +17,7 @@ switch all UI to struct
 make a clear difference bewteen managers (mostly UI less) and scripts
 check svn manager
 siwtch some modeling function from library to the script
+set maxstart, keyboard shortcuts and menus to sctipts
 
 # History:
 1.4:
@@ -169,6 +170,33 @@ global _sgz
 			-- AutoSave toolbar
 			if execute (getIniSetting _sgz._ini "AutoSave" "toolbar") and (doesFileExist file = "$sugzTools\AutoSave\AutoSave_Toolbar.ms") do fileIn file--"$sugzTools\AutoSave\AutoSave_Toolbar.ms"
 		),
+
+
+
+		/* Colors  ############################################################################################*/
+		fn SetColors =
+		(
+			colorMan.setColor #ViewportGradientBackgroundTop [0.490196, 0.572549, 0.647058]
+			colorMan.setColor #ViewportGradientBackgroundBottom [0.098039, 0.098039, 0.105882]
+			colorMan.setColor #ViewportBackground [0.294118, 0.337255, 0.376471]
+			colorMan.setColor #ActiveViewportBorder [0.5, 0.5, 0.5]
+			colorMan.repaintUI #repaintAll
+		),
+
+
+		/* MaxStart  ############################################################################################*/
+		fn MaxStart =
+		(
+			ViewCubeOps.Visibility = false
+			
+			for i=1 to viewport.numViews do 
+			(
+			    disp = NitrousGraphicsManager.GetViewportSetting i
+			    disp.ShowSelectionBracketsEnabled = false
+			    disp.VisualStyleMode = #Shaded
+			)
+		),
+
 		
 		
 		/* Load customisation files ############################################################################################*/
@@ -181,6 +209,8 @@ global _sgz
 			Infos:
 			</Function>*/
 			
+			SetColors()
+			MaxStart()
 			for file in (getFiles "$userscripts\SugzTools\CustomizeUI\*") do 
 			(
 -- 				maxOps.loadCUIFile file
@@ -189,9 +219,6 @@ global _sgz
 					-- Load menu files
 					".mnux": menuMan.loadMenuFile file
 					".mnu": menuMan.loadMenuFile file
-					
-					-- Load color file
-					".clrx": colorMan.loadColorFile file
 				)
 			)
 			

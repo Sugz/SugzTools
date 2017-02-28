@@ -63,7 +63,6 @@ struct MacrosCollectionStc
 			
 			on execute do if doesFileExist (file = "$scripts\HaywoodTools\setUniqueSmoothingGroup.ms") then fileIn file
 		)
-		
 	),
 	
 	
@@ -121,7 +120,6 @@ struct MacrosCollectionStc
 				Catch(MessageBox "Operation Failed" Title:"Poly Editing")
 			)
 		)
-		
 	),
 	
 	
@@ -150,7 +148,6 @@ struct MacrosCollectionStc
 				Catch(MessageBox "Operation Failed" Title:"Poly Editing")
 			)
 		)
-		
 	),
 	
 	
@@ -205,7 +202,6 @@ struct MacrosCollectionStc
 			)
 			
 		) -- End macro
-		
 	),
 
 
@@ -216,7 +212,7 @@ struct MacrosCollectionStc
 		macroScript Renamer
 			category:"SugzTools"
 			toolTip:"Renamer"
-			Icon:#("Renamer",1)
+			icon:#("SugzTools",9)
 		(
 			global Renamer
 			on execute do 
@@ -241,7 +237,7 @@ struct MacrosCollectionStc
 		macroScript Cut 
 			category:"SugzTools" 
 			toolTip:"Cut Selection"
-			Icon:#("Ccp",1)
+			icon:#("SugzTools",10)
 		(
 			global _sgz
 			if _sgz != undefined AND not _sgz._sel.IsSelectionEmpty() then 
@@ -259,7 +255,7 @@ struct MacrosCollectionStc
 		macroScript Copy 
 			category:"SugzTools" 
 			toolTip:"Copy Selection"
-			Icon:#("Ccp",2)
+			icon:#("SugzTools",11)
 		(
 			global _sgz
 			if _sgz != undefined AND not _sgz._sel.IsSelectionEmpty() then saveNodes selection "$autoback\CopyPaste.max"
@@ -273,7 +269,7 @@ struct MacrosCollectionStc
 		macroScript Paste 
 			category:"SugzTools" 
 			toolTip:"Paste Selection"
-			Icon:#("Ccp",3)
+			icon:#("SugzTools",12)
 		(
 			mergemaxfile "$autoback\CopyPaste.max" #select
 		)

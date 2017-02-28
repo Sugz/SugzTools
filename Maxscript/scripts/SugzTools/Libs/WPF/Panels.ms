@@ -55,7 +55,7 @@ fn Panel
 
 	if background != unsupplied then _panel.background = SolidColorBrush background
 	if spacingAll != unsupplied then _spacing.SetAll _panel (Thickness spacingAll)
-	if spacingHorizontal != unsupplied then  _spacing.SetHorizontal _panel spacingHorizontal
+	if spacingHorizontal != unsupplied then _spacing.SetHorizontal _panel spacingHorizontal
 	if spacingLeaveLastItem != unsupplied then _spacing.SetLeaveLastItem _panel spacingLeaveLastItem
 	if spacingVertical != unsupplied then _spacing.SetVertical _panel spacingVertical
 

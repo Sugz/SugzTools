@@ -51,4 +51,4 @@ struct LinkInfoStc
 )
 LinkInfo = LinkInfoStc()
 LinkInfo.Run()
---LinkInfo.CreateForm()
+LinkInfo.CreateForm()

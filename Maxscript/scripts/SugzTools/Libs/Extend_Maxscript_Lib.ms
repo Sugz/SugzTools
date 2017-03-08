@@ -500,6 +500,21 @@ struct ExtendMxsLibraryStc
 		for i = 1 to ht.count while index == -1 do if ht[i][2] == value then index = i
 		
 		index
+	),
+	
+	
+	
+	/* Set the HeapSize ############################################################################################*/
+	fn SetHeapSize value =
+	(
+		/*<Function>
+		Description:
+			Set the HeapSize
+		Arguments:
+			<Integer> value: the minimum heapsize to reach
+		</Function>*/
+		
+		while heapSize < value do heapSize += 100000
 	)
 	
 )

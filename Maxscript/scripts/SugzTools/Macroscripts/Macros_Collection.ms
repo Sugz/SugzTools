@@ -273,6 +273,19 @@ struct MacrosCollectionStc
 		(
 			mergemaxfile "$autoback\CopyPaste.max" #select
 		)
+	),
+
+
+	-- Open Paste File ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	OpenPasteFileMacro = 
+	(
+		macroScript OpenPasteFile 
+			category:"SugzTools" 
+			toolTip:"Open Paste File"
+			icon:#("SugzTools",13)
+		(
+			loadMaxFile "$autoback\CopyPaste.max" useFileUnits:true quiet:true
+		)
 	)
 
 )

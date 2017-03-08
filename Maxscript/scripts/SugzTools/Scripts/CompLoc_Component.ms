@@ -1,6 +1,6 @@
 /*##############################################################################
 CompLoc Component
-Version 3.04
+Version 3.05
 Script By Clément "Sugz" Plantec
 plantec.clement@gmail.com
 
@@ -20,6 +20,7 @@ SugzTools Spreadsheet Parser Library
 
 # History:
 3.0:
+	- Add ExcludedObjects to store objects that need to stay hidden when changing relatives objects 
 	- Add CreateHotspotList and ExportHotspotList macros
 	- Remove the Update scene function as it became irrelevant
 	- Delete the relativeName parameter in the custom attribute as it doesn't work to when mergin scene together...
@@ -59,13 +60,14 @@ struct CompLocComponentStc
 	transparentCol = "Transparent Container",
 	hiddenCol = "Panel to hide",
 	animatedCol = "Animation",
+	hotspotLayer = "zzz_Hotspots",
 	
 	compLocCA = undefined,				-- The comploc custom attribute
 	CLView = undefined,					-- The rollout
 	requiredComponents = #(),			-- The required compononts for a given ata
 	sceneComponents = #(),				-- The scene objects whose have the comploc custom attribute
 	hotspotHT = #(),					-- The hotspot hashtable (name, position) 
-	
+	excludedObjects = #(),				-- The objects to keep hidden
 	
 	
 	/* Set the hotspot hashtable ############################################################################################*/
@@ -172,7 +174,7 @@ struct CompLocComponentStc
 		if (queryBox "Are you sure you want to remove the comploc custom attribute on every object of the scene ?" title:"Comploc Scene Cleaner" beep:false) then
 		(
 			_ca.RemoveCA #compLoc nodeList:sceneComponents
-			delete (for cam in cameras where cam.layer.name == "Hotspots" collect cam)
+			delete (for cam in cameras where cam.layer.name == _cl.hotspotLayer collect cam)
 		)
 			
 	),
@@ -201,8 +203,8 @@ struct CompLocComponentStc
 			
 			-- Hide hotspots and covers if needed
 			if obj.layer.name == "H135_covers"
-				then (for o in objects where o.layer.name == "Hotspots" collect o).isHidden = true
-				else (for o in objects where o.layer.name == "Hotspots" or o.layer.name == "H135_covers" collect o).isHidden = true
+				then (for o in objects where o.layer.name == _cl.hotspotLayer collect o).isHidden = true
+				else (for o in objects where o.layer.name == _cl.hotspotLayer or o.layer.name == "H135_covers" collect o).isHidden = true
 			
 			-- Select the object to get its wiewport selection outline and switch to its hotspot view
 			select obj
@@ -222,7 +224,7 @@ struct CompLocComponentStc
 		)
 		
 		objects.isHidden = objects.xray = false
-		(for o in objects where o.layer.name == "Hotspots" or o.layer.name == "H135_covers" collect o).isHidden = true
+		(for o in objects where o.layer.name == _cl.hotspotLayer or o.layer.name == "H135_covers" collect o).isHidden = true
 		sliderTime = 0f
 		
 	),
@@ -432,9 +434,9 @@ struct CompLocComponentStc
 					cam.targeted = true
 					cam.target.pos = obj.center
 					
-					LayerManager.newLayerFromName "Hotspots"
-					(LayerManager.getLayerFromName "Hotspots").addNode cam
-					(LayerManager.getLayerFromName "Hotspots").addNode (cam.target)
+					LayerManager.newLayerFromName _cl.hotspotLayer
+					(LayerManager.getLayerFromName _cl.hotspotLayer).addNode cam
+					(LayerManager.getLayerFromName _cl.hotspotLayer).addNode (cam.target)
 					
 					obj.hotspot = cam
 					obj.fov = hotspotFov
@@ -485,16 +487,16 @@ struct CompLocComponentStc
 		
 		-- Set the hotspot hashtable and layer
 		if _cl.hotspotHT.count == 0 then _cl.SetHotspotHT()
-		LayerManager.newLayerFromName "Hotspots"
+		LayerManager.newLayerFromName _cl.hotspotLayer
 		
 		for item in hotspotHT do 
 		(
 			cam = Physical_Camera name: item[1] pos:item[2]
  			cam.wireColor = color 28 149 177
- 			(LayerManager.getLayerFromName "Hotspots").addNode cam
+ 			(LayerManager.getLayerFromName _cl.hotspotLayer).addNode cam
  			-- pt = Point name: item[1] pos:item[2] Box:on cross:off size:5
  			-- pt.wireColor = color 28 149 177
-			-- (LayerManager.getLayerFromName "Hotspots").addNode pt
+			-- (LayerManager.getLayerFromName _cl.hotspotLayer).addNode pt
 		)
 	
 	),
@@ -526,7 +528,7 @@ struct CompLocComponentStc
 			
 
 			i = 2
-			cams = _sgz._extMxs.SortObjects(for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == "Hotspots" collect cam)
+			cams = _sgz._extMxs.SortObjects(for cam in cameras where not isKindOf cam Targetobject and cam.layer.name == _cl.hotspotLayer collect cam)
 			for cam in cams do 
 			(
 				(excel.application.Range("A" + i as string)).value = cam.name
@@ -598,6 +600,73 @@ struct CompLocComponentStc
 		)
 
 	),
+
+
+
+	fn OpenExcludedObjects = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		try(destroyDialog ExcludedObjectsRol) catch()
+		Rollout ExcludedObjectsRol "Excluded Objects"
+		(
+			listbox excludedLbx width:240 height:32 align:#center offset:[0,0]
+			button addBtn "Add" width:76 align:#left offset:[-9,-3] 
+			button removeBtn "Remove" width:76 align:#center offset:[0,-26] 
+			button clearBtn "Clear" width:77 align:#right offset:[8,-26] 
+
+
+			fn SetList = 
+			(
+			   /*<Function>
+				Description:
+				Arguments:
+				Return:
+				Infos:
+				</Function>*/
+				
+				items = #()
+				for obj in _cl.excludedObjects do append items obj.name
+				excludedLbx.items = items
+				
+			)
+
+
+			on ExcludedObjectsRol open do SetList()
+
+
+			on addBtn pressed do
+			(
+				if not _sgz._sel.IsSelectionEmpty() then 
+				(
+					for obj in selection do appendIfUnique _cl.excludedObjects obj
+					SetList()
+				)
+			)
+
+
+			on removeBtn pressed do
+			(
+				index = excludedLbx.selection
+				if relativeIndex != 0 then deleteItem _cl.excludedObjects index
+				SetList()
+			)
+
+
+			on clearBtn pressed do
+			(
+				_cl.excludedObjects = #()
+				SetList()
+			)
+
+		)
+		createDialog ::ExcludedObjectsRol 250 455 style:#(#style_titlebar, #style_sysmenu, #style_toolwindow)
+	),
 	
 	
 	
@@ -610,9 +679,9 @@ struct CompLocComponentStc
 		local green = dnColor.FromArgb 255 30 100 30
 		local orange = dnColor.FromArgb 255 158 92 12
 		
-		label requiredComponentsLbl "Required Components :" width:200 pos:[9,5]
-		dropdownlist requiredComponentsFilterDdl items:#("All") width:60 align:#left offset:[174,-22]
-		dotNetControl requiredComponentsLbx "listView" width:240 height:338 align:#left offset:[-7,-5]
+		label requiredComponentsLbl "Required Components :" width:200 pos:[9,7]
+		dropdownlist requiredComponentsFilterDdl items:#("All") width:60 align:#left offset:[174,-20]
+		dotNetControl requiredComponentsLbx "listView" width:240 height:363 align:#left offset:[-7,0]
 		label requiredHotspotLbl "Hotspot: " align:#left offset:[-7,2]
 		label requiredHotspotNameLbl width:110 height:16 style_sunkenedge:true align:#left offset:[40,-19]
 		label requiredFovLbl "FOV: " align:#left offset:[180,-20] 
@@ -624,20 +693,22 @@ struct CompLocComponentStc
 		button getCsvFileBtn "..." width:25 height:17 align:#left offset:[180,-22] tooltip:"Set the spreadsheet path" 
 		button loadCsvFileBtn "L" width:25 height:17 align:#left offset:[208,-22] tooltip:"Load the spreadsheet" enabled:false
 		
-		label sceneComponentsLbl "Scene Components :" pos:[256,5]
-		dropdownlist sceneComponentsFilterDdl items:#("All") width:60 align:#center offset:[91,-22]
-		listbox sceneComponentsLbx  width:240 height:28 align:#center offset:[0,-5]
+		label sceneComponentsLbl "Scene Components :" pos:[256,7]
+		dropdownlist sceneComponentsFilterDdl items:#("All") width:60 align:#center offset:[91,-20]
+		listbox sceneComponentsLbx  width:240 height:30 align:#center offset:[0,-1]
 		button addComponentBtn "Add" width:56  align:#center offset:[-92,-3] 
 		button removeComponentBtn "Remove" width:56  align:#center offset:[-31,-26] 
 		button reloadComponentsBtn "Reload" width:56  align:#center offset:[31,-26] 
 		button selectComponentBtn "Select" width:56  align:#center offset:[92,-26] 
 		
-		label hotspotLbl "Hotspot :" pos:[506,5]
-		button getHotspotCsvFileBtn "..." width:25 height:15 align:#right offset:[7,-18] tooltip:"Set the hotspot file" 
+		label hotspotLbl "Hotspot :" pos:[506,7]
+		button getHotspotCsvFileBtn "..." width:25 height:17 align:#right offset:[7,-18] tooltip:"Set the hotspot file" 
 		dropdownlist hotspotDdl width:170 align:#right offset:[-63,-1]
 		spinner fovSpn width:60 range:[10,110,40] type:#integer align:#right offset:[7,-25] 
+
+		button excludeObjectsbtn "Excluded Objects" width:240 align:#right offset:[7,7]
 		
-		label hiddenLbl "Hidden Objects :" align:#right offset:[-151,10] 
+		label hiddenLbl "Hidden Objects :" align:#right offset:[-151,7] 
 		checkbox hiddenChk checked:true width:15 align:#right offset:[7,-19] 
 		listbox hiddenLbx width:240 height:8 align:#right offset:[7,-1]
 		button addHiddenBtn "Add" width:76 align:#right offset:[-156,-3] 
@@ -794,6 +865,11 @@ struct CompLocComponentStc
 			Return:
 			Further Infos:
 			</Function>*/
+
+
+			-- Collect excluded objects 
+			excluded = join #() _cl.excludedObjects
+			join excluded (for obj in objects where matchPattern obj.layer.name pattern:"zzz_*" collect obj)
 			
 			
 			if _cl.sceneComponents.count != 0 and sceneComponentsLbx.selection != 0 then 
@@ -808,12 +884,16 @@ struct CompLocComponentStc
 				
 				-- Set hidden
 				hiddenLbx.items = for obj in component.hidden collect obj.node.name
-				--(for obj in objects where obj.layer.name != "H135_covers" and obj.layer.name != "Hotspots" collect obj).isHidden = false
+				--(for obj in objects where obj.layer.name != "H135_covers" and obj.layer.name != _cl.hotspotLayer collect obj).isHidden = false
+				(for obj in objects where findItem excluded obj == 0 collect obj).isHidden = false
+
 				for obj in component.hidden do obj.node.isHidden = (hiddenChk.state)
 						
 				-- Set transparent 
 				transparentLbx.items = for obj in component.transparent collect obj.node.name
-				(for obj in objects where not obj.layer.name == "H135_covers" collect obj).xray = false
+				--(for obj in objects where not obj.layer.name == "H135_covers" collect obj).xray = false
+				(for obj in objects where findItem excluded obj == 0 collect obj).xray = false
+
 				for obj in component.transparent do obj.node.xray = (transparentChk.state)
 				
 				-- Set animated
@@ -823,7 +903,8 @@ struct CompLocComponentStc
 			else
 			(
 				hiddenLbx.items = transparentLbx.items = animatedLbx.items = #()
-				arr = for obj in objects where obj.layer.name != "H135_covers" and obj.layer.name != "Hotspots" collect obj
+				--arr = for obj in objects where obj.layer.name != "H135_covers" and obj.layer.name != _cl.hotspotLayer collect obj
+				arr = for obj in objects where findItem excluded obj == 0 collect obj
 				arr.isHidden = arr.xray = false
 				
 			)
@@ -923,9 +1004,9 @@ struct CompLocComponentStc
 						cam.targeted = true
 						cam.target.pos = obj.center
 						
-						LayerManager.newLayerFromName "Hotspots"
-						(LayerManager.getLayerFromName "Hotspots").addNode cam
-						(LayerManager.getLayerFromName "Hotspots").addNode (cam.target)
+						LayerManager.newLayerFromName _cl.hotspotLayer
+						(LayerManager.getLayerFromName _cl.hotspotLayer).addNode cam
+						(LayerManager.getLayerFromName _cl.hotspotLayer).addNode (cam.target)
 						
 						obj.hotspot = cam
 						
@@ -997,7 +1078,15 @@ struct CompLocComponentStc
 		
 		
 		/* Select the component when double clicked ***************************************************************************************************************************************************************/
-		on sceneComponentsLbx doubleClicked item do select (getNodeByName sceneComponentsLbx.selected)
+		on sceneComponentsLbx doubleClicked item do
+		(
+			component = getNodeByName sceneComponentsLbx.selected
+			if isKindOf component helper 
+				then select (_sgz._sel.GetHierarchy selArray:component children:true)
+				else select component
+		)
+
+
 		on hiddenLbx doubleClicked item do select (getNodeByName hiddenLbx.selected)
 		on transparentLbx doubleClicked item do select (getNodeByName transparentLbx.selected)
 		on animatedLbx doubleClicked item do select (getNodeByName animatedLbx.selected)
@@ -1042,6 +1131,11 @@ struct CompLocComponentStc
 				component.fov = component.hotspot.fov = val
 			)
 		)
+
+
+
+		/* Open the Excluded objects list  ***************************************************************************************************************************************************************/
+		on excludeObjectsbtn pressed do _cl.OpenExcludedObjects()
 		
 		
 		
@@ -1234,7 +1328,7 @@ struct CompLocComponentStc
 	(
 		try(destroyDialog _cl.CLView) catch()
 		GetView()
-		createDialog _cl.CLView 750 425 style:#(#style_titlebar, #style_sysmenu, #style_toolwindow)
+		createDialog _cl.CLView 750 455 style:#(#style_titlebar, #style_sysmenu, #style_toolwindow)
 	),
 	
 	
@@ -1434,9 +1528,18 @@ struct CompLocComponentStc
 
 
 (
-	if heapSize < 100000000 then heapSize += 85000000
-	hotspotHT = if _cl != undefined then _cl.hotspotHT else #()
+	_sgz._extMxs.SetHeapSize 100000000
+	hotspotHT = #()
+	excludedObjects = #()
+
+	if _cl != undefined then
+	(
+		hotspotHT = _cl.hotspotHT
+		excludedObjects = _cl.excludedObjects
+	)
+	
 	_cl = CompLocComponentStc()
 	_cl.hotspotHT = hotspotHT
+	_cl.excludedObjects = excludedObjects
 	_cl.Run()
 )

@@ -911,6 +911,24 @@ struct CompLocComponentStc
 		)
 		
 		
+
+		/* Select a component from one of the list ***************************************************************************************************************************************************************/
+		fn SelectComponent objName =
+		(
+			/*<Function>
+			Description:
+				Select a component from one of the list
+			Arguments:
+			Return:
+			Further Infos:
+			</Function>*/
+
+			select (component = getNodeByName objName)
+			if component != undefined then 
+				if isKindOf component helper then select (_sgz._sel.GetHierarchy children:true)
+		)
+
+
 		
 		/* Events ############################################################################################*/
 		on CLView open do 
@@ -960,11 +978,7 @@ struct CompLocComponentStc
 			if (requiredComponentsLbx.Items.Count != 0) then
 			(
 				hit = requiredComponentsLbx.HitTest (dotNetObject "System.Drawing.Point" e.x e.y)
-				try
-				(
-					obj = getNodeByName (hit.item.text)
-					if obj != undefined then select obj
-				) catch()
+				try (SelectComponent (hit.item.text)) catch()
 			)
 		)
 		
@@ -996,7 +1010,7 @@ struct CompLocComponentStc
 					else if not (_ca.CheckForCustAttr obj #comploc)[1] then 
 					(
 						-- make the object unique to avoid instance
-						convertToPoly obj
+						InstanceMgr.MakeObjectsUnique obj #individual
 						
 						custAttributes.add obj _cl.compLocCA BaseObject:true
 						cam = Physical_Camera name:(obj.name + "_" + _cl.hotspotHT[1][1]) pos:_cl.hotspotHT[1][2] specify_fov:on
@@ -1078,13 +1092,7 @@ struct CompLocComponentStc
 		
 		
 		/* Select the component when double clicked ***************************************************************************************************************************************************************/
-		on sceneComponentsLbx doubleClicked item do
-		(
-			component = getNodeByName sceneComponentsLbx.selected
-			if isKindOf component helper 
-				then select (_sgz._sel.GetHierarchy selArray:component children:true)
-				else select component
-		)
+		on sceneComponentsLbx doubleClicked item do SelectComponent (sceneComponentsLbx.selected)
 
 
 		on hiddenLbx doubleClicked item do select (getNodeByName hiddenLbx.selected)

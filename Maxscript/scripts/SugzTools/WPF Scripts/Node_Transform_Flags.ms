@@ -1,7 +1,7 @@
 global Wpf, LinkInfo
 struct LinkInfoStc
 (
-	_LinkInfoForm, _LinkInfoExpander,
+	_LinkInfoForm, Expander,
 	_moveLocksChk, _rotateLocksChk, _scaleLocksChk,
 	_moveInheritChk, _rotateInheritChk, _scaleInheritChk,
 
@@ -22,17 +22,17 @@ struct LinkInfoStc
 		grid.Add (_scaleInheritChk = Wpf.Checkbox content:"Scale" hContentAlign:#Right spacing:4)
 		LinkInfoPanel.Add (inheritGrp = Wpf.GroupBox header:"Inherit" content:grid)
 
-		_LinkInfoExpander = Wpf.Expander header:"Link Info" content:linkInfoPanel var:"LinkInfo._LinkInfoExpander" file:(getThisScriptFilename()) 
+		Expander = Wpf.Expander header:"Link Info" content:linkInfoPanel var:"LinkInfo.Expander" file:(getThisScriptFilename()) 
 	),
 	
 
 	fn CreateForm = 
 	(
-		if _LinkInfoExpander != undefined then
+		if Expander != undefined then
 		(
-			_LinkInfoExpanders = Wpf.ExpandersControl margin:2
-			_LinkInfoExpanders.Add _LinkInfoExpander
-			_LinkInfoForm = Wpf.Window title:"Link Info" content:_LinkInfoExpanders location:#centerParent
+			Expanders = Wpf.ExpandersControl margin:2
+			Expanders.Add Expander
+			_LinkInfoForm = Wpf.Window title:"Link Info" content:Expanders location:#centerParent
 			_LinkInfoForm.ShowModeless()
 			dotNet.setLifetimeControl _LinkInfoForm #dotnet
 		)

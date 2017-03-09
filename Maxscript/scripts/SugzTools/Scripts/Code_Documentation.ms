@@ -203,7 +203,10 @@ Script design to get all the documentation from sugztools code
 					</Function>*/
 					
 					scripts = getFiles ("$userscripts\SugzTools\\" + parent.text + "\*.ms")
-					for script in scripts do AddScriptTreeNode script parent
+					for script in scripts do 
+					(
+						try(AddScriptTreeNode script parent) catch()
+					)
 				)
 				
 				

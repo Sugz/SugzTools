@@ -38,7 +38,7 @@ struct InstanceReplacerStc
 		panel = Wpf.Stackpanel margin:5 spacingVertical:7
 		panel.Add(MasterObjBtn = Wpf.Button content:"Pick Master" click:SetMaster)
 		panel.Add(ReplaceSelBtn = Wpf.Button content:"Replace Selection" isenabled:false click:ReplaceSelection )
-		Expander = Wpf.Expander header:"Instance Replace" content:panel
+		Expander = Wpf.Expander header:"Instance Replace" content:panel var:"InstanceReplacer.Expander" file:(getThisScriptFilename()) 
 	),
 	
 

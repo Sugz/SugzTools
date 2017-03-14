@@ -196,31 +196,46 @@ struct CompLocComponentStc
 		if not (doesFileExist path) then makeDir path
 		
 		toolmode.commandmode = #select
-		for obj in sceneComponents do 
+		for obj in sceneComponents while NOT keyboard.escPressed do
 		(
-			-- Unhide and unxray everything 
-			objects.isHidden = objects.xray = false
-			
-			-- Hide hotspots and covers if needed
-			if obj.layer.name == "H135_covers"
-				then (for o in objects where o.layer.name == _cl.hotspotLayer collect o).isHidden = true
-				else (for o in objects where o.layer.name == _cl.hotspotLayer or o.layer.name == "H135_covers" collect o).isHidden = true
-			
-			-- Select the object to get its wiewport selection outline and switch to its hotspot view
-			select obj
-			viewport.setCamera obj.hotspot
-			sliderTime = 0f
-			
-			-- Set hidden and xray objects and go the the last animationo frame if needed
-			(for relative in obj.hidden collect relative.node).isHidden = true
-			(for relative in obj.transparent collect relative.node).xray = true
-			if obj.animated.count != 0 then sliderTime = 50f
-			
-			-- Save the screenshot as bitmap 
-			redrawViews()
-			ssBitmap3 = viewport.getViewportDib()
-			ssBitmap3.filename = path + obj.name + ".jpg"
-			save ssBitmap3 quiet:true
+			try 
+			(
+				-- Unhide and unxray everything 
+				objects.isHidden = objects.xray = false
+				
+				-- Hide hotspots and covers if needed
+				if findItem excludedObjects obj != 0 then 
+					(for obj in objects where matchPattern obj.layer.name pattern:"zzz_*" collect obj).isHidden = true
+				else 
+				(
+					excluded = join #() _cl.excludedObjects
+					join excluded (for obj in objects where matchPattern obj.layer.name pattern:"zzz_*" collect obj)
+					(for obj in objects where findItem excluded obj != 0 collect obj).isHidden = true
+				)
+
+	-- 			if obj.layer.name == "H135_covers"
+	-- 				then (for o in objects where o.layer.name == _cl.hotspotLayer collect o).isHidden = true
+	-- 				else (for o in objects where o.layer.name == _cl.hotspotLayer or o.layer.name == "H135_covers" collect o).isHidden = true
+				
+				-- Select the object to get its wiewport selection outline and switch to its hotspot view
+				select obj
+				if obj != undefined then (if isKindOf obj helper then select (_sgz._sel.GetHierarchy children:true))
+
+				viewport.setCamera obj.hotspot
+				sliderTime = 0f
+				
+				-- Set hidden and xray objects and go the the last animationo frame if needed
+				(for relative in obj.hidden collect relative.node).isHidden = true
+				(for relative in obj.transparent collect relative.node).xray = true
+				if obj.animated.count != 0 then sliderTime = 50f
+				
+				-- Save the screenshot as bitmap 
+				redrawViews()
+				ssBitmap3 = viewport.getViewportDib()
+				ssBitmap3.filename = path + obj.name + ".jpg"
+				save ssBitmap3 quiet:true
+			) 
+			catch(print obj.name)
 		)
 		
 		objects.isHidden = objects.xray = false
@@ -612,6 +627,8 @@ struct CompLocComponentStc
 		Infos:
 		</Function>*/
 		
+		global ExcludedObjectsRol
+		
 		try(destroyDialog ExcludedObjectsRol) catch()
 		Rollout ExcludedObjectsRol "Excluded Objects"
 		(
@@ -665,7 +682,7 @@ struct CompLocComponentStc
 			)
 
 		)
-		createDialog ::ExcludedObjectsRol 250 455 style:#(#style_titlebar, #style_sysmenu, #style_toolwindow)
+		createDialog ExcludedObjectsRol 250 455 style:#(#style_titlebar, #style_sysmenu, #style_toolwindow)
 	),
 	
 	

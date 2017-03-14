@@ -133,6 +133,7 @@
     <Compile Include="Sources\GetResources.cs" />
     <Compile Include="Sources\Helpers.cs" />
     <Compile Include="Sources\NativeMethods.cs" />
+    <Compile Include="Sources\Rename.cs" />
     <Compile Include="Sources\TMath.cs" />
     <Compile Include="Themes\FocusVisualStyles.cs" />
     <Compile Include="TODO.cs" />

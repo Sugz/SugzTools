@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{63607B5B-EF9B-4071-90D3-23218CF4D73B}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SugzTools", "SugzTools\SugzTools.csproj", "{A808C545-3C87-45EF-8F4A-47D8BD55CDD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvgToXaml", "SvgToXaml\SvgToXaml.csproj", "{7C2DA31F-1C7C-45E5-8FF5-7432F2523791}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{70E3D08D-D6C8-4922-A55F-44B5E351A4C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7C2DA31F-1C7C-45E5-8FF5-7432F2523791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C2DA31F-1C7C-45E5-8FF5-7432F2523791}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C2DA31F-1C7C-45E5-8FF5-7432F2523791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70E3D08D-D6C8-4922-A55F-44B5E351A4C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70E3D08D-D6C8-4922-A55F-44B5E351A4C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70E3D08D-D6C8-4922-A55F-44B5E351A4C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70E3D08D-D6C8-4922-A55F-44B5E351A4C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

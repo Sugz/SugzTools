@@ -214,19 +214,19 @@ struct MacrosCollectionStc
 			toolTip:"Renamer"
 			icon:#("SugzTools",9)
 		(
-			global Renamer
+			global sgzRenamer
 			on execute do 
 			(
-				if Renamer != undefined AND Renamer._form != undefined
-					then Renamer._form.Close()
+				if sgzRenamer != undefined AND sgzRenamer.Form != undefined
+					then sgzRenamer.Form.Close()
 					else if doesFileExist (file = "$userscripts\SugzTools\WPF Scripts\Renamer.ms") do 
 					(
 						fileIn file
-						Renamer.CreateForm()
+						sgzRenamer.CreateForm()
 					)	
 			)
 
-			on IsChecked return (Renamer != undefined AND Renamer._form != undefined)
+			on IsChecked return (sgzRenamer != undefined AND sgzRenamer.Form != undefined)
 		)
 	),
 

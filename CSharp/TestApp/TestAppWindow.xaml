@@ -151,8 +151,7 @@
                                                  Width="75"
                                                  IsTransparent="True" />
                     </DockPanel>
-                    <sgz:SgzComboBox Title="Test:"
-                                 TitleSide="Top">
+                    <sgz:SgzComboBox>
                     <ComboBoxItem Content="abc #1" />
                         <ComboBoxItem IsSelected="True"
                                       Content="bcd #2" />
@@ -162,6 +161,7 @@
                         <ComboBoxItem Content="ComboBox Item #6" />
                         <ComboBoxItem Content="zef #7" />
                     </sgz:SgzComboBox>
+                
                     <sgz:SgzNumericUpDown x:Name="intSpinner"
                                                Content="IntegerSpinner"
                                                Type="Integer"

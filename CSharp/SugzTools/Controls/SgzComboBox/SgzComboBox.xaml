@@ -218,6 +218,10 @@
                             <Setter TargetName="PART_Title" Property="Margin" Value="2,2,0,0"/>
                         </Trigger>
                         
+                        <Trigger Property="Title" Value="{x:Null}">
+                            <Setter TargetName="PART_Title" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="Height" Value="95" />
                         </Trigger>

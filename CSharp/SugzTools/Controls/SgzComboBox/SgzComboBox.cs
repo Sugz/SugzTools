@@ -36,14 +36,6 @@ namespace SugzTools.Controls
             set { SetValue(TitleProperty, value); }
         }
 
-        // DependencyProperty as the backing store for Content
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-            "Title",
-            typeof(object),
-            typeof(SgzComboBox)
-        );
-
-
 
         /// <summary>
         /// Get or set the position of the title
@@ -54,14 +46,6 @@ namespace SugzTools.Controls
             get { return (Dock)GetValue(TitleSideProperty); }
             set { SetValue(TitleSideProperty, value); }
         }
-
-        // DependencyProperty as the backing store for TitleSide
-        public static readonly DependencyProperty TitleSideProperty = DependencyProperty.Register(
-            "TitleSide",
-            typeof(Dock),
-            typeof(SgzComboBox),
-            new PropertyMetadata(Dock.Left)
-        );
 
 
 
@@ -75,12 +59,8 @@ namespace SugzTools.Controls
             set { SetValue(FieldHeightProperty, value); }
         }
 
-        // DependencyProperty as the backing store for FieldHeight
-        public static readonly DependencyProperty FieldHeightProperty = DependencyProperty.Register(
-            "FieldHeight",
-            typeof(double),
-            typeof(SgzComboBox)
-        );
+
+        
 
 
 
@@ -99,6 +79,31 @@ namespace SugzTools.Controls
             typeof(int),
             typeof(SgzComboBox),
             new PropertyMetadata(0)
+        );
+
+
+        // DependencyProperty as the backing store for Content
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+            "Title",
+            typeof(object),
+            typeof(SgzComboBox)
+        );
+
+
+        // DependencyProperty as the backing store for TitleSide
+        public static readonly DependencyProperty TitleSideProperty = DependencyProperty.Register(
+            "TitleSide",
+            typeof(Dock),
+            typeof(SgzComboBox),
+            new PropertyMetadata(Dock.Left)
+        );
+
+
+        // DependencyProperty as the backing store for FieldHeight
+        public static readonly DependencyProperty FieldHeightProperty = DependencyProperty.Register(
+            "FieldHeight",
+            typeof(double),
+            typeof(SgzComboBox)
         );
 
 

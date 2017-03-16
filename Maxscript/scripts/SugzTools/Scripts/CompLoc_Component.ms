@@ -170,8 +170,16 @@ struct CompLocComponentStc
 		Return:
 		Further Infos:
 		</Function>*/
-		
-		if (queryBox "Are you sure you want to remove the comploc custom attribute on every object of the scene ?" title:"Comploc Scene Cleaner" beep:false) then
+
+		if selection.count > 0 then 
+		(
+			if (queryBox "Are you sure you want to remove the comploc custom attribute on every object of the selection ?" title:"Comploc Scene Cleaner" beep:false) then
+			(
+				for obj in selection where (_ca.CheckForCustAttr obj #compLoc)[1] do (if obj.hotspot != undefined then delete obj.hotspot)
+				_ca.RemoveCA #compLoc nodeList:selection
+			)
+		)
+		else if (queryBox "Are you sure you want to remove the comploc custom attribute on every object of the scene ?" title:"Comploc Scene Cleaner" beep:false) then
 		(
 			_ca.RemoveCA #compLoc nodeList:sceneComponents
 			delete (for cam in cameras where cam.layer.name == _cl.hotspotLayer collect cam)
@@ -212,10 +220,6 @@ struct CompLocComponentStc
 					join excluded (for obj in objects where matchPattern obj.layer.name pattern:"zzz_*" collect obj)
 					(for obj in objects where findItem excluded obj != 0 collect obj).isHidden = true
 				)
-
-	-- 			if obj.layer.name == "H135_covers"
-	-- 				then (for o in objects where o.layer.name == _cl.hotspotLayer collect o).isHidden = true
-	-- 				else (for o in objects where o.layer.name == _cl.hotspotLayer or o.layer.name == "H135_covers" collect o).isHidden = true
 				
 				-- Select the object to get its wiewport selection outline and switch to its hotspot view
 				select obj
@@ -409,7 +413,7 @@ struct CompLocComponentStc
 	
 	
 	
-	/* Export to a excel file the component and related objects list ############################################################################################*/
+	/* Import from an excel file the components and related objects list ############################################################################################*/
 	fn ExcelImport =
 	(
 		/*<Function>
@@ -531,7 +535,6 @@ struct CompLocComponentStc
 		folder = getSavePath caption:"Choose a folder to save the Hotspots.csv" initialDir:maxFilePath
 		if folder != udnefined then 
 		(
-
 			file = (folder + "\\" + (getFilenameFile maxFileName) + ".csv")
 			excel = CreateOLEObject "Excel.Application"
 			excel.application.Workbooks.Add
@@ -539,7 +542,8 @@ struct CompLocComponentStc
 			
 			(excel.application.Range("A1")).value = "Hotspot name"
 			(excel.application.Range("B1")).value = "Hotspot position"
-			(excel.application.Range("C1")).value = "Hotspot rotation"
+			(excel.application.Range("C1")).value = "Hotspot default rotation"
+			(excel.application.Range("D1")).value = "Hotspot rotation"
 			
 
 			i = 2
@@ -548,7 +552,7 @@ struct CompLocComponentStc
 			(
 				(excel.application.Range("A" + i as string)).value = cam.name
 				(excel.application.Range("B" + i as string)).value = GetHotspotPos cam
-				(excel.application.Range("C" + i as string)).value = GetHotspotQuat cam
+				(excel.application.Range("D" + i as string)).value = GetHotspotQuat cam
 				i += 1
 			)
 			

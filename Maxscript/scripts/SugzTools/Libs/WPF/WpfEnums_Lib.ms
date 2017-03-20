@@ -18,10 +18,12 @@ struct WpfEnumStruct
 	_horizontalAlignment = dotNetClass "System.Windows.HorizontalAlignment",
 	_gridUnitType = dotNetClass "System.Windows.GridUnitType",
 	_orientation = dotNetClass "System.Windows.Controls.Orientation",
+	_selectionMode = dotNetClass "System.Windows.Controls.SelectionMode",
 	_stretch = dotNetClass "System.Windows.Media.Stretch",
 	_stretchDirection = dotNetClass "System.Windows.Controls.StretchDirection",
 	_verticalAlignment = dotNetClass "System.Windows.VerticalAlignment",
 	_visibility = dotNetClass "System.Windows.Visibility",
+
 
 
 	-- SugzTools Enums ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -271,10 +273,29 @@ struct WpfEnumStruct
 		Infos:
 		</Function>*/
 		
-		case orientation of
+		case arg of
 		(
 			#Horizontal: return _orientation.Horizontal
 			#Vertical: return _orientation.Vertical
+		)
+	),
+
+
+	-- Return a System.Windows.Controls.SelectionMode ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn SelectionMode arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of
+		(
+			#Extended: return _selectionMode.Extended
+			#Multiple: return _selectionMode.Multiple
+			#Single: return _selectionMode.Single
 		)
 	),
 	

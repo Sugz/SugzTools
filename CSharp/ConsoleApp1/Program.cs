@@ -11,26 +11,10 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Rename renamer = new Rename();
-            renamer.Name = "Test";
-
-            Console.WriteLine(renamer.Name);
-
-            renamer.AddPrefix("The-");
-            renamer.AddSuffix("-LH-");
-            Console.WriteLine(renamer.Name);
-
-            //renamer.RemoveLast(3);
-            //renamer.RemoveFirst(2);
-            //renamer.Remove(2, 2);
-
-            //renamer.Replace("-", "_", true);
-            //renamer.Replace("-", "_", false);
-            renamer.ReplaceAt(2, 2, "Add");
-
-            Console.WriteLine(renamer.Name);
-
-            Console.ReadLine();
+            ClassGenerator gen = new ClassGenerator("Model");
+            gen.AddProperties(typeof(double), "Value");
+            gen.AddProperties(typeof(string), "Name");
+            gen.GenerateCSharpCode();
         }
     }
 }

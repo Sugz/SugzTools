@@ -1,4 +1,4 @@
-global _link, _wpf
+global _link, Wpf
 struct LinkManagerStc
 (
 	-- Controls 
@@ -56,26 +56,39 @@ struct LinkManagerStc
 
 	fn GetUI isExpanded:true = 
 	(
-		dock = _wpf.DockPanel margin:#(5,5,5,0)
-		dock.Add(_linkBtn = _wpf.Button content:"Link" width:30 margin:#(5,0,0,0) enabled:false click:Link ) (_wpf.Dock #right)
-		dock.Add(_removeBtn = _wpf.Button content:"-" width:21 enabled:false click:RemoveParent) (_wpf.Dock #right)
-		dock.Add(_addBtn = _wpf.Button content:"+" width:21 click:AddParent) (_wpf.Dock #right)
-		dock.Add(_parentDdl = _wpf.ComboBox items:#("-- Add a Parent"))
-		border = _wpf.Border background:#MaxRollout cornerRadius:2 child:dock
+		dock = Wpf.DockPanel margin:#(5,5,5,0)
+		dock.Add(_linkBtn = Wpf.Button content:"Link" width:30 margin:#(5,0,0,0) enabled:false click:Link dock:#right)
+		dock.Add(_removeBtn = Wpf.Button content:"-" width:21 enabled:false click:RemoveParent dock:#right)
+		dock.Add(_addBtn = Wpf.Button content:"+" width:21 click:AddParent dock:#right)
+		dock.Add(_parentDdl = Wpf.ComboBox items:#("-- Add a Parent"))
+		border = Wpf.Border background:#MaxRollout cornerRadius:2 child:dock
 	),
 
 	fn CreateForm = 
 	(
 		if doesFileExist (file = "$userscripts\SugzTools\Libs\Wpf_Lib.ms") then fileIn file 
-		panel = _wpf.StackPanel margin:#(5,5,5,0)
+		panel = Wpf.StackPanel margin:#(5,5,5,0)
 		panel.Add(GetUI())
 			
 		if _form != undefined then _form.Close()
-		_form = _wpf.Window content:panel title:"Link Manager" width:217 height:500 location:#centerParent borderstyele:#sizableToolWindow
+		_form = Wpf.Window content:panel title:"Link Manager" width:217 height:500 location:#centerParent borderstyele:#sizableToolWindow
 		_form.ShowInFrame()
+	),
+	
+	
+	fn Run = 
+	(
+		if doesFileExist (file = "$userScripts\\SugzTools\\Libs\\WPF\\Wpf_Lib.ms") then 
+		(
+			fileIn file
+			SetUI()
+		)
 	)
 
 )
 
 _link = LinkManagerStc()
 _link.CreateForm()
+LinkInfo = LinkInfoStc()
+LinkInfo.Run()
+LinkInfo.CreateForm()

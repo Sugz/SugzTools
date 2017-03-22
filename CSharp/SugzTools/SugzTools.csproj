@@ -137,6 +137,7 @@
     <Compile Include="Sources\NativeMethods.cs" />
     <Compile Include="Sources\Rename.cs" />
     <Compile Include="Sources\TMath.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Themes\FocusVisualStyles.cs" />
     <Compile Include="TODO.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

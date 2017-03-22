@@ -17,26 +17,28 @@ namespace SugzTools.Src
         /// <summary>
         /// Define the compile unit to use for code generation. 
         /// </summary>
-        CodeCompileUnit targetUnit;
+        private CodeCompileUnit targetUnit;
 
         /// <summary>
         /// The only class in the compile unit. This class contains 2 fields,
         /// 3 properties, a constructor, an entry point, and 1 simple method. 
         /// </summary>
-        CodeTypeDeclaration targetClass;
+        private CodeTypeDeclaration targetClass;
 
+        private string ClassName;
         private const string outputFileName = @"d:\SampleCode.cs";
+        private const string namespaceName = "SugzTools";
 
-
-        public ClassGenerator(string ClassName)
+        public ClassGenerator(string className)
         {
+            ClassName = className;
             targetClass = new CodeTypeDeclaration(ClassName)
             {
                 IsClass = true,
                 TypeAttributes = TypeAttributes.Public
             };
 
-            CodeNamespace nameSpace = new CodeNamespace("SugzTools");
+            CodeNamespace nameSpace = new CodeNamespace(namespaceName);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
             nameSpace.Types.Add(targetClass);
 
@@ -46,21 +48,27 @@ namespace SugzTools.Src
 
 
 
-        public void AddProperties(Type type, string name)
+        public void AddProperties(Type type, string name, bool readOnly)
         {
-            StringBuilder text = new StringBuilder($"public event EventHandler<EventArgs> {name}Changed;\n");
+            StringBuilder text = new StringBuilder();
+            if (readOnly)
+                text.AppendLine($"public event EventHandler {name}Changed;");
+
             text.AppendLine($"private {type} _{name};");
             text.AppendLine($"public {type} {name} \n{{");
             text.AppendLine($"\tget {{ return _{name}; }}");
-            text.AppendLine($"\tset\n\t{{");
-            text.AppendLine($"\t\t_{name} = value;");
-            text.AppendLine($"\t\t{name}Changed?.Invoke(this, new EventArgs());\n\t}}\n}}\n");
+            
+            if (readOnly)
+            {
+                text.AppendLine($"\tset\n\t{{");
+                text.AppendLine($"\t\t_{name} = value;");
+                text.AppendLine($"\t\tif ({name}Changed != null)");
+                text.AppendLine($"\t\t\t{name}Changed(this, new EventArgs());\n\t}}\n}}");
+            }
+            else
+                text.AppendLine($"\tset {{ _{name} = value; }}\n}}");
 
-            targetClass.Members.Add
-            (
-                new CodeSnippetTypeMember() { Text = text.ToString() }
-            );
-
+            targetClass.Members.Add(new CodeSnippetTypeMember() { Text = text.ToString() });
         }
 
 
@@ -69,52 +77,30 @@ namespace SugzTools.Src
         /// Generate CSharp source code from the compile unit.
         /// </summary>
         /// <param name="filename">Output file name</param>
-        public void GenerateCSharpCode(string fileName = outputFileName)
+        public object GenerateCSharpCode(string fileName = outputFileName)
         {
             CodeDomProvider provider = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters()
             {
                 GenerateExecutable = false,
                 GenerateInMemory = true,
-                IncludeDebugInformation = false
+                IncludeDebugInformation = true,
             };
 
+            using (StreamWriter streamWriter = new StreamWriter(outputFileName))
+                provider.GenerateCodeFromCompileUnit(targetUnit, streamWriter, new CodeGeneratorOptions());
 
-            using (StreamWriter sourceWriter = new StreamWriter(fileName))
+
+            CompilerResults compiler = provider.CompileAssemblyFromDom(parameters, targetUnit);
+            if (compiler.Errors.HasErrors)
             {
-                provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, new CodeGeneratorOptions());
+                compiler.Errors.ForEach(x => Console.WriteLine(x));
+                return null;
             }
 
-
+            object myClass = compiler.CompiledAssembly.CreateInstance($"{namespaceName}.{ClassName}");
+            return myClass;
         }
 
-
-
-
-        /*
-        /// <summary>
-        /// run time compiler variables
-        /// </summary>
-        CompilerResults CompilationResult;
-        CodeDomProvider RuntimeCompiler = new Microsoft.CSharp.CSharpCodeProvider();
-        CompilerParameters Parameters = new CompilerParameters();
-
-        public ClassGenerator()
-        {
-            Parameters.GenerateExecutable = false;
-            Parameters.GenerateInMemory = true;
-            Parameters.IncludeDebugInformation = false;
-        }
-
-        public object GetClass()
-        {
-            //object that represents our class
-            object myClass;
-            //Create instance from our collection
-            object myClasslist = CompilationResult.CompiledAssembly.CreateInstance("DynamicCollection.EntityList");
-
-            return CompilationResult.CompiledAssembly.CreateInstance("DynamicCollection.Entity");
-        }
-        */
     }
 }

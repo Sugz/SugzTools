@@ -68,7 +68,7 @@ struct CompLocComponentStc
 	sceneComponents = #(),				-- The scene objects whose have the comploc custom attribute
 	hotspotHT = #(),					-- The hotspot hashtable (name, position) 
 	excludedObjects = #(),				-- The objects to keep hidden
-	
+	brokenComponents = #(),				-- The scene components with undefined relative
 	
 	/* Set the hotspot hashtable ############################################################################################*/
 	fn SetHotspotHT =
@@ -441,6 +441,9 @@ struct CompLocComponentStc
 				obj = getNodeByName str
 				if obj != undefined then 
 				(
+					-- make the object unique to avoid instance
+					InstanceMgr.MakeObjectsUnique obj #individual
+					
 					custAttributes.add obj compLocCA BaseObject:true
 				
 					-- create its hotspot
@@ -589,6 +592,7 @@ struct CompLocComponentStc
 			(
 				format "Component: %\n%\n" component str
 				somethingIsWrong = true
+				append brokenComponents component
 			)
 		)
 		
@@ -599,25 +603,27 @@ struct CompLocComponentStc
 	
 	
 	/* Check if scene components has undefined relatives ############################################################################################*/
-	fn ComponentChecker = 
+	fn ComponentFixer = 
 	(
 		/*<Function>
 		Description:
-			Check if scene components has no undefined relatives
+			Fix scene components with undefined relatives
 		</Function>*/
 		
-		for component in sceneComponents do 
+		ComponentChecker()
+		for component in brokenComponents do 
 		(
-			objs = for obj in component.transparent where obj.node != undefined collect obj
-			component.transparent = objs
-			
-			objs = for obj in component.hidden where obj.node != undefined collect obj
-			component.hidden = objs
-			
-			objs = for obj in component.animated where obj.node != undefined collect obj
-			component.animated = objs
-		)
+			format "Fixing: %\n" component
 
+			oldNodes = for h in component.hidden where h.node == undefined collect h
+			for oldNode in oldNodes do deleteItem (component.hidden) (findItem (component.hidden) oldNode)
+
+			oldNodes = for h in component.transparent where h.node == undefined collect h
+			for oldNode in oldNodes do deleteItem (component.transparent) (findItem (component.transparent) oldNode)
+
+			oldNodes = for h in component.animated where h.node == undefined collect h
+			for oldNode in oldNodes do deleteItem (component.animated) (findItem (component.animated) oldNode)
+		)
 	),
 
 
@@ -714,8 +720,8 @@ struct CompLocComponentStc
 		button getCsvFileBtn "..." width:25 height:17 align:#left offset:[180,-22] tooltip:"Set the spreadsheet path" 
 		button loadCsvFileBtn "L" width:25 height:17 align:#left offset:[208,-22] tooltip:"Load the spreadsheet" enabled:false
 		
-		label sceneComponentsLbl "Scene Components :" pos:[256,7]
-		dropdownlist sceneComponentsFilterDdl items:#("All") width:60 align:#center offset:[91,-20]
+		dropdownlist sceneComponentsDdl items:#("Scene Components :", "Broken Components :") width:150 pos:[256,5]
+		dropdownlist sceneComponentsFilterDdl items:#("All") width:60 align:#center offset:[91,-27]
 		listbox sceneComponentsLbx  width:240 height:30 align:#center offset:[0,-1]
 		button addComponentBtn "Add" width:56  align:#center offset:[-92,-3] 
 		button removeComponentBtn "Remove" width:56  align:#center offset:[-31,-26] 
@@ -839,7 +845,7 @@ struct CompLocComponentStc
 		
 		
 		/* Get all scene components and set the scene component listbox ***************************************************************************************************************************************************************/
-		fn FillSceneComponentsList filter:false = 
+		fn FillSceneComponentsList filter:false broken:false = 
 		(
 			_cl.sceneComponents = _sgz._extMxs.SortObjects (_ca.GetObjsWithCA #compLoc)
 			
@@ -847,7 +853,8 @@ struct CompLocComponentStc
 			(
 				atas = #()
 				items = #()
-				for obj in _cl.sceneComponents do
+				components = if broken then _cl.brokenComponents else _cl.sceneComponents
+				for obj in components do
 				(
 					-- Get the ATA number by firltering the object name
 					str = ""
@@ -1002,13 +1009,28 @@ struct CompLocComponentStc
 				try (SelectComponent (hit.item.text)) catch()
 			)
 		)
+
+
+
+		/* Filter the scene component by ATA number ############################################################################################*/
+		on sceneComponentsDdl selected item do 
+		(
+			if item == 2
+				then FillSceneComponentsList filter:(sceneComponentsFilterDdl.selection != 1) broken:true
+				else FillSceneComponentsList filter:(sceneComponentsFilterDdl.selection != 1)
+
+			SetRelatives()
+		)
 		
 		
 		
 		/* Filter the scene component by ATA number ############################################################################################*/
 		on sceneComponentsFilterDdl selected item do 
 		(
-			FillSceneComponentsList filter:(item != 1)
+			if sceneComponentsDdl.selection == 2 
+				then FillSceneComponentsList filter:(item != 1) broken:true
+				else FillSceneComponentsList filter:(item != 1)
+			
 			SetRelatives()
 		)
 			
@@ -1415,6 +1437,29 @@ struct CompLocComponentStc
 			)
 		)
 	),
+
+
+
+	/* Check if scene components has no undefined relatives ############################################################################################*/
+	macroFix =
+	(
+		macroScript CompLocFixer
+			category:"SugzTools"
+			toolTip:"CompLoc Fixer"
+			Icon:#("Comploc",9)
+		
+		(
+			global _cl
+			on execute do 
+			(
+				if doesFileExist (file = "$userscripts\SugzTools\Scripts\CompLoc_Component.ms") then 
+				(
+					fileIn file
+					_cl.ComponentFixer()
+				)
+			)
+		)
+	),
 	
 	
 	
@@ -1565,10 +1610,16 @@ struct CompLocComponentStc
 	(
 		hotspotHT = _cl.hotspotHT
 		excludedObjects = _cl.excludedObjects
+		brokenComponents = _cl.brokenComponents
 	)
 	
 	_cl = CompLocComponentStc()
 	_cl.hotspotHT = hotspotHT
 	_cl.excludedObjects = excludedObjects
+	_cl.brokenComponents = brokenComponents
 	_cl.Run()
 )
+
+
+
+ComponentFixer

@@ -579,25 +579,29 @@ struct CompLocComponentStc
 			Check if scene components has no undefined relatives
 		</Function>*/
 		
+		clearListener()
 		somethingIsWrong = false
 		for component in sceneComponents do 
 		(
 			str = ""
-			if component.hotspot == undefined do str += "\thotspot: "+ component.hotspot as string + "\n" 
-			for obj in component.transparent where obj.node == undefined do str += "\ttransparent: "+ obj.node as string +"\n" 
-			for obj in component.hidden where obj.node == undefined do str += "\thidden: " + obj.node as string + "\n" 
-			for obj in component.animated where obj.node == undefined do str += "\tanimated: " + obj.node as string + "\n" 
+			hiddenCount = (for obj in component.hidden where obj.node == undefined collect obj).count
+			transparentCount = (for obj in component.transparent where obj.node == undefined collect obj).count
+			animatedCount = (for obj in component.transparent where obj.node == undefined collect obj).count
+
+			if component.hotspot == undefined do str += "\thotspot: undefined\n"
+			if hiddenCount != 0 then str += "\thidden: " + hiddenCount as string + " undefined\n" 
+			if transparentCount != 0 then str += "\ttransparent: " + transparentCount as string + " undefined\n" 
+			if animatedCount != 0 then str += "\tanimated: " + animatedCount as string + " undefined\n" 
 			
 			if str != "" then 
 			(
-				format "Component: %\n%\n" component str
+				format "% :\n%\n" component.name str
 				somethingIsWrong = true
 				append brokenComponents component
 			)
 		)
 		
 		if not somethingIsWrong then format "Everything's fine dude :D\n"
-
 	),
 	
 	

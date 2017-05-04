@@ -24,7 +24,7 @@ namespace SugzTools.Src
         public void RemoveLast(int length) { Name = Name.Remove(Name.Length - length); }
 
 
-        public void Replace(string oldSubString, string newSubString, bool allOccurrences)
+        public void Replace(string oldSubString, string newSubString, bool allOccurrences, bool matchCase)
         {
             if (allOccurrences)
             {
@@ -39,6 +39,13 @@ namespace SugzTools.Src
         public void ReplaceAt(int index, int length, string newSubString)
         {
             Remove(index, length);
+            Insert(index, newSubString);
+            //Name = Name.Insert(index, newSubString);
+        }
+
+
+        public void Insert(int index, string newSubString)
+        {
             Name = Name.Insert(index, newSubString);
         }
 

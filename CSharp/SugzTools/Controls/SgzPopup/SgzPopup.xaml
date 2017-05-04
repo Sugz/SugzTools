@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SugzTools.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    
+    
+
+    <Style TargetType="{x:Type local:SgzPopup}">
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource MaxText}" />
+        <Setter Property="Child">
+            <Setter.Value>
+                <Grid>
+                    <Border Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzPopup}}}"
+                            BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzPopup}}}"
+                            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzPopup}}}"
+                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzPopup}}}"
+                            Margin="0,0,5,5">
+                        <Border.Effect>
+                            <DropShadowEffect/>
+                        </Border.Effect>
+                        <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzPopup}}}"/>
+                    </Border>
+                </Grid>
+                
+            </Setter.Value>
+        </Setter>
+    </Style>
+        
+</ResourceDictionary>

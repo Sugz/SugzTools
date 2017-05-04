@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -81,6 +82,29 @@ namespace SugzTools.Src
         {
             object[] items = _items.Cast<object>().ToArray();
             return items;
+        }
+
+
+        /// <summary>
+        /// Get a list of all logical children of a DependencyObject
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="logicalCollection"></param>
+        internal static void GetLogicalChildren(DependencyObject parent, List<DependencyObject> logicalCollection)
+        {
+            IEnumerable children = LogicalTreeHelper.GetChildren(parent);
+            foreach (object child in children)
+            {
+                if (child is DependencyObject)
+                {
+                    DependencyObject depChild = child as DependencyObject;
+
+                    if (child is DependencyObject)
+                        logicalCollection.Add(child as DependencyObject);
+
+                    GetLogicalChildren(depChild, logicalCollection);
+                }
+            }
         }
 
 

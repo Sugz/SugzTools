@@ -10,14 +10,24 @@
         Height="300"
         Width="300"
         Background="#FF444444">
-    
+
     <Grid>
+        <sgz:SgzPopup IsOpen="True">
+            <sgz:SgzPopup.Content>
+                <StackPanel>
+                    <TextBlock Text="00000000001" />
+                    <TextBlock Text="00000000001" />
+                    <TextBlock Text="00000000001" />
+                    <TextBlock Text="00000000001" />
+                </StackPanel>
+            </sgz:SgzPopup.Content>
+        </sgz:SgzPopup>
         <sgz:SgzExpandersControl Margin="3">
             <sgz:SgzExpander x:Name="expander"
                              Header="Expander DG"
                              IsExpanded="True">
                 <StackPanel Margin="5">
-                    <Button Content="Button 01"/>
+                    <Button Content="Button 01" />
                     <Button Content="Button 01" />
                     <sgz:SgzUniformGrid Columns="3">
                         <sgz:SgzCheckBox Content="Move"

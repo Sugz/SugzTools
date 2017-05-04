@@ -805,7 +805,7 @@ fn Border
 	if borderBrush != unsupplied then _control.BorderBrush = SolidColorBrush borderBrush
 	if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
 	if child != unsupplied then _control.Child = child
-	if cornerRadius != unsupplied then _control.CornerRadius = CornerRadius cornerRadius
+	if cornerRadius != unsupplied then _control.CornerRadius = this.CornerRadius cornerRadius
 	if padding != unsupplied then _control.Padding = Thickness padding
 
 	FrameworkElement \

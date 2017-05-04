@@ -18,6 +18,7 @@ struct WpfEnumStruct
 	_horizontalAlignment = dotNetClass "System.Windows.HorizontalAlignment",
 	_gridUnitType = dotNetClass "System.Windows.GridUnitType",
 	_orientation = dotNetClass "System.Windows.Controls.Orientation",
+	_placementMode  = dotNetClass "System.Windows.Controls.Primitives.PlacementMode",
 	_selectionMode = dotNetClass "System.Windows.Controls.SelectionMode",
 	_stretch = dotNetClass "System.Windows.Media.Stretch",
 	_stretchDirection = dotNetClass "System.Windows.Controls.StretchDirection",
@@ -277,6 +278,34 @@ struct WpfEnumStruct
 		(
 			#Horizontal: return _orientation.Horizontal
 			#Vertical: return _orientation.Vertical
+		)
+	),
+
+
+	-- Return a System.Windows.Controls.Primitives.PlacementMode ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn PlacementMode arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of
+		(
+			#Absolute: return _placementMode.Absolute
+			#AbsolutePoint: return _placementMode.AbsolutePoint
+			#Bottom: return _placementMode.Bottom
+			#Center: return _placementMode.Center
+			#Custom: return _placementMode.Custom
+			#Left: return _placementMode.Left
+			#Mouse: return _placementMode.Mouse
+			#MousePoint: return _placementMode.MousePoint
+			#Relative: return _placementMode.Relative
+			#RelativePoint: return _placementMode.RelativePoint
+			#Right: return _placementMode.Right
+			#Top: return _placementMode.Top
 		)
 	),
 

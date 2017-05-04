@@ -128,26 +128,26 @@ struct WpfStruct
 		(
 			case arg of 
 			(
-				#grey: return _color.FromArgb 255 128 128 128
-				#transparent: return _color.FromArgb 0 255 255 255
+				#Grey: return _color.FromArgb 255 128 128 128
+				#Transparent: return _color.FromArgb 0 255 255 255
 				
-				#maxBackground: return  _color.FromArgb 255 68 68 68
+				#MaxBackground: return  _color.FromArgb 255 68 68 68
 				
-				#maxRollout: return  _color.FromArgb 255 81 81 81
-				#maxRolloutBorder: return  _color.FromArgb 255 62 62 62
-				#maxRolloutArrow: return  _color.FromArgb 255 183 183 183
-				#maxRolloutIcon: return  _color.FromArgb 255 151 151 151
+				#MaxRollout: return  _color.FromArgb 255 81 81 81
+				#MaxRolloutBorder: return  _color.FromArgb 255 62 62 62
+				#MaxRolloutArrow: return  _color.FromArgb 255 183 183 183
+				#MaxRolloutIcon: return  _color.FromArgb 255 151 151 151
 				
-				#maxControl: return  _color.FromArgb 255 100 100 100
-				#maxControlBorder: return  _color.FromArgb 255 73 73 73
-				#maxControlMouseOver: return  _color.FromArgb 255 56 56 56
+				#MaxControl: return  _color.FromArgb 255 100 100 100
+				#MaxControlBorder: return  _color.FromArgb 255 73 73 73
+				#MaxControlMouseOver: return  _color.FromArgb 255 56 56 56
 				
-				#maxText: return  _color.FromArgb 255 225 225 225
-				#maxCaret: return  _color.FromArgb 255 155 155 155
-				#maxFocusBorder: return  _color.FromArgb 255 208 208 208
+				#MaxText: return  _color.FromArgb 255 225 225 225
+				#MaxCaret: return  _color.FromArgb 255 155 155 155
+				#MaxFocusBorder: return  _color.FromArgb 255 208 208 208
 				
-				#maxBlue: return  _color.FromArgb 255 95 138 193
-				#maxBlueMouseOver: return  _color.FromArgb 255 73 106 147
+				#MaxBlue: return  _color.FromArgb 255 95 138 193
+				#MaxBlueMouseOver: return  _color.FromArgb 255 73 106 147
 				
 			)
 		)

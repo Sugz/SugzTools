@@ -995,13 +995,60 @@ struct CompLocComponentStc
 			Infos:
 			</Function>*/
 			
+			for obj in selection do 
+			(
+				wrongName = "\"" + obj.name + "\" name doesn't start with \"ATA_XX\"... "
+				ss = filterString obj.name "_"
+				if ss[1] == "ATA" then
+				(
+					nb = filterString ss[2] "-"
+					if (nb[1] as integer) == undefined 
+						then MessageBox wrongName
+
+					-- Check if the object doesn't already have the complocCA
+					else if not (_ca.CheckForCustAttr obj #comploc)[1] then 
+					(
+						-- make the object unique to avoid instance
+						InstanceMgr.MakeObjectsUnique obj #individual
+						
+						custAttributes.add obj _cl.compLocCA BaseObject:true
+						cam = Physical_Camera name:(obj.name + "_" + _cl.hotspotHT[1][1]) pos:_cl.hotspotHT[1][2] specify_fov:on
+						cam.fov = 40
+						cam.targeted = true
+						cam.target.pos = obj.center
+						
+						LayerManager.newLayerFromName _cl.hotspotLayer
+						(LayerManager.getLayerFromName _cl.hotspotLayer).addNode cam
+						(LayerManager.getLayerFromName _cl.hotspotLayer).addNode (cam.target)
+						
+						obj.hotspot = cam
+						
+						setTransformLockFlags cam #{1..9}
+						setTransformLockFlags (cam.target) #{1..9}
+
+					)
+				)
+
+				else MessageBox wrongName
+			)
 			
+			FillSceneComponentsList filter:(sceneComponentsFilterDdl.selection != 1)
+			SetRelatives()
+			
+			if csvFileTxt.text != "Set the spreadsheet path" then FillRequiredComponentsList (requiredComponentsFilterDdl.selection != 1)
 			
 		)
 
 
+
+		-- Set the hotspot ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 		-- Add Relative object to a scene component -----------------------------------------------------------------------------------------------------------------------------------------------------------
-		fn AddRelative = 
+		fn AddRelative component relatives relativeType = 
 		(
 		   /*<Function>
 			Description:
@@ -1009,8 +1056,29 @@ struct CompLocComponentStc
 			Return:
 			Infos:
 			</Function>*/
+
+			arr = case relativeType of 
+			(
+				#hidden: component.hidden
+				#transparent: component.transparent
+				#animated: component.animated
+			)
 			
+			for obj in relatives where obj != component do 
+			(
+				canAdd = true
+				for relative in arr while canAdd do if relative.node == obj then canAdd = false
+
+				if canAdd then 
+				(
+					append arr (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
+
+					if relativeType == #hidden then obj.isHidden = hiddenChk.checked
+					if relativeType == #transparent then obj.xray = transparentChk.checked
+				)
+			)
 			
+			SetRelatives()
 			
 		)
 
@@ -1096,50 +1164,7 @@ struct CompLocComponentStc
 		
 			
 		/* Add scene component ********************************************************************************************************************************************************************************/
-		on addComponentBtn pressed do
-		(
-			for obj in selection do 
-			(
-				wrongName = "\"" + obj.name + "\" name doesn't start with \"ATA_XX\"... "
-				ss = filterString obj.name "_"
-				if ss[1] == "ATA" then
-				(
-					nb = filterString ss[2] "-"
-					if (nb[1] as integer) == undefined 
-						then MessageBox wrongName
-
-					-- Check if the object doesn't already have the complocCA
-					else if not (_ca.CheckForCustAttr obj #comploc)[1] then 
-					(
-						-- make the object unique to avoid instance
-						InstanceMgr.MakeObjectsUnique obj #individual
-						
-						custAttributes.add obj _cl.compLocCA BaseObject:true
-						cam = Physical_Camera name:(obj.name + "_" + _cl.hotspotHT[1][1]) pos:_cl.hotspotHT[1][2] specify_fov:on
-						cam.fov = 40
-						cam.targeted = true
-						cam.target.pos = obj.center
-						
-						LayerManager.newLayerFromName _cl.hotspotLayer
-						(LayerManager.getLayerFromName _cl.hotspotLayer).addNode cam
-						(LayerManager.getLayerFromName _cl.hotspotLayer).addNode (cam.target)
-						
-						obj.hotspot = cam
-						
-						setTransformLockFlags cam #{1..9}
-						setTransformLockFlags (cam.target) #{1..9}
-
-					)
-				)
-
-				else MessageBox wrongName
-			)
-			
-			FillSceneComponentsList filter:(sceneComponentsFilterDdl.selection != 1)
-			SetRelatives()
-			
-			if csvFileTxt.text != "Set the spreadsheet path" then FillRequiredComponentsList (requiredComponentsFilterDdl.selection != 1)
-		)
+		on addComponentBtn pressed do AddComponent()
 		
 		
 		
@@ -1708,7 +1733,3 @@ struct CompLocComponentStc
 	_cl.brokenComponents = brokenComponents
 	_cl.Run()
 )
-
-
-
-ComponentFixer

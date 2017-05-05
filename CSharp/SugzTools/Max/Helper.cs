@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SugzTools.Src;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,6 +21,13 @@ namespace SugzTools.Max
         {
             try { return obj.GetType().GetMethod(method) != null; }
             catch (AmbiguousMatchException) { return true; }
+        }
+
+
+
+        public static object[] AsArray(IEnumerable items)
+        {
+            return Helpers.ToArray(items);
         }
     }
 }

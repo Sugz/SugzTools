@@ -12,16 +12,6 @@
         Background="#FF444444">
 
     <Grid>
-        <sgz:SgzPopup IsOpen="True">
-            <sgz:SgzPopup.Content>
-                <StackPanel>
-                    <TextBlock Text="00000000001" />
-                    <TextBlock Text="00000000001" />
-                    <TextBlock Text="00000000001" />
-                    <TextBlock Text="00000000001" />
-                </StackPanel>
-            </sgz:SgzPopup.Content>
-        </sgz:SgzPopup>
         <sgz:SgzExpandersControl Margin="3">
             <sgz:SgzExpander x:Name="expander"
                              Header="Expander DG"
@@ -39,6 +29,15 @@
                                          Content="Scale" />
                     </sgz:SgzUniformGrid>
                 </StackPanel>
+            </sgz:SgzExpander>
+            <sgz:SgzExpander Header="Expander 02">
+                <StackPanel Height="35" />
+            </sgz:SgzExpander>
+            <sgz:SgzExpander Header="Expander 03">
+                <StackPanel Height="35" />
+            </sgz:SgzExpander>
+            <sgz:SgzExpander Header="Expander 04">
+                <StackPanel Height="35" />
             </sgz:SgzExpander>
         </sgz:SgzExpandersControl>
     </Grid>

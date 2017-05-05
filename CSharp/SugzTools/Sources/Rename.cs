@@ -16,13 +16,20 @@ namespace SugzTools.Src
 
 
         public void AddPrefix(string prefix) { Name = prefix + Name; }
+
         public void AddSuffix(string suffix) { Name += suffix; }
 
+        public void Remove(int index, int count)
+        {
+            if (index + count > Name.Length)
+                count = Name.Length - index;
 
-        public void Remove(int index, int length) { Name = Name.Remove(index, length); }
-        public void RemoveFirst(int length) { Name = Name.Substring(length); }
-        public void RemoveLast(int length) { Name = Name.Remove(Name.Length - length); }
+            Name = Name.Remove(index, count);
+        }
 
+        public void RemoveFirst(int count) { Name = Name.Substring(count); }
+
+        public void RemoveLast(int count) { Name = Name.Remove(Name.Length - count); }
 
         public void Replace(string oldSubString, string newSubString, bool allOccurrences, bool matchCase)
         {
@@ -36,19 +43,17 @@ namespace SugzTools.Src
                 Name = regex.Replace(Name, newSubString, 1);
             }
         }
-        public void ReplaceAt(int index, int length, string newSubString)
-        {
-            Remove(index, length);
-            Insert(index, newSubString);
-            //Name = Name.Insert(index, newSubString);
-        }
 
+        public void ReplaceAt(int index, int count, string newSubString)
+        {
+            Remove(index, count);
+            Insert(index, newSubString);
+        }
 
         public void Insert(int index, string newSubString)
         {
             Name = Name.Insert(index, newSubString);
         }
-
 
         public void AddIndex(int increment)
         {

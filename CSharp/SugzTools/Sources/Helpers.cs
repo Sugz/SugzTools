@@ -159,16 +159,16 @@ namespace SugzTools.Src
         {
             T nearest = null;
             double lastDistance = short.MaxValue;
-            foreach (T item in itemsControl.Items)
+            foreach (UIElement item in itemsControl.Items)
             {
                 System.Windows.Point itemPos = item.TranslatePoint(new System.Windows.Point(0, 0), itemsControl);
                 double distance = Math.Abs(p.Y - itemPos.Y);
                 if (distance > lastDistance && lastDistance != short.MaxValue)
                     return nearest;
-                else
+                else if (item is T)
                 {
                     lastDistance = distance;
-                    nearest = item;
+                    nearest = item as T;
                 }
             }
 

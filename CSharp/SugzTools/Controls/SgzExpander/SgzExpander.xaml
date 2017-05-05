@@ -258,7 +258,6 @@
             </Trigger>
             <Trigger Property="IsGroupBox" Value="false">
                 <Setter Property="Template" Value="{StaticResource SgzPopUpExpanderTemplate}" />
-                <Setter Property="Margin" Value="0,0,0,2" />
             </Trigger>
         </Style.Triggers>
 

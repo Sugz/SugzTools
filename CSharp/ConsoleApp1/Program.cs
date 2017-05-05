@@ -11,6 +11,21 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            TestRenamer();
+            Console.ReadLine();
+        }
+
+
+        private static void TestRenamer()
+        {
+            Rename rename = new Rename() { Name = "Test001" };
+            rename.Remove(4, 4);
+            Console.WriteLine(rename.Name);
+        }
+
+
+        private static void TestClassGen()
+        {
             ClassGenerator gen = new ClassGenerator("Model");
             gen.AddProperties(typeof(double), "Value", true);
             gen.AddProperties(typeof(string), "Name", false);
@@ -22,8 +37,6 @@ namespace ConsoleApp1
                 var props = MyClass.GetType().GetProperties();
                 props.ForEach(x => Console.WriteLine(x));
             }
-
-            Console.ReadLine();
         }
     }
 }

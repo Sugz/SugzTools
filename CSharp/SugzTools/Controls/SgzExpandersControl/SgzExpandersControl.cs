@@ -1,6 +1,7 @@
 ﻿using SugzTools.Src;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,22 @@ namespace SugzTools.Controls
 
 
 
+        #region Properties
+
+
+        /// <summary>
+        /// Get or set the spacing between the expanders
+        /// </summary>
+        [Description("Get or set the spacing between the expanders"), Category("Layout")]
+        public int Spacing { get; set; } = 2; 
+
+
+        #endregion Properties
+
+
+
+
+
         #region Constructors
 
 
@@ -38,7 +55,6 @@ namespace SugzTools.Controls
             MouseEnter += SgzExpandersControl_MouseEnter;
             PreviewMouseDown += SgzExpandersControl_PreviewMouseDown;
             PreviewMouseMove += SgzExpandersControl_PreviewMouseMove;
-            PreviewDragEnter += SgzExpandersControl_PreviewDragEnter;
             PreviewDragOver += SgzExpandersControl_PreviewDragOver;
             PreviewDragLeave += SgzExpandersControl_PreviewDragLeave;
             PreviewDrop += SgzExpandersControl_PreviewDrop;
@@ -90,6 +106,7 @@ namespace SugzTools.Controls
         /// <summary>
         /// Remove any children that isn't a SgzExpander
         /// If there is only one expander, hide the header
+        /// Set the Expanders bottom margin
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -107,6 +124,10 @@ namespace SugzTools.Controls
                 itemToRemove.ForEach(x => Items.Remove(x));
                 throw new SystemException("SgzExpandersControl can only accept SgzExpander as children");
             }
+
+
+            foreach (SgzExpander item in Items)
+                item.Margin = new Thickness(0, 0, 0, Spacing);
         }
 
 
@@ -166,28 +187,9 @@ namespace SugzTools.Controls
 
 
         /// <summary>
-        /// When draging went outside, get the closest Expander from the cursor and set the drop indicator 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SgzExpandersControl_PreviewDragEnter(object sender, DragEventArgs e)
-        {
-            int index = 0;
-            SgzExpander item = Helpers.GetClosestContainerFromPoint<SgzExpander>(this, e.GetPosition(this));
-            if (item != null)
-            {
-                index = Items.IndexOf(item);
-                if (index == Items.Count - 1)
-                    index = (e.GetPosition(item).Y >= item.ActualHeight / 2) ? Items.IndexOf(item) + 1 : Items.IndexOf(item);
-            }
-
-            Items.Insert(index, _DropIndicator = new SgzDropIndicator());
-        }
-
-
-        /// <summary>
-        /// Set the drop indicator depending on the mouse position over an expander
-        /// Scroll if the cursor is near the vertical extremities
+        /// Set the drop indicator depending on the mouse position over an expander.
+        /// When draging went outside, get the closest Expander from the cursor.
+        /// Scroll if the cursor is near the vertical extremities.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -195,17 +197,21 @@ namespace SugzTools.Controls
         {
             // Set the drop indicator relative to the item under the mouse when dragging
             SgzExpander item = Helpers.GetContainerAtPoint<SgzExpander>(this, e.GetPosition(this));
+            if (item == null)
+                item = Helpers.GetClosestContainerFromPoint<SgzExpander>(this, e.GetPosition(this));
+
             if (item != null)
             {
                 // Avoid nested expanders
                 while (item.Parent != this)
                     item = Helpers.FindAnchestor<SgzExpander>(item.Parent);
 
-                Items.Remove(_DropIndicator ?? (_DropIndicator = new SgzDropIndicator()));
+                Items.Remove(_DropIndicator ?? (_DropIndicator = new SgzDropIndicator(Spacing)));
 
                 int index = (e.GetPosition(item).Y >= item.ActualHeight / 2) ? Items.IndexOf(item) + 1 : Items.IndexOf(item);
                 Items.Insert(index, _DropIndicator);
             }
+
 
             // Handle scrolling
             if (_ScrollViewer != null)
@@ -244,9 +250,10 @@ namespace SugzTools.Controls
             SgzExpander dropItem = e.Data.GetData(typeof(SgzExpander)) as SgzExpander;
             if (dropItem != null && _DropIndicator != null)
             {
+                int index = Items.IndexOf(_DropIndicator);
                 SgzExpandersControl dropControl = (SgzExpandersControl)dropItem.Parent;
                 dropControl.Items.Remove(dropItem);
-                Items.Insert(Items.IndexOf(_DropIndicator), dropItem);
+                Items.Insert(index, dropItem);
                 Items.Remove(_DropIndicator);
 
                 Reset(this);
@@ -285,6 +292,10 @@ namespace SugzTools.Controls
         static SgzDropIndicator()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzDropIndicator), new FrameworkPropertyMetadata(typeof(SgzDropIndicator)));
+        }
+        public SgzDropIndicator(int spacing)
+        {
+            Margin = new Thickness(0, 0, 0, spacing);
         }
     }
 }

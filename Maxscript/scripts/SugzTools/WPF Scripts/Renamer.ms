@@ -92,7 +92,6 @@ struct renamerStc
 		)
 
 		border = Wpf.Border background:#maxRollout borderbrush:#maxRolloutBorder borderThickness:1 cornerRadius:5 child:panel 
--- 		sgzRenamer.renamePopup = dotNetObject "System.Windows.Controls.Primitives.Popup"
 		sgzRenamer.renamePopup = dotNetObject "SugzTools.Controls.SgzPopup"
 		sgzRenamer.renamePopup.PlacementTarget = sgzRenamer._renameBtn
 		sgzRenamer.renamePopup.Child = border
@@ -105,8 +104,6 @@ struct renamerStc
 	
 	fn SetUI = 
 	(
-
-
 		_renamePanel = Wpf.StackPanel margin:5 spacingVertical:7 vAlign:#top 
 
 		nameGetIcon = Wpf.Icon icon:"MdiStepForward" padding:#(6,7,6,6) cursor:#Arrow vAlign:#center click:(fn x = if _sgz._sel.IsSelectionOne() then sgzRenamer._nameTxt.Text = $.name)

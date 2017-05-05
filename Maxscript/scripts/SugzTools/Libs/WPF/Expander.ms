@@ -314,6 +314,7 @@ fn ExpandersControl
 	opacity:
 	padding:
 	snapsToDevicePixels:
+	spacing:
 	tabIndex:
 	tag:
 	tooltip:
@@ -348,9 +349,13 @@ fn ExpandersControl
 	Return:
 	Infos:
 	</Function>*/
+
+
+	_control = (dotNetObject "SugzTools.Controls.SgzExpandersControl")
+	if spacing != unsupplied then _control.Spacing = spacing
 	
 	ContentControl \
-	(dotNetObject "SugzTools.Controls.SgzExpandersControl") \
+	_control \
 	background:background \
 	borderbrush:borderbrush \
 	borderthickness:borderthickness \

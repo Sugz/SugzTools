@@ -56,7 +56,20 @@ struct WpfStruct
 
 	-- SugzTools Class ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	_spacing = dotNetClass "SugzTools.Behaviors.Spacing",
+	_helper = dotNetClass "SugzTools.Max.Helper",
 
+
+	fn AsArray arg = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		return _helper.AsArray arg
+	),
 
 
 
@@ -258,5 +271,6 @@ struct WpfStruct
 	)
 
 )
+
 Wpf = WpfStruct()
 Wpf.Run()

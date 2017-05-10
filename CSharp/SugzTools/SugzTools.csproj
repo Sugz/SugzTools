@@ -89,6 +89,7 @@
     <Compile Include="Controls\SgzGroupBox\SgzGroupBox.cs" />
     <Compile Include="Controls\SgzIcon\SgzIcon.cs" />
     <Compile Include="Controls\SgzListBox\SgzListBox.cs" />
+    <Compile Include="Controls\SgzListView\SgzListView.cs" />
     <Compile Include="Controls\SgzMaxForm\SgzMaxForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SgzIcon\SgzIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SgzListView\SgzListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

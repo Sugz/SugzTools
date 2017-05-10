@@ -11,7 +11,9 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            TestRenamer();
+            //TestRenamer();
+            TestClassGen();
+
             Console.ReadLine();
         }
 
@@ -27,16 +29,19 @@ namespace ConsoleApp1
         private static void TestClassGen()
         {
             ClassGenerator gen = new ClassGenerator("Model");
-            gen.AddProperties(typeof(double), "Value", true);
-            gen.AddProperties(typeof(string), "Name", false);
-            var MyClass = gen.GenerateCSharpCode();
+            gen.AddUsing("System.Collections.Generic");
+            gen.AddProperty(PropertyType.Float, "Number", true, 1);
+            gen.AddProperty(PropertyType.String, "Word", false, "Test");
+            gen.AddProperty(PropertyType.Bool, "OK", false, true);
 
+            var MyClass = gen.GetClass();
             if (MyClass != null)
             {
                 Console.WriteLine($"Class: {MyClass.GetType().Namespace}.{MyClass.GetType().Name}");
                 var props = MyClass.GetType().GetProperties();
                 props.ForEach(x => Console.WriteLine(x));
             }
+            
         }
     }
 }

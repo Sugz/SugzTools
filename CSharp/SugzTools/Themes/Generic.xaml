@@ -12,6 +12,7 @@
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzExpandersControl/SgzExpandersControl.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzGroupBox/SgzGroupBox.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzIcon/SgzIcon.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzListView/SgzListView.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzNumericUpDown/SgzNumericUpDown.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzPopup/SgzPopup.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzProgressBar/SgzProgressBar.xaml" />

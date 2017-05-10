@@ -31,7 +31,8 @@
                 </StackPanel>
             </sgz:SgzExpander>
             <sgz:SgzExpander Header="Expander 02">
-                <StackPanel Height="35" />
+                <DataGrid Name="listBox" AutoGenerateColumns="True" Margin="5" />
+                <!--<sgz:SgzListView Name="listBox" Margin="5" />-->
             </sgz:SgzExpander>
             <sgz:SgzExpander Header="Expander 03">
                 <StackPanel Height="35" />

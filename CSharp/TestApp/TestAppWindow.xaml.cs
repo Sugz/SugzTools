@@ -30,9 +30,15 @@ namespace TestApp
         public MainWindow()
         {
             InitializeComponent();
+            //LunchSecondWnd();
+            //Main()
+        }
+
+
+        void LunchSecondWnd()
+        {
             Window1 wnd = new Window1();
             wnd.Show();
-            //Main()
         }
 
 

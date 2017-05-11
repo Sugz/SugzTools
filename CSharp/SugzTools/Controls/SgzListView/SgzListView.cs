@@ -7,37 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace SugzTools.Controls
 {
-    /*
-    public enum PropertyType
-    {
-        Bool,
-        Int,
-        Float,
-        String,
-        List,
-    }
-
-    public enum PropertyUI
-    {
-        Checkbox,
-        Checkbutton,
-        Spinner,
-        Textblock,
-        Textbox,
-        ComboBox,
-    }
-    */
-
     public class SgzListView : ListView
     {
         #region Fields
 
 
-        GridView gridView;
+        GridView gridView = new GridView();
         ClassGenerator classGen = new ClassGenerator();
+        object Model;
+        ObservableCollection<object> _ItemSource = new ObservableCollection<object>();
 
 
         #endregion Fields
@@ -64,7 +46,12 @@ namespace SugzTools.Controls
 
         private void SgzListView_Loaded(object sender, RoutedEventArgs e)
         {
-            View = gridView ?? (gridView = new GridView());
+            View = gridView;
+            ItemsSource = _ItemSource;
+
+            //Style style = new Style() { TargetType = typeof(ListViewItem) };
+            //style.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
+            //ItemContainerStyle = style;
         }
 
 
@@ -90,10 +77,61 @@ namespace SugzTools.Controls
 
 
 
-        private void SetModel()
+        public void AddColumn(PropertyUI control, string name, bool readOnly = false, double width = 0)
         {
+            FrameworkElementFactory factory = new FrameworkElementFactory();
+            switch (control)
+            {
+                case PropertyUI.Checkbox:
+                    classGen.AddProperty(PropertyType.Bool, name, readOnly);
+                    factory.Type = typeof(SgzCheckBox);
+                    factory.SetBinding(SgzCheckBox.IsCheckedProperty, new Binding(name));
+                    factory.SetValue(SgzCheckBox.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                    break;
+                case PropertyUI.Checkbutton:
+                    classGen.AddProperty(PropertyType.Bool, name, readOnly);
+                    factory.Type = typeof(SgzCheckButton);
+                    factory.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
+                    factory.SetBinding(SgzCheckButton.IsCheckedProperty, new Binding(name));
+                    break;
+                case PropertyUI.Spinner:
+                    break;
+                case PropertyUI.Textblock:
+                    break;
+                case PropertyUI.Textbox:
+                    break;
+                case PropertyUI.ComboBox:
+                    break;
+                default:
+                    break;
+            }
 
+            GridViewColumn column = new GridViewColumn()
+            {
+                Header = name,
+                Width = width != 0 ? width : double.NaN,
+                CellTemplate = new DataTemplate() { VisualTree = factory }
+            };
+
+            gridView.Columns.Add(column);
         }
+
+
+        public void AddRow(object[] args)
+        {
+            if (Model == null)
+                Model = classGen.GetClass();
+
+            var row = Activator.CreateInstance(Model.GetType(), args);
+            _ItemSource.Add(row);
+        }
+        
+
+
+        //private void SetModel()
+        //{
+
+        //}
 
     }
 }

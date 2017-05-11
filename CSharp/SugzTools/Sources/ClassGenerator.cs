@@ -22,7 +22,7 @@ namespace SugzTools.Src
             public bool ReadOnly;
             public object Value;
 
-            public Property(PropertyType type, string name, bool readOnly, object value)
+            public Property(PropertyType type, string name, bool readOnly)
             {
                 switch (type)
                 {
@@ -45,7 +45,6 @@ namespace SugzTools.Src
 
                 Name = name;
                 ReadOnly = readOnly;
-                Value = value;
             }
         }
 
@@ -142,9 +141,19 @@ namespace SugzTools.Src
         /// <param name="name">The property Name</param>
         /// <param name="readOnly">Set the property setter to be private</param>
         /// <param name="value">The property Value</param>
-        public void AddProperty(PropertyType type, string name, bool readOnly, object value)
+        public void AddProperty(PropertyType type, string name, bool readOnly)
         {
-            Properties.Add(new Property(type, name, readOnly, value));
+            Properties.Add(new Property(type, name, readOnly));
+        }
+
+        /// <summary>
+        /// Set the value of a property to the generated class
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        public void SetProperty(string propertyName, object value)
+        {
+            Properties.Where(x => x.Name == propertyName).ToArray()[0].Value = value;
         }
 
 
@@ -152,6 +161,7 @@ namespace SugzTools.Src
         /// Generate CSharp source code from the compile unit.
         /// </summary>
         /// <param name="filename">Output file name</param>
+        //public object GetClass(object[] args = null, string fileName = outputFileName)
         public object GetClass(string fileName = outputFileName)
         {
             CreateClass();
@@ -175,15 +185,21 @@ namespace SugzTools.Src
                 return null;
             }
 
-            object[] args = new object[Properties.Count()];
-            for (int i = 0; i < Properties.Count; i++)
+            /*
+            if (args == null)
             {
-                args[i] = Properties[i].Value;
+                args = new object[Properties.Count()];
+                for (int i = 0; i < Properties.Count; i++)
+                {
+                    args[i] = Properties[i].Value;
+                }
             }
+            */
 
+            //object myClass = compiler.CompiledAssembly.CreateInstance($"{namespaceName}.{ClassName}");
+            //return Activator.CreateInstance(myClass.GetType(), args);
 
-            object myClass = compiler.CompiledAssembly.CreateInstance($"{namespaceName}.{ClassName}");
-            return Activator.CreateInstance(myClass.GetType(), args);
+            return compiler.CompiledAssembly.CreateInstance($"{namespaceName}.{ClassName}");
         } 
 
 

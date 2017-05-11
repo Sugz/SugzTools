@@ -8,8 +8,18 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-    <Style TargetType="{x:Type local:SgzListView}">
 
+    <Style TargetType="{x:Type local:SgzListView}" BasedOn="{StaticResource MaxStyle}">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource MaxRolloutBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

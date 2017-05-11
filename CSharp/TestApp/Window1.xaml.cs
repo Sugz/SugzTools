@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SugzTools.Src;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -36,7 +37,14 @@ namespace TestApp
 
 
 
-            listBox.ItemsSource = models;
+            //listBox.ItemsSource = models;
+            listBox.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            listBox.AddColumn(PropertyUI.Checkbox, "Valid");
+            listBox.AddColumn(PropertyUI.Checkbutton, "Use", width:20);
+            listBox.AddRow(new object[] { false, false });
+            listBox.AddRow(new object[] { true, false });
+            listBox.AddRow(new object[] { false, true });
+            listBox.AddRow(new object[] { true, true });
         }
     }
 }

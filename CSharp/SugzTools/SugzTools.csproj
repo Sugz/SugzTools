@@ -88,7 +88,6 @@
     <Compile Include="Controls\Panels\SgzGrid.cs" />
     <Compile Include="Controls\SgzGroupBox\SgzGroupBox.cs" />
     <Compile Include="Controls\SgzIcon\SgzIcon.cs" />
-    <Compile Include="Controls\SgzListBox\SgzListBox.cs" />
     <Compile Include="Controls\SgzListView\SgzListView.cs" />
     <Compile Include="Controls\SgzMaxForm\SgzMaxForm.cs">
       <SubType>Form</SubType>

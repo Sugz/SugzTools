@@ -30,11 +30,17 @@ namespace ConsoleApp1
         {
             ClassGenerator gen = new ClassGenerator("Model");
             gen.AddUsing("System.Collections.Generic");
-            gen.AddProperty(PropertyType.Float, "Number", true, 1);
-            gen.AddProperty(PropertyType.String, "Word", false, "Test");
-            gen.AddProperty(PropertyType.Bool, "OK", false, true);
+            gen.AddProperty(PropertyType.Float, "Number", true);
+            //gen.SetProperty("Number", 1);
+            gen.AddProperty(PropertyType.String, "Word", false);
+            //gen.SetProperty("Word", "Test");
+            gen.AddProperty(PropertyType.Bool, "OK", false);
+            //gen.SetProperty("OK", true);
 
-            var MyClass = gen.GetClass();
+
+            var model = gen.GetClass();
+            var MyClass = Activator.CreateInstance(model.GetType(), new object[] { 1, "Test", true });
+            //var MyClass = gen.GetClass();
             if (MyClass != null)
             {
                 Console.WriteLine($"Class: {MyClass.GetType().Namespace}.{MyClass.GetType().Name}");

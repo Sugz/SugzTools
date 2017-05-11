@@ -9,7 +9,6 @@
 
 
     <Style TargetType="{x:Type local:SgzCheckButton}" BasedOn="{StaticResource MaxControlStyle}">
-        <Setter Property="Content" Value="SgzCheckButton"/>
         <Setter Property="Height" Value="21" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -57,7 +58,13 @@ namespace SugzTools.Controls
 
         #region Methods
 
-
+        /// <summary>
+        /// Add a column with the specified control type.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="name">The Property and column header name.</param>
+        /// <param name="readOnly">Define if the user can change by code the contain model.</param>
+        /// <param name="width">The column width.</param>
         public void AddColumn(PropertyUI control, string name, bool readOnly = false, double width = 0)
         {
             FrameworkElementFactory factory = new FrameworkElementFactory();
@@ -104,7 +111,10 @@ namespace SugzTools.Controls
 
         }
 
-
+        /// <summary>
+        /// Add a row using the model created with the AddColumn method.
+        /// </summary>
+        /// <param name="args">The model properties values</param>
         public void AddRow(object[] args)
         {
             if (Model == null)
@@ -113,6 +123,30 @@ namespace SugzTools.Controls
             object row = Activator.CreateInstance(Model.GetType(), args);
             _Rows.Add(row);
         } 
+
+        /// <summary>
+        /// Get the model property value from a row
+        /// </summary>
+        /// <param name="rowIndex">The row to get the property from.</param>
+        /// <param name="propName">The name of the property.</param>
+        /// <returns></returns>
+        public object GetProperty(int rowIndex, string propName)
+        {
+            PropertyInfo prop = Rows[0].GetType().GetProperty(propName);
+            return prop.GetValue(Rows[0]);
+        }
+
+        /// <summary>
+        /// Set the model property value from a row to update the listview
+        /// </summary>
+        /// <param name="rowIndex">The row to set the property</param>
+        /// <param name="propName">The name of the property.</param>
+        /// <param name="newValue">The property new value.</param>
+        public void SetProperty(int rowIndex, string propName, object newValue)
+        {
+            PropertyInfo prop = Rows[0].GetType().GetProperty(propName);
+            prop.SetValue(Rows[0], newValue);
+        }
 
 
         #endregion Methods

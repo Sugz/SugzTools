@@ -30,7 +30,7 @@ namespace TestApp
 
             listBox.AddColumn(PropertyUI.Checkbox, "Valid");
             listBox.AddColumn(PropertyUI.Checkbutton, "Use", width: 20);
-            listBox.AddColumn(PropertyUI.Textblock, "Text", true);
+            listBox.AddColumn(PropertyUI.Textblock, "Text");
             listBox.AddRow(new object[] { false, false, "Test 01" });
             listBox.AddRow(new object[] { true, false, "Test 02" });
             listBox.AddRow(new object[] { false, true, "Test 03" });
@@ -39,9 +39,9 @@ namespace TestApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            PropertyInfo _propertyInfo = listBox.Rows[0].GetType().GetProperty("Valid");
-            bool val = Convert.ToBoolean(_propertyInfo.GetValue(listBox.Rows[0]));
-            _propertyInfo.SetValue(listBox.Rows[0], !val);
+            bool val = Convert.ToBoolean(listBox.GetProperty(0, "Valid"));
+            listBox.SetProperty(0, "Valid", !val);
+            listBox.SetProperty(0, "Text", "Working");
 
             Console.WriteLine();
         }

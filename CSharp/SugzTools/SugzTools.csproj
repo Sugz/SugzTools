@@ -135,7 +135,7 @@
     </Compile>
     <Compile Include="Resources\ExternalIconsEnum.cs" />
     <Compile Include="Sources\Const.cs" />
-    <Compile Include="Sources\ClassGenerator.cs" />
+    <Compile Include="Sources\ModelGenerator.cs" />
     <Compile Include="Sources\Enums.cs" />
     <Compile Include="Sources\ExtensionMethods.cs" />
     <Compile Include="Sources\GetResources.cs" />

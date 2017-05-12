@@ -28,7 +28,7 @@ namespace ConsoleApp1
 
         private static void TestClassGen()
         {
-            ClassGenerator gen = new ClassGenerator("Model");
+            ModelGenerator gen = new ModelGenerator("Model");
             gen.AddUsing("System.Collections.Generic");
             gen.AddProperty(PropertyType.Float, "Number", true);
             //gen.SetProperty("Number", 1);

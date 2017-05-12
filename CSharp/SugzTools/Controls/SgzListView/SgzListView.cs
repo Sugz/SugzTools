@@ -19,7 +19,7 @@ namespace SugzTools.Controls
 
         private GridView gridView;
         private object Model;
-        private ClassGenerator classGen = new ClassGenerator();
+        private ModelGenerator classGen = new ModelGenerator();
         private ObservableCollection<object> _Rows = new ObservableCollection<object>();
 
 

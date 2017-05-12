@@ -9,7 +9,7 @@ using System.Text;
 namespace SugzTools.Src
 {
 
-    public class ClassGenerator
+    public class ModelGenerator
     {
 
         class Property
@@ -73,8 +73,8 @@ namespace SugzTools.Src
         #region Constructor
 
 
-        public ClassGenerator() { }
-        public ClassGenerator(string className)
+        public ModelGenerator() { }
+        public ModelGenerator(string className)
         {
             ClassName = className;
         }
@@ -99,16 +99,17 @@ namespace SugzTools.Src
             // Namespace and Class
             Code.AppendLine("\nnamespace SugzTools");
             Code.AppendLine("{");
-            Code.AppendLine($"\tpublic class {ClassName} : INotifyPropertyChanged\n\t{{");
+            Code.AppendLine($"\tpublic class {ClassName} : INotifyPropertyChanged\n\t{{\n");
 
             // INotifyPropertyChanged
-            Code.AppendLine("\t\t// INotifyPropertyChanged");
+            Code.AppendLine("\t\t#region INotifyPropertyChanged\n");
             Code.AppendLine("\t\tpublic event PropertyChangedEventHandler PropertyChanged;");
             Code.AppendLine("\t\tprivate void OnPropertyChanged(string name)\n\t\t{");
-            Code.AppendLine("\t\t\tif (PropertyChanged != null)\n\t\t\t\tPropertyChanged(this, new PropertyChangedEventArgs(name));\n\t\t}");
+            Code.AppendLine("\t\t\tif (PropertyChanged != null)\n\t\t\t\tPropertyChanged(this, new PropertyChangedEventArgs(name));\n\t\t}\n");
+            Code.AppendLine("\t\t#endregion // INotifyPropertyChanged\n\n");
 
             // Properties
-            Code.AppendLine("\n\t\t// Properties");
+            Code.AppendLine("\t\t#region Properties\n");
             foreach (Property prop in Properties)
             {
                 if (prop.ReadOnly)
@@ -126,9 +127,10 @@ namespace SugzTools.Src
                 }
                     
             }
+            Code.AppendLine("\t\t#endregion // Properties\n\n");
 
             // Constructors
-            Code.AppendLine("\t\t// Constructors");
+            Code.AppendLine("\t\t#region Constructors\n");
             Code.AppendLine($"\t\tpublic {ClassName}() {{ }}");
             Code.Append($"\t\tpublic {ClassName}(");
             for (int i = 0; i < Properties.Count; i++)
@@ -141,7 +143,7 @@ namespace SugzTools.Src
             foreach (Property prop in Properties)
                 Code.AppendLine($"\t\t\t{prop.Name} = {(prop.Name).ToLower()};");
 
-            Code.AppendLine("\t\t}\n\t}\n}");
+            Code.AppendLine("\t\t}\n\n\t\t#endregion // Constructors\n\t}\n}");
 
         }
 

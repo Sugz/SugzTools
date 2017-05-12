@@ -2,79 +2,60 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace SugzTools.Controls
 {
     public class SgzListView : ListView
     {
+
         #region Fields
 
 
-        GridView gridView = new GridView();
-        ClassGenerator classGen = new ClassGenerator();
-        object Model;
-        ObservableCollection<object> _ItemSource = new ObservableCollection<object>();
+        private GridView gridView;
+        private object Model;
+        private ClassGenerator classGen = new ClassGenerator();
+        private ObservableCollection<object> _Rows = new ObservableCollection<object>();
 
 
         #endregion Fields
 
 
 
+        #region Properties
+
+
+        /// <summary>
+        /// Get the collection of the generated model
+        /// </summary>
+        [Browsable(false)]
+        public ObservableCollection<object> Rows { get { return _Rows; } } 
+
+
+        #endregion Properties
+
+
 
         #region Constructors
 
 
-        static SgzListView()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzListView), new FrameworkPropertyMetadata(typeof(SgzListView)));
-        }
         public SgzListView()
         {
-            Loaded += SgzListView_Loaded;
+            View = (gridView = new GridView());
+            ItemsSource = _Rows;
+            Style = Resource<Style>.GetStyle("SgzListView");
         }
-
 
 
         #endregion Constructors
 
 
-        private void SgzListView_Loaded(object sender, RoutedEventArgs e)
-        {
-            View = gridView;
-            ItemsSource = _ItemSource;
 
-            //Style style = new Style() { TargetType = typeof(ListViewItem) };
-            //style.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-            //ItemContainerStyle = style;
-        }
-
-
-
-        public void AddProperty(PropertyType type, PropertyUI ui)
-        {
-            // Check if the ui is compatible with the type
-            if (type == PropertyType.Bool && (ui != PropertyUI.Checkbox || ui != PropertyUI.Checkbutton))
-                return;
-            if ((type == PropertyType.Int || type == PropertyType.Float) && ui != PropertyUI.Spinner)
-                return;
-            if (type == PropertyType.String && (ui != PropertyUI.Textblock || ui != PropertyUI.Textbox))
-                return;
-            if (type == PropertyType.List && ui != PropertyUI.ComboBox)
-                return;
-
-
-            //classGen.AddProperties(typeof(double), "Value", true);
-            //classGen.AddProperties(typeof(string), "Name", false);
-            //var MyClass = classGen.GenerateCSharpCode();
-
-        }
-
+        #region Methods
 
 
         public void AddColumn(PropertyUI control, string name, bool readOnly = false, double width = 0)
@@ -97,6 +78,14 @@ namespace SugzTools.Controls
                 case PropertyUI.Spinner:
                     break;
                 case PropertyUI.Textblock:
+                    //classGen.AddProperty(PropertyType.String, name, true);
+                    classGen.AddProperty(typeof(string), name, readOnly);
+                    factory.Type = typeof(TextBlock);
+                    factory.SetValue(TextBlock.ForegroundProperty, Resource<SolidColorBrush>.GetColor("MaxText"));
+                    factory.SetValue(TextBlock.FontFamilyProperty, new FontFamily("Tahoma"));
+                    factory.SetValue(TextBlock.FontSizeProperty, 11d);
+                    factory.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
+                    factory.SetBinding(TextBlock.TextProperty, new Binding(name));
                     break;
                 case PropertyUI.Textbox:
                     break;
@@ -106,14 +95,13 @@ namespace SugzTools.Controls
                     break;
             }
 
-            GridViewColumn column = new GridViewColumn()
+            gridView.Columns.Add(new GridViewColumn()
             {
                 Header = name,
                 Width = width != 0 ? width : double.NaN,
                 CellTemplate = new DataTemplate() { VisualTree = factory }
-            };
+            });
 
-            gridView.Columns.Add(column);
         }
 
 
@@ -122,16 +110,12 @@ namespace SugzTools.Controls
             if (Model == null)
                 Model = classGen.GetClass();
 
-            var row = Activator.CreateInstance(Model.GetType(), args);
-            _ItemSource.Add(row);
-        }
-        
+            object row = Activator.CreateInstance(Model.GetType(), args);
+            _Rows.Add(row);
+        } 
 
 
-        //private void SetModel()
-        //{
-
-        //}
+        #endregion Methods
 
     }
 }

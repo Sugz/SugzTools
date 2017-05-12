@@ -39,14 +39,17 @@ namespace ConsoleApp1
 
 
             var model = gen.GetClass();
-            var MyClass = Activator.CreateInstance(model.GetType(), new object[] { 1, "Test", true });
-            //var MyClass = gen.GetClass();
-            if (MyClass != null)
+            if (model != null)
             {
-                Console.WriteLine($"Class: {MyClass.GetType().Namespace}.{MyClass.GetType().Name}");
-                var props = MyClass.GetType().GetProperties();
-                props.ForEach(x => Console.WriteLine(x));
+                var MyClass = Activator.CreateInstance(model.GetType(), new object[] { 1, "Test", true });
+                if (MyClass != null)
+                {
+                    Console.WriteLine($"Class: {MyClass.GetType().Namespace}.{MyClass.GetType().Name}");
+                    var props = MyClass.GetType().GetProperties();
+                    props.ForEach(x => Console.WriteLine(x));
+                }
             }
+                
             
         }
     }

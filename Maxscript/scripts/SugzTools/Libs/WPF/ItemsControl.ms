@@ -273,3 +273,19 @@ fn ComboBox
 )
 
 
+
+
+-- Set properties and event for a SugzTools.Controls.SgzListView ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn ListView = 
+(
+   /*<Function>
+	Description:
+	Arguments:
+	Return:
+	Infos:
+	</Function>*/
+	
+	_control = dotNetObject "SugzTools.Controls.SgzListView"
+	
+)
+

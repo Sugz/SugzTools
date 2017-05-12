@@ -17,7 +17,8 @@
                              Header="Expander DG"
                              IsExpanded="True">
                 <StackPanel Margin="5">
-                    <Button Content="Button 01" />
+                    <Button Content="Button 01"
+                            Click="Button_Click" />
                     <Button Content="Button 01" />
                     <sgz:SgzUniformGrid Columns="3">
                         <sgz:SgzCheckBox Content="Move"

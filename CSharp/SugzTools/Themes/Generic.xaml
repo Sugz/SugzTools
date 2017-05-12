@@ -22,4 +22,10 @@
         
     </ResourceDictionary.MergedDictionaries>
 
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource MaxText}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="Tahoma" />
+    </Style>
+
 </ResourceDictionary>

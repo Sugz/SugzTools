@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,26 +26,24 @@ namespace TestApp
         {
             InitializeComponent();
 
+            //listBox.HorizontalContentAlignment = HorizontalAlignment.Stretch;
 
-
-            ObservableCollection<TempModel> models = new ObservableCollection<TempModel>()
-            {
-                new TempModel(1, "First", true),
-                new TempModel(2, "Second", false)
-            };
-
-
-
-
-
-            //listBox.ItemsSource = models;
-            listBox.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             listBox.AddColumn(PropertyUI.Checkbox, "Valid");
-            listBox.AddColumn(PropertyUI.Checkbutton, "Use", width:20);
-            listBox.AddRow(new object[] { false, false });
-            listBox.AddRow(new object[] { true, false });
-            listBox.AddRow(new object[] { false, true });
-            listBox.AddRow(new object[] { true, true });
+            listBox.AddColumn(PropertyUI.Checkbutton, "Use", width: 20);
+            listBox.AddColumn(PropertyUI.Textblock, "Text", true);
+            listBox.AddRow(new object[] { false, false, "Test 01" });
+            listBox.AddRow(new object[] { true, false, "Test 02" });
+            listBox.AddRow(new object[] { false, true, "Test 03" });
+            listBox.AddRow(new object[] { true, true, "Test 04" });
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            PropertyInfo _propertyInfo = listBox.Rows[0].GetType().GetProperty("Valid");
+            bool val = Convert.ToBoolean(_propertyInfo.GetValue(listBox.Rows[0]));
+            _propertyInfo.SetValue(listBox.Rows[0], !val);
+
+            Console.WriteLine();
         }
     }
 }

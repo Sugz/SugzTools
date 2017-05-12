@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Microsoft.CSharp;
+using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.CodeDom.Compiler;
-using System.CodeDom;
-using System.Reflection;
-using System.IO;
-using Microsoft.CSharp;
 
 namespace SugzTools.Src
 {
-    
+
     public class ClassGenerator
     {
 
@@ -21,6 +18,13 @@ namespace SugzTools.Src
             public string Name;
             public bool ReadOnly;
             public object Value;
+
+            public Property(Type type, string name, bool readOnly)
+            {
+                Type = type;
+                Name = name;
+                ReadOnly = readOnly;
+            }
 
             public Property(PropertyType type, string name, bool readOnly)
             {
@@ -85,36 +89,54 @@ namespace SugzTools.Src
 
         private void CreateClass()
         {
+            // Using
             Code.AppendLine("using System;");
+            Code.AppendLine("using System.ComponentModel;");
+
             foreach (string str in Usings)
                 Code.AppendLine($"using {str};");
 
+            // Namespace and Class
             Code.AppendLine("\nnamespace SugzTools");
             Code.AppendLine("{");
-            Code.AppendLine($"\tpublic class {ClassName}\n\t{{");
+            Code.AppendLine($"\tpublic class {ClassName} : INotifyPropertyChanged\n\t{{");
+
+            // INotifyPropertyChanged
+            Code.AppendLine("\t\t// INotifyPropertyChanged");
+            Code.AppendLine("\t\tpublic event PropertyChangedEventHandler PropertyChanged;");
+            Code.AppendLine("\t\tprivate void OnPropertyChanged(string name)\n\t\t{");
+            Code.AppendLine("\t\t\tif (PropertyChanged != null)\n\t\t\t\tPropertyChanged(this, new PropertyChangedEventArgs(name));\n\t\t}");
 
             // Properties
+            Code.AppendLine("\n\t\t// Properties");
             foreach (Property prop in Properties)
             {
                 if (prop.ReadOnly)
-                    Code.AppendLine($"\t\tpublic {prop.Type} {prop.Name} {{ get; private set; }}");
+                    Code.AppendLine($"\t\tpublic {prop.Type} {prop.Name} {{ get; private set; }}\n");
                 else
-                    Code.AppendLine($"\t\tpublic {prop.Type} {prop.Name} {{ get; set; }}");
+                {
+                    Code.AppendLine($"\t\tprivate {prop.Type} _{prop.Name};");
+                    //Code.AppendLine($"\t\tpublic {prop.Type} {prop.Name} \n\t\t{{ get; set; }}");
+                    Code.AppendLine($"\t\tpublic {prop.Type} {prop.Name}\n\t\t{{");
+                    Code.AppendLine($"\t\t\tget {{ return _{prop.Name}; }}");
+                    Code.AppendLine("\t\t\tset\n\t\t\t{");
+                    Code.AppendLine($"\t\t\t\t_{prop.Name} = value;");
+                    Code.AppendLine($"\t\t\t\tOnPropertyChanged(\"{prop.Name}\");");
+                    Code.AppendLine("\t\t\t}\n\t\t}\n");
+                }
+                    
             }
 
-            // Constructor
-            Code.AppendLine($"\n\t\tpublic {ClassName}(){{}}");
-
-
-            Code.Append($"\n\t\tpublic {ClassName}(");
-
+            // Constructors
+            Code.AppendLine("\t\t// Constructors");
+            Code.AppendLine($"\t\tpublic {ClassName}() {{ }}");
+            Code.Append($"\t\tpublic {ClassName}(");
             for (int i = 0; i < Properties.Count; i++)
             {
                 Code.Append($"{Properties[i].Type} {(Properties[i].Name).ToLower()}");
                 if (i != Properties.Count - 1)
                     Code.Append(", ");
             }
-
             Code.AppendLine(")\n\t\t{");
             foreach (Property prop in Properties)
                 Code.AppendLine($"\t\t\t{prop.Name} = {(prop.Name).ToLower()};");
@@ -145,6 +167,10 @@ namespace SugzTools.Src
         {
             Properties.Add(new Property(type, name, readOnly));
         }
+        public void AddProperty(Type type, string name, bool readOnly)
+        {
+            Properties.Add(new Property(type, name, readOnly));
+        }
 
         /// <summary>
         /// Set the value of a property to the generated class
@@ -166,7 +192,7 @@ namespace SugzTools.Src
         {
             CreateClass();
 
-
+            //CodeDomProvider provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
             CodeDomProvider provider = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters()
             {
@@ -174,6 +200,7 @@ namespace SugzTools.Src
                 GenerateInMemory = true,
                 IncludeDebugInformation = true,
             };
+            parameters.ReferencedAssemblies.Add("System.dll");
 
             File.WriteAllText(outputFileName, Code.ToString());
 
@@ -184,20 +211,6 @@ namespace SugzTools.Src
                 compiler.Errors.ForEach(x => Console.WriteLine(x));
                 return null;
             }
-
-            /*
-            if (args == null)
-            {
-                args = new object[Properties.Count()];
-                for (int i = 0; i < Properties.Count; i++)
-                {
-                    args[i] = Properties[i].Value;
-                }
-            }
-            */
-
-            //object myClass = compiler.CompiledAssembly.CreateInstance($"{namespaceName}.{ClassName}");
-            //return Activator.CreateInstance(myClass.GetType(), args);
 
             return compiler.CompiledAssembly.CreateInstance($"{namespaceName}.{ClassName}");
         } 

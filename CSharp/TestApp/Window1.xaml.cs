@@ -29,12 +29,19 @@ namespace TestApp
             //listBox.HorizontalContentAlignment = HorizontalAlignment.Stretch;
 
             listBox.AddColumn(PropertyUI.Checkbox, "Valid");
-            listBox.AddColumn(PropertyUI.Checkbutton, "Use", width: 20);
+            listBox.AddColumn(PropertyUI.Checkbutton, "Use", width: 20, showHeader:false);
             listBox.AddColumn(PropertyUI.Textblock, "Text");
             listBox.AddRow(new object[] { false, false, "Test 01" });
             listBox.AddRow(new object[] { true, false, "Test 02" });
             listBox.AddRow(new object[] { false, true, "Test 03" });
             listBox.AddRow(new object[] { true, true, "Test 04" });
+            listBox.AddRow(new object[] { true, true, "Test 05" });
+            listBox.AddRow(new object[] { true, true, "Test 06" });
+            listBox.AddRow(new object[] { true, true, "Test 07" });
+            listBox.AddRow(new object[] { true, true, "Test 08" });
+            listBox.AddRow(new object[] { true, true, "Test 09" });
+            listBox.AddRow(new object[] { true, true, "Test 10" });
+            listBox.AddRow(new object[] { true, true, "Test 11" });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

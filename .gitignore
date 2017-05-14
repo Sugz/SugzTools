@@ -326,14 +326,11 @@ __pycache__/
 *.suo
 *.suo
 CSharp/.vs/SugzTools/v14/.suo
-CSharp/StyleApp/App.xaml
 CSharp/StyleApp/bin/Debug/StyleApp.pdb
 CSharp/StyleApp/obj/Debug/StyleApp_MarkupCompile.i.cache
 CSharp/.vs/SugzTools/v14/.suo
 CSharp/StyleApp/App.config
 CSharp/StyleApp/App.xaml.cs
-CSharp/StyleApp/MainWindow.xaml
-CSharp/StyleApp/MainWindow.xaml.cs
 CSharp/StyleApp/Properties/AssemblyInfo.cs
 CSharp/StyleApp/Properties/Resources.Designer.cs
 CSharp/StyleApp/Properties/Resources.resx

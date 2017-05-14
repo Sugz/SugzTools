@@ -32,7 +32,7 @@
                 </StackPanel>
             </sgz:SgzExpander>
             <sgz:SgzExpander Header="Expander 02">
-                <sgz:SgzListView Name="listBox" Margin="5"/>
+                <sgz:SgzListView Name="listBox" Margin="5" Height="100" ShowHeaders="True"/>
             </sgz:SgzExpander>
             <sgz:SgzExpander Header="Expander 03">
                 <StackPanel Height="35" />

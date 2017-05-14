@@ -6,9 +6,117 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    
+    
+    <Style x:Key="GridViewColumnHeaderGripper" TargetType="Thumb">
+        <Setter Property="Background" Value="{StaticResource MaxBackground}" />
+        <Setter Property="Width" Value="10" />
+            <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Background="Transparent">
+                        <Rectangle HorizontalAlignment="Center"
+                                   Width="1"
+                                   Fill="{StaticResource MaxRolloutBorder}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="Blue" />
+    </Style>
+    
+    
+    <Style x:Key="SgzListViewGridViewColumnHeader" TargetType="GridViewColumnHeader">
+        <Setter Property="Background" Value="{Binding HeaderBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzListView}}}" />
+        <Setter Property="Foreground" Value="{Binding HeaderForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzListView}}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Visibility"
+                Value="{Binding ShowHeaders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzListView}}, Converter={StaticResource BoolToVisibility}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewColumnHeader">
+                    <Grid>
+                        <Border x:Name="HeaderBorder"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="HeaderContent"
+                                              RecognizesAccessKey="True"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <Thumb x:Name="PART_HeaderGripper"
+                               HorizontalAlignment="Right"
+                               Margin="0,0,-5,0"
+                               Visibility="{Binding Resizable, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzListView}}, Converter={StaticResource BoolToVisibility}}"
+                               Style="{StaticResource GridViewColumnHeaderGripper}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
+    
+    <Style x:Key="GridViewScrollViewerStyleKey" TargetType="ScrollViewer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
+                        <DockPanel Margin="{TemplateBinding Padding}">
+                            <ScrollViewer DockPanel.Dock="Top"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"
+                                          Focusable="false">
+                                <GridViewHeaderRowPresenter Columns="{Binding Path=TemplatedParent.View.Columns, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            ColumnHeaderContainerStyle="{StaticResource SgzListViewGridViewColumnHeader}"
+                                                            ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            AllowsColumnReorder="{Binding Path=TemplatedParent.View.AllowsColumnReorder, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
 
+                            <ScrollContentPresenter Name="PART_ScrollContentPresenter"
+                                                    KeyboardNavigation.DirectionalNavigation="Local"
+                                                    CanContentScroll="True"
+                                                    CanHorizontallyScroll="False"
+                                                    CanVerticallyScroll="False" />
+                        </DockPanel>
+
+                        <ScrollBar Name="PART_HorizontalScrollBar"
+                                   Orientation="Horizontal"
+                                   Grid.Row="1"
+                                   Maximum="{TemplateBinding ScrollableWidth}"
+                                   ViewportSize="{TemplateBinding ViewportWidth}"
+                                   Value="{TemplateBinding HorizontalOffset}"
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+
+                        <ScrollBar Name="PART_VerticalScrollBar"
+                                   Grid.Column="1"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Value="{TemplateBinding VerticalOffset}"
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
     <Style x:Key="SgzListViewItemContainerStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -28,11 +136,13 @@
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="{StaticResource MaxBlueMouseOver}" />
+                            <Setter Property="Background"
+                                    Value="{Binding RowHoverBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzListView}}}" />
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" Value="{StaticResource MaxBlue}" />
+                            <Setter Property="Background"
+                                    Value="{Binding RowSelectedBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzListView}}}" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="false">
@@ -45,13 +155,12 @@
         </Setter>
     </Style>
 
-
-
+    
     <Style x:Key="SgzListView" TargetType="{x:Type local:SgzListView}" BasedOn="{StaticResource MaxStyle}">
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="BorderBrush" Value="{StaticResource MaxRolloutBorder}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="Foreground" Value="{StaticResource MaxText}" />
         <Setter Property="Padding" Value="0, 2" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -68,11 +177,9 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
-                            Padding="1"
                             SnapsToDevicePixels="true">
-                        <ScrollViewer Focusable="false">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                            OverridesDefaultStyle="True"/>
+                        <ScrollViewer Style="{StaticResource GridViewScrollViewerStyleKey}">
+                            <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
                     
@@ -95,5 +202,9 @@
         </Setter>
 
     </Style>
+
+
+
+
 
 </ResourceDictionary>

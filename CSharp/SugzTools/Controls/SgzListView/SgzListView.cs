@@ -17,14 +17,13 @@ namespace SugzTools.Controls
         #region Fields
 
 
-        private GridView gridView;
+        private GridView gridView = new GridView();
         private object Model;
         private ModelGenerator classGen = new ModelGenerator();
         private ObservableCollection<object> _Rows = new ObservableCollection<object>();
 
 
         #endregion Fields
-
 
 
         #region Properties
@@ -34,10 +33,137 @@ namespace SugzTools.Controls
         /// Get the collection of the generated model
         /// </summary>
         [Browsable(false)]
-        public ObservableCollection<object> Rows { get { return _Rows; } } 
+        public ObservableCollection<object> Rows { get { return _Rows; } }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Appearance")]
+        public bool ShowHeaders
+        {
+            get { return (bool)GetValue(ShowHeadersProperty); }
+            set { SetValue(ShowHeadersProperty, value); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Appearance")]
+        public bool Resizable
+        {
+            get { return (bool)GetValue(ResizableProperty); }
+            set { SetValue(ResizableProperty, value); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        public Brush HeaderBackground
+        {
+            get { return (Brush)GetValue(HeaderBackgroundProperty); }
+            set { SetValue(HeaderBackgroundProperty, value); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        public Brush HeaderForeground
+        {
+            get { return (Brush)GetValue(HeaderForegroundProperty); }
+            set { SetValue(HeaderForegroundProperty, value); }
+        }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        public Brush RowHoverBrush
+        {
+            get { return (Brush)GetValue(RowHoverBrushProperty); }
+            set { SetValue(RowHoverBrushProperty, value); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        public Brush RowSelectedBrush
+        {
+            get { return (Brush)GetValue(RowSelectedBrushProperty); }
+            set { SetValue(RowSelectedBrushProperty, value); }
+        } 
 
 
         #endregion Properties
+
+
+
+        #region DependencyProperties
+
+
+        // DependencyProperty as the backing store for ShowHeaders
+        public static readonly DependencyProperty ShowHeadersProperty = DependencyProperty.Register(
+            "ShowHeaders",
+            typeof(bool),
+            typeof(SgzListView),
+            new PropertyMetadata(true)
+        );
+
+
+        // DependencyProperty as the backing store for Resizable
+        public static readonly DependencyProperty ResizableProperty = DependencyProperty.Register(
+            "Resizable",
+            typeof(bool),
+            typeof(SgzListView),
+            new PropertyMetadata(false)
+        );
+
+
+        // DependencyProperty as the backing store for HeaderBackground
+        public static readonly DependencyProperty HeaderBackgroundProperty = DependencyProperty.Register(
+            "HeaderBackground",
+            typeof(Brush),
+            typeof(SgzListView),
+            new PropertyMetadata(new SolidColorBrush(Colors.Transparent))
+        );
+
+
+        // DependencyProperty as the backing store for HeaderForeground
+        public static readonly DependencyProperty HeaderForegroundProperty = DependencyProperty.Register(
+            "HeaderForeground",
+            typeof(Brush),
+            typeof(SgzListView),
+            new PropertyMetadata(new SolidColorBrush(Colors.Black))
+        );
+
+
+        // DependencyProperty as the backing store for RowHoverBrush
+        public static readonly DependencyProperty RowHoverBrushProperty = DependencyProperty.Register(
+            "RowHoverBrush",
+            typeof(Brush),
+            typeof(SgzListView),
+            new PropertyMetadata(new SolidColorBrush(Colors.Transparent))
+        );
+
+
+        // DependencyProperty as the backing store for RowSelectedBrush
+        public static readonly DependencyProperty RowSelectedBrushProperty = DependencyProperty.Register(
+            "RowSelectedBrush",
+            typeof(Brush),
+            typeof(SgzListView),
+            new PropertyMetadata(new SolidColorBrush(Colors.Transparent))
+        ); 
+
+
+        #endregion DependencyProperties
 
 
 
@@ -46,7 +172,7 @@ namespace SugzTools.Controls
 
         public SgzListView()
         {
-            View = (gridView = new GridView());
+            View = gridView;
             ItemsSource = _Rows;
             Style = Resource<Style>.GetStyle("SgzListView");
         }
@@ -65,7 +191,7 @@ namespace SugzTools.Controls
         /// <param name="name">The Property and column header name.</param>
         /// <param name="readOnly">Define if the user can change by code the contain model.</param>
         /// <param name="width">The column width.</param>
-        public void AddColumn(PropertyUI control, string name, bool readOnly = false, double width = 0)
+        public void AddColumn(PropertyUI control, string name, bool readOnly = false, double width = 0, bool showHeader = true)
         {
             FrameworkElementFactory factory = new FrameworkElementFactory();
             switch (control)
@@ -104,7 +230,7 @@ namespace SugzTools.Controls
 
             gridView.Columns.Add(new GridViewColumn()
             {
-                Header = name,
+                Header = showHeader ? name : "",
                 Width = width != 0 ? width : double.NaN,
                 CellTemplate = new DataTemplate() { VisualTree = factory }
             });

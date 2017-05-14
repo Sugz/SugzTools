@@ -136,7 +136,6 @@ namespace SugzTools.Controls
         static SgzButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzButton), new FrameworkPropertyMetadata(typeof(SgzButton)));
-            
         }
         public SgzButton()
         {

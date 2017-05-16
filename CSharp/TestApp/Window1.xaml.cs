@@ -22,35 +22,77 @@ namespace TestApp
     /// </summary>
     public partial class Window1 : Window
     {
+        public ObservableCollection<People> Peoples { get; set; }
+
         public Window1()
         {
             InitializeComponent();
 
             //listBox.HorizontalContentAlignment = HorizontalAlignment.Stretch;
 
-            listBox.AddColumn(PropertyUI.Checkbox, "Valid");
-            listBox.AddColumn(PropertyUI.Checkbutton, "Use", width: 20, showHeader:false);
-            listBox.AddColumn(PropertyUI.Textblock, "Text");
-            listBox.AddRow(new object[] { false, false, "Test 01" });
-            listBox.AddRow(new object[] { true, false, "Test 02" });
-            listBox.AddRow(new object[] { false, true, "Test 03" });
-            listBox.AddRow(new object[] { true, true, "Test 04" });
-            listBox.AddRow(new object[] { true, true, "Test 05" });
-            listBox.AddRow(new object[] { true, true, "Test 06" });
-            listBox.AddRow(new object[] { true, true, "Test 07" });
-            listBox.AddRow(new object[] { true, true, "Test 08" });
-            listBox.AddRow(new object[] { true, true, "Test 09" });
-            listBox.AddRow(new object[] { true, true, "Test 10" });
-            listBox.AddRow(new object[] { true, true, "Test 11" });
+            //listBox.AddColumn(PropertyUI.Checkbox, "Valid");
+            //listBox.AddColumn(PropertyUI.Checkbutton, "Use", width: 20, showHeader:false);
+            //listBox.AddColumn(PropertyUI.Textblock, "Text");
+            //listBox.AddRow(new object[] { false, false, "Test 01" });
+            //listBox.AddRow(new object[] { true, false, "Test 02" });
+            //listBox.AddRow(new object[] { false, true, "Test 03" });
+            //listBox.AddRow(new object[] { true, true, "Test 04" });
+            //listBox.AddRow(new object[] { true, true, "Test 05" });
+            //listBox.AddRow(new object[] { true, true, "Test 06" });
+            //listBox.AddRow(new object[] { true, true, "Test 07" });
+            //listBox.AddRow(new object[] { true, true, "Test 08" });
+            //listBox.AddRow(new object[] { true, true, "Test 09" });
+            //listBox.AddRow(new object[] { true, true, "Test 10" });
+            //listBox.AddRow(new object[] { true, true, "Test 11" });
+
+
+            Peoples = new ObservableCollection<People>()
+            {
+                new People() { Name = "The first one", Age=21 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+                new People() { Name = "The second one", Age=16 },
+
+            };
+
+            DataContext = this;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeDataGrid();
+        }
+
+
+        private void ChangeListView()
         {
             bool val = Convert.ToBoolean(listBox.GetProperty(0, "Valid"));
             listBox.SetProperty(0, "Valid", !val);
             listBox.SetProperty(0, "Text", "Working");
 
             Console.WriteLine();
+        }
+
+
+        private void ChangeDataGrid()
+        {
+            //dg.IsSelectable = !dg.IsSelectable;
         }
     }
 }

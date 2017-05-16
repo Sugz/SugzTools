@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace StyleApp
 {
@@ -53,7 +54,11 @@ namespace StyleApp
             };
 
             DataContext = this;
+
+            dg.SelectionChanged += (s, e) => ((DataGrid)s).UnselectAllCells();
         }
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

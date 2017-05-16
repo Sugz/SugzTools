@@ -270,7 +270,7 @@ fn ComboBox
 	mouseRightButtonUp:mouseRightButtonUp \
 	mouseUp:mouseUp \
 	mouseWheel:mouseWheel
-)
+),
 
 
 

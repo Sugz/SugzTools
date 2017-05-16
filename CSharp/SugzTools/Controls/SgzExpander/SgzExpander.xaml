@@ -173,7 +173,7 @@
                             BorderBrush="{StaticResource MaxRolloutBorder}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-                        <ContentControl x:Name="PART_PopupContent"
+                        <ContentPresenter x:Name="PART_PopupContent"
                                         Focusable="False" />
                     </Border>
 

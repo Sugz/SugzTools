@@ -7,39 +7,64 @@
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         mc:Ignorable="d"
         Title="Window1"
-        Height="300"
-        Width="300"
+        Height="594.667"
+        Width="294.667"
         Background="#FF444444">
 
-    <Grid>
-        <sgz:SgzExpandersControl Margin="3">
-            <sgz:SgzExpander x:Name="expander"
-                             Header="Expander DG"
-                             IsExpanded="True">
-                <StackPanel Margin="5">
-                    <Button Content="Button 01"
-                            Click="Button_Click" />
-                    <Button Content="Button 01" />
-                    <sgz:SgzUniformGrid Columns="3">
-                        <sgz:SgzCheckBox Content="Move"
-                                         Spacing="10" />
-                        <sgz:SgzCheckBox HorizontalContentAlignment="Right"
-                                         Content="Rotate"
-                                         Spacing="10" />
-                        <sgz:SgzCheckBox HorizontalContentAlignment="Right"
-                                         Content="Scale" />
-                    </sgz:SgzUniformGrid>
-                </StackPanel>
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 02">
-                <sgz:SgzListView Name="listBox" Margin="5" Height="100" ShowHeaders="True"/>
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 03">
-                <StackPanel Height="35" />
-            </sgz:SgzExpander>
-            <sgz:SgzExpander Header="Expander 04">
-                <StackPanel Height="35" />
-            </sgz:SgzExpander>
-        </sgz:SgzExpandersControl>
-    </Grid>
+    <sgz:SgzExpandersControl Margin="3">
+        <sgz:SgzExpander x:Name="expander"
+                         Header="Expander DG"
+                         IsExpanded="True">
+            <StackPanel Margin="5">
+                <Button Content="Button 01"
+                        Click="Button_Click" />
+                <Button Content="Button 01" />
+                <sgz:SgzUniformGrid Columns="3">
+                    <sgz:SgzCheckBox Content="Move"
+                                     Spacing="10" />
+                    <sgz:SgzCheckBox HorizontalContentAlignment="Right"
+                                     Content="Rotate"
+                                     Spacing="10" />
+                    <sgz:SgzCheckBox HorizontalContentAlignment="Right"
+                                     Content="Scale" />
+                </sgz:SgzUniformGrid>
+            </StackPanel>
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 02">
+            <sgz:SgzListView Name="listBox"
+                             Margin="5"
+                             Height="100"
+                             ShowHeaders="True" />
+        </sgz:SgzExpander>
+        <sgz:SgzExpander Header="Expander 03">
+            <sgz:SgzDataGrid x:Name="dg"
+                             HeadersVisibility="Column"
+                             Margin="5,5,5,5"
+                             ItemsSource="{Binding Peoples}"
+                             AutoGenerateColumns="False">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}"
+                                        Width="*"
+                                        Header="Name" />
+
+                    <DataGridTemplateColumn Header="Age"
+                                            Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Age}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+
+            </sgz:SgzDataGrid>
+
+        </sgz:SgzExpander>
+
+        <sgz:SgzExpander Header="Expander 04">
+            <StackPanel Height="35" />
+        </sgz:SgzExpander>
+        
+    </sgz:SgzExpandersControl>
 </Window>

@@ -26,7 +26,9 @@
                   RowBackground="Transparent"
                   BorderBrush="Black"
                   Foreground="White"
-                  GridLinesVisibility="None">
+                  GridLinesVisibility="All"
+                  CellStyle="{DynamicResource UnselectableCellStyle}"
+                  VerticalContentAlignment="Center">
             
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -34,7 +36,7 @@
                     <Setter Property="Foreground" Value="Black" />
                 </Style>
             </DataGrid.ColumnHeaderStyle>
-
+            
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Name" Width="*">
                     <DataGridTemplateColumn.CellTemplate>

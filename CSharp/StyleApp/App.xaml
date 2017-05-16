@@ -63,8 +63,18 @@
                          Color="#FFD0D0D0" />
         
         
-        <SolidColorBrush x:Key="ListBorder"
-                         Color="#828790" />
+        
+        <Style x:Key="UnselectableCellStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         
         <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
@@ -142,19 +152,23 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
-                        <Condition Property="IsGrouping"
-                                   Value="true" />
-                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping"
-                                   Value="false" />
+                        <Condition Property="IsGrouping" Value="true" />
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
                     </MultiTrigger.Conditions>
-                    <Setter Property="ScrollViewer.CanContentScroll"
-                            Value="false" />
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
+        
+        
+
+
+
+
 
 
 

@@ -15,7 +15,8 @@ struct renamerStc
 	replaceAtGrp, replaceAtIndexSpn, replaceAtLengthSpn, replaceAtStrTxt, 
 	insertGrp, insertSpn, insertTxt,
 	indexGrp, indexStartSpn, indexPaddingSpn,
-	renamerExpanders, renamerBtn, renamerPopup, renamerPanel, renamerForm,
+	previewPopup, previewList, listBtn,
+	renamerExpanders, renamerBtn, renamerPanel, renamerForm,
 
 	renameClass = dotNetObject "SugzTools.Src.Rename",
 
@@ -88,30 +89,61 @@ struct renamerStc
 	fn PreviewRename = 
 	(
 
-		panel = Wpf.StackPanel margin:10 spacingVertical:5
+-- 		panel = Wpf.StackPanel margin:10 spacingVertical:5
+-- 		index = 0
+-- 		for obj in getCurrentSelection() do
+-- 		(
+-- 			panel.Add (Wpf.Textblock text:(obj.name + " => " + (sgzRenamer.Rename obj index)))
+-- 			index += 1
+-- 		)
+		
+-- 		previewList = Wpf.Datagrid headerBackground:#MaxBackground isSelectable:false margin:5 hAlign:#left columnHeaderHeight:20 rowHeight:20 
+-- 		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "OldName" "Old Name" false (Wpf.Enums.DataGridLengthUnitType #Star) 1
+-- 		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "NewName" "New Name" false (Wpf.Enums.DataGridLengthUnitType #Star) 1
+
 		index = 0
 		for obj in getCurrentSelection() do
 		(
-			panel.Add (Wpf.Textblock text:(obj.name + " => " + (sgzRenamer.Rename obj index)))
+			previewList.AddRow #((obj.name), (sgzRenamer.Rename obj index))
 			index += 1
 		)
+		
 
-		border = Wpf.Border background:#maxRollout borderbrush:#maxRolloutBorder borderThickness:1 cornerRadius:5 child:panel 
-		sgzRenamer.renamerPopup = dotNetObject "SugzTools.Controls.SgzPopup"
-		sgzRenamer.renamerPopup.PlacementTarget = sgzRenamer.renamerBtn
-		sgzRenamer.renamerPopup.Child = border
-		sgzRenamer.renamerPopup.IsOpen = true 
-		sgzRenamer.renamerPopup.StaysOpen = false
-		sgzRenamer.renamerPopup.Placement = Wpf.Enums.PlacementMode #Right
+		border = Wpf.Border background:#maxRollout borderbrush:#maxRolloutBorder borderThickness:1 cornerRadius:5 child:previewList
+-- 		sgzRenamer.previewPopup = Wpf.Popup placementTarget:(sgzRenamer.renamerBtn) width:500 staysOpen:false placement:#Right isOpen:true child:border
+
+-- 		sgzRenamer.previewPopup = dotNetObject "SugzTools.Controls.SgzPopup"
+-- 		sgzRenamer.previewPopup.Width = 500
+-- 		sgzRenamer.previewPopup.PlacementTarget = sgzRenamer.renamerBtn
+-- 		sgzRenamer.previewPopup.Child = border
+-- 		sgzRenamer.previewPopup.IsOpen = true 
+-- 		sgzRenamer.previewPopup.StaysOpen = false
+-- 		sgzRenamer.previewPopup.Placement = Wpf.Enums.PlacementMode #Right
+	),
+
+
+	fn ResizeWindow =
+	(
+		sgzRenamer.renamerForm.Height = sgzRenamer.renamerPanel.ActualHeight + 50
+		sgzRenamer.renamerForm.Width = sgzRenamer.renamerPanel.ActualWidth + 30
 	),
 
 
 	fn SetUI = 
 	(
-		renamerPanel = Wpf.StackPanel margin:5 spacingVertical:7 vAlign:#top 
-		dotNet.addEventHandler renamerPanel "SizeChanged" (fn x = sgzRenamer.renamerForm.Height = sgzRenamer.renamerPanel.ActualHeight + 50)
+		renamerPanel = Wpf.DockPanel margin:5 vAlign:#top
+		dotNet.addEventHandler renamerPanel "SizeChanged" ResizeWindow
 
-		renamerPanel.Add(renamerExpanders = Wpf.ExpandersControl spacing:5)
+
+		-- previewList ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		renamerPanel.Add (previewList = Wpf.Datagrid headerBackground:#MaxBackground isSelectable:false margin:#(5,0,5,0) hAlign:#left columnHeaderHeight:20 rowHeight:20 dock:#right )--visibility:#collapsed )
+		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "OldName" "Old Name" false (Wpf.Enums.DataGridLengthUnitType #Auto) 0
+		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "NewName" "New Name" false (Wpf.Enums.DataGridLengthUnitType #Auto) 0
+
+
+		renamerPanel.Add(leftPanel = Wpf.StackPanel spacingVertical:7 vAlign:#top)
+
+		leftPanel.Add(renamerExpanders = Wpf.ExpandersControl spacing:5)
 
 		-- nameGrp ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		renamerExpanders.Add(nameGrp = Wpf.Expander header:"Base Name" isExpanded:false hasPopup:false content:(panel = Wpf.StackPanel margin:5 spacingVertical:7))
@@ -169,15 +201,21 @@ struct renamerStc
 		panel = Wpf.UniformGrid spacingAll:#(7,5,5,5) columns:2
 		panel.Add (indexStartSpn = Wpf.Spinner content:"Start:" type:#integer range:#(0,10000000,1) fieldWidth:60 height:18 hAlign:#stretch valueChanged:(fn x = sgzRenamer.renameClass.Index = sgzRenamer.indexStartSpn.Value))
 		panel.Add (indexPaddingSpn = Wpf.Spinner content:"Padding:" type:#integer range:#(0,1000000,2) fieldWidth:60 height:18 hAlign:#stretch valueChanged:(fn x = sgzRenamer.renameClass.Padding = sgzRenamer.indexPaddingSpn.Value))
-		renamerPanel.Add (indexGrp = Wpf.Expander header:"Index" content:panel canDragDrop:false isExpanded:false hasPopup:false)
+		leftPanel.Add (indexGrp = Wpf.Expander header:"Index" content:panel canDragDrop:false isExpanded:false hasPopup:false)
 
+			
 
 		-- btnPanel ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		leftPanel.Add(panel = Wpf.Dockpanel())
+		panel.Add (listBtn = Wpf.CheckButton width:20 height:25 margin:#(0,2,0,0) dock:#right checked:(fn x = sgzRenamer.previewList.Visibility = Wpf.Enums.Visibility #Visible) unchecked:(fn x = sgzRenamer.previewList.Visibility = Wpf.Enums.Visibility #collapsed))
 		btnPanel = Wpf.StackPanel orientation:#horizontal
 		btnPanel.Add (Wpf.Textblock text:"Rename" vAlign:#center)
 		btnPanel.Add (Wpf.Icon icon:"MdiBike" margin:#(10,4,0,4) vAlign:#center isEnabled:false)
-		renamerPanel.Add (renamerBtn = Wpf.Button content:btnPanel height:25 margin:#(0,2,0,0) click:RenameSelection mouseRightButtonDown:PreviewRename)
+		panel.Add (renamerBtn = Wpf.Button content:btnPanel height:25 margin:#(0,2,0,0) click:RenameSelection mouseRightButtonDown:PreviewRename)
+
 		
+		
+
 	),
 	
 

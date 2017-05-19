@@ -14,6 +14,7 @@ struct WpfEnumStruct
 
 
 	-- WPF Enums ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	_dataGridLengthUnitType = dotNetClass "System.Windows.Controls.DataGridLengthUnitType",
 	_dock = dotNetClass "System.Windows.Controls.Dock",
 	_horizontalAlignment = dotNetClass "System.Windows.HorizontalAlignment",
 	_gridUnitType = dotNetClass "System.Windows.GridUnitType",
@@ -32,9 +33,11 @@ struct WpfEnumStruct
 	_numericFormatSpecifier = dotNetClass "SugzTools.Src.NumericFormatSpecifier",
 	_numericUpDownLimits = dotNetClass "SugzTools.Src.NumericUpDownLimits",
 	_numericUpDownType = dotNetClass "SugzTools.Src.NumericUpDownType",
+	_propertyUI = dotNetClass "SugzTools.Src.PropertyUI",
 	_radioButtonTypes = dotNetClass "SugzTools.Src.RadioButtonTypes",
 	_side = dotNetClass "SugzTools.Src.Side",
 
+	
 
 
 	-- Return a System.Windows.Forms.FormBorderStyle ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -201,6 +204,27 @@ struct WpfEnumStruct
 			#UltraBlack: return _fontWeights.UltraBlack
 			#UltraBold: return _fontWeights.UltraBold
 			#UltraLight: return _fontWeights.UltraLight
+		)
+	),
+
+
+	-- Return a System.Windows.Controls.DataGridLengthUnitType ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn DataGridLengthUnitType arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of 
+		(
+			#Auto: return _dataGridLengthUnitType.Auto
+			#Pixel: return _dataGridLengthUnitType.Pixel
+			#SizeToCells: return _dataGridLengthUnitType.SizeToCells
+			#SizeToHeader: return _dataGridLengthUnitType.SizeToHeader
+			#Star: return _dataGridLengthUnitType.Star
 		)
 	),
 
@@ -461,6 +485,29 @@ struct WpfEnumStruct
 			#WorldUnits: return _numericUpDownType.WorldUnits
 		)
 	),
+
+
+
+	-- SugzTools.Src.PropertyUI ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn PropertyUI arg =
+	(
+		/*<Function>
+		Arguments:
+		Return:
+		Further Infos:
+		</Function>*/
+		
+		case arg of 
+		(
+			#Checkbox: return (_propertyUI.Checkbox)
+			#Checkbutton: return (_propertyUI.Checkbutton)
+			#ComboBox: return (_propertyUI.ComboBox)
+			#Spinner: return (_propertyUI.Spinner)
+			#Textblock: return (_propertyUI.Textblock)
+			#Textbox: return (_propertyUI.Textbox)
+		)
+	),
+
 
 
 	-- Return a SugzTools.Src.RadioButtonTypes ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

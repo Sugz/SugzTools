@@ -849,4 +849,131 @@ fn Border
 	mouseRightButtonUp:mouseRightButtonUp \
 	mouseUp:mouseUp \
 	mouseWheel:mouseWheel
+),
+
+
+
+
+-- Return a SugzTools.Controls.SgzPopup ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+fn Popup
+	allowsTransparency:
+	background:
+	borderBrush:
+	borderThickness:
+	child:
+	content:
+	cornerRadius:
+	horizontalOffset:
+	isOpen:
+	placement:
+	placementRectangle:
+	placementTarget:
+	popupAnimation:
+	staysOpen:
+	verticalOffset:
+
+	contextMenu:
+	cursor:
+	height:
+	hAlign:
+	margin:
+	maxHeight:
+	maxWidth:
+	minHeight:
+	minWidth:
+	name:
+	tag:
+	tooltip:
+	useLayoutRounding:
+	vAlign:
+	width:
+	initialized:
+	loaded:
+	sizeChanged:
+	clipToBounds:
+	dock:
+	focusable:
+	isEnabled:
+	opacity:
+	snapsToDevicePixels:
+	uid:
+	visibility:
+	isEnabledChanged:
+	keyDown:
+	keyUp:
+	mouseDown:
+	mouseEnter:
+	mouseLeave:
+	mouseLeftButtonDown:
+	mouseLeftButtonUp:
+	mouseMove:
+	mouseRightButtonDown:
+	mouseRightButtonUp:
+	mouseUp:
+	mouseWheel: =
+(
+   /*<Function>
+	Description:
+	Arguments:
+	Return:
+	Infos:
+	</Function>*/
+	
+	_control = dotNetObject "SugzTools.Controls.SgzPopup"
+	if allowsTransparency != unsupplied then _control.allowsTransparency = allowsTransparency
+	if background != unsupplied then _control.background = SolidColorBrush background
+	if borderBrush != unsupplied then _control.borderBrush = SolidColorBrush borderBrush
+	if borderThickness != unsupplied then _control.BorderThickness = Thickness borderThickness
+	if content != unsupplied then _control.content = content
+	if cornerRadius != unsupplied then _control.CornerRadius = cornerRadius
+	if horizontalOffset != unsupplied then _control.horizontalOffset = horizontalOffset
+	if isOpen != unsupplied then _control.isOpen = isOpen
+	if placement != unsupplied then _control.placement = Enums.PlacementMode placement
+	if placementRectangle != unsupplied then _control.placementRectangle = placementRectangle
+	if placementTarget != unsupplied then _control.placementTarget = placementTarget
+-- 	if popupAnimation != unsupplied then _control.popupAnimation = popupAnimation
+	if staysOpen != unsupplied then _control.staysOpen = staysOpen
+	if verticalOffset != unsupplied then _control.verticalOffset = verticalOffset
+	
+	FrameworkElement \
+	_control\
+	contextMenu:contextMenu \
+	cursor:cursor \
+	height:height \
+	hAlign:hAlign \
+	margin:margin \
+	maxHeight:maxHeight \
+	maxWidth:maxWidth \
+	minHeight:minHeight \
+	minWidth:minWidth \
+	name:name \
+	tag:tag \
+	tooltip:tooltip \
+	useLayoutRounding:useLayoutRounding \
+	vAlign:vAlign \
+	width:width \
+	initialized:initialized \
+	loaded:loaded \
+	sizeChanged:sizeChanged \
+	clipToBounds:clipToBounds \
+	dock:dock \
+	focusable:focusable \
+	isEnabled:isEnabled \
+	opacity:opacity \
+	snapsToDevicePixels:snapsToDevicePixels \
+	uid:uid \
+	visibility:visibility \
+	isEnabledChanged:isEnabledChanged \
+	keyDown:keyDown \
+	keyUp:keyUp \
+	mouseDown:mouseDown \
+	mouseEnter:mouseEnter \
+	mouseLeave:mouseLeave \
+	mouseLeftButtonDown:mouseLeftButtonDown \
+	mouseLeftButtonUp:mouseLeftButtonUp \
+	mouseMove:mouseMove \
+	mouseRightButtonDown:mouseRightButtonDown \
+	mouseRightButtonUp:mouseRightButtonUp \
+	mouseUp:mouseUp \
+	mouseWheel:mouseWheel
 )

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -176,6 +177,17 @@ namespace SugzTools.Src
         }
 
 
+        /// <summary>
+        /// Create a random string of 16 chars as title case
+        /// </summary>
+        /// <returns></returns>
+        internal static string NameGenerator()
+        {
+            Random random = new Random();
+            string chars = "abcdefghijklmnopqrstuvwxyz";
+            string str = new string(Enumerable.Repeat(chars, 16).Select(s => s[random.Next(s.Length)]).ToArray());
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
+        }
 
 
     }

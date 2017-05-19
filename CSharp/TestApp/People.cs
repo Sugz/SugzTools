@@ -15,5 +15,14 @@ namespace TestApp
             get { return (Age < 18); }
         }
 
+        public People()
+        {
+
+        }
+        public People(string _new)
+        {
+            Name = _new;
+        }
+
     }
 }

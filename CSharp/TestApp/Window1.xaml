@@ -38,27 +38,10 @@
         </sgz:SgzExpander>
         <sgz:SgzExpander Header="Expander 03">
             <sgz:SgzDataGrid x:Name="dg"
-                             HeadersVisibility="Column"
+                             Height="150"
                              Margin="5,5,5,5"
-                             ItemsSource="{Binding Peoples}"
-                             AutoGenerateColumns="False">
-
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}"
-                                        Width="*"
-                                        Header="Name" />
-
-                    <DataGridTemplateColumn Header="Age"
-                                            Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Age}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-
-            </sgz:SgzDataGrid>
+                             HeaderHorizontalAlignment="Center" 
+                             CanUserReorderColumns="True"/>
 
         </sgz:SgzExpander>
 

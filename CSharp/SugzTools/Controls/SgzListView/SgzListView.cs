@@ -18,8 +18,8 @@ namespace SugzTools.Controls
 
 
         private GridView gridView = new GridView();
-        private object Model;
-        private ModelGenerator classGen = new ModelGenerator();
+        private Type Model;
+        private ModelGenerator classGen = new ModelGenerator(Helpers.NameGenerator());
         private ObservableCollection<object> _Rows = new ObservableCollection<object>();
 
 
@@ -28,6 +28,9 @@ namespace SugzTools.Controls
 
 
         #region Properties
+
+
+        public string ModelFileName { get; set; } = null;
 
 
         /// <summary>
@@ -192,34 +195,40 @@ namespace SugzTools.Controls
         /// <param name="name">The Property and column header name.</param>
         /// <param name="readOnly">Define if the user can change by code the contain model.</param>
         /// <param name="width">The column width.</param>
-        public void AddColumn(PropertyUI control, string name, bool readOnly = false, double width = 0, bool showHeader = true)
+        public bool AddColumn(PropertyUI control, string propertyName, string headerName = null, bool readOnly = false, double width = 0)
         {
             FrameworkElementFactory factory = new FrameworkElementFactory();
+            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
             switch (control)
             {
                 case PropertyUI.Checkbox:
-                    classGen.AddProperty(PropertyType.Bool, name, readOnly);
+                    if (!classGen.AddProperty(typeof(bool), propertyName, readOnly))
+                        return false;
+
                     factory.Type = typeof(SgzCheckBox);
-                    factory.SetBinding(SgzCheckBox.IsCheckedProperty, new Binding(name));
+                    factory.SetBinding(SgzCheckBox.IsCheckedProperty, binding);
                     factory.SetValue(SgzCheckBox.HorizontalAlignmentProperty, HorizontalAlignment.Center);
                     break;
                 case PropertyUI.Checkbutton:
-                    classGen.AddProperty(PropertyType.Bool, name, readOnly);
+                    if (!classGen.AddProperty(typeof(bool), propertyName, readOnly))
+                        return false;
+
                     factory.Type = typeof(SgzCheckButton);
                     factory.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
-                    factory.SetBinding(SgzCheckButton.IsCheckedProperty, new Binding(name));
+                    factory.SetBinding(SgzCheckButton.IsCheckedProperty, binding);
                     break;
                 case PropertyUI.Spinner:
                     break;
                 case PropertyUI.Textblock:
-                    //classGen.AddProperty(PropertyType.String, name, true);
-                    classGen.AddProperty(typeof(string), name, readOnly);
+                    if (!classGen.AddProperty(typeof(string), propertyName, readOnly))
+                        return false;
+
                     factory.Type = typeof(TextBlock);
                     factory.SetValue(TextBlock.ForegroundProperty, Resource<SolidColorBrush>.GetColor("MaxText"));
                     factory.SetValue(TextBlock.FontFamilyProperty, new FontFamily("Tahoma"));
                     factory.SetValue(TextBlock.FontSizeProperty, 11d);
                     factory.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                    factory.SetBinding(TextBlock.TextProperty, new Binding(name));
+                    factory.SetBinding(TextBlock.TextProperty, binding);
                     break;
                 case PropertyUI.Textbox:
                     break;
@@ -231,11 +240,12 @@ namespace SugzTools.Controls
 
             gridView.Columns.Add(new GridViewColumn()
             {
-                Header = showHeader ? name : "",
+                Header = headerName ?? propertyName,
                 Width = width != 0 ? width : double.NaN,
                 CellTemplate = new DataTemplate() { VisualTree = factory }
             });
 
+            return true;
         }
 
         /// <summary>
@@ -245,11 +255,26 @@ namespace SugzTools.Controls
         public void AddRow(object[] args)
         {
             if (Model == null)
-                Model = classGen.GetClass();
+                Model = classGen.GetClassType(ModelFileName);
 
-            object row = Activator.CreateInstance(Model.GetType(), args);
-            _Rows.Add(row);
-        } 
+            if (Model != null)
+            {
+                // Check if the parameters count and types are ok
+                ParameterInfo[] _params = Model.GetConstructors()[0].GetParameters();
+                if (args.Length != _params.Length)
+                    return;
+
+                for (int i = 0; i < _params.Length; i++)
+                {
+                    if (args[i].GetType() != _params[i].ParameterType)
+                        return;
+                }
+
+                // Instanciate the model and add it to the collection.
+                object row = Activator.CreateInstance(Model, args);
+                Rows.Add(row);
+            }
+        }
 
         /// <summary>
         /// Get the model property value from a row

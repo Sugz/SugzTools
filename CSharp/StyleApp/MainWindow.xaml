@@ -21,22 +21,18 @@
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   ItemsSource="{Binding Peoples}"
-                  Style="{DynamicResource DataGridStyle1}"
                   Background="Transparent"
                   RowBackground="Transparent"
                   BorderBrush="Black"
                   Foreground="White"
                   GridLinesVisibility="All"
-                  CellStyle="{DynamicResource UnselectableCellStyle}"
-                  VerticalContentAlignment="Center">
-            
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Foreground" Value="Black" />
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
-            
+                  VerticalContentAlignment="Center"
+                  CellStyle="{DynamicResource DataGridCellStyle1}"
+                  Style="{DynamicResource DataGridStyle1}"
+                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}">
+
+
+
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Name" Width="*">
                     <DataGridTemplateColumn.CellTemplate>

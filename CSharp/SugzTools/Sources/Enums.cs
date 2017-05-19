@@ -53,18 +53,6 @@
 
 
 
-
-    public enum PropertyType
-    {
-        Bool,
-        Int,
-        Float,
-        String,
-        List,
-    }
-
-
-
     public enum PropertyUI
     {
         Checkbox,

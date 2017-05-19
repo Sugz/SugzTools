@@ -12,7 +12,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             //TestRenamer();
-            TestClassGen();
+            //TestClassGen();
 
             Console.ReadLine();
         }
@@ -30,15 +30,11 @@ namespace ConsoleApp1
         {
             ModelGenerator gen = new ModelGenerator("Model");
             gen.AddUsing("System.Collections.Generic");
-            gen.AddProperty(PropertyType.Float, "Number", true);
-            //gen.SetProperty("Number", 1);
-            gen.AddProperty(PropertyType.String, "Word", false);
-            //gen.SetProperty("Word", "Test");
-            gen.AddProperty(PropertyType.Bool, "OK", false);
-            //gen.SetProperty("OK", true);
+            gen.AddProperty(typeof(float), "Number", true);
+            gen.AddProperty(typeof(string), "Word", false);
+            gen.AddProperty(typeof(bool), "OK", false);
 
-
-            var model = gen.GetClass();
+            Type model = gen.GetClassType();
             if (model != null)
             {
                 var MyClass = Activator.CreateInstance(model.GetType(), new object[] { 1, "Test", true });

@@ -7,47 +7,75 @@
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         mc:Ignorable="d"
         Title="Window1"
-        Height="594.667"
-        Width="294.667"
+        Height="600"
+        Width="600"
         Background="#FF444444">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
 
-    <sgz:SgzExpandersControl Margin="3">
-        <sgz:SgzExpander x:Name="expander"
-                         Header="Expander DG"
-                         IsExpanded="True">
-            <StackPanel Margin="5">
-                <Button Content="Button 01"
-                        Click="Button_Click" />
-                <Button Content="Button 01" />
-                <sgz:SgzUniformGrid Columns="3">
-                    <sgz:SgzCheckBox Content="Move"
-                                     Spacing="10" />
-                    <sgz:SgzCheckBox HorizontalContentAlignment="Right"
-                                     Content="Rotate"
-                                     Spacing="10" />
-                    <sgz:SgzCheckBox HorizontalContentAlignment="Right"
-                                     Content="Scale" />
-                </sgz:SgzUniformGrid>
-            </StackPanel>
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 02">
-            <sgz:SgzListView Name="listBox"
-                             Margin="5"
-                             Height="100"
-                             ShowHeaders="True" />
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 03">
-            <sgz:SgzDataGrid x:Name="dg"
-                             Height="150"
-                             Margin="5,5,5,5"
-                             HeaderHorizontalAlignment="Center" 
-                             CanUserReorderColumns="True"/>
+    <Grid HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          SizeChanged="Grid_SizeChanged"
+          Width="250"
+          Height="473">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1"
+                      Width="10" />
+        <sgz:SgzDataGrid Grid.Column="2"
+                         Width="300"
+                         Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=sgzCheckButton}" />
+        <StackPanel VerticalAlignment="Top">
+            <sgz:SgzExpandersControl>
+                <sgz:SgzExpander x:Name="expander"
+                                 Header="Expander DG"
+                                 IsExpanded="True">
+                    <StackPanel Margin="5">
+                        <Button Content="Button 01"
+                                Click="Button_Click" />
+                        <Button Content="Button 01" />
+                        <sgz:SgzUniformGrid Columns="3">
+                            <sgz:SgzCheckBox Content="Move"
+                                             Spacing="10" />
+                            <sgz:SgzCheckBox HorizontalContentAlignment="Right"
+                                             Content="Rotate"
+                                             Spacing="10" />
+                            <sgz:SgzCheckBox HorizontalContentAlignment="Right"
+                                             Content="Scale" />
+                        </sgz:SgzUniformGrid>
+                    </StackPanel>
+                </sgz:SgzExpander>
+                <sgz:SgzExpander Header="Expander 02">
+                    <sgz:SgzListView Name="listBox"
+                                     Margin="5"
+                                     Height="100"
+                                     ShowHeaders="True" />
+                </sgz:SgzExpander>
+                <sgz:SgzExpander Header="Expander 03">
+                    <sgz:SgzDataGrid x:Name="dg"
+                                     Height="150"
+                                     Margin="5,5,5,5"
+                                     HeaderHorizontalAlignment="Center"
+                                     CanUserReorderColumns="True" />
 
-        </sgz:SgzExpander>
+                </sgz:SgzExpander>
 
-        <sgz:SgzExpander Header="Expander 04">
-            <StackPanel Height="35" />
-        </sgz:SgzExpander>
-        
-    </sgz:SgzExpandersControl>
+                <sgz:SgzExpander Header="Expander 04">
+                    <StackPanel Height="35" />
+                </sgz:SgzExpander>
+
+            </sgz:SgzExpandersControl>
+            <DockPanel>
+                <sgz:SgzCheckButton x:Name="sgzCheckButton"
+                                    DockPanel.Dock="Right"
+                                    Width="20" 
+                                    IsChecked="True"/>
+                <sgz:SgzButton />
+            </DockPanel>
+        </StackPanel>
+    </Grid>
 </Window>

@@ -22,6 +22,8 @@ namespace StyleApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        double leftPanelWidth;
+        double rightPanelWidth;
         public ObservableCollection<People> Peoples { get; set; }
 
         public MainWindow()
@@ -55,7 +57,8 @@ namespace StyleApp
 
             DataContext = this;
 
-            dg.SelectionChanged += (s, e) => ((DataGrid)s).UnselectAllCells();
+            rightPanelWidth = rightPanel.ActualWidth;
+            //dg.SelectionChanged += (s, e) => ((DataGrid)s).UnselectAllCells();
         }
 
 
@@ -63,6 +66,24 @@ namespace StyleApp
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void sgzCheckButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((bool)sgzCheckButton.IsChecked)
+            {
+                mainGrid.ColumnDefinitions[0].Width = new GridLength(mainGrid.ActualWidth);
+                Grid.SetColumnSpan(leftPanel, 1);
+                rightPanel.Visibility = gridSplitter.Visibility = Visibility.Visible;
+                Width += rightPanelWidth + 5;
+            }
+            else
+            {
+                rightPanelWidth = rightPanel.ActualWidth;
+                rightPanel.Visibility = gridSplitter.Visibility = Visibility.Collapsed;
+                Width -= rightPanelWidth + 5;
+                Grid.SetColumnSpan(leftPanel, 3);
+            }
         }
     }
 }

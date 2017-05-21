@@ -97,5 +97,11 @@ namespace TestApp
             Console.WriteLine(dg.GetProperty(0, 0));
             Console.WriteLine(dg.GetProperty(0, "Use"));
         }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Width = ((Grid)sender).ActualWidth + 30;
+            Height = ((Grid)sender).ActualHeight + 45;
+        }
     }
 }

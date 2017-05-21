@@ -1,4 +1,5 @@
 ﻿using SugzTools.Src;
+using Autodesk.Max;
 using SugzTools.Behaviors;
 using System;
 using System.ComponentModel;
@@ -62,6 +63,19 @@ namespace SugzTools.Controls
             ColumnDefinition column = new ColumnDefinition();
             column.Width = (gridUnitType == GridUnitType.Auto) ? GridLength.Auto : new GridLength(width, gridUnitType);
             ColumnDefinitions.Add(column);
+        }
+
+        public void SetColumn(int columnIndex, double width)
+        {
+            SetColumn(columnIndex, width, GridUnitType.Pixel);
+        }
+        public void SetColumn(int columnIndex, GridUnitType gridUnitType)
+        {
+            SetColumn(columnIndex, 1, gridUnitType);
+        }
+        public void SetColumn(int columnIndex, double width, GridUnitType gridUnitType)
+        {
+            ColumnDefinitions[columnIndex].Width = new GridLength(width, gridUnitType);
         }
 
 
@@ -152,6 +166,55 @@ namespace SugzTools.Controls
 
         }
 
+        public void AddInColumn(FrameworkElement child, int column, int columnSpan,  double width, GridUnitType widthUnit)
+        {
+
+        }
+
+
+        public void Add(FrameworkElement child, int column, int row, double width)
+        {
+
+        }
+        public void Add(FrameworkElement child, int column, int row, GridUnitType unit)
+        {
+
+        }
+        public void Add(FrameworkElement child, int column, int row, double width, GridUnitType widthUnit, double height, GridUnitType heightUnit)
+        {
+
+        }
+        public void Add(FrameworkElement child, int column, int columnSpan, int row, int rowSpan, double width)
+        {
+
+        }
+        public void Add(FrameworkElement child, int column, int columnSpan, int row, int rowSpan, GridUnitType unit)
+        {
+
+        }
+        public void Add(FrameworkElement child, int column, int columnSpan, int row, int rowSpan, double width, GridUnitType widthUnit, double height, GridUnitType heightUnit)
+        {
+            //Add column and row if needed
+
+            //while (column > 0 && ColumnDefinitions.Count < column)
+            //    AddColumn(width, widthUnit);
+            //while (row > 0 && RowDefinitions.Count < row)
+            //    AddRow(height, heightUnit);
+
+
+            // if the columnSpan or rowSpan is more than one, set height or width to double.Nan
+            if (columnSpan > 1)
+                child.Width = double.NaN;
+            if (rowSpan > 1)
+                child.Height = double.NaN;
+
+            // Add the child 
+            Children.Add(child);
+            SetColumn(child, column);
+            SetColumnSpan(child, columnSpan);
+            SetRow(child, row);
+            SetRowSpan(child, rowSpan);
+        }
 
         #endregion Public
 
@@ -160,3 +223,6 @@ namespace SugzTools.Controls
 
     }
 }
+
+//TODO: public void Add(FrameworkElement child, int column, int columnSpan, int row, int rowSpan, double width, GridUnitType unit)
+//TODO: 

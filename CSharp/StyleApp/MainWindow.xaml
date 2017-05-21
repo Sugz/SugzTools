@@ -11,54 +11,32 @@
         Height="350"
         Width="525"
         Background="{DynamicResource MaxRollout}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
 
-    <StackPanel>
-        <Button Content="Button 01" Margin="5"
-                Click="Button_Click" />
-        <DataGrid Name="dg"
-                  Margin="5"
-                  HeadersVisibility="Column"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  ItemsSource="{Binding Peoples}"
-                  Background="Transparent"
-                  RowBackground="Transparent"
-                  BorderBrush="Black"
-                  Foreground="White"
-                  GridLinesVisibility="All"
-                  VerticalContentAlignment="Center"
-                  CellStyle="{DynamicResource DataGridCellStyle1}"
-                  Style="{DynamicResource DataGridStyle1}"
-                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}">
-
-
-
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Name" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Age">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Age}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn >
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <sgz:SgzCheckButton IsChecked="{Binding IsMinor, Mode=OneWay}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </StackPanel>
+    <Grid x:Name="mainGrid" 
+          Background="Green">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel x:Name="leftPanel" 
+                    Background="Red">
+            <sgz:SgzCheckButton x:Name="sgzCheckButton"
+                                IsChecked="True"
+                                Click="sgzCheckButton_Click" />
+        </StackPanel>
+        <GridSplitter x:Name="gridSplitter" 
+                      Grid.Column="1"
+                      Width="5"
+                      HorizontalAlignment="Center" />
+        <StackPanel x:Name="rightPanel"
+                    Background="Blue"
+                    Grid.Column="2"/>
+    </Grid>
 
 </Window>

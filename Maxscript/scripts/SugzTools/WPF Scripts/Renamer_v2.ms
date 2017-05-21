@@ -23,7 +23,8 @@ struct renamerStc
 
 	fn Rename obj index = 
 	(
-		sgzRenamer.renameClass.Name = obj.name
+		sgzRenamer.renameClass.OldName = sgzRenamer.renameClass.NewName = obj.name
+
 
 		_expanders = Wpf.AsArray sgzRenamer.renamerExpanders.Items
 		for  i = 1 to _expanders.Count do 
@@ -31,7 +32,7 @@ struct renamerStc
 			-- Standard naming
 			if _expanders[i] == sgzRenamer.nameGrp AND sgzRenamer.nameGrp.IsExpanded then 
 			(
-				if sgzRenamer.nameTxt.Text.Count != 0 then sgzRenamer.renameClass.Name = sgzRenamer.nameTxt.Text
+				if sgzRenamer.nameTxt.Text.Count != 0 then sgzRenamer.renameClass.NewName = sgzRenamer.nameTxt.Text
 				if sgzRenamer.prefixTxt.Text.Count != 0 then sgzRenamer.renameClass.AddPrefix sgzRenamer.prefixTxt.Text
 				if sgzRenamer.suffixTxt.Text.Count != 0 then sgzRenamer.renameClass.AddSuffix sgzRenamer.suffixTxt.Text
 			)
@@ -43,8 +44,8 @@ struct renamerStc
 				last = sgzRenamer.trimLastSpn.Value
 
 				-- just erase the name if one of spinner's value is over name count
-				if ((first >= sgzRenamer.renameClass.Name.Count) OR (last >= sgzRenamer.renameClass.Name.Count) OR (first + last >= sgzRenamer.renameClass.Name.Count)) then
-					sgzRenamer.renameClass.Name = ""
+				if ((first >= sgzRenamer.renameClass.NewName.Count) OR (last >= sgzRenamer.renameClass.NewName.Count) OR (first + last >= sgzRenamer.renameClass.NewName.Count)) then
+					sgzRenamer.renameClass.NewName = ""
 				else 
 				(
 					if first != 0 then sgzRenamer.renameClass.RemoveFirst first
@@ -70,7 +71,7 @@ struct renamerStc
 		if sgzRenamer.indexGrp.IsExpanded then sgzRenamer.renameClass.AddIndex index
 
 		-- Return the name
-		sgzRenamer.renameClass.Name
+		sgzRenamer.renameClass.NewName
 	),
 	
 
@@ -131,17 +132,19 @@ struct renamerStc
 
 	fn SetUI = 
 	(
-		renamerPanel = Wpf.DockPanel margin:5 vAlign:#top
-		dotNet.addEventHandler renamerPanel "SizeChanged" ResizeWindow
+		renamerPanel = Wpf.Grid margin:5 background:red hAlign:#left
+		renamerPanel.AddColumn 250
+		renamerPanel.AddColumn (Wpf.Enums.GridUnitType #Auto)
+-- 		dotNet.addEventHandler renamerPanel "SizeChanged" ResizeWindow
 
 
 		-- previewList ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-		renamerPanel.Add (previewList = Wpf.Datagrid headerBackground:#MaxBackground isSelectable:false margin:#(5,0,5,0) hAlign:#left columnHeaderHeight:20 rowHeight:20 dock:#right )--visibility:#collapsed )
-		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "OldName" "Old Name" false (Wpf.Enums.DataGridLengthUnitType #Auto) 0
-		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "NewName" "New Name" false (Wpf.Enums.DataGridLengthUnitType #Auto) 0
+		renamerPanel.Add (previewList = Wpf.Datagrid headerBackground:#MaxBackground isSelectable:false columnHeaderHeight:20 rowHeight:20 hAlign:#left) 1 0--visibility:#collapsed )
+-- 		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "OldName" "Old Name" false (Wpf.Enums.DataGridLengthUnitType #Auto) 0
+-- 		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "NewName" "New Name" false (Wpf.Enums.DataGridLengthUnitType #Auto) 0
 
 
-		renamerPanel.Add(leftPanel = Wpf.StackPanel spacingVertical:7 vAlign:#top)
+		renamerPanel.Add(leftPanel = Wpf.StackPanel spacingVertical:7 vAlign:#top) 0 0
 
 		leftPanel.Add(renamerExpanders = Wpf.ExpandersControl spacing:5)
 
@@ -150,11 +153,11 @@ struct renamerStc
 
 		nameGetIcon = Wpf.Icon icon:"MdiStepForward" padding:#(6,7,6,6) cursor:#Arrow vAlign:#center click:(fn x = if _sgz._sel.IsSelectionOne() then sgzRenamer.nameTxt.Text = $.name)
 		nameCloseIcon = Wpf.Icon icon:"MdiWindowClose" padding:6 cursor:#Arrow vAlign:#center click:(fn x = sgzRenamer.nameTxt.Text = "")
-		panel.Add (nameTxt = Wpf.Textbox watermark:"Enter a name..." uiElement0:nameGetIcon uiElement2:nameCloseIcon)
+		panel.Add (nameTxt = Wpf.Textbox watermark:"Enter a name..." uiElement0:nameGetIcon uiElement2:nameCloseIcon)-- textChanged:(fn x s e = sgzRenamer.renameClass.NewName = s.text))
 			
 		prefixGetIcon = Wpf.Icon icon:"MdiStepForward" padding:#(6,7,6,6) cursor:#Arrow vAlign:#center click:(fn x = if _sgz._sel.IsSelectionOne() then sgzRenamer.prefixTxt.Text = $.name)
 		prefixCloseIcon = Wpf.Icon icon:"MdiWindowClose" padding:6 cursor:#Arrow vAlign:#center click:(fn x = sgzRenamer.prefixTxt.Text = "")
-		panel.Add (prefixTxt = Wpf.Textbox watermark:"Enter a prefix..." uiElement0:prefixGetIcon uiElement2:prefixCloseIcon)
+		panel.Add (prefixTxt = Wpf.Textbox watermark:"Enter a prefix..." uiElement0:prefixGetIcon uiElement2:prefixCloseIcon)-- textChanged:(fn x s e = sgzRenamer.renameClass.AddPrefix s.Textblock))
 			
 		suffixGetIcon = Wpf.Icon icon:"MdiStepForward" padding:#(6,7,6,6) cursor:#Arrow vAlign:#center click:(fn x = if _sgz._sel.IsSelectionOne() then sgzRenamer.suffixTxt.Text = $.name)
 		suffixCloseIcon = Wpf.Icon icon:"MdiWindowClose" padding:6 cursor:#Arrow vAlign:#center click:(fn x = sgzRenamer.suffixTxt.Text = "")
@@ -223,7 +226,7 @@ struct renamerStc
 	(
 		if renamerPanel != undefined then
 		(
-			renamerForm = Wpf.Window title:"Renamer" content:renamerPanel width:275 location:#centerParent closed:(fn x = (sgzRenamer.renamerForm = undefined; updateToolbarButtons()))
+			renamerForm = Wpf.Window title:"Renamer" content:renamerPanel width:500 location:#centerParent closed:(fn x = (sgzRenamer.renamerForm = undefined; updateToolbarButtons()))
 			renamerForm.ShowModeless()
 			dotNet.setLifetimeControl renamerForm #dotnet
 		)

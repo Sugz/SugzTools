@@ -20,7 +20,7 @@ namespace SugzTools.Controls
         #region Fields
 
 
-        HorizontalAlignment OldHorizontalAlignment;
+        //HorizontalAlignment OldHorizontalAlignment;
         private Type Model;
         private ModelGenerator classGen = new ModelGenerator(Helpers.NameGenerator());
         private ObservableCollection<object> Rows = new ObservableCollection<object>();
@@ -132,8 +132,8 @@ namespace SugzTools.Controls
         }
         public SgzDataGrid()
         {
-            OldHorizontalAlignment = HorizontalAlignment;
-            Loaded += SgzDataGrid_Loaded;
+            
+            //Loaded += SgzDataGrid_Loaded;
             ItemsSource = Rows;
         }
 
@@ -143,10 +143,11 @@ namespace SugzTools.Controls
 
         #region Methods
 
-
+        /*
         private void SgzDataGrid_Loaded(object sender, RoutedEventArgs e)
         {
             // Fix the issue with HorizontalAlignment.Stretch
+            OldHorizontalAlignment = HorizontalAlignment;
             SetWidth();
             ((FrameworkElement)VisualTreeHelper.GetParent(this)).SizeChanged += (s, ev) => SetWidth();
         }
@@ -164,7 +165,7 @@ namespace SugzTools.Controls
             if (parent != null)
                 Width = parent.ActualWidth - (Margin.Left + Margin.Right);
         }
-
+        
 
 
         /*private static void OnIsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -61,6 +61,10 @@
                             <Setter TargetName="PART_CheckMark" Property="Visibility" Value="Collapsed" />
                         </Trigger>
 
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter Property="Spacing" Value="0" />
+                        </Trigger>
+
                         <Trigger Property="HorizontalContentAlignment" Value="Right">
                             <Setter TargetName="PART_CheckBox" Property="DockPanel.Dock" Value="Left" />
                             <Setter TargetName="PART_Content" Property="DockPanel.Dock" Value="Right" />

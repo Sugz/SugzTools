@@ -12,196 +12,48 @@
         mc:Ignorable="d"
         Title="TestApp"
         Height="500"
-        Width="300"
+        Width="667.5"
         Background="#FF444444">
 
     <Window.Resources>
 
     </Window.Resources>
-    <!--<sgz:SgzExpandersControl Margin="3">
-        <sgz:SgzExpander Header="Expander 01"
-                         IsExpanded="False">
-            <StackPanel Margin="5">
-                <sgz:SgzExpander IsGroupBox="True"
-                                 Header="Test"
-                                 Margin="0,20,0,0">
-                    <StackPanel Height="50"
-                                Margin="5">
-                        <sgz:SgzExpander />
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <sgz:SgzExpandersControl>
+                <sgz:SgzExpander IsExpanded="True" Header="">
+                    <StackPanel>
+                        <!--<DockPanel>
+                            <sgz:SgzCheckBox />
+                            <UniformGrid Columns="2">
+                                <sgz:SgzNumericUpDown FieldWidth="60" />
+                                <sgz:SgzNumericUpDown FieldWidth="60" />
+                            </UniformGrid>
+                        </DockPanel>-->
+                        <StackPanel Name="Container">
+                            <TextBox Background="Azure"
+                                     Width="60"
+                                     Text="Hello"
+                                     HorizontalAlignment="Right"
+                                     MaxWidth="200" />
+                        </StackPanel>
                     </StackPanel>
                 </sgz:SgzExpander>
-                <StackPanel Height="50" />
-            </StackPanel>
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 02"
-                         IsExpanded="True"
-                         PopupSide="Left">
-            <sgz:SgzStackPanel>
-                <StackPanel Margin="5"
-                            b:Spacing.Vertical="5"
-                            Background="#FFD81D1D">
-                    <sgz:SgzButton Content="Button 01" />
-                    <sgz:SgzButton Content="Button 02" Margin="5,0"/>
-                    <sgz:SgzButton Content="Button 03" />
-                </StackPanel>
-                <StackPanel Margin="5"
-                            Orientation="Horizontal"
-                            b:Spacing.Horizontal="5"
-                            Background="#FF316FAE">
-                    <sgz:SgzButton Content="Button 01" />
-                    <sgz:SgzButton Content="Button 02" />
-                    <sgz:SgzButton Content="Button 03" />
-                </StackPanel>
-                <UniformGrid b:Spacing.All="2"
-                             Background="#FF20BD35">
-                    <sgz:SgzButton Content="Button 01" />
-                    <sgz:SgzButton Content="Button 02" />
-                    <sgz:SgzButton Content="Button 03" />
-                    <sgz:SgzButton Content="Button 04" />
-                </UniformGrid>
-            </sgz:SgzStackPanel>
-            
-            
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 03">
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 04">
-            <StackPanel Height="75" />
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 05">
-            <StackPanel Height="75" />
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 06">
-            <StackPanel Height="75" />
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 07">
-            <StackPanel Height="75" />
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 08">
-            <StackPanel Height="75" />
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 09">
-            <StackPanel Height="75" />
-        </sgz:SgzExpander>
-        <sgz:SgzExpander Header="Expander 10">
-            <StackPanel Height="75" />
-        </sgz:SgzExpander>
-    </sgz:SgzExpandersControl>-->
+            </sgz:SgzExpandersControl>
+        </StackPanel>
+        <GridSplitter Grid.Column="1"
+                      Width="5"
+                      HorizontalAlignment="Center" />
+        <StackPanel Grid.Column="2"
+                    Background="Red" />
 
-
-    <sgz:SgzStackPanel Margin="5"
-                       >
-            <sgz:SgzExpander x:Name="sgzExpander"
-                                  Header="Test"
-                                  VerticalAlignment="Top"
-                                  IsExpanded="True">
-
-            <sgz:SgzStackPanel Margin="5,5,5,0"
-                               b:Spacing.Vertical="5">
-                    <sgz:SgzCheckBox HorizontalAlignment="Left"
-                                          IsThreeState="True"
-                                          HorizontalContentAlignment="Stretch" />
-                    <sgz:SgzGroupBox Header="Test">
-                        <UniformGrid Rows="1">
-                            <sgz:SgzIcon Icon="Wi3d3ds" />
-                            <sgz:SgzButton Margin="5"
-                                           Height="Auto" />
-                            <sgz:SgzCheckButton Content="CheckButton"
-                                                     IsEnabled="False"
-                                                     Margin="5" />
-                        </UniformGrid>
-                </sgz:SgzGroupBox>
-
-                    <DockPanel>
-                        <sgz:SgzTextBox x:Name="txt"
-                                             DockPanel.Dock="Left"
-                                             Watermark="Enter text here..."
-                                             IsEnabled="False" />
-                    </DockPanel>
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <sgz:SgzRadioButton Content="View"
-                                                 GroupName="testRadioButtons"
-                                                 HorizontalAlignment="Stretch"
-                                                 HorizontalContentAlignment="Left"
-                                                 IsEnabled="False" />
-                        <sgz:SgzRadioButton Content="test2"
-                                                 GroupName="testRadioButtons"
-                                                 IsChecked="True"
-                                                 Grid.Column="1"
-                                                 HorizontalAlignment="Center"
-                                                 HorizontalContentAlignment="Right"
-                                                 Width="61" />
-                    </Grid>
-                    <DockPanel LastChildFill="False">
-                        <sgz:SgzRadioButton Content="test1"
-                                                 RadioButtonType="CheckButton"
-                                                 Width="75"
-                                                 HorizontalAlignment="Center"
-                                                 VerticalContentAlignment="Center"
-                                                 IsEnabled="False" />
-                        <sgz:SgzRadioButton Content="test2"
-                                                 DockPanel.Dock="Right"
-                                                 RadioButtonType="CheckButton"
-                                                 Width="75"
-                                                 IsTransparent="True" />
-                    </DockPanel>
-                    <sgz:SgzComboBox>
-                    <ComboBoxItem Content="abc #1" />
-                        <ComboBoxItem IsSelected="True"
-                                      Content="bcd #2" />
-                        <ComboBoxItem Content="gef #3" />
-                        <ComboBoxItem Content="ComboBox Item #4" />
-                        <ComboBoxItem Content="ComboBox Item #5" />
-                        <ComboBoxItem Content="ComboBox Item #6" />
-                        <ComboBoxItem Content="zef #7" />
-                    </sgz:SgzComboBox>
-                
-                    <sgz:SgzNumericUpDown x:Name="intSpinner"
-                                               Content="IntegerSpinner"
-                                               Type="Integer"
-                                               NumericFormatSpecifier="N"
-                                               AlwaysShowValue="False"
-                                               Limits="Int" />
-                    <TextBlock x:Name="intTxt" />
-                    <TextBlock x:Name="intTxt2" />
-                    <TextBlock x:Name="intTxt3" />
-                    <sgz:SgzNumericUpDown x:Name="floatSpinner"
-                                               Content="FloatSpinner"
-                                               Type="Float" />
-                    <TextBlock x:Name="floatTxt" />
-                    <TextBlock x:Name="floatTxt2" />
-                    <TextBlock x:Name="floatTxt3" />
-                </sgz:SgzStackPanel>
-            </sgz:SgzExpander>
-            <sgz:SgzExpander HasPopup="False"
-                                  IsExpanded="True">
-                <sgz:SgzExpander.Header>
-                    <DockPanel>
-                        <TextBlock Text="AutoSave" />
-                        <sgz:SgzProgressBar x:Name="progressbar"
-                                                 Margin="5,0"
-                                                 Height="6"
-                                                 Value="33"
-                                                 CornerRadius="3"
-                                                 IsIndeterminate="True" />
-                    </DockPanel>
-
-                </sgz:SgzExpander.Header>
-                <sgz:SgzGrid x:Name="grid">
-                    <sgz:SgzGrid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </sgz:SgzGrid.RowDefinitions>
-
-                </sgz:SgzGrid>
-            </sgz:SgzExpander>
-            <sgz:SgzExpander  Header="test" />
-        </sgz:SgzStackPanel>
+    </Grid>
 
 </Window>

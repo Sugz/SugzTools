@@ -12,6 +12,7 @@ fn Expander
 	popupWidth:
 	collapsed:
 	expanded:
+	expandChanged:
 	background:
 	borderBrush:
 	borderThickness:
@@ -90,6 +91,7 @@ fn Expander
 	if popupWidth != unsupplied then _control.PopupWidth = popupWidth
 	if collapsed != unsupplied then dotNet.addEventHandler _control "Collapsed" collapsed
 	if expanded != unsupplied then dotNet.addEventHandler _control "Expanded" expanded
+	if expandChanged != unsupplied then dotNet.addEventHandler _control "ExpandChanged" expandChanged
 	
 	ContentControl \
 	_control \
@@ -324,6 +326,7 @@ fn ExpandersControl
 	vContentAlign:
 	visibility:
 	width:
+	drop:
 	initialized:
 	isEnabledChanged:
 	loaded:
@@ -353,6 +356,8 @@ fn ExpandersControl
 
 	_control = (dotNetObject "SugzTools.Controls.SgzExpandersControl")
 	if spacing != unsupplied then _control.Spacing = spacing
+	
+	if drop != unsupplied then dotNet.addEventHandler _control "Drop" drop
 	
 	ContentControl \
 	_control \

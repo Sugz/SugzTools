@@ -143,41 +143,6 @@ namespace SugzTools.Controls
 
         #region Methods
 
-        /*
-        private void SgzDataGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Fix the issue with HorizontalAlignment.Stretch
-            OldHorizontalAlignment = HorizontalAlignment;
-            SetWidth();
-            ((FrameworkElement)VisualTreeHelper.GetParent(this)).SizeChanged += (s, ev) => SetWidth();
-        }
-
-
-        /// <summary>
-        /// Fix the issue with HorizontalAlignment.Stretch
-        /// </summary>
-        private void SetWidth()
-        {
-            if (OldHorizontalAlignment == HorizontalAlignment.Stretch)
-                HorizontalAlignment = HorizontalAlignment.Center;
-
-            FrameworkElement parent = (FrameworkElement)VisualTreeHelper.GetParent(this);
-            if (parent != null)
-                Width = parent.ActualWidth - (Margin.Left + Margin.Right);
-        }
-        
-
-
-        /*private static void OnIsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SgzDataGrid control = (SgzDataGrid)d;
-            control.SelectionChanged += (s, ev) =>
-            {
-                if ((bool)e.NewValue)
-                    control.UnselectAllCells();
-            };
-        }*/
-
 
         /// <summary>
         /// Add a column with the specified control type.
@@ -280,6 +245,12 @@ namespace SugzTools.Controls
                 object row = Activator.CreateInstance(Model, args);
                 Rows.Add(row);
             }
+        }
+
+
+        public void ClearRows()
+        {
+            Rows.Clear();
         }
 
 

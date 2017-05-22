@@ -11,8 +11,6 @@ namespace SugzTools.Src
     {
 
         public string Name { get; set; } = "";
-        public int Index { get; set; } = 1;
-        public int Padding { get; set; } = 2;
 
 
         public void AddPrefix(string prefix) { Name = prefix + Name; }
@@ -55,13 +53,13 @@ namespace SugzTools.Src
             Name = Name.Insert(index, newSubString);
         }
 
-        public void AddIndex(int increment)
+        public void AddIndex(int baseIndex, int padding, int increment, bool addUnderscore)
         {
-            string index = (Index + increment).ToString();
-            while (index.Length < Padding)
+            string index = (baseIndex + increment).ToString();
+            while (index.Length < padding)
                 index = "0" + index;
 
-            Name += index;
+            Name += (addUnderscore ? "_" : "") + index;
         }
 
 

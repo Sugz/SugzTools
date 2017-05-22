@@ -1,4 +1,5 @@
 ﻿using SugzTools.Src;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -209,6 +210,16 @@ namespace SugzTools.Controls
 
 
 
+        #region Published Events
+
+
+        public event EventHandler<SgzExpanderEventArgs> ExpandChanged;
+
+
+        #endregion Published Events
+
+
+
         #region Constructors
 
 
@@ -224,6 +235,8 @@ namespace SugzTools.Controls
             {
                 CanDragDrop = Parent is SgzExpandersControl;
             };
+            Expanded += (s, e) => ExpandChanged?.Invoke(this, new SgzExpanderEventArgs(IsExpanded));
+            Collapsed += (s, e) => ExpandChanged?.Invoke(this, new SgzExpanderEventArgs(IsExpanded));
         }
 
 
@@ -248,5 +261,17 @@ namespace SugzTools.Controls
 
         #endregion Overridden Methods
 
+    }
+
+
+
+    //     EVENTARGS     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public class SgzExpanderEventArgs : EventArgs
+    {
+        public bool IsExpanded { get; set; }
+        public SgzExpanderEventArgs(bool isExpanded)
+        {
+
+        }
     }
 }

@@ -114,6 +114,19 @@ namespace SugzTools.Controls
             RowDefinitions.Add(row);
         }
 
+        public void SetRow(int rowIndex, double height)
+        {
+            SetRow(rowIndex, height, GridUnitType.Pixel);
+        }
+        public void SetRow(int rowIndex, GridUnitType gridUnitType)
+        {
+            SetRow(rowIndex, 1, gridUnitType);
+        }
+        public void SetRow(int rowIndex, double height, GridUnitType gridUnitType)
+        {
+            RowDefinitions[rowIndex].Height = new GridLength(height, gridUnitType);
+        }
+
 
         /// <summary>
         /// Add a children

@@ -21,29 +21,28 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="250" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel>
+        <StackPanel VerticalAlignment="Top">
             <sgz:SgzExpandersControl>
                 <sgz:SgzExpander IsExpanded="True" Header="">
                     <StackPanel>
-                        <!--<DockPanel>
-                            <sgz:SgzCheckBox />
-                            <UniformGrid Columns="2">
-                                <sgz:SgzNumericUpDown FieldWidth="60" />
-                                <sgz:SgzNumericUpDown FieldWidth="60" />
-                            </UniformGrid>
-                        </DockPanel>-->
-                        <StackPanel Name="Container">
+                        <DockPanel Name="Container"
+                                   HorizontalAlignment="Left">
+                            <TextBlock Text="grhezkzerghkj"
+                                       TextWrapping="WrapWithOverflow"
+                                       ScrollViewer.CanContentScroll="True"
+                                       HorizontalAlignment="Left" />
                             <TextBox Background="Azure"
-                                     Width="60"
                                      Text="Hello"
-                                     HorizontalAlignment="Right"
-                                     MaxWidth="200" />
-                        </StackPanel>
+                                     Width="100"
+                                     DockPanel.Dock="Right"
+                                     HorizontalAlignment="Right" />
+                            
+                        </DockPanel>
                     </StackPanel>
                 </sgz:SgzExpander>
             </sgz:SgzExpandersControl>

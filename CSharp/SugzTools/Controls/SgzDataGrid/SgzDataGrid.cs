@@ -310,6 +310,6 @@ namespace SugzTools.Controls
     }
 }
 
-//TODO: AddColumn() header name
+
 //TODO: SelectedRow background
 //TODO: HeaderColumn  Style, prendre la vrai DataGridHeaderBorder

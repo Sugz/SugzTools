@@ -27,9 +27,6 @@ namespace SugzTools.Controls
         #region Methods
 
 
-        #region Public
-
-
         /// <summary>
         /// Add a column to the grid using GridUnitType.Auto
         /// </summary>
@@ -37,22 +34,41 @@ namespace SugzTools.Controls
         {
             AddColumn(double.NaN, GridUnitType.Auto);
         }
+
         /// <summary>
         /// Add a column to the grid using GridUnitType.Pixel
         /// </summary>
         /// <param name="width">The width of the column</param>
         public void AddColumn(double width)
         {
-            AddColumn(width, GridUnitType.Pixel);
+            AddColumn(width, GridUnitType.Pixel, 0, double.PositiveInfinity);
         }
+        public void AddColumn(double width, double minWidth)
+        {
+            AddColumn(width, GridUnitType.Pixel, minWidth, double.PositiveInfinity);
+        }
+        public void AddColumn(double width, double minWidth, double maxWidth)
+        {
+            AddColumn(width, GridUnitType.Pixel, minWidth, maxWidth);
+        }
+
         /// <summary>
         /// Add a column to the grid given the GridUnitType using a width of 1
         /// </summary>
         /// <param name="gridUnitType"></param>
         public void AddColumn(GridUnitType gridUnitType)
         {
-            AddColumn(1, gridUnitType);
+            AddColumn(1, gridUnitType, 0, double.PositiveInfinity);
         }
+        public void AddColumn(GridUnitType gridUnitType, double minWidth)
+        {
+            AddColumn(1, gridUnitType, minWidth, double.PositiveInfinity);
+        }
+        public void AddColumn(GridUnitType gridUnitType, double minWidth, double maxWidth)
+        {
+            AddColumn(1, gridUnitType, minWidth, maxWidth);
+        }
+
         /// <summary>
         /// Add a column to the grid
         /// </summary>
@@ -60,23 +76,75 @@ namespace SugzTools.Controls
         /// <param name="type">The GridUnitType of the column</param>
         public void AddColumn(double width, GridUnitType gridUnitType)
         {
-            ColumnDefinition column = new ColumnDefinition();
-            column.Width = (gridUnitType == GridUnitType.Auto) ? GridLength.Auto : new GridLength(width, gridUnitType);
+            AddColumn(width, gridUnitType, 0, double.PositiveInfinity);
+        }
+        public void AddColumn(double width, GridUnitType gridUnitType, double minWidth)
+        {
+            AddColumn(width, gridUnitType, minWidth, double.PositiveInfinity);
+        }
+        public void AddColumn(double width, GridUnitType gridUnitType, double minWidth, double maxWidth)
+        {
+            ColumnDefinition column = new ColumnDefinition()
+            {
+                Width = (gridUnitType == GridUnitType.Auto) ? GridLength.Auto : new GridLength(width, gridUnitType),
+                MinWidth = minWidth,
+                MaxWidth = maxWidth
+            };
             ColumnDefinitions.Add(column);
         }
 
+
         public void SetColumn(int columnIndex, double width)
         {
-            SetColumn(columnIndex, width, GridUnitType.Pixel);
+            SetColumn(columnIndex, width, GridUnitType.Pixel, 0, double.PositiveInfinity);
         }
+        public void SetColumn(int columnIndex, double width, double minWidth)
+        {
+            SetColumn(columnIndex, width, GridUnitType.Pixel, minWidth, double.PositiveInfinity);
+        }
+        public void SetColumn(int columnIndex, double width, double minWidth, double maxWidth)
+        {
+            SetColumn(columnIndex, width, GridUnitType.Pixel, minWidth, maxWidth);
+        }
+
         public void SetColumn(int columnIndex, GridUnitType gridUnitType)
         {
-            SetColumn(columnIndex, 1, gridUnitType);
+            SetColumn(columnIndex, 1, gridUnitType, 0, double.PositiveInfinity);
         }
+        public void SetColumn(int columnIndex, GridUnitType gridUnitType, double minWidth)
+        {
+            SetColumn(columnIndex, 1, gridUnitType, minWidth, double.PositiveInfinity);
+        }
+        public void SetColumn(int columnIndex, GridUnitType gridUnitType, double minWidth, double maxWidth)
+        {
+            SetColumn(columnIndex, 1, gridUnitType, minWidth, maxWidth);
+        }
+
         public void SetColumn(int columnIndex, double width, GridUnitType gridUnitType)
         {
             ColumnDefinitions[columnIndex].Width = new GridLength(width, gridUnitType);
         }
+        public void SetColumn(int columnIndex, double width, GridUnitType gridUnitType, double minWidth)
+        {
+            ColumnDefinitions[columnIndex].Width = new GridLength(width, gridUnitType);
+            ColumnDefinitions[columnIndex].MinWidth = minWidth;
+        }
+        public void SetColumn(int columnIndex, double width, GridUnitType gridUnitType, double minWidth, double maxWidth)
+        {
+            ColumnDefinitions[columnIndex].Width = new GridLength(width, gridUnitType);
+            ColumnDefinitions[columnIndex].MinWidth = minWidth;
+            ColumnDefinitions[columnIndex].MaxWidth = maxWidth;
+        }
+
+        public void SetColumnMin(int columnIndex, double width)
+        {
+            ColumnDefinitions[columnIndex].MinWidth = width;
+        }
+        public void SetColumnMax(int columnIndex, double width)
+        {
+            ColumnDefinitions[columnIndex].MaxWidth = width;
+        }
+
 
 
         /// <summary>
@@ -128,6 +196,8 @@ namespace SugzTools.Controls
         }
 
 
+
+
         /// <summary>
         /// Add a children
         /// </summary>
@@ -158,9 +228,9 @@ namespace SugzTools.Controls
         {
             //Add column and row if needed
             while (column > 0 && ColumnDefinitions.Count < column + 1)
-                AddColumn(1, GridUnitType.Star);
+                AddColumn(1, GridUnitType.Auto);
             while (row > 0 && RowDefinitions.Count < row + 1)
-                AddRow(1, GridUnitType.Star);
+                AddRow(1, GridUnitType.Auto);
 
             // if the columnSpan or rowSpan is more than one, set height or width to double.Nan
             if (columnSpan > 1)
@@ -229,8 +299,6 @@ namespace SugzTools.Controls
             SetRowSpan(child, rowSpan);
         }
 
-        #endregion Public
-
 
         #endregion Methods
 
@@ -238,4 +306,4 @@ namespace SugzTools.Controls
 }
 
 //TODO: public void Add(FrameworkElement child, int column, int columnSpan, int row, int rowSpan, double width, GridUnitType unit)
-//TODO: 
+//TODO: porter les methods columns pour les rows

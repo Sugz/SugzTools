@@ -21,6 +21,9 @@ struct renamerStc
 	renameClass = dotNetObject "SugzTools.Src.Rename",
 	previewListWidth,
 	selectionChangedCB,
+	leftPanelMinWidth = 235,
+
+	selectedObjects = #(),
 
 
 	fn Rename obj index = 
@@ -81,7 +84,7 @@ struct renamerStc
 	(
 		sgzRenamer.previewList.ClearRows()
 		index = 0
-		for obj in (_sgz._extMxs.SortObjects (getCurrentSelection())) do
+		for obj in sgzRenamer.selectedObjects do
 		(
 			sgzRenamer.previewList.AddRow #((obj.name), (sgzRenamer.Rename obj index))
 			index += 1
@@ -93,7 +96,7 @@ struct renamerStc
 	(
 		if sgzRenamer.listBtn.IsChecked then
 		(
-			sgzRenamer.mainGrid.SetColumn 0 (sgzRenamer.mainGrid.actualWidth)
+			sgzRenamer.mainGrid.SetColumn 0 (sgzRenamer.mainGrid.actualWidth) sgzRenamer.leftPanelMinWidth
 			sgzRenamer.mainGrid.SetColumn 1 (Wpf.Enums.GridUnitType #auto)
 			sgzRenamer.mainGrid.SetColumn 2 (Wpf.Enums.GridUnitType #star)
 
@@ -123,8 +126,8 @@ struct renamerStc
 	
 	fn SetUI = 
 	(
-		mainGrid = Wpf.Grid margin:5
-		mainGrid.AddColumn 250
+		mainGrid = Wpf.Grid margin:5 minWidth:(sgzRenamer.leftPanelMinWidth)
+		mainGrid.AddColumn sgzRenamer.leftPanelMinWidth sgzRenamer.leftPanelMinWidth
 		mainGrid.AddColumn()
 		mainGrid.AddColumn (Wpf.Enums.GridUnitType #star)
 
@@ -152,14 +155,14 @@ struct renamerStc
 		
 		-- trimGrp ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		renamerExpanders.Add(trimGrp = Wpf.Expander header:"Trim" hasPopup:false isExpanded:false content:(panel = Wpf.UniformGrid spacingAll:#(7,5,5,5) columns:2) expandChanged:PreviewRename)
-		panel.Add (trimFirstSpn = Wpf.Spinner content:"First:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 hAlign:#stretch valueChanged:PreviewRename)
-		panel.Add (trimLastSpn = Wpf.Spinner content:"Last:" type:#integer range:#(0,1000,0) fieldWidth:60 height:18 hAlign:#stretch valueChanged:PreviewRename)
+		panel.Add (trimFirstSpn = Wpf.Spinner content:"First:" type:#integer range:#(0,1000,0) fieldWidth:45 height:18 hAlign:#stretch valueChanged:PreviewRename)
+		panel.Add (trimLastSpn = Wpf.Spinner content:"Last:" type:#integer range:#(0,1000,0) fieldWidth:45 height:18 hAlign:#stretch valueChanged:PreviewRename)
 
 
 		-- removeGrp ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		renamerExpanders.Add(removeGrp = Wpf.Expander header:"Remove" hasPopup:false isExpanded:false content:(panel = Wpf.UniformGrid spacingAll:#(7,5,5,5) columns:2) expandChanged:PreviewRename)
-		panel.Add (removeIndexSpn = Wpf.Spinner content:"Index:" type:#integer range:#(0,1000,1) fieldWidth:60 height:18 hAlign:#stretch valueChanged:PreviewRename)
-		panel.Add (removeLengthSpn = Wpf.Spinner content:"Length:" type:#integer range:#(0,1000,1) fieldWidth:60 height:18 hAlign:#stretch valueChanged:PreviewRename)
+		panel.Add (removeIndexSpn = Wpf.Spinner content:"Index:" type:#integer range:#(0,1000,1) fieldWidth:45 height:18 hAlign:#stretch valueChanged:PreviewRename)
+		panel.Add (removeLengthSpn = Wpf.Spinner content:"Length:" type:#integer range:#(0,1000,1) fieldWidth:45 height:18 hAlign:#stretch valueChanged:PreviewRename)
 
 
 		-- replaceGrp ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -175,23 +178,24 @@ struct renamerStc
 		-- replaceAtGrp ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		renamerExpanders.Add(replaceAtGrp = Wpf.Expander header:"Replace At" hasPopup:false isExpanded:false content:(panel = Wpf.StackPanel margin:5 spacingVertical:7) expandChanged:PreviewRename)
 		panel.Add (grid = Wpf.UniformGrid columns:2)
-		grid.Add (replaceAtIndexSpn = Wpf.Spinner content:"Index:" type:#integer range:#(1,1000,1) fieldWidth:60 height:18 hAlign:#stretch margin:#(2,0,5,0) valueChanged:PreviewRename)
-		grid.Add (replaceAtLengthSpn = Wpf.Spinner content:"Length:" type:#integer range:#(0,1000,1) fieldWidth:60 height:18 hAlign:#stretch margin:#(5,0,0,0) valueChanged:PreviewRename)
+		grid.Add (replaceAtIndexSpn = Wpf.Spinner content:"Index:" type:#integer range:#(1,1000,1) fieldWidth:45 height:18 hAlign:#stretch margin:#(2,0,5,0) valueChanged:PreviewRename)
+		grid.Add (replaceAtLengthSpn = Wpf.Spinner content:"Length:" type:#integer range:#(0,1000,1) fieldWidth:45 height:18 hAlign:#stretch margin:#(5,0,0,0) valueChanged:PreviewRename)
 		panel.Add (replaceAtStrTxt = Wpf.Textbox watermark:"New String" textChanged:PreviewRename)
 
 
 		-- insertGrp ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		renamerExpanders.Add(insertGrp = Wpf.Expander header:"Insert" hasPopup:false isExpanded:false content:(panel = Wpf.StackPanel margin:5 spacingVertical:7) expandChanged:PreviewRename)
-		panel.Add (insertSpn = Wpf.Spinner content:"Index:" type:#integer range:#(1,1000,1) fieldWidth:60 height:18 margin:#(2,0,0,0) valueChanged:PreviewRename)
+		panel.Add (insertSpn = Wpf.Spinner content:"Index:" type:#integer range:#(1,1000,1) fieldWidth:45 height:18 margin:#(2,0,0,0) valueChanged:PreviewRename)
 		panel.Add (insertTxt = Wpf.Textbox watermark:"New String" textChanged:PreviewRename)
 
 
 		-- indexGrp ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-		renamerExpanders.Add(indexGrp = Wpf.Expander header:"Index" hasPopup:false isExpanded:false content:(panel = Wpf.DockPanel margin:5 hAlign:#Stretch background:green) expandChanged:PreviewRename)
+		renamerExpanders.Add(indexGrp = Wpf.Expander header:"Index" hasPopup:false isExpanded:false content:(panel = Wpf.DockPanel margin:5 hAlign:#Stretch) expandChanged:PreviewRename)
 		panel.Add (indexChkBtn = Wpf.CheckButton content:"_" width:20 height:18 click:PreviewRename)
-		panel.Add (grid = Wpf.UniformGrid spacingAll:5 columns:2 hAlign:#stretch background:red)
-		grid.Add (indexStartSpn = Wpf.Spinner content:"Start:" type:#integer range:#(0,10000000,1) fieldWidth:60 height:18 hAlign:#stretch valueChanged:PreviewRename)
-		grid.Add (indexPaddingSpn = Wpf.Spinner content:"Padding:" type:#integer range:#(0,1000000,2) fieldWidth:60 height:18 hAlign:#stretch valueChanged:PreviewRename)
+		panel.Add (grid = Wpf.UniformGrid spacingAll:5 columns:2 hAlign:#stretch)
+		grid.Add (indexStartSpn = Wpf.Spinner content:"Start:" type:#integer range:#(0,10000000,1) fieldWidth:45 height:18 hAlign:#stretch valueChanged:PreviewRename)
+		grid.Add (indexPaddingSpn = Wpf.Spinner content:"Padding:" type:#integer range:#(0,1000000,2) fieldWidth:45 height:18 hAlign:#stretch valueChanged:PreviewRename)
+
 
 		-- renamerBtn ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		leftPanel.Add(panel = Wpf.Dockpanel margin:#(0,5,0,0))
@@ -202,26 +206,23 @@ struct renamerStc
 		panel.Add (renamerBtn = Wpf.Button height:25 content:btnPanel)--click:RenameSelection)
 
 
+		-- gridSplitter ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		maingrid.Add (gridSplitter = Wpf.GridSplitter width:5 margin:#(5,0) background:#MaxRolloutBorder hAlign:#center) 1 0
+
+
 		-- previewList ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		maingrid.Add (previewList = Wpf.Datagrid headerBackground:#MaxRolloutBorder isSelectable:false columnHeaderHeight:20 rowHeight:20 alternatingRowBackground:#maxControl ) 2 0
 		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "OldName" "Old Name" false (Wpf.Enums.DataGridLengthUnitType #Star) 0
 		previewList.AddColumn (Wpf.Enums.PropertyUI #Textblock) "NewName" "New Name" false (Wpf.Enums.DataGridLengthUnitType #Star) 0
-
-
-		-- gridSplitter ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-		maingrid.Add (gridSplitter = dotNetObject "System.Windows.Controls.GridSplitter") 1 0
-		gridSplitter.Width = 5
-		gridSplitter.Margin = Wpf.Thickness #(5,0)
-		gridSplitter.background = Wpf.SolidColorBrush #MaxRolloutBorder
-		gridSplitter.HorizontalAlignment = gridSplitter.HorizontalAlignment.Center
 
 	),
 
 
 	fn Loaded  = 
 	(
-	   SetPreviewListVisibility()
-	   PreviewRename()
+		if not sgzRenamer.listBtn.IsChecked then SetPreviewListVisibility()
+		sgzRenamer.selectedObjects = _sgz._extMxs.SortObjects (getCurrentSelection())
+		sgzRenamer.PreviewRename()
 	),
 	
 
@@ -229,16 +230,23 @@ struct renamerStc
 	(
 		if mainGrid != undefined then
 		(
-			renamerForm = Wpf.Window title:"Renamer" content:mainGrid location:#centerParent width:750 load:Loaded
+			renamerForm = Wpf.Window title:"Renamer" content:mainGrid location:#centerParent width:750 minimumSize:#(261, 200) load:Loaded
 			renamerForm.ShowModeless()
 			dotNet.setLifetimeControl renamerForm #dotnet
 		)
 	),
 
 
+	fn SelectionChanged ev nd = 
+	(
+		sgzRenamer.selectedObjects = _sgz._extMxs.SortObjects (getCurrentSelection())
+		sgzRenamer.PreviewRename()
+	),
+
+
 	fn AddCallback = 
 	(
-		sgzRenamer.selectionChangedCB = NodeEventCallback mouseUp:true selectionChanged:(fn x ev nd = sgzRenamer.PreviewRename())
+		sgzRenamer.selectionChangedCB = NodeEventCallback mouseUp:true selectionChanged:SelectionChanged
 	),
 	
 

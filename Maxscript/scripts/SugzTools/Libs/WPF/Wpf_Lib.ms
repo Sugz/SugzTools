@@ -215,6 +215,7 @@ struct WpfStruct
 	fn Window 
 		width: 217
 		height: 300 
+		minimumSize:
 		title:
 		borderStyle:
 		location:
@@ -233,7 +234,8 @@ struct WpfStruct
 		-- Define the window
 		_wnd = dotNetObject _maxForm
 		_wnd.Width = width
-		_wnd.Height = height 		
+		_wnd.Height = height 	
+		if minimumSize != unsupplied AND isKindOF minimumSize Array then _wnd.MinimumSize = dotnetobject (dotNetClass "System.Drawing.Size") minimumSize[1] minimumSize[2]
 		if title != unsupplied then _wnd.Text = title
 		if borderStyle != unsupplied then _wnd.FormBorderStyle = Enums.FormBorderStyle borderStyle
 		if location != unsupplied then _wnd.StartPosition  = Enums.FormStartPosition location

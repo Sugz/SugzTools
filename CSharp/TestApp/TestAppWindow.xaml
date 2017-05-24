@@ -27,25 +27,25 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel VerticalAlignment="Top">
-            <sgz:SgzExpandersControl>
-                <sgz:SgzExpander IsExpanded="True" Header="">
-                    <StackPanel>
-                        <DockPanel Name="Container"
-                                   HorizontalAlignment="Left">
-                            <TextBlock Text="grhezkzerghkj"
-                                       TextWrapping="WrapWithOverflow"
-                                       ScrollViewer.CanContentScroll="True"
-                                       HorizontalAlignment="Left" />
-                            <TextBox Background="Azure"
-                                     Text="Hello"
-                                     Width="100"
-                                     DockPanel.Dock="Right"
-                                     HorizontalAlignment="Right" />
-                            
+            <Expander IsExpanded="True">
+                <StackPanel Margin="0,5">
+                    <UniformGrid Columns="2">
+                        <DockPanel Margin="5,0">
+                            <TextBox Width="60"
+                                     HorizontalAlignment="Right"
+                                     DockPanel.Dock="Right" />
+                            <TextBlock Text="fgrahjkfeza" />
                         </DockPanel>
-                    </StackPanel>
-                </sgz:SgzExpander>
-            </sgz:SgzExpandersControl>
+                        <DockPanel Margin="5,0">
+                            <TextBox Width="60"
+                                     HorizontalAlignment="Right"
+                                     DockPanel.Dock="Right" />
+                            <TextBlock Text="fgrahjkfeza" />
+                        </DockPanel>
+                    </UniformGrid>
+                    
+                </StackPanel>
+            </Expander>
         </StackPanel>
         <GridSplitter Grid.Column="1"
                       Width="5"

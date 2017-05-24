@@ -80,6 +80,18 @@ struct renamerStc
 	),
 
 
+	fn RenameSelection = 
+	(
+		index = 0
+		undo "Rename" on
+		for obj in sgzRenamer.selectedObjects do
+		(
+			obj.name = sgzRenamer.Rename obj index
+			index += 1
+		)
+	),
+
+
 	fn PreviewRename = 
 	(
 		sgzRenamer.previewList.ClearRows()
@@ -203,7 +215,7 @@ struct renamerStc
 		btnPanel = Wpf.StackPanel orientation:#horizontal
 		btnPanel.Add (Wpf.Textblock text:"Rename" vAlign:#center)
 		btnPanel.Add (Wpf.Icon icon:"MdiBike" margin:#(10,4,0,4) vAlign:#center isEnabled:false)
-		panel.Add (renamerBtn = Wpf.Button height:25 content:btnPanel)--click:RenameSelection)
+		panel.Add (renamerBtn = Wpf.Button height:25 content:btnPanel click:RenameSelection)
 
 
 		-- gridSplitter ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

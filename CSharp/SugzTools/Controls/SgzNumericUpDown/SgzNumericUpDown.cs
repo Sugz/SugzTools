@@ -59,6 +59,8 @@ namespace SugzTools.Controls
         private NumericFormatSpecifier _NumericFormatSpecifier;             // The control numeric format specifier
         private string _DecimalSeparator;                                   // The current system decimal separator
 
+        // Appearance
+        private double _FieldWidth;
 
         #endregion Fields
 
@@ -393,9 +395,9 @@ namespace SugzTools.Controls
         /// Get or set the width of the input field
         /// </summary>
         [Description("Get or set the width of the input field"), Category("Layout")]
-        public int FieldWidth
+        public double FieldWidth
         {
-            get { return (int)GetValue(FieldWidthProperty); }
+            get { return (double)GetValue(FieldWidthProperty); }
             set { SetValue(FieldWidthProperty, value); }
         }
 
@@ -458,9 +460,9 @@ namespace SugzTools.Controls
         // DependencyProperty as the backing store for FieldWidth
         public static readonly DependencyProperty FieldWidthProperty = DependencyProperty.Register(
             "FieldWidth",
-            typeof(int),
+            typeof(double),
             typeof(SgzNumericUpDown),
-            new PropertyMetadata(100)
+            new PropertyMetadata(60d)
         );
 
 
@@ -496,23 +498,10 @@ namespace SugzTools.Controls
             AlwaysShowValue = true;
             _NumericFormatSpecifier = NumericFormatSpecifier.F;
             _DecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            
 
-            Loaded += (s, e) =>
-            {
-                // Make the required changes if the spinner if integer type
-                if (Type == NumericUpDownType.Integer)
-                {
-                    Value = Math.Round(Convert.ToDouble(Value), 0);
-                    DefaultValue = Math.Round(Convert.ToDouble(DefaultValue), 0);
-                    Scale = Scale < 1 ? 1 : Math.Round(Convert.ToDouble(Scale), 0);
-                    MinDecimals = 0;
-                    Decimals = 0;
-                }
-
-                if (AlwaysShowValue && !Indeterminate)
-                    SetTextboxText();
-
-            };
+            Loaded += OnLoaded;
+            SizeChanged += OnSizeChanged;
         }
 
 
@@ -878,6 +867,38 @@ namespace SugzTools.Controls
 
 
         #region Events Handlers
+
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            // Make the required changes if the spinner if integer type
+            if (Type == NumericUpDownType.Integer)
+            {
+                Value = Math.Round(Convert.ToDouble(Value), 0);
+                DefaultValue = Math.Round(Convert.ToDouble(DefaultValue), 0);
+                Scale = Scale < 1 ? 1 : Math.Round(Convert.ToDouble(Scale), 0);
+                MinDecimals = 0;
+                Decimals = 0;
+            }
+
+            if (AlwaysShowValue && !Indeterminate)
+                SetTextboxText();
+        }
+
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_FieldWidth == 0)
+                _FieldWidth = FieldWidth;
+
+            if (ActualWidth <= FieldWidth)
+                FieldWidth = ActualWidth;
+            if (FieldWidth <= ActualWidth && FieldWidth < _FieldWidth)
+                FieldWidth = ActualWidth;
+            if (ActualWidth > _FieldWidth)
+                FieldWidth = _FieldWidth;
+        } 
+
 
 
         #region TextBox

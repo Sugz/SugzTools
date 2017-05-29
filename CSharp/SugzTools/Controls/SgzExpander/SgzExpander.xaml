@@ -159,7 +159,11 @@
                     </Border>
 
                     <!-- Content -->
-                    <ContentPresenter x:Name="PART_Expand" />
+                    <ContentPresenter x:Name="PART_Expand"
+                                      Focusable="false"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                 </StackPanel>
 
                 <!-- PopUp -->
@@ -173,8 +177,11 @@
                             BorderBrush="{StaticResource MaxRolloutBorder}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
-                        <ContentPresenter x:Name="PART_PopupContent"
-                                        Focusable="False" />
+                        <ContentPresenter x:Name="PART_PopupContent" 
+                                          Focusable="False"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
 
                 </Popup>
@@ -232,7 +239,11 @@
 
                 <!-- Content -->
                 <ContentPresenter x:Name="PART_Expand"
-                                  Visibility="Collapsed" />
+                                  Visibility="Collapsed"
+                                  Focusable="false"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
             </StackPanel>
         </Border>
 
@@ -250,6 +261,8 @@
         <Setter Property="Background" Value="{StaticResource MaxRollout}" />
         <Setter Property="Foreground" Value="{StaticResource MaxTitle}" />
         <Setter Property="BorderBrush" Value="{StaticResource MaxRolloutBorder}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Header" Value="SgzExpander" />
 
         <Style.Triggers>

@@ -31,10 +31,10 @@
                 <StackPanel Margin="0,5">
                     <UniformGrid Columns="2">
                         <DockPanel Margin="5,0">
-                            <TextBox Width="60"
-                                     HorizontalAlignment="Right"
-                                     DockPanel.Dock="Right" />
                             <TextBlock Text="fgrahjkfeza" />
+                            <TextBox DockPanel.Dock="Right"
+                                     Width="48"
+                                     HorizontalAlignment="Right" />
                         </DockPanel>
                         <DockPanel Margin="5,0">
                             <TextBox Width="60"
@@ -46,6 +46,15 @@
                     
                 </StackPanel>
             </Expander>
+            <sgz:SgzExpander IsExpanded="True" Margin="5">
+                <StackPanel Margin="0,5">
+                    <sgz:SgzUniformGrid Columns="2" b:Spacing.All="5">
+                        <sgz:SgzNumericUpDown />
+                        <sgz:SgzNumericUpDown FieldWidth="40" />
+                    </sgz:SgzUniformGrid>
+
+                </StackPanel>
+            </sgz:SgzExpander>
         </StackPanel>
         <GridSplitter Grid.Column="1"
                       Width="5"

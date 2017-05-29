@@ -81,8 +81,7 @@ namespace SugzTools.Src
         /// <returns></returns>
         internal static object[] ToArray(IEnumerable _items)
         {
-            object[] items = _items.Cast<object>().ToArray();
-            return items;
+            return _items.Cast<object>().ToArray();
         }
 
 

@@ -79,13 +79,16 @@
                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
 
                         <Border x:Name="PART_InputField"
+                                MinWidth="25"
                                 Width="{Binding FieldWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                 SnapsToDevicePixels="true"
-                                DockPanel.Dock="Right">
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Left">
+                            
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />

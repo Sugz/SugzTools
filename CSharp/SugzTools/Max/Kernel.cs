@@ -1,7 +1,4 @@
 ﻿using Autodesk.Max;
-using System.Collections;
-using System.Windows.Controls;
-using static Autodesk.Max.IGlobal;
 
 namespace SugzTools.Max
 {
@@ -59,17 +56,6 @@ namespace SugzTools.Max
         {
             Global.TheListener.EditStream.Wputs(text);
             Global.TheListener.EditStream.Flush();
-        }
-
-
-        public static void ToMxsArray(IEnumerable items)
-        {
-            string str = "arr = #()\n";
-            foreach(var item in items)
-                str += $"append arr \"{item}\"\n";
-            str += "arr";
-
-            RunMxs(str);
         }
 
 

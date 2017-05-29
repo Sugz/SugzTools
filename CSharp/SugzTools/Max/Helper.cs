@@ -1,4 +1,5 @@
-﻿using SugzTools.Src;
+﻿using Autodesk.Max;
+using SugzTools.Src;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,5 +30,27 @@ namespace SugzTools.Max
         {
             return Helpers.ToArray(items);
         }
+
+
+
+        public static IINode GetNodeByHandle(uint handle)
+        {
+            return Kernel.Interface.GetINodeByHandle(handle);
+        }
+
+        public static IEnumerable<IINode> GetNodesByHandle(uint[] handles)
+        {
+            foreach (uint handle in handles)
+                yield return GetNodeByHandle(handle);
+        }
+
+
+        public static Type GetNodeClass()
+        {
+            return typeof(IINode);
+        }
+
+        
+        
     }
 }

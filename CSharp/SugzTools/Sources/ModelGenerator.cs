@@ -13,12 +13,28 @@ namespace SugzTools.Src
     public class ModelGenerator
     {
 
+        class Using
+        {
+            public string Name { get; set; }
+            public string Url { get; set; }
+
+            public Using(string name)
+            {
+                Name = name;
+            }
+            public Using(string name, string url)
+            {
+                Name = name;
+                Url = url;
+            }
+        }
+
         class Property
         {
-            public Type Type;
-            public string Name;
-            public bool ReadOnly;
-            public object Value;
+            public Type Type { get; set; }
+            public string Name { get; set; }
+            public bool ReadOnly { get; set; }
+            public object Value { get; set; }
 
             public Property(Type type, string name, bool readOnly)
             {
@@ -34,7 +50,7 @@ namespace SugzTools.Src
         private CodeDomProvider _Provider = new CSharpCodeProvider();
         private StringBuilder _Code = new StringBuilder();
         private const string _NamespaceName = "SugzTools";
-        private List<String> _Usings = new List<string>();
+        private List<Using> _Usings = new List<Using>();
         private List<Property> _Properties = new List<Property>();
 
 
@@ -69,8 +85,9 @@ namespace SugzTools.Src
             _Code.AppendLine("using System;");
             _Code.AppendLine("using System.ComponentModel;");
 
-            foreach (string str in _Usings)
-                _Code.AppendLine($"using {str};");
+            foreach (Using _using in _Usings)
+                _Code.AppendLine($"using {_using.Name};");
+
 
             // Namespace and Class
             _Code.AppendLine("\nnamespace SugzTools");
@@ -126,9 +143,13 @@ namespace SugzTools.Src
         /// Add a using to the generated class
         /// </summary>
         /// <param name="_using">The Namespace to add</param>
-        public void AddUsing(string _using)
+        public void AddUsing(string name)
         {
-            _Usings.Add(_using);
+            _Usings.Add(new Using(name));
+        }
+        public void AddUsing(string name, string url)
+        {
+            _Usings.Add(new Using(name, url));
         }
 
 
@@ -175,6 +196,13 @@ namespace SugzTools.Src
                 IncludeDebugInformation = true,
             };
             parameters.ReferencedAssemblies.Add("System.dll");
+            foreach (Using _using in _Usings.Where(x => x.Url != null))
+                parameters.ReferencedAssemblies.Add(_using.Url);
+            //{
+            //    if (_using.Url != null)
+            //        parameters.ReferencedAssemblies.Add(_using.Url);
+            //}
+
 
             // Write the class to a file
             if (fileName != null)

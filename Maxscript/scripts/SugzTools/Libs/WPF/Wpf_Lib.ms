@@ -59,6 +59,10 @@ struct WpfStruct
 	_helper = dotNetClass "SugzTools.Max.Helper",
 
 
+	-- SugzTools Objects ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	Scene = dotNetObject "SugzTools.Max.Scene",
+
+
 	fn AsArray arg = 
 	(
 	   /*<Function>
@@ -69,6 +73,35 @@ struct WpfStruct
 		</Function>*/
 		
 		return _helper.AsArray arg
+	),
+
+
+
+	fn GetNode arg = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		return _helper.GetNodeByHandle arg.handle
+		
+	),
+
+
+	fn GetNodes arg = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		return _helper.GetNodesByHandle (for obj in arg collect obj.handle)
+		
 	),
 
 

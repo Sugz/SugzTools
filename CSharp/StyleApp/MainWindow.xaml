@@ -11,6 +11,7 @@
         Height="350"
         Width="525"
         Background="{DynamicResource MaxRollout}">
+    
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
@@ -26,9 +27,27 @@
         
         <StackPanel x:Name="leftPanel" 
                     Background="Red">
-            <sgz:SgzCheckButton x:Name="sgzCheckButton"
-                                IsChecked="True"
-                                Click="sgzCheckButton_Click" />
+            <Expander Header="Testgregrze" Margin="5" IsExpanded="True" >
+                
+                <StackPanel Margin="5">
+                    <Grid x:Name="grid"
+                          SizeChanged="Grid_SizeChanged">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"
+                                              MaxWidth="60" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="txt"
+                                 Width="60"
+                                 HorizontalAlignment="Stretch"
+                                 Grid.Column="1" />
+                        <TextBlock Text="gghrjklzgre"
+                                   Margin="0,0,5,0" />
+                    </Grid>
+                </StackPanel>
+                
+            </Expander>
         </StackPanel>
         <GridSplitter x:Name="gridSplitter" 
                       Grid.Column="1"

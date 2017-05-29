@@ -10,56 +10,48 @@ namespace SugzTools.Max
     public class Scene
     {
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public IINode RootNode
-        {
-            get { return Kernel.Interface.RootNode; }
-        }
+        internal Node _RootNode;
+        private IILayerManager _LayerManager;
 
 
-        public IEnumerable<IINode> Objects
+        public Node RootNode { get { return _RootNode; } }
+        public IEnumerable<Node> Objects { get { return RootNode.NodeTree; } }
+        public IEnumerable<Node> Selection { get { return Objects.Where(x => x.Selected); } }
+
+        public IEnumerable<Layer> Layers
         {
             get
             {
-                foreach (IINode x in GetChildren(RootNode))
-                {
-                    foreach (IINode y in GetNodeTree(x))
-                        yield return y;
-                    yield return x;
-                }
+                for (int i = 0; i < _LayerManager.LayerCount; i++)
+                    yield return new Layer(i);
             }
         }
 
 
-        public IEnumerable<IINode> Selection
+        public Scene()
         {
-            get { return Objects.Where(x => x.Selected); }
+            _RootNode = new Node(Kernel.Interface.RootNode);
+            _LayerManager = Kernel.Interface.LayerManager;
         }
 
 
 
-
-        public IEnumerable<IINode> GetChildren(IINode node)
+        public Node GetNodeByHandle(uint handle)
         {
-            for (int i = 0; i < node.NumberOfChildren; ++i)
-                if (node.GetChildNode(i) != null)
-                    yield return node.GetChildNode(i);
+            return new Node(handle);
+        }
+
+        public IEnumerable<Node> GetNodesByHandle(uint[] handles)
+        {
+            foreach (uint handle in handles)
+                yield return new Node(handle);
         }
 
 
-
-        public IEnumerable<IINode> GetNodeTree(IINode node)
+        public Layer GetLayer(int i)
         {
-            foreach (IINode x in GetChildren(node))
-            {
-                foreach (IINode y in GetNodeTree(x))
-                    yield return y;
-                yield return x;
-            }
+            return Layers.ToArray()[i];
         }
-
 
     }
 }

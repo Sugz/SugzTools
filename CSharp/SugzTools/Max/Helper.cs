@@ -33,16 +33,7 @@ namespace SugzTools.Max
 
 
 
-        public static IINode GetNodeByHandle(uint handle)
-        {
-            return Kernel.Interface.GetINodeByHandle(handle);
-        }
-
-        public static IEnumerable<IINode> GetNodesByHandle(uint[] handles)
-        {
-            foreach (uint handle in handles)
-                yield return GetNodeByHandle(handle);
-        }
+        
 
 
         public static Type GetNodeClass()

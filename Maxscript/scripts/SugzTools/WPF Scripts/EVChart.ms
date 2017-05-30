@@ -16,8 +16,7 @@ struct EvChartStc
 		evGrid.AddUsing "" @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\WindowsBase.dll"
 			
 		arr = #(#("f10", "f/1.0"), #("f14", "f/1.4"), #("f20", "f/2.0"), #("f28", "f/2.8"), #("f40", "f/4.0"), #("f56", "f/5.6"), #("f80", "f/8.0"), #("f11", "f/11"), #("f16", "f/16"), #("f22", "f/22"))
-		for val in arr do evGrid.AddColumn btn props type val[1] val[2]  true unit 0
-			
+		for val in arr do evGrid.AddColumn btn props type val[1] val[2] true unit 0
 			
 		c0 = Wpf.SolidColorBrush #(255, 255, 205)
 		c1 = Wpf.SolidColorBrush #(254, 255, 153)

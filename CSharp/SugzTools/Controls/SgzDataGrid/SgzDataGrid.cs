@@ -164,7 +164,7 @@ namespace SugzTools.Controls
             string propertyName, 
             string headerName = null,
             bool readOnly = false, 
-            DataGridLengthUnitType unitType = DataGridLengthUnitType.Auto,  
+            DataGridLengthUnitType unitType = DataGridLengthUnitType.Star,  
             double width = 0)
         {
             FrameworkElementFactory factory = new FrameworkElementFactory();
@@ -225,48 +225,36 @@ namespace SugzTools.Controls
         }
 
 
-        public bool AddColumn(
-            FrameworkElement control,
-            DependencyProperty property,
-            Type propertyType,
-            string propertyName,
-            string headerName = null,
-            bool readOnly = false,
-            DataGridLengthUnitType unitType = DataGridLengthUnitType.Auto,
-            double width = 0)
+        //public bool AddColumn(FrameworkElement control, DependencyProperty property, Type propertyType, string propertyName, string headerName, bool readOnly)
+        //{
+        //    return AddColumn(control, new DependencyProperty[] { property }, propertyType, propertyName, headerName, readOnly);
+        //}
+        //public bool AddColumn(FrameworkElement control, DependencyProperty property, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType)
+        //{
+        //    return AddColumn(control, new DependencyProperty[] { property }, propertyType, propertyName, headerName, readOnly, unitType);
+        //}
+        //public bool AddColumn(FrameworkElement control, DependencyProperty property, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType, double width)
+        //{
+        //    return AddColumn(control, new DependencyProperty[] { property }, propertyType, propertyName, headerName, readOnly, unitType, width);
+        //}
+        //public bool AddColumn(FrameworkElement control, DependencyProperty[] properties, Type propertyType, string propertyName, string headerName, bool readOnly)
+        //{
+        //    return AddColumn(control, properties, propertyType, propertyName, headerName, readOnly);
+        //}
+        public bool AddColumn(FrameworkElement control, DependencyProperty[] properties, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType)
         {
-            FrameworkElementFactory factory = new FrameworkElementFactory();
-            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-
-            if (!classGen.AddProperty(propertyType, propertyName, readOnly))
-                return false;
-            factory.Type = control.GetType();
-            factory.SetBinding(property, binding);
-
-            DataGridTemplateColumn column = new DataGridTemplateColumn();
-            column.Header = headerName ?? propertyName;
-            column.CellTemplate = new DataTemplate() { VisualTree = factory };
-            column.MinWidth = 1;
-
-            if (unitType == DataGridLengthUnitType.Star && width == 0)
-                column.Width = new DataGridLength(1, unitType);
-            else if (unitType == DataGridLengthUnitType.Auto && width != 0)
-                column.Width = new DataGridLength(width, DataGridLengthUnitType.Pixel);
-            else column.Width = new DataGridLength(width, unitType);
-
-            Columns.Add(column);
+            AddColumn(control, properties, propertyType, propertyName, headerName, readOnly, unitType);
             return true;
         }
-
 
         public bool AddColumn(
             FrameworkElement control,
             DependencyProperty[] properties,
             Type propertyType,
             string propertyName,
-            string headerName = null,
-            bool readOnly = false,
-            DataGridLengthUnitType unitType = DataGridLengthUnitType.Auto,
+            string headerName,
+            bool readOnly,
+            DataGridLengthUnitType unitType = DataGridLengthUnitType.Star,
             double width = 0)
         {
             FrameworkElementFactory factory = new FrameworkElementFactory();
@@ -280,7 +268,6 @@ namespace SugzTools.Controls
             IEnumerable<DependencyProperty> dep = Helpers.GetDependencyProperties(control).Concat(Helpers.GetAttachedProperties(control));
             dep.ForEach(x => factory.SetValue((DependencyProperty)x, control.GetValue((DependencyProperty)x)));
 
-            //factory.AddHandler()
 
             DataGridTemplateColumn column = new DataGridTemplateColumn();
             column.Header = headerName ?? propertyName;

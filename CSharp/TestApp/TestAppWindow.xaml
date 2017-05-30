@@ -60,7 +60,7 @@
                       Width="5"
                       HorizontalAlignment="Center" />
 
-        <sgz:SgzDataGrid x:Name="dataGrid" 
+        <sgz:SgzDataGrid x:Name="dg" 
                          Grid.Column="2"
                          HeaderHorizontalAlignment="Center"
                          RowBackground="Transparent" />

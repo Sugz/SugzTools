@@ -38,7 +38,7 @@ namespace TestApp
         {
             SgzButton btn = new SgzButton();
             btn.Margin = new Thickness(5);
-            btn.Click += (s, e) => Console.WriteLine("Test");
+            btn.Click += Btn_Click;
 
             DependencyProperty[] props = new DependencyProperty[] { BackgroundProperty, SgzButton.HoverBrushProperty };
             Type type = typeof(SolidColorBrush);
@@ -89,6 +89,11 @@ namespace TestApp
             dg.AddRow(new object[] { c7, c8, c9, c10, c11, c12, c13, c14, c15, c16 });
             dg.AddRow(new object[] { c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 });
             dg.AddRow(new object[] { c9, c10, c11, c12, c13, c14, c15, c16, c17, c18 });
+        }
+
+        public void Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Test");
         }
 
         void LunchSecondWnd()

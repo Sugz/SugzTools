@@ -241,11 +241,11 @@ namespace SugzTools.Controls
         //{
         //    return AddColumn(control, properties, propertyType, propertyName, headerName, readOnly);
         //}
-        public bool AddColumn(FrameworkElement control, DependencyProperty[] properties, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType)
-        {
-            AddColumn(control, properties, propertyType, propertyName, headerName, readOnly, unitType);
-            return true;
-        }
+        //public bool AddColumn(FrameworkElement control, DependencyProperty[] properties, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType)
+        //{
+        //    AddColumn(control, properties, propertyType, propertyName, headerName, readOnly, unitType);
+        //    return true;
+        //}
 
         public bool AddColumn(
             FrameworkElement control,
@@ -265,9 +265,42 @@ namespace SugzTools.Controls
             factory.Type = control.GetType();
             properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
 
+            // Transfer properties of the control to the factory
             IEnumerable<DependencyProperty> dep = Helpers.GetDependencyProperties(control).Concat(Helpers.GetAttachedProperties(control));
             dep.ForEach(x => factory.SetValue((DependencyProperty)x, control.GetValue((DependencyProperty)x)));
 
+            // Transfer event handlers of the control to the factory
+
+
+            //EventInfo[] test = control.GetType().GetEvents(); // Get control events
+            //foreach (EventInfo ev in control.GetType().GetEvents())
+            //{
+            //    Type tDelegate = ev.EventHandlerType;
+            //    FieldInfo miHandler = control.GetType().GetField($"{ev.Name}Event", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+
+            //}
+            foreach (EventInfo ev in control.GetType().GetEvents())
+            {
+                string name = $"{ev.Name}Event";
+                FieldInfo fi = control.GetType().GetField(name, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                if (fi != null && ev.Name == "Click")
+                {
+                    RoutedEvent del = (RoutedEvent)fi.GetValue(control);
+                    //factory.AddHandler(Button.ClickEvent, del);
+                }
+
+            }
+
+
+            //EventInfo eventInfo = control.GetType().GetEvent("Click", BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            //var eventDelegate = (MulticastDelegate)control.GetType().GetField("Click", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
+            //if (eventDelegate != null)
+            //{
+            //    foreach (var handler in eventDelegate.GetInvocationList())
+            //    {
+            //        factory.AddHandler(Button.ClickEvent, handler);
+            //    }
+            //}
 
             DataGridTemplateColumn column = new DataGridTemplateColumn();
             column.Header = headerName ?? propertyName;
@@ -283,6 +316,9 @@ namespace SugzTools.Controls
             Columns.Add(column);
             return true;
         }
+
+
+        
 
 
 

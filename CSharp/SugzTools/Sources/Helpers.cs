@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Markup.Primitives;
 using System.Windows.Media;
 
 namespace SugzTools.Src
@@ -186,6 +187,49 @@ namespace SugzTools.Src
             string chars = "abcdefghijklmnopqrstuvwxyz";
             string str = new string(Enumerable.Repeat(chars, 16).Select(s => s[random.Next(s.Length)]).ToArray());
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
+        }
+
+
+        /// <summary>
+        /// Get a list of Dependency Properties of an object
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        internal static IEnumerable<DependencyProperty> GetDependencyProperties(object control)
+        {
+            List<DependencyProperty> properties = new List<DependencyProperty>();
+            MarkupObject markupObject = MarkupWriter.GetMarkupObjectFor(control);
+            if (markupObject != null)
+            {
+                foreach (MarkupProperty mp in markupObject.Properties)
+                {
+                    if (mp.DependencyProperty != null)
+                        properties.Add(mp.DependencyProperty);
+                }
+            }
+
+            return properties;
+        }
+
+        /// <summary>
+        /// Get a list of Attached Dependency Properties of an object
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        internal static IEnumerable<DependencyProperty> GetAttachedProperties(object control)
+        {
+            List<DependencyProperty> attachedProperties = new List<DependencyProperty>();
+            MarkupObject markupObject = MarkupWriter.GetMarkupObjectFor(control);
+            if (markupObject != null)
+            {
+                foreach (MarkupProperty mp in markupObject.Properties)
+                {
+                    if (mp.IsAttached)
+                        attachedProperties.Add(mp.DependencyProperty);
+                }
+            }
+
+            return attachedProperties;
         }
 
 

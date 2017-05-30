@@ -144,6 +144,12 @@ namespace SugzTools.Controls
         #region Methods
 
 
+        public void AddUsing(string name, string url = null)
+        {
+            classGen.AddUsing(name, url);
+        }
+
+
         /// <summary>
         /// Add a column with the specified control type.
         /// </summary>
@@ -217,6 +223,80 @@ namespace SugzTools.Controls
             Columns.Add(column);
             return true;
         }
+
+
+        public bool AddColumn(
+            FrameworkElement control,
+            DependencyProperty property,
+            Type propertyType,
+            string propertyName,
+            string headerName = null,
+            bool readOnly = false,
+            DataGridLengthUnitType unitType = DataGridLengthUnitType.Auto,
+            double width = 0)
+        {
+            FrameworkElementFactory factory = new FrameworkElementFactory();
+            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+
+            if (!classGen.AddProperty(propertyType, propertyName, readOnly))
+                return false;
+            factory.Type = control.GetType();
+            factory.SetBinding(property, binding);
+
+            DataGridTemplateColumn column = new DataGridTemplateColumn();
+            column.Header = headerName ?? propertyName;
+            column.CellTemplate = new DataTemplate() { VisualTree = factory };
+            column.MinWidth = 1;
+
+            if (unitType == DataGridLengthUnitType.Star && width == 0)
+                column.Width = new DataGridLength(1, unitType);
+            else if (unitType == DataGridLengthUnitType.Auto && width != 0)
+                column.Width = new DataGridLength(width, DataGridLengthUnitType.Pixel);
+            else column.Width = new DataGridLength(width, unitType);
+
+            Columns.Add(column);
+            return true;
+        }
+
+
+        public bool AddColumn(
+            FrameworkElement control,
+            DependencyProperty[] properties,
+            Type propertyType,
+            string propertyName,
+            string headerName = null,
+            bool readOnly = false,
+            DataGridLengthUnitType unitType = DataGridLengthUnitType.Auto,
+            double width = 0)
+        {
+            FrameworkElementFactory factory = new FrameworkElementFactory();
+            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+
+            if (!classGen.AddProperty(propertyType, propertyName, readOnly))
+                return false;
+            factory.Type = control.GetType();
+            properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
+
+            IEnumerable<DependencyProperty> dep = Helpers.GetDependencyProperties(control).Concat(Helpers.GetAttachedProperties(control));
+            dep.ForEach(x => factory.SetValue((DependencyProperty)x, control.GetValue((DependencyProperty)x)));
+
+            //factory.AddHandler()
+
+            DataGridTemplateColumn column = new DataGridTemplateColumn();
+            column.Header = headerName ?? propertyName;
+            column.CellTemplate = new DataTemplate() { VisualTree = factory };
+            column.MinWidth = 1;
+
+            if (unitType == DataGridLengthUnitType.Star && width == 0)
+                column.Width = new DataGridLength(1, unitType);
+            else if (unitType == DataGridLengthUnitType.Auto && width != 0)
+                column.Width = new DataGridLength(width, DataGridLengthUnitType.Pixel);
+            else column.Width = new DataGridLength(width, unitType);
+
+            Columns.Add(column);
+            return true;
+        }
+
 
 
         /// <summary>

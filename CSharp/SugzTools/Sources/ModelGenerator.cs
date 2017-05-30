@@ -34,13 +34,15 @@ namespace SugzTools.Src
             public Type Type { get; set; }
             public string Name { get; set; }
             public bool ReadOnly { get; set; }
+            public bool IsCollection { get; set; }
             public object Value { get; set; }
 
-            public Property(Type type, string name, bool readOnly)
+            public Property(Type type, string name, bool readOnly, bool isCollection)
             {
                 Type = type;
                 Name = name;
                 ReadOnly = readOnly;
+                IsCollection = isCollection;
             }
         }
 
@@ -85,7 +87,7 @@ namespace SugzTools.Src
             _Code.AppendLine("using System;");
             _Code.AppendLine("using System.ComponentModel;");
 
-            foreach (Using _using in _Usings)
+            foreach (Using _using in _Usings.Where(x => x.Name != ""))
                 _Code.AppendLine($"using {_using.Name};");
 
 
@@ -160,13 +162,13 @@ namespace SugzTools.Src
         /// <param name="name">The property Name</param>
         /// <param name="readOnly">Set the property setter to be private</param>
         /// <param name="value">The property Value</param>
-        public bool AddProperty(Type type, string name, bool readOnly)
+        public bool AddProperty(Type type, string name, bool readOnly, bool isCollection = false)
         {
             // Make sure the property name isn't a c# reserved keyword
             if (!_Provider.IsValidIdentifier(name))
                 return false;
 
-            _Properties.Add(new Property(type, name, readOnly));
+            _Properties.Add(new Property(type, name, readOnly, isCollection));
             return true;
         }
 
@@ -196,12 +198,9 @@ namespace SugzTools.Src
                 IncludeDebugInformation = true,
             };
             parameters.ReferencedAssemblies.Add("System.dll");
+
             foreach (Using _using in _Usings.Where(x => x.Url != null))
                 parameters.ReferencedAssemblies.Add(_using.Url);
-            //{
-            //    if (_using.Url != null)
-            //        parameters.ReferencedAssemblies.Add(_using.Url);
-            //}
 
 
             // Write the class to a file

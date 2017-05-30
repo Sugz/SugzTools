@@ -64,7 +64,7 @@ struct WpfStruct
 	Scene = dotNetObject "SugzTools.Max.Scene",
 	Objects = Scene.Objects,
 	Selection = Scene.Selection,
-	
+
 
 
 	fn AsArray arg = 
@@ -210,6 +210,21 @@ struct WpfStruct
 			if arg.count == 3 then return _color.FromArgb 255 arg[1] arg[2] arg[3]
 			if arg.count == 4 then return _color.FromArgb arg[1] arg[2] arg[3] arg[4]
 		)
+	),
+
+
+
+	fn GetType arg = 
+	(
+	   /*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		
+		return (dotNetObject arg).GetType()
 	),
 
 

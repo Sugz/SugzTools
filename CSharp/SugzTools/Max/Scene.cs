@@ -47,7 +47,6 @@ namespace SugzTools.Max
                 yield return new Node(handle);
         }
 
-
         public Layer GetLayer(int i)
         {
             return Layers.ToArray()[i];

@@ -113,14 +113,14 @@
     <Compile Include="Converters\SpacingToMarginConverter.cs" />
     <Compile Include="Converters\ValueMinusConverter.cs" />
     <Compile Include="Converters\ObjectToUIElementConverter.cs" />
-    <Compile Include="Max\Animatable.cs" />
+    <Compile Include="Max\Animatable\Animatable.cs" />
     <Compile Include="Max\Cui\Cui.cs" />
     <Compile Include="Max\Cui\Custom_CuiActionCommandAdapter.cs" />
     <Compile Include="Max\Cui\Custom_CuiDockableContentAdapter.cs" />
     <Compile Include="Max\Helper.cs" />
     <Compile Include="Max\Kernel.cs" />
-    <Compile Include="Max\Layer.cs" />
-    <Compile Include="Max\Node.cs" />
+    <Compile Include="Max\Animatable\Layer.cs" />
+    <Compile Include="Max\Animatable\Node.cs" />
     <Compile Include="Max\Scene.cs" />
     <Compile Include="Max\Structs.cs" />
     <Compile Include="Max\Test.cs" />

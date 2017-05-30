@@ -59,8 +59,11 @@
         <GridSplitter Grid.Column="1"
                       Width="5"
                       HorizontalAlignment="Center" />
-        <StackPanel Grid.Column="2"
-                    Background="Red" />
+
+        <sgz:SgzDataGrid x:Name="dataGrid" 
+                         Grid.Column="2"
+                         HeaderHorizontalAlignment="Center"
+                         RowBackground="Transparent" />
 
     </Grid>
 

@@ -41,6 +41,9 @@ namespace SugzTools.Max
             return typeof(IINode);
         }
 
+
+        public static string GetNull() { return null; }
+
         
         
     }

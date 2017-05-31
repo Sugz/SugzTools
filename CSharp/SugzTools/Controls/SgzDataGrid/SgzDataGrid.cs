@@ -133,8 +133,6 @@ namespace SugzTools.Controls
         }
         public SgzDataGrid()
         {
-            
-            //Loaded += SgzDataGrid_Loaded;
             ItemsSource = Rows;
         }
 
@@ -236,12 +234,12 @@ namespace SugzTools.Controls
             DataGridLengthUnitType unitType = DataGridLengthUnitType.Star,
             double width = 0)
         {
-            FrameworkElementFactory factory = new FrameworkElementFactory();
-            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-
             if (!classGen.AddProperty(propertyType, propertyName, readOnly))
                 return false;
-            factory.Type = control.GetType();
+
+            FrameworkElementFactory factory = new FrameworkElementFactory() { Type = control.GetType() };
+            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+
             properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
 
             // Transfer properties of the control to the factory
@@ -287,12 +285,25 @@ namespace SugzTools.Controls
         /// <param name="args">The model properties values</param>
         public void AddRow(object[] args)
         {
+            AddRow(null, args);
+        }
+
+        public void AddRow(string headerName, object[] args)
+        {
+            // Set the header
+            if (headerName != null)
+            {
+                classGen.AddProperty(typeof(string), "RowHeader", false);
+                Array.Resize(ref args, args.Length + 1);
+                args[args.Length - 1] = headerName;
+            }
+
             if (Model == null)
                 Model = classGen.GetClassType(ModelFileName);
 
             if (Model != null)
             {
-                // Check if the parameters count and types are ok
+                // Check if the parameters count and types are ok (add the header to the args count)
                 ParameterInfo[] _params = Model.GetConstructors()[0].GetParameters();
                 if (args.Length != _params.Length)
                     return;
@@ -308,6 +319,7 @@ namespace SugzTools.Controls
                 Rows.Add(row);
             }
         }
+
 
 
         public void ClearRows()

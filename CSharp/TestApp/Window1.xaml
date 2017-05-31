@@ -12,70 +12,77 @@
         Background="#FF444444">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        
+        <Style x:Key="RowHeaderGripperStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="Height" Value="8" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="SizeNS" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    
+    
+        <Style x:Key="SgzDataGridRowHeaderStyle" TargetType="{x:Type DataGridRowHeader}">
+            <Setter Property="Background" Value="DarkGray" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                        <Grid>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}"
+                                    Padding="{TemplateBinding Padding}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ContentPresenter RecognizesAccessKey="True" 
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    <Control SnapsToDevicePixels="false" 
+                                             Template="{Binding ValidationErrorTemplate, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                             Visibility="{Binding (Validation.HasError), Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
+                                </StackPanel>
+                            </Border>
+                            
+                            <Thumb x:Name="PART_TopHeaderGripper" 
+                                   Style="{StaticResource RowHeaderGripperStyle}" 
+                                   VerticalAlignment="Top" />
+                            <Thumb x:Name="PART_BottomHeaderGripper" 
+                                   Style="{StaticResource RowHeaderGripperStyle}" 
+                                   VerticalAlignment="Bottom" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
-    <Grid HorizontalAlignment="Left"
-          VerticalAlignment="Top"
-          SizeChanged="Grid_SizeChanged"
-          Width="250"
-          Height="473">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Column="1"
-                      Width="10" />
-        <sgz:SgzDataGrid Grid.Column="2"
-                         Width="300"
-                         Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=sgzCheckButton}" />
-        <StackPanel VerticalAlignment="Top">
-            <sgz:SgzExpandersControl>
-                <sgz:SgzExpander x:Name="expander"
-                                 Header="Expander DG"
-                                 IsExpanded="True">
-                    <StackPanel Margin="5">
-                        <Button Content="Button 01"
-                                Click="Button_Click" />
-                        <Button Content="Button 01" />
-                        <sgz:SgzUniformGrid Columns="3">
-                            <sgz:SgzCheckBox Content="Move"
-                                             Spacing="10" />
-                            <sgz:SgzCheckBox HorizontalContentAlignment="Right"
-                                             Content="Rotate"
-                                             Spacing="10" />
-                            <sgz:SgzCheckBox HorizontalContentAlignment="Right"
-                                             Content="Scale" />
-                        </sgz:SgzUniformGrid>
-                    </StackPanel>
-                </sgz:SgzExpander>
-                <sgz:SgzExpander Header="Expander 02">
-                    <sgz:SgzListView Name="listBox"
-                                     Margin="5"
-                                     Height="100"
-                                     ShowHeaders="True" />
-                </sgz:SgzExpander>
-                <sgz:SgzExpander Header="Expander 03">
-                    <sgz:SgzDataGrid x:Name="dg"
-                                     Height="150"
-                                     Margin="5,5,5,5"
-                                     HeaderHorizontalAlignment="Center"
-                                     CanUserReorderColumns="True" />
+    <DataGrid ItemsSource="{Binding Countries}"
+              AutoGenerateColumns="False"
+              HeadersVisibility="All"
+              x:Name="dg"
+              RowHeaderStyle="{StaticResource SgzDataGridRowHeaderStyle}">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Country"
+                                Binding="{Binding Name}"
+                                Width="*" />
+        </DataGrid.Columns>
+        <DataGrid.RowHeaderTemplate>
+            <DataTemplate>
+                <TextBlock  Text="{Binding DataContext.Continent, RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+            </DataTemplate>
+        </DataGrid.RowHeaderTemplate>
 
-                </sgz:SgzExpander>
+    </DataGrid>
 
-                <sgz:SgzExpander Header="Expander 04">
-                    <StackPanel Height="35" />
-                </sgz:SgzExpander>
-
-            </sgz:SgzExpandersControl>
-            <DockPanel>
-                <sgz:SgzCheckButton x:Name="sgzCheckButton"
-                                    DockPanel.Dock="Right"
-                                    Width="20" 
-                                    IsChecked="True"/>
-                <sgz:SgzButton />
-            </DockPanel>
-        </StackPanel>
-    </Grid>
 </Window>

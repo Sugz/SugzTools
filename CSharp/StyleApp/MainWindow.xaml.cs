@@ -22,22 +22,28 @@ namespace StyleApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        double leftPanelWidth;
-        double rightPanelWidth;
+        class People
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+        }
+
+
+        ObservableCollection<People> Peoples;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            Peoples = new ObservableCollection<People>()
+            {
+                new People() { Name = "Test 01", Age = 21 },
+                new People() { Name = "Test 02", Age = 18 },
+            };
 
-            rightPanelWidth = rightPanel.ActualWidth;
-            //dg.SelectionChanged += (s, e) => ((DataGrid)s).UnselectAllCells();
+
+            dg.ItemsSource = Peoples;
         }
 
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Console.WriteLine(grid.ActualWidth);
-            //Console.WriteLine(txt.ActualWidth);
-        }
     }
 }

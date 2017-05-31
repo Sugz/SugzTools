@@ -77,6 +77,61 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    
+    <Style x:Key="RowHeaderGripperStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="SizeNS" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+    <Style x:Key="SgzDataGridRowHeaderStyle" TargetType="{x:Type DataGridRowHeader}">
+        <Setter Property="Background" Value="{Binding HeaderBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
+        <Setter Property="Foreground" Value="{Binding HeaderForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <!--<Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                    <Grid>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                <ContentPresenter RecognizesAccessKey="True" 
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <Control SnapsToDevicePixels="false" 
+                                         Template="{Binding ValidationErrorTemplate, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" 
+                                         Visibility="{Binding (Validation.HasError), Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
+                            </StackPanel>
+                        </Border>
+                            
+                        <Thumb x:Name="PART_TopHeaderGripper" 
+                               Style="{StaticResource RowHeaderGripperStyle}" 
+                               VerticalAlignment="Top" />
+                        <Thumb x:Name="PART_BottomHeaderGripper" 
+                               Style="{StaticResource RowHeaderGripperStyle}" 
+                               VerticalAlignment="Bottom" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
     <Style TargetType="{x:Type local:SgzDataGrid}" BasedOn="{StaticResource MaxStyle}">
@@ -90,8 +145,17 @@
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="CanUserAddRows" Value="False" />
-
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource SgzDataGridColumnHeaderStyle}" />
+        <Setter Property="RowHeaderStyle" Value="{StaticResource SgzDataGridRowHeaderStyle}" />
+        
+        <Setter Property="RowHeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DataContext.RowHeader, RelativeSource={RelativeSource AncestorType=DataGridRow}}" 
+                               Margin="5,0"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>

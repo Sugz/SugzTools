@@ -60,10 +60,22 @@
                       Width="5"
                       HorizontalAlignment="Center" />
 
-        <sgz:SgzDataGrid x:Name="dg" 
+        <!--<sgz:SgzDataGrid x:Name="dg"
+                         Margin="0,20,0,0"
                          Grid.Column="2"
                          HeaderHorizontalAlignment="Center"
-                         RowBackground="Transparent" />
+                         RowBackground="Transparent"
+                         HeadersVisibility="All"
+                         SelectionMode="Single"
+                         SelectionUnit="Cell">
+        </sgz:SgzDataGrid>-->
+        <sgz:SgzDataGrid x:Name="dg"
+                         Margin="0,20,0,0"
+                         Grid.Column="2"
+                         HeaderHorizontalAlignment="Center"
+                         RowBackground="Transparent"
+                         HeadersVisibility="All">
+        </sgz:SgzDataGrid>
 
     </Grid>
 

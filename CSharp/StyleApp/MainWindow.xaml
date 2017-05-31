@@ -16,46 +16,14 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
-    <Grid x:Name="mainGrid" 
-          Background="Green">
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="3*" />
-        </Grid.ColumnDefinitions>
-        
-        <StackPanel x:Name="leftPanel" 
-                    Background="Red">
-            <Expander Header="Testgregrze" Margin="5" IsExpanded="True" >
-                
-                <StackPanel Margin="5">
-                    <Grid x:Name="grid"
-                          SizeChanged="Grid_SizeChanged">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto"
-                                              MaxWidth="60" />
-                        </Grid.ColumnDefinitions>
+    <Grid x:Name="mainGrid" >
 
-                        <TextBox x:Name="txt"
-                                 Width="60"
-                                 HorizontalAlignment="Stretch"
-                                 Grid.Column="1" />
-                        <TextBlock Text="gghrjklzgre"
-                                   Margin="0,0,5,0" />
-                    </Grid>
-                </StackPanel>
-                
-            </Expander>
-        </StackPanel>
-        <GridSplitter x:Name="gridSplitter" 
-                      Grid.Column="1"
-                      Width="5"
-                      HorizontalAlignment="Center" />
-        <StackPanel x:Name="rightPanel"
-                    Background="Blue"
-                    Grid.Column="2"/>
+        <DataGrid x:Name="dg" 
+                  Margin="5" 
+                  HeadersVisibility="All"
+                  RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle1}">
+            
+        </DataGrid>
     </Grid>
 
 </Window>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup.Primitives;
 using System.Windows.Media;
+using BF = System.Reflection.BindingFlags;
 
 namespace SugzTools.Src
 {
@@ -230,6 +232,33 @@ namespace SugzTools.Src
             }
 
             return attachedProperties;
+        }
+
+
+        /// <summary>
+        /// Get a list of RoutedEventHandlers
+        /// Credit: Douglas : https://stackoverflow.com/a/12618521/3971575
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="routedEvent"></param>
+        /// <returns></returns>
+        internal static RoutedEventHandlerInfo[] GetRoutedEventHandlers(UIElement element, RoutedEvent routedEvent)
+        {
+            // Get the EventHandlersStore instance which holds event handlers for the specified element.
+            // The EventHandlersStore class is declared as internal.
+            PropertyInfo eventHandlersStoreProperty = typeof(UIElement).GetProperty("EventHandlersStore", BF.Instance | BF.NonPublic);
+            object eventHandlersStore = eventHandlersStoreProperty.GetValue(element, null);
+
+            // If no event handlers are subscribed, eventHandlersStore will be null.
+            // Credit: https://stackoverflow.com/a/16392387/1149773
+            if (eventHandlersStore == null)
+                return null;
+
+            // Invoke the GetRoutedEventHandlers method on the EventHandlersStore instance 
+            // for getting an array of the subscribed event handlers.
+            MethodInfo getRoutedEventHandlers = eventHandlersStore.GetType().GetMethod("GetRoutedEventHandlers", BF.Instance | BF.Public | BF.NonPublic);
+
+            return (RoutedEventHandlerInfo[])getRoutedEventHandlers.Invoke(eventHandlersStore, new object[] { routedEvent });
         }
 
 

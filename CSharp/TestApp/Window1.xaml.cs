@@ -47,7 +47,7 @@ namespace TestApp
 
 
             dg.RowBackground = new SolidColorBrush(Colors.Transparent);
-            dg.ModelFileName = @"d:\SampleCode.cs";
+            //dg.ModelFileName = @"d:\SampleCode.cs";
 
             bool _on = dg.AddColumn(PropertyUI.Checkbox, "On");
             bool _use = dg.AddColumn(PropertyUI.Checkbutton, "Use","", width: 10);

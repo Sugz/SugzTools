@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using BF = System.Reflection.BindingFlags;
 
 namespace SugzTools.Controls
 {
@@ -225,28 +226,6 @@ namespace SugzTools.Controls
         }
 
 
-        //public bool AddColumn(FrameworkElement control, DependencyProperty property, Type propertyType, string propertyName, string headerName, bool readOnly)
-        //{
-        //    return AddColumn(control, new DependencyProperty[] { property }, propertyType, propertyName, headerName, readOnly);
-        //}
-        //public bool AddColumn(FrameworkElement control, DependencyProperty property, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType)
-        //{
-        //    return AddColumn(control, new DependencyProperty[] { property }, propertyType, propertyName, headerName, readOnly, unitType);
-        //}
-        //public bool AddColumn(FrameworkElement control, DependencyProperty property, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType, double width)
-        //{
-        //    return AddColumn(control, new DependencyProperty[] { property }, propertyType, propertyName, headerName, readOnly, unitType, width);
-        //}
-        //public bool AddColumn(FrameworkElement control, DependencyProperty[] properties, Type propertyType, string propertyName, string headerName, bool readOnly)
-        //{
-        //    return AddColumn(control, properties, propertyType, propertyName, headerName, readOnly);
-        //}
-        //public bool AddColumn(FrameworkElement control, DependencyProperty[] properties, Type propertyType, string propertyName, string headerName, bool readOnly, DataGridLengthUnitType unitType)
-        //{
-        //    AddColumn(control, properties, propertyType, propertyName, headerName, readOnly, unitType);
-        //    return true;
-        //}
-
         public bool AddColumn(
             FrameworkElement control,
             DependencyProperty[] properties,
@@ -270,38 +249,18 @@ namespace SugzTools.Controls
             dep.ForEach(x => factory.SetValue((DependencyProperty)x, control.GetValue((DependencyProperty)x)));
 
             // Transfer event handlers of the control to the factory
-
-
-            //EventInfo[] test = control.GetType().GetEvents(); // Get control events
-            //foreach (EventInfo ev in control.GetType().GetEvents())
-            //{
-            //    Type tDelegate = ev.EventHandlerType;
-            //    FieldInfo miHandler = control.GetType().GetField($"{ev.Name}Event", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
-
-            //}
-            foreach (EventInfo ev in control.GetType().GetEvents())
+            FieldInfo[] fields = control.GetType().GetFields(BF.Static | BF.NonPublic | BF.Instance | BF.Public | BF.FlattenHierarchy);
+            foreach (FieldInfo field in fields.Where(x => x.FieldType == typeof(RoutedEvent)))
             {
-                string name = $"{ev.Name}Event";
-                FieldInfo fi = control.GetType().GetField(name, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
-                if (fi != null && ev.Name == "Click")
+                RoutedEventHandlerInfo[] routedEventHandlerInfos = Helpers.GetRoutedEventHandlers(control, (RoutedEvent)field.GetValue(control));
+                if (routedEventHandlerInfos != null)
                 {
-                    RoutedEvent del = (RoutedEvent)fi.GetValue(control);
-                    //factory.AddHandler(Button.ClickEvent, del);
+                    foreach (RoutedEventHandlerInfo routedEventHandlerInfo in routedEventHandlerInfos)
+                        factory.AddHandler((RoutedEvent)field.GetValue(control), routedEventHandlerInfo.Handler);
                 }
-
             }
 
-
-            //EventInfo eventInfo = control.GetType().GetEvent("Click", BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            //var eventDelegate = (MulticastDelegate)control.GetType().GetField("Click", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(null);
-            //if (eventDelegate != null)
-            //{
-            //    foreach (var handler in eventDelegate.GetInvocationList())
-            //    {
-            //        factory.AddHandler(Button.ClickEvent, handler);
-            //    }
-            //}
-
+            // Create and populate the column
             DataGridTemplateColumn column = new DataGridTemplateColumn();
             column.Header = headerName ?? propertyName;
             column.CellTemplate = new DataTemplate() { VisualTree = factory };
@@ -316,7 +275,7 @@ namespace SugzTools.Controls
             Columns.Add(column);
             return true;
         }
-
+         
 
         
 

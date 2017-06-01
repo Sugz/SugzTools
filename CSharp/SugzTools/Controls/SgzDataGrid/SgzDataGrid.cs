@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -142,6 +143,55 @@ namespace SugzTools.Controls
 
         #region Methods
 
+        /// <summary>
+        /// Transfer each properties and events handlers from the model to the factory
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="factory"></param>
+        private void SetFactory(FrameworkElement model, FrameworkElementFactory factory)
+        {
+            // Transfer properties of the control to the factory
+            IEnumerable<DependencyProperty> dep = Helpers.GetDependencyProperties(model).Concat(Helpers.GetAttachedProperties(model));
+            dep.ForEach(x => factory.SetValue((DependencyProperty)x, model.GetValue((DependencyProperty)x)));
+
+            // Transfer event handlers of the control to the factory
+            FieldInfo[] fields = model.GetType().GetFields(BF.Static | BF.NonPublic | BF.Instance | BF.Public | BF.FlattenHierarchy);
+            foreach (FieldInfo field in fields.Where(x => x.FieldType == typeof(RoutedEvent)))
+            {
+                RoutedEventHandlerInfo[] routedEventHandlerInfos = Helpers.GetRoutedEventHandlers(model, (RoutedEvent)field.GetValue(model));
+                if (routedEventHandlerInfos != null)
+                {
+                    foreach (RoutedEventHandlerInfo routedEventHandlerInfo in routedEventHandlerInfos)
+                        factory.AddHandler((RoutedEvent)field.GetValue(model), routedEventHandlerInfo.Handler);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Create and populate the column
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <param name="unitType"></param>
+        /// <param name="width"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="headerName"></param>
+        /// <returns></returns>
+        private DataGridTemplateColumn CreateColumn(FrameworkElementFactory factory, DataGridLengthUnitType unitType, double width, string propertyName = null, string headerName = null)
+        {
+            DataGridTemplateColumn column = new DataGridTemplateColumn();
+            column.Header = headerName ?? propertyName;
+            column.CellTemplate = new DataTemplate() { VisualTree = factory };
+            column.MinWidth = 1;
+
+            if (unitType == DataGridLengthUnitType.Star && width == 0)
+                column.Width = new DataGridLength(1, unitType);
+            else if (unitType == DataGridLengthUnitType.Auto && width != 0)
+                column.Width = new DataGridLength(width, DataGridLengthUnitType.Pixel);
+            else column.Width = new DataGridLength(width, unitType);
+
+            return column;
+        }
+
 
         public void AddUsing(string name, string url = null)
         {
@@ -149,6 +199,7 @@ namespace SugzTools.Controls
         }
 
 
+        /*
         /// <summary>
         /// Add a column with the specified control type.
         /// </summary>
@@ -222,62 +273,54 @@ namespace SugzTools.Controls
             Columns.Add(column);
             return true;
         }
+        */
 
+        public bool AddColumn(FrameworkElement control, string headerName, DataGridLengthUnitType unitType = DataGridLengthUnitType.Star, double width = 0)
+        {
+            FrameworkElementFactory factory = new FrameworkElementFactory() { Type = control.GetType() };
+            SetFactory(control, factory);
+            Columns.Add(CreateColumn(factory, unitType, width, headerName));
+            return true;
+        }
 
         public bool AddColumn(
-            FrameworkElement control,
+            FrameworkElement model,
             DependencyProperty[] properties,
-            Type propertyType,
+            object propertyType,
             string propertyName,
             string headerName,
             bool readOnly,
             DataGridLengthUnitType unitType = DataGridLengthUnitType.Star,
             double width = 0)
         {
-            if (!classGen.AddProperty(propertyType, propertyName, readOnly))
+            // Set the model property and the binding
+            if (!(propertyType is Type))
+                propertyType = propertyType.GetType();
+
+            if (!classGen.AddProperty((Type)propertyType, propertyName, readOnly))
                 return false;
 
-            FrameworkElementFactory factory = new FrameworkElementFactory() { Type = control.GetType() };
+            FrameworkElementFactory factory = new FrameworkElementFactory() { Type = model.GetType() };
             Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-
             properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
 
-            // Transfer properties of the control to the factory
-            IEnumerable<DependencyProperty> dep = Helpers.GetDependencyProperties(control).Concat(Helpers.GetAttachedProperties(control));
-            dep.ForEach(x => factory.SetValue((DependencyProperty)x, control.GetValue((DependencyProperty)x)));
 
-            // Transfer event handlers of the control to the factory
-            FieldInfo[] fields = control.GetType().GetFields(BF.Static | BF.NonPublic | BF.Instance | BF.Public | BF.FlattenHierarchy);
-            foreach (FieldInfo field in fields.Where(x => x.FieldType == typeof(RoutedEvent)))
-            {
-                RoutedEventHandlerInfo[] routedEventHandlerInfos = Helpers.GetRoutedEventHandlers(control, (RoutedEvent)field.GetValue(control));
-                if (routedEventHandlerInfos != null)
-                {
-                    foreach (RoutedEventHandlerInfo routedEventHandlerInfo in routedEventHandlerInfos)
-                        factory.AddHandler((RoutedEvent)field.GetValue(control), routedEventHandlerInfo.Handler);
-                }
-            }
-
-            // Create and populate the column
-            DataGridTemplateColumn column = new DataGridTemplateColumn();
-            column.Header = headerName ?? propertyName;
-            column.CellTemplate = new DataTemplate() { VisualTree = factory };
-            column.MinWidth = 1;
-
-            if (unitType == DataGridLengthUnitType.Star && width == 0)
-                column.Width = new DataGridLength(1, unitType);
-            else if (unitType == DataGridLengthUnitType.Auto && width != 0)
-                column.Width = new DataGridLength(width, DataGridLengthUnitType.Pixel);
-            else column.Width = new DataGridLength(width, unitType);
-
-            Columns.Add(column);
+            SetFactory(model, factory);
+            Columns.Add(CreateColumn(factory, unitType, width, propertyName, headerName));
             return true;
         }
-         
-
-        
 
 
+
+        public void AddRow()
+        {
+            AddRow(null, new object[0]);
+        }
+
+        public void AddRow(string headerName)
+        {
+            AddRow(headerName, new object[0]);
+        }
 
         /// <summary>
         /// Add a row using the model created with the AddColumn method.
@@ -298,6 +341,7 @@ namespace SugzTools.Controls
                 args[args.Length - 1] = headerName;
             }
 
+            // Create the model the first time
             if (Model == null)
                 Model = classGen.GetClassType(ModelFileName);
 
@@ -327,6 +371,10 @@ namespace SugzTools.Controls
             Rows.Clear();
         }
 
+
+        public int GetRowIndex(object sender) { return Rows.IndexOf(SelectedCells[0].Item); }
+
+        public int GetColumnIndex(object sender) { return CurrentCell.Column.DisplayIndex; }
 
 
         /// <summary>
@@ -376,6 +424,13 @@ namespace SugzTools.Controls
         {
             PropertyInfo[] props = Model.GetType().GetProperties();
             props[propIndex].SetValue(Rows[rowIndex], newValue);
+        }
+
+
+        public object[] GetChildren(Type type)
+        {
+            IEnumerable<DependencyObject> children = Helpers.GetVisualChildren<DependencyObject>(this).ToArray();
+            return children.Where(x => x.GetType() == type).ToArray();
         }
 
 

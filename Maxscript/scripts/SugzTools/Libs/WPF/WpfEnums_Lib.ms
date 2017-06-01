@@ -15,6 +15,9 @@ struct WpfEnumStruct
 
 	-- WPF Enums ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	_dataGridLengthUnitType = dotNetClass "System.Windows.Controls.DataGridLengthUnitType",
+	_dataGridHeadersVisibility = dotNetClass "System.Windows.Controls.DataGridHeadersVisibility",
+	_dataGridSelectionMode = dotNetClass "System.Windows.Controls.DataGridSelectionMode",
+	_dataGridSelectionUnit = dotNetClass "System.Windows.Controls.DataGridSelectionUnit",
 	_dock = dotNetClass "System.Windows.Controls.Dock",
 	_horizontalAlignment = dotNetClass "System.Windows.HorizontalAlignment",
 	_gridUnitType = dotNetClass "System.Windows.GridUnitType",
@@ -225,6 +228,63 @@ struct WpfEnumStruct
 			#SizeToCells: return _dataGridLengthUnitType.SizeToCells
 			#SizeToHeader: return _dataGridLengthUnitType.SizeToHeader
 			#Star: return _dataGridLengthUnitType.Star
+		)
+	),
+
+
+	-- Return a System.Windows.Controls.DataGridHeadersVisibility ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn DataGridHeadersVisibility arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of 
+		(
+			#All: return _dataGridHeadersVisibility.All
+			#Column: return _dataGridHeadersVisibility.Column
+			#None: return _dataGridHeadersVisibility.None
+			#Row: return _dataGridHeadersVisibility.Row
+		)
+	),
+
+
+	-- Return a System.Windows.Controls.DataGridSelectionMode ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn DataGridSelectionMode arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of 
+		(
+			#Extended: return _dataGridSelectionMode.Extended
+			#Single: return _dataGridSelectionMode.Single
+		)
+	),
+
+
+	-- Return a System.Windows.Controls.DataGridSelectionUnit ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	fn DataGridSelectionUnit arg =
+	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
+		case arg of 
+		(
+			#Cell: return _dataGridSelectionUnit.Cell
+			#CellOrRowHeader: return _dataGridSelectionUnit.CellOrRowHeader
+			#FullRow: return _dataGridSelectionUnit.FullRow
 		)
 	),
 

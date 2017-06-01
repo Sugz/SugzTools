@@ -9,7 +9,7 @@ struct EvChartStc
 		
 		btn = Wpf.Button()
 		props = #(btn.BackgroundProperty, btn.HoverBrushProperty)
-		type = Wpf.GetType (Wpf._solidColorBrush)
+		type = Wpf.GetType (Wpf._solidColorBrush) isNetClass:true
 		unit = Wpf.Enums.DataGridLengthUnitType #Star
 			
 		evGrid.AddUsing "System.Windows.Media" @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\PresentationCore.dll"

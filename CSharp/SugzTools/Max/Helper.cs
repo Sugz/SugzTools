@@ -44,7 +44,10 @@ namespace SugzTools.Max
 
         public static string GetNull() { return null; }
 
-        
-        
+
+        public static Type GetType(object obj) { return obj.GetType(); }
+
+
+
     }
 }

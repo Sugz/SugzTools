@@ -43,12 +43,14 @@
                             <TextBlock Text="fgrahjkfeza" />
                         </DockPanel>
                     </UniformGrid>
-                    
+
                 </StackPanel>
             </Expander>
-            <sgz:SgzExpander IsExpanded="True" Margin="5">
+            <sgz:SgzExpander IsExpanded="True"
+                             Margin="5">
                 <StackPanel Margin="0,5">
-                    <sgz:SgzUniformGrid Columns="2" b:Spacing.All="5">
+                    <sgz:SgzUniformGrid Columns="2"
+                                        b:Spacing.All="5">
                         <sgz:SgzNumericUpDown />
                         <sgz:SgzNumericUpDown FieldWidth="40" />
                     </sgz:SgzUniformGrid>
@@ -60,22 +62,14 @@
                       Width="5"
                       HorizontalAlignment="Center" />
 
-        <!--<sgz:SgzDataGrid x:Name="dg"
-                         Margin="0,20,0,0"
-                         Grid.Column="2"
-                         HeaderHorizontalAlignment="Center"
-                         RowBackground="Transparent"
-                         HeadersVisibility="All"
-                         SelectionMode="Single"
-                         SelectionUnit="Cell">
-        </sgz:SgzDataGrid>-->
         <sgz:SgzDataGrid x:Name="dg"
                          Margin="0,20,0,0"
                          Grid.Column="2"
                          HeaderHorizontalAlignment="Center"
                          RowBackground="Transparent"
-                         HeadersVisibility="All">
-        </sgz:SgzDataGrid>
+                         HeadersVisibility="All"
+                         SelectionUnit="Cell"/>
+
 
     </Grid>
 

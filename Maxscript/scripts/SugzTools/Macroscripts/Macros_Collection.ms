@@ -219,7 +219,7 @@ struct MacrosCollectionStc
 			(
 				if sgzRenamer != undefined AND sgzRenamer.renamerForm != undefined
 					then sgzRenamer.renamerForm.Close()
-					else if doesFileExist (file = "$userscripts\SugzTools\WPF Scripts\Renamer_v2.ms") do 
+					else if doesFileExist (file = "$userscripts\SugzTools\WPF Scripts\Renamer.ms") do 
 					(
 						fileIn file
 						sgzRenamer.CreateForm()

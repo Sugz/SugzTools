@@ -2,6 +2,7 @@
 using SugzTools.Icons;
 using SugzTools.Src;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -37,102 +39,36 @@ namespace TestApp
 
         private void SetUpDataGrid()
         {
-
             SgzButton btn = new SgzButton();
-            //btn.Margin = new Thickness(5);
+            btn.Margin = new Thickness(1);
             btn.Click += Btn_Click; ;
-
-            //DependencyProperty[] props = new DependencyProperty[] { BackgroundProperty, SgzButton.HoverBrushProperty };
-            //Type type = typeof(SolidColorBrush);
-
-            DependencyProperty[] props = new DependencyProperty[] { TagProperty };
-            Type type = typeof(int);
 
             dg.ModelFileName = @"d:\test.cs";
 
             dg.AddUsing("System.Windows.Media", @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\PresentationCore.dll");
             dg.AddUsing("", @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\WindowsBase.dll");
 
+            string[] columnHeaders = new string[10] { "f/1.0", "f/1.4", "f/2.0", "f/2.8", "f/4.0", "f/5.6", "f/8.0", "f/11", "f/16", "f/22" };
+            string[] rowHeaders = new string[10] { "1 sec", "1/2 sec", "1/4 sec", "1/8 sec", "1/15 sec", "1/30 sec", "1/60 sec", "1/125 sec", "1/250 sec", "1/500 sec" };
 
+            for (int i = 0; i < columnHeaders.Length; i++)
+                dg.AddColumn(btn, columnHeaders[i]);
 
-            //dg.AddColumn(btn, props, type, "f10", "f/1.0", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f14", "f/1.4", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f20", "f/2.0", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f28", "f/2.8", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f40", "f/4.0", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f56", "f/5.6", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f80", "f/8.0", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f11", "f/11", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f16", "f/16", true, DataGridLengthUnitType.Star);
-            //dg.AddColumn(btn, props, type, "f22", "f/22", true, DataGridLengthUnitType.Star);
-
-            //SolidColorBrush c0 = new SolidColorBrush(Color.FromRgb(255, 255, 205));
-            //SolidColorBrush c1 = new SolidColorBrush(Color.FromRgb(254, 255, 153));
-            //SolidColorBrush c2 = new SolidColorBrush(Color.FromRgb(254, 255, 0));
-            //SolidColorBrush c3 = new SolidColorBrush(Color.FromRgb(204, 255, 0));
-            //SolidColorBrush c4 = new SolidColorBrush(Color.FromRgb(153, 254, 0));
-            //SolidColorBrush c5 = new SolidColorBrush(Color.FromRgb(1, 255, 205));
-            //SolidColorBrush c6 = new SolidColorBrush(Color.FromRgb(101, 153, 255));
-            //SolidColorBrush c7 = new SolidColorBrush(Color.FromRgb(154, 204, 255));
-            //SolidColorBrush c8 = new SolidColorBrush(Color.FromRgb(203, 153, 204));
-            //SolidColorBrush c9 = new SolidColorBrush(Color.FromRgb(255, 153, 255));
-            //SolidColorBrush c10 = new SolidColorBrush(Color.FromRgb(254, 204, 205));
-            //SolidColorBrush c11 = new SolidColorBrush(Color.FromRgb(255, 203, 153));
-            //SolidColorBrush c12 = new SolidColorBrush(Color.FromRgb(255, 204, 0));
-            //SolidColorBrush c13 = new SolidColorBrush(Color.FromRgb(255, 153, 0));
-            //SolidColorBrush c14 = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-            //SolidColorBrush c15 = new SolidColorBrush(Color.FromRgb(203, 51, 152));
-            //SolidColorBrush c16 = new SolidColorBrush(Color.FromRgb(204, 0, 255));
-            //SolidColorBrush c17 = new SolidColorBrush(Color.FromRgb(103, 51, 255));
-            //SolidColorBrush c18 = new SolidColorBrush(Color.FromRgb(153, 50, 103));
-
-            //dg.AddRow("1 sec", new object[] { c0, c1, c2, c3, c4, c5, c6, c7, c8, c9 } );
-            //dg.AddRow("1/2 sec", new object[] { c1, c2, c3, c4, c5, c6, c7, c8, c9, c10 });
-            //dg.AddRow("1/4 sec", new object[] { c2, c3, c4, c5, c6, c7, c8, c9, c10, c11 });
-            //dg.AddRow("1/8 sec", new object[] { c3, c4, c5, c6, c7, c8, c9, c10, c11, c12 });
-            //dg.AddRow("1/15 sec", new object[] { c4, c5, c6, c7, c8, c9, c10, c11, c12, c13 });
-            //dg.AddRow("1/30 sec", new object[] { c5, c6, c7, c8, c9, c10, c11, c12, c13, c14 });
-            //dg.AddRow("1/60 sec", new object[] { c6, c7, c8, c9, c10, c11, c12, c13, c14, c15 });
-            //dg.AddRow("1/125 sec", new object[] { c7, c8, c9, c10, c11, c12, c13, c14, c15, c16 });
-            //dg.AddRow("1/250 sec", new object[] { c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 });
-            //dg.AddRow("1/500 sec", new object[] { c9, c10, c11, c12, c13, c14, c15, c16, c17, c18 });
-
-            dg.AddColumn(btn, props, type, "f10", "f/1.0", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f14", "f/1.4", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f20", "f/2.0", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f28", "f/2.8", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f40", "f/4.0", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f56", "f/5.6", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f80", "f/8.0", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f11", "f/11", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f16", "f/16", true, DataGridLengthUnitType.Star);
-            dg.AddColumn(btn, props, type, "f22", "f/22", true, DataGridLengthUnitType.Star);
-
-            object[] indexes = new object[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-            dg.AddRow("1 sec", indexes);
-            dg.AddRow("1/2 sec", indexes);
-            dg.AddRow("1/4 sec", indexes);
-            dg.AddRow("1/8 sec", indexes);
-            dg.AddRow("1/15 sec", indexes);
-            dg.AddRow("1/30 sec", indexes);
-            dg.AddRow("1/60 sec", indexes);
-            dg.AddRow("1/125 sec", indexes);
-            dg.AddRow("1/250 sec", indexes);
-            dg.AddRow("1/500 sec", indexes);
+            for (int i = 0; i < rowHeaders.Length; i++)
+                dg.AddRow(rowHeaders[i]);
         }
 
 
         private void Btn_Click(object sender, RoutedEventArgs e)
         {
-            // row index
-            //var item = dg.SelectedCells[0].Item;
-            //var row = item.GetType().GetProperty("RowHeader").GetValue(item);
-            //var col = dg.SelectedCells[0].Column.Header;
-            int row = dg.SelectedIndex;
-            int col = (int)((Button)sender).Tag;
-            Console.WriteLine($"Row: {row}, Column: {col}");
+            //int row = dg.GetRowIndex(sender);
+            //int col = dg.GetColumnIndex(sender);
+            //Console.WriteLine($"Row: {row}, Column: {col}");
+
+            var test = dg.GetChildren(typeof(SgzButton));
         }
+
+        
 
 
 

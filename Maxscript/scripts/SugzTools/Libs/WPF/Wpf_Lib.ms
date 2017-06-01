@@ -59,6 +59,11 @@ struct WpfStruct
 	_helper = dotNetClass "SugzTools.Max.Helper",
 
 
+	-- SugzTools Controls ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	_button = dotNetClass "SugzTools.Controls.SgzButton",
+
+
+
 	-- Max Objects ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	_node = dotNetClass "SugzTools.Max.Node",
 	Scene = dotNetObject "SugzTools.Max.Scene",
@@ -214,7 +219,7 @@ struct WpfStruct
 
 
 
-	fn GetType arg = 
+	fn GetType arg isNetClass:false = 
 	(
 	   /*<Function>
 		Description:
@@ -223,8 +228,12 @@ struct WpfStruct
 		Infos:
 		</Function>*/
 		
-		
-		return (dotNetObject arg).GetType()
+		local returnVal
+		if isNetClass 
+			then returnVal = _helper.GetType (dotNetObject arg)
+			else returnVal = _helper.GetType arg
+
+		returnVal
 	),
 
 
@@ -296,7 +305,7 @@ struct WpfStruct
 		if content != unsupplied then _wnd.Content = content
 		
 		if load != unsupplied then dotNet.addEventHandler _wnd "Load" load
-		if closed != unsupplied then dotNet.addEventHandler _wnd "FormClosed" closed
+		if close != unsupplied then dotNet.addEventHandler _wnd "FormClosed" closed
 		dotNet.setLifetimeControl _wnd #dotnet
 		
 		_wnd

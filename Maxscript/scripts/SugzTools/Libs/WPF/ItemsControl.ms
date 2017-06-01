@@ -379,7 +379,7 @@ fn DataGrid
 	if headerBackground != unsupplied then _control.HeaderBackground = SolidColorBrush headerBackground
 	if headerForeground != unsupplied then _control.HeaderForeground = SolidColorBrush headerForeground
 	if headerHorizontalAlignment != unsupplied then _control.HeaderHorizontalAlignment = Enums.HorizontalAlignment headerHorizontalAlignment
-	if headersVisibility != unsupplied then _control.HeadersVisibility = headersVisibility
+	if headersVisibility != unsupplied then _control.HeadersVisibility = Enums.DataGridHeadersVisibility headersVisibility
 	if horizontalGridLinesBrush != unsupplied then _control.HorizontalGridLinesBrush = SolidColorBrush horizontalGridLinesBrush
 	if isReadOnly != unsupplied then _control.IsReadOnly = isReadOnly
 	if isSelectable != unsupplied then _control.IsSelectable = isSelectable
@@ -389,8 +389,8 @@ fn DataGrid
 	_control.RowBackground = SolidColorBrush rowBackground
 	if rowHeaderWidth != unsupplied then _control.RowHeaderWidth = rowHeaderWidth
 	if rowHeight != unsupplied then _control.RowHeight = rowHeight
--- 	if selectionMode != unsupplied then _control.SelectionMode = selectionMode
--- 	if selectionUnit != unsupplied then _control.SelectionUnit = selectionUnit
+	if selectionMode != unsupplied then _control.SelectionMode = Enums.DataGridSelectionMode selectionMode
+	if selectionUnit != unsupplied then _control.SelectionUnit = Enums.DataGridSelectionUnit selectionUnit
 	
 	Selector \
 	_control \

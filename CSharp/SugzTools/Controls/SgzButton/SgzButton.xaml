@@ -24,7 +24,8 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
                         <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          Margin="{TemplateBinding Padding}"/>
                     </Border>
 
 

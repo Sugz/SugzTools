@@ -63,61 +63,7 @@
                          Color="#FFD0D0D0" />
         
         
-        <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
-        <Style x:Key="RowHeaderGripperStyle" TargetType="{x:Type Thumb}">
-            <Setter Property="Height" Value="8" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Cursor" Value="SizeNS" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         
-        <Style x:Key="DataGridRowHeaderStyle1" TargetType="{x:Type DataGridRowHeader}">
-            <Setter Property="Background" Value="{StaticResource MaxRolloutBorder}" />
-            <Setter Property="Foreground" Value="{StaticResource MaxText}" />
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="Width" Value="50" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                        <Grid>
-                            <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Background="{TemplateBinding Background}"
-                                    Padding="{TemplateBinding Padding}">
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter RecognizesAccessKey="True"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                    <Control SnapsToDevicePixels="false"
-                                             Template="{Binding ValidationErrorTemplate, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
-                                             Visibility="{Binding (Validation.HasError), Converter={StaticResource bool2VisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
-                                </StackPanel>
-                            </Border>
-                            
-                            <Thumb x:Name="PART_TopHeaderGripper"
-                                   Style="{StaticResource RowHeaderGripperStyle}"
-                                   VerticalAlignment="Top" />
-                            <Thumb x:Name="PART_BottomHeaderGripper"
-                                   Style="{StaticResource RowHeaderGripperStyle}"
-                                   VerticalAlignment="Bottom" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-
-
 
 
     </Application.Resources>

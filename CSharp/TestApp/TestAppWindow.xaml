@@ -11,12 +11,58 @@
         x:Class="TestApp.MainWindow"
         mc:Ignorable="d"
         Title="TestApp"
-        Height="500"
+        Height="375"
         Width="667.5"
         Background="#FF444444">
 
     <Window.Resources>
+        <SolidColorBrush x:Key="MaxBackground"
+                         Color="#FF444444" />
+        <!--255 68 68 68-->
 
+        <SolidColorBrush x:Key="MaxRollout"
+                         Color="#FF515151" />
+        <!--255 81 81 81-->
+        <SolidColorBrush x:Key="MaxRolloutBorder"
+                         Color="#FF3E3E3E" />
+        <!--255 62 62 62-->
+        <SolidColorBrush x:Key="MaxRolloutArrow"
+                         Color="#FFB7B7B7" />
+        <!--255 183 183 183-->
+        <SolidColorBrush x:Key="MaxRolloutIcon"
+                         Color="#FF979797" />
+        <!--255 151 151 151-->
+
+        <SolidColorBrush x:Key="MaxButton"
+                         Color="#FF646464" />
+        <!--255 100 100 100-->
+        <SolidColorBrush x:Key="MaxButtonBorder"
+                         Color="#FF494949" />
+        <!--255 73 73 73-->
+        <SolidColorBrush x:Key="MaxButtonMouseOver"
+                         Color="#FF383838" />
+        <!--255 56 56 56-->
+        <SolidColorBrush x:Key="MaxCaretBrush"
+                         Color="#FF9B9B9B" />
+        <!--255 155 155 155-->
+
+        <SolidColorBrush x:Key="MaxText"
+                         Color="#FFE1E1E1" />
+        <!--255 225 225 225-->
+        <SolidColorBrush x:Key="MaxTitle"
+                         Color="#FFFFFFFF" />
+        <!--255 255 255 255-->
+
+        <SolidColorBrush x:Key="MaxBlue"
+                         Color="#FF5F8AC1" />
+        <!--255 95 138 193-->
+        <SolidColorBrush x:Key="MaxBlueMouseOver"
+                         Color="#FF496A93" />
+        <!--255 73 106 147-->
+
+        <SolidColorBrush x:Key="MaxFocusBorder"
+                         Color="#FFD0D0D0" />
+        <!--255 208 208 208-->
     </Window.Resources>
 
     <Grid>
@@ -57,18 +103,34 @@
 
                 </StackPanel>
             </sgz:SgzExpander>
+            <sgz:SgzIcon Icon="MdiMenuRight"
+                         Width="5"
+                         Height="10"
+                         Stretch="Fill"
+                         RenderTransformOrigin="0.5,0.5">
+                <sgz:SgzIcon.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform Angle="45" />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </sgz:SgzIcon.RenderTransform>
+            </sgz:SgzIcon>
         </StackPanel>
         <GridSplitter Grid.Column="1"
                       Width="5"
                       HorizontalAlignment="Center" />
 
         <sgz:SgzDataGrid x:Name="dg"
-                         Margin="0,20,0,0"
+                         Margin="2,20,2,2"
                          Grid.Column="2"
+                         HeaderBackground="{StaticResource MaxRolloutBorder}"
                          HeaderHorizontalAlignment="Center"
                          RowBackground="Transparent"
                          HeadersVisibility="All"
-                         SelectionUnit="Cell"/>
+                         IsSelectable="True"
+                         VerticalContentAlignment="Stretch" />
 
 
     </Grid>

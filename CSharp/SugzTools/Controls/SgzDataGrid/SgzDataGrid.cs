@@ -16,13 +16,15 @@ using BF = System.Reflection.BindingFlags;
 
 namespace SugzTools.Controls
 {
+    //[TemplatePart(Name = "DG_ScrollViewer", Type = typeof(ScrollViewer))]
+    //[TemplatePart(Name = "PART_ColumnHeadersPresenter", Type = typeof(ScrollContentPresenter))]
     public class SgzDataGrid : DataGrid
     {
 
         #region Fields
 
-
-        //HorizontalAlignment OldHorizontalAlignment;
+        //private ScrollViewer DG_ScrollViewer;
+        //private ScrollContentPresenter PART_ColumnHeadersPresenter;
         private Type Model;
         private ModelGenerator classGen = new ModelGenerator(Helpers.NameGenerator());
         private ObservableCollection<object> Rows = new ObservableCollection<object>();
@@ -56,6 +58,48 @@ namespace SugzTools.Controls
             get { return (Brush)GetValue(HeaderBackgroundProperty); }
             set { SetValue(HeaderBackgroundProperty, value); }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        public Brush HeaderHoverBrush
+        {
+            get { return (Brush)GetValue(HeaderHoverBrushProperty); }
+            set { SetValue(HeaderHoverBrushProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for HeaderHoverBrush
+        public static readonly DependencyProperty HeaderHoverBrushProperty = DependencyProperty.Register(
+            "HeaderHoverBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxButtonMouseOver"))
+        );
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("")]
+        // [Browsable(false)]
+        public Brush HeaderPressedBrush
+        {
+            get { return (Brush)GetValue(HeaderPressedBrushProperty); }
+            set { SetValue(HeaderPressedBrushProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for HeaderPressedBrush
+        public static readonly DependencyProperty HeaderPressedBrushProperty = DependencyProperty.Register(
+            "HeaderPressedBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlueMouseOver"))
+        );
+
+
+
+
 
 
         /// <summary>
@@ -135,13 +179,47 @@ namespace SugzTools.Controls
         public SgzDataGrid()
         {
             ItemsSource = Rows;
+
+            EnableRowStretch();
+            SizeChanged += (s, e) => EnableRowStretch();
         }
 
+        /*
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            if (GetTemplateChild("DG_ScrollViewer") is ScrollViewer scrollViewer)
+            {
+                ScrollContentPresenter scrollContentPresenter = scrollViewer.Template.FindName("PART_ColumnHeadersPresenter", scrollViewer) as ScrollContentPresenter;
+                if (scrollContentPresenter != null)
+                {
+                    PART_ColumnHeadersPresenter = scrollContentPresenter;
+                    EnableRowStretch();
+                    SizeChanged += (s, e) => EnableRowStretch();
+                }
+            }
+        }
+        */
 
         #endregion Constructors
 
 
         #region Methods
+
+
+        /// <summary>
+        /// Set the row height to stretch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnableRowStretch()
+        {
+            if (VerticalAlignment == VerticalAlignment.Stretch && VerticalContentAlignment == VerticalAlignment.Stretch)
+                RowHeight = (ActualHeight - BorderThickness.Top - BorderThickness.Bottom - ColumnHeaderHeight - 5) / Rows.Count;
+            //if (VerticalAlignment == VerticalAlignment.Stretch && VerticalContentAlignment == VerticalAlignment.Stretch)
+            //    RowHeight = PART_ColumnHeadersPresenter.ActualHeight / Rows.Count;
+        }
 
         /// <summary>
         /// Transfer each properties and events handlers from the model to the factory
@@ -176,12 +254,15 @@ namespace SugzTools.Controls
         /// <param name="propertyName"></param>
         /// <param name="headerName"></param>
         /// <returns></returns>
-        private DataGridTemplateColumn CreateColumn(FrameworkElementFactory factory, DataGridLengthUnitType unitType, double width, string propertyName = null, string headerName = null)
+        private DataGridTemplateColumn CreateColumn(FrameworkElementFactory factory, DataGridLengthUnitType unitType, double width, string propertyName = null, string headerName = null, bool canSort = true)
         {
             DataGridTemplateColumn column = new DataGridTemplateColumn();
             column.Header = headerName ?? propertyName;
+            column.CanUserSort = canSort;
+            column.SortMemberPath = propertyName;
             column.CellTemplate = new DataTemplate() { VisualTree = factory };
             column.MinWidth = 1;
+
 
             if (unitType == DataGridLengthUnitType.Star && width == 0)
                 column.Width = new DataGridLength(1, unitType);

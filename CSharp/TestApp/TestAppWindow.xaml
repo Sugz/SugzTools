@@ -128,15 +128,14 @@
                          RowBackground="Transparent"
                          HeadersVisibility="All"
                          VerticalContentAlignment="Stretch" 
-                         IsSelectable="True"
+                         IsSelectable="False"
                          HeaderBackground="{StaticResource MaxRolloutBorder}"
                          HeaderForeground="{StaticResource MaxText}"
                          HeaderHoverBrush="{StaticResource MaxButtonMouseOver}"
                          HeaderPressedBrush="{StaticResource MaxBlueMouseOver}"
                          GridLinesVisibility="All"
-                         VerticalGridLinesBrush="Red"
-                         HorizontalGridLinesBrush="Green"
-                         BorderBrush="Black"/>
+                         BorderBrush="Black"
+                         SelectedCellBorderBrush="#FFC8C8C8" />
 
 
     </Grid>

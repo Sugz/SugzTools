@@ -113,12 +113,67 @@ namespace SugzTools.Controls
         {
             get { return (HorizontalAlignment)GetValue(RowHeaderHorizontalAlignmentProperty); }
             set { SetValue(RowHeaderHorizontalAlignmentProperty, value); }
-        } 
+        }
 
 
         #endregion Headers
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        public Brush SelectionBrush
+        {
+            get { return (Brush)GetValue(SelectionBrushProperty); }
+            set { SetValue(SelectionBrushProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for SelectionBrush
+        public static readonly DependencyProperty SelectionBrushProperty = DependencyProperty.Register(
+            "SelectionBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlue"))
+        );
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        // [Browsable(false)]
+        public Brush SelectionInactiveBrush
+        {
+            get { return (Brush)GetValue(SelectionInactiveBrushProperty); }
+            set { SetValue(SelectionInactiveBrushProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for SelectionInactiveBrush
+        public static readonly DependencyProperty SelectionInactiveBrushProperty = DependencyProperty.Register(
+            "SelectionInactiveBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlueMouseOver"))
+        );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Brush")]
+        public Brush SelectedCellBorderBrush
+        {
+            get { return (Brush)GetValue(SelectedCellBorderBrushProperty); }
+            set { SetValue(SelectedCellBorderBrushProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for SelectedCellBorderBrush
+        public static readonly DependencyProperty SelectedCellBorderBrushProperty = DependencyProperty.Register(
+            "SelectedCellBorderBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(new SolidColorBrush(Colors.Black))
+        );
 
 
 

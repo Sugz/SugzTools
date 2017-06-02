@@ -79,7 +79,7 @@
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                                  Margin="2,1,2,4"/>
+                                                  Margin="2,0,2,4"/>
                             </DockPanel>
                         </Border>
                         <Thumb x:Name="PART_LeftHeaderGripper"
@@ -205,20 +205,20 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                <Setter Property="Background" Value="{Binding SelectionBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
+                <Setter Property="BorderBrush" Value="{Binding SelectionBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
+                <Setter Property="BorderBrush" Value="{Binding SelectedCellBorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsSelected" Value="true" />
                     <Condition Property="Selector.IsSelectionActive" Value="false" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                <Setter Property="Background" Value="{Binding SelectionInactiveBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
+                <Setter Property="BorderBrush" Value="{Binding SelectionInactiveBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
             </MultiTrigger>
             <Trigger Property="IsEnabled" Value="false">
@@ -227,43 +227,43 @@
         </Style.Triggers>
     </Style>
 
-
-    <!--Remplacer par un simple boutton avec un custom template-->
-    <Style x:Key="SgzDataGridSelectAllButtonStyle" TargetType="{x:Type local:SgzButton}">
-        <Setter Property="Background" Value="{Binding HeaderBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
-        <Setter Property="Foreground" Value="{Binding HeaderForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
-        <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
-        <Setter Property="BorderThickness" Value="{Binding GridLinesVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}, Converter={StaticResource GridLineVisibilityToBorderThickness}}" />
+    
+    <Style x:Key="SgzDataGridSelectAllButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Width" Value="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type local:SgzDataGrid}}}" />
         <Setter Property="Visibility" Value="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type local:SgzDataGrid}}}" />
         <Setter Property="Height" Value="Auto" />
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="HorizontalContentAlignment" Value="Right" />
-        <Setter Property="VerticalContentAlignment" Value="Bottom" />
-        <Setter Property="Padding" Value="4,3" />
-        <Setter Property="Content">
+        <Setter Property="IsEnabled" Value="{Binding IsSelectable, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
+        
+        <Setter Property="Template">
             <Setter.Value>
-                <local:SgzIcon Icon="MdiMenuRight"
-                               Width="4"
-                               Height="8"
-                               Stretch="Fill"
-                               RenderTransformOrigin="0.5,0.5"
-                               Foreground="{StaticResource MaxButton}">
-                    <local:SgzIcon.RenderTransform>
-                        <RotateTransform Angle="45" />
-                    </local:SgzIcon.RenderTransform>
-                </local:SgzIcon>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Bd" 
+                            Background="{Binding HeaderBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}"
+                            BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}"
+                            BorderThickness="{Binding GridLinesVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}, Converter={StaticResource GridLineVisibilityToBorderThickness}}">
+                        <Path Fill="{StaticResource MaxButton}"
+                              Data="M0,7 L7,0 7,7 Z" 
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Bottom"
+                              Margin="4"
+                              Visibility="{Binding IsSelectable, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}, Converter={StaticResource BoolToVisibility}}" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{Binding HeaderHoverBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{Binding HeaderPressedBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                    
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver"
-                     Value="false">
-                <Setter Property="BorderThickness"
-                        Value="{Binding GridLinesVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SgzDataGrid}}, Converter={StaticResource GridLineVisibilityToBorderThickness}}" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
 
@@ -314,8 +314,8 @@
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <local:SgzButton Command="{x:Static DataGrid.SelectAllCommand}"
-                                                         Style="{StaticResource SgzDataGridSelectAllButtonStyle}" />
+                                        <Button Command="{x:Static DataGrid.SelectAllCommand}"
+                                                Style="{StaticResource SgzDataGridSelectAllButtonStyle}" />
                                         <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter"
                                                                         Grid.Column="1"
                                                                         Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />

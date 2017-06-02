@@ -106,6 +106,7 @@
     <Compile Include="Converters\BorderClipConverter.cs" />
     <Compile Include="Converters\CornerRadiusLessThicknessConverter.cs" />
     <Compile Include="Converters\CornerRadiusMultiplierConverter.cs" />
+    <Compile Include="Converters\GridLineVisibilityToBorderThicknessConverter.cs" />
     <Compile Include="Converters\InvertableBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\LesserThanConverter.cs" />
     <Compile Include="Converters\MultiplyPercentageConverter.cs" />

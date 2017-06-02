@@ -73,11 +73,14 @@ namespace TestApp
 
         private void Btn_Click(object sender, RoutedEventArgs e)
         {
-            int row = dg.GetRowIndex(sender);
-            int col = dg.GetColumnIndex(sender);
-            Console.WriteLine($"Row: {row}, Column: {col}");
+            //int row = dg.GetRowIndex(sender);
+            //int col = dg.GetColumnIndex(sender);
+            //Console.WriteLine($"Row: {row}, Column: {col}");
 
             //var test = dg.GetChildren(typeof(SgzButton));
+
+            DataGridColumnHeadersPresenter headersPresenter = Helpers.GetVisualChildren<DataGridColumnHeadersPresenter>(dg).ToArray()[0];
+            Console.WriteLine(headersPresenter.ActualHeight);
         }
 
         

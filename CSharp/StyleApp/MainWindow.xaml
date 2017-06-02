@@ -20,8 +20,18 @@
 
         <DataGrid x:Name="dg" 
                   Margin="5" 
-                  HeadersVisibility="All">
-            
+                  HeadersVisibility="All"
+                  GridLinesVisibility="None"
+                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                  CellStyle="{DynamicResource DataGridCellStyle1}"
+                  RowStyle="{DynamicResource DataGridRowStyle1}">
+            <!--<DataGridTextColumn Binding=""/>-->
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DataContext.Type, RelativeSource={RelativeSource AncestorType=DataGridRow}}"
+                               Margin="5,0" />
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
         </DataGrid>
     </Grid>
 

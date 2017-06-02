@@ -10,21 +10,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using BF = System.Reflection.BindingFlags;
 
 namespace SugzTools.Controls
 {
-    //[TemplatePart(Name = "DG_ScrollViewer", Type = typeof(ScrollViewer))]
-    //[TemplatePart(Name = "PART_ColumnHeadersPresenter", Type = typeof(ScrollContentPresenter))]
     public class SgzDataGrid : DataGrid
     {
 
         #region Fields
 
-        //private ScrollViewer DG_ScrollViewer;
-        //private ScrollContentPresenter PART_ColumnHeadersPresenter;
+
         private Type Model;
         private ModelGenerator classGen = new ModelGenerator(Helpers.NameGenerator());
         private ObservableCollection<object> Rows = new ObservableCollection<object>();
@@ -49,6 +47,9 @@ namespace SugzTools.Controls
         }
 
 
+        #region Headers
+
+
         /// <summary>
         /// Get or set the headers background color.
         /// </summary>
@@ -59,47 +60,27 @@ namespace SugzTools.Controls
             set { SetValue(HeaderBackgroundProperty, value); }
         }
 
+
         /// <summary>
-        /// 
+        /// Get or set the headers hovered color.
         /// </summary>
-        [Description(""), Category("Brush")]
+        [Description("Get or set the headers hovered color."), Category("Brush")]
         public Brush HeaderHoverBrush
         {
             get { return (Brush)GetValue(HeaderHoverBrushProperty); }
             set { SetValue(HeaderHoverBrushProperty, value); }
         }
 
-        // DependencyProperty as the backing store for HeaderHoverBrush
-        public static readonly DependencyProperty HeaderHoverBrushProperty = DependencyProperty.Register(
-            "HeaderHoverBrush",
-            typeof(Brush),
-            typeof(SgzDataGrid),
-            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxButtonMouseOver"))
-        );
-
 
         /// <summary>
-        /// 
+        /// Get or set the headers pressed color.
         /// </summary>
-        [Description(""), Category("")]
-        // [Browsable(false)]
+        [Description("Get or set the headers pressed color."), Category("Brush")]
         public Brush HeaderPressedBrush
         {
             get { return (Brush)GetValue(HeaderPressedBrushProperty); }
             set { SetValue(HeaderPressedBrushProperty, value); }
         }
-
-        // DependencyProperty as the backing store for HeaderPressedBrush
-        public static readonly DependencyProperty HeaderPressedBrushProperty = DependencyProperty.Register(
-            "HeaderPressedBrush",
-            typeof(Brush),
-            typeof(SgzDataGrid),
-            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlueMouseOver"))
-        );
-
-
-
-
 
 
         /// <summary>
@@ -117,11 +98,29 @@ namespace SugzTools.Controls
         /// Get or set the column header HorizontalAlignment.
         /// </summary>
         [Description("Get or set the column header HorizontalAlignment."), Category("Layout")]
-        public HorizontalAlignment HeaderHorizontalAlignment
+        public HorizontalAlignment ColumnHeaderHorizontalAlignment
         {
-            get { return (HorizontalAlignment)GetValue(HeaderHorizontalAlignmentProperty); }
-            set { SetValue(HeaderHorizontalAlignmentProperty, value); }
+            get { return (HorizontalAlignment)GetValue(ColumnHeaderHorizontalAlignmentProperty); }
+            set { SetValue(ColumnHeaderHorizontalAlignmentProperty, value); }
         }
+
+
+        /// <summary>
+        /// Get or set the row header HorizontalAlignment.
+        /// </summary>
+        [Description("Get or set the row header HorizontalAlignment."), Category("Layout")]
+        public HorizontalAlignment RowHeaderHorizontalAlignment
+        {
+            get { return (HorizontalAlignment)GetValue(RowHeaderHorizontalAlignmentProperty); }
+            set { SetValue(RowHeaderHorizontalAlignmentProperty, value); }
+        } 
+
+
+        #endregion Headers
+
+
+
+
 
 
         #endregion Properties
@@ -135,13 +134,32 @@ namespace SugzTools.Controls
             "IsSelectable",
             typeof(bool),
             typeof(SgzDataGrid),
-            new PropertyMetadata(false)//, OnIsSelectableChanged)
+            new PropertyMetadata(false)
         );
 
 
         // DependencyProperty as the backing store for HeaderBackground
         public static readonly DependencyProperty HeaderBackgroundProperty = DependencyProperty.Register(
             "HeaderBackground",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(new SolidColorBrush(Colors.Transparent))
+        );
+
+
+        // DependencyProperty as the backing store for HeaderHoverBrush
+        public static readonly DependencyProperty HeaderHoverBrushProperty = DependencyProperty.Register(
+            "HeaderHoverBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(new SolidColorBrush(Colors.Transparent))
+        );
+
+
+
+        // DependencyProperty as the backing store for HeaderPressedBrush
+        public static readonly DependencyProperty HeaderPressedBrushProperty = DependencyProperty.Register(
+            "HeaderPressedBrush",
             typeof(Brush),
             typeof(SgzDataGrid),
             new PropertyMetadata(new SolidColorBrush(Colors.Transparent))
@@ -158,11 +176,20 @@ namespace SugzTools.Controls
 
 
         // DependencyProperty as the backing store for HeaderHorizontalAlignment
-        public static readonly DependencyProperty HeaderHorizontalAlignmentProperty = DependencyProperty.Register(
-            "HeaderHorizontalAlignment",
+        public static readonly DependencyProperty ColumnHeaderHorizontalAlignmentProperty = DependencyProperty.Register(
+            "ColumnHeaderHorizontalAlignment",
             typeof(HorizontalAlignment),
             typeof(SgzDataGrid),
-            new PropertyMetadata(HorizontalAlignment.Left)
+            new PropertyMetadata(HorizontalAlignment.Center)
+        );
+
+
+        // DependencyProperty as the backing store for RowHeaderHorizontalAlignment
+        public static readonly DependencyProperty RowHeaderHorizontalAlignmentProperty = DependencyProperty.Register(
+            "RowHeaderHorizontalAlignment",
+            typeof(HorizontalAlignment),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(HorizontalAlignment.Center)
         );
 
 
@@ -180,27 +207,9 @@ namespace SugzTools.Controls
         {
             ItemsSource = Rows;
 
-            EnableRowStretch();
             SizeChanged += (s, e) => EnableRowStretch();
         }
-
-        /*
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            if (GetTemplateChild("DG_ScrollViewer") is ScrollViewer scrollViewer)
-            {
-                ScrollContentPresenter scrollContentPresenter = scrollViewer.Template.FindName("PART_ColumnHeadersPresenter", scrollViewer) as ScrollContentPresenter;
-                if (scrollContentPresenter != null)
-                {
-                    PART_ColumnHeadersPresenter = scrollContentPresenter;
-                    EnableRowStretch();
-                    SizeChanged += (s, e) => EnableRowStretch();
-                }
-            }
-        }
-        */
+        
 
         #endregion Constructors
 
@@ -215,10 +224,9 @@ namespace SugzTools.Controls
         /// <param name="e"></param>
         private void EnableRowStretch()
         {
+            DataGridColumnHeadersPresenter headersPresenter = Helpers.GetVisualChildren<DataGridColumnHeadersPresenter>(this).ToArray()[0];
             if (VerticalAlignment == VerticalAlignment.Stretch && VerticalContentAlignment == VerticalAlignment.Stretch)
-                RowHeight = (ActualHeight - BorderThickness.Top - BorderThickness.Bottom - ColumnHeaderHeight - 5) / Rows.Count;
-            //if (VerticalAlignment == VerticalAlignment.Stretch && VerticalContentAlignment == VerticalAlignment.Stretch)
-            //    RowHeight = PART_ColumnHeadersPresenter.ActualHeight / Rows.Count;
+                RowHeight = (ActualHeight - BorderThickness.Top - BorderThickness.Bottom - headersPresenter.ActualHeight - 5) / Rows.Count;
         }
 
         /// <summary>
@@ -279,82 +287,6 @@ namespace SugzTools.Controls
             classGen.AddUsing(name, url);
         }
 
-
-        /*
-        /// <summary>
-        /// Add a column with the specified control type.
-        /// </summary>
-        /// <param name="control">The control type.</param>
-        /// <param name="name">The Property and column header name.</param>
-        /// <param name="readOnly">Define if the user can change by code the contain model.</param>
-        /// <param name="dataGridLengthUnitType">The column length unit type.</param>
-        /// <param name="width">The column width.</param>
-        /// <param name="showHeader">Define if the column header has a name</param>
-        public bool AddColumn(
-            PropertyUI control, 
-            string propertyName, 
-            string headerName = null,
-            bool readOnly = false, 
-            DataGridLengthUnitType unitType = DataGridLengthUnitType.Star,  
-            double width = 0)
-        {
-            FrameworkElementFactory factory = new FrameworkElementFactory();
-            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-            switch (control)
-            {
-                case PropertyUI.Checkbox:
-                    if (!classGen.AddProperty(typeof(bool), propertyName, readOnly))
-                        return false;
-
-                    factory.Type = typeof(SgzCheckBox);
-                    factory.SetBinding(SgzCheckBox.IsCheckedProperty, binding);
-                    factory.SetValue(SgzCheckBox.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-                    break;
-                case PropertyUI.Checkbutton:
-                    if (!classGen.AddProperty(typeof(bool), propertyName, readOnly))
-                        return false;
-
-                    factory.Type = typeof(SgzCheckButton);
-                    factory.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
-                    factory.SetBinding(SgzCheckButton.IsCheckedProperty, binding);
-                    break;
-                case PropertyUI.Spinner:
-                    break;
-                case PropertyUI.Textblock:
-                    if (!classGen.AddProperty(typeof(string), propertyName, readOnly))
-                        return false;
-
-                    factory.Type = typeof(TextBlock);
-                    factory.SetValue(TextBlock.ForegroundProperty, Resource<SolidColorBrush>.GetColor("MaxText"));
-                    factory.SetValue(TextBlock.FontFamilyProperty, new FontFamily("Tahoma"));
-                    factory.SetValue(TextBlock.FontSizeProperty, 11d);
-                    factory.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                    factory.SetValue(VerticalAlignmentProperty, VerticalAlignment.Center);
-                    factory.SetBinding(TextBlock.TextProperty, binding);
-                    break;
-                case PropertyUI.Textbox:
-                    break;
-                case PropertyUI.ComboBox:
-                    break;
-                default:
-                    break;
-            }
-
-            DataGridTemplateColumn column = new DataGridTemplateColumn();
-            column.Header = headerName ?? propertyName;
-            column.CellTemplate = new DataTemplate() { VisualTree = factory };
-            column.MinWidth = 1;
-
-            if (unitType == DataGridLengthUnitType.Star && width == 0)
-                column.Width = new DataGridLength(1, unitType);
-            else if (unitType == DataGridLengthUnitType.Auto && width != 0)
-                column.Width = new DataGridLength(width, DataGridLengthUnitType.Pixel);
-            else column.Width = new DataGridLength(width, unitType);
-
-            Columns.Add(column);
-            return true;
-        }
-        */
 
         public bool AddColumn(FrameworkElement control, string headerName, DataGridLengthUnitType unitType = DataGridLengthUnitType.Star, double width = 0)
         {

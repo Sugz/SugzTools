@@ -125,12 +125,18 @@
         <sgz:SgzDataGrid x:Name="dg"
                          Margin="2,20,2,2"
                          Grid.Column="2"
-                         HeaderBackground="{StaticResource MaxRolloutBorder}"
-                         HeaderHorizontalAlignment="Center"
                          RowBackground="Transparent"
                          HeadersVisibility="All"
+                         VerticalContentAlignment="Stretch" 
                          IsSelectable="True"
-                         VerticalContentAlignment="Stretch" />
+                         HeaderBackground="{StaticResource MaxRolloutBorder}"
+                         HeaderForeground="{StaticResource MaxText}"
+                         HeaderHoverBrush="{StaticResource MaxButtonMouseOver}"
+                         HeaderPressedBrush="{StaticResource MaxBlueMouseOver}"
+                         GridLinesVisibility="All"
+                         VerticalGridLinesBrush="Red"
+                         HorizontalGridLinesBrush="Green"
+                         BorderBrush="Black"/>
 
 
     </Grid>

@@ -24,6 +24,7 @@ namespace StyleApp
     {
         class People
         {
+            public string Type { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
         }
@@ -37,8 +38,8 @@ namespace StyleApp
 
             Peoples = new ObservableCollection<People>()
             {
-                new People() { Name = "Test 01", Age = 21 },
-                new People() { Name = "Test 02", Age = 18 },
+                new People() { Type = "Male", Name = "Test 01", Age = 21 },
+                new People() { Type = "Female", Name = "Test 02", Age = 18 },
             };
 
 

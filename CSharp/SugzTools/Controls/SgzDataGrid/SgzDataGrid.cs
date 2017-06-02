@@ -119,62 +119,43 @@ namespace SugzTools.Controls
         #endregion Headers
 
 
+        #region Cells
+
+
         /// <summary>
-        /// 
+        /// Get or set the selected cells background.
         /// </summary>
-        [Description(""), Category("Brush")]
+        [Description("Get or set the selected cells background."), Category("Brush")]
         public Brush SelectionBrush
         {
             get { return (Brush)GetValue(SelectionBrushProperty); }
             set { SetValue(SelectionBrushProperty, value); }
         }
 
-        // DependencyProperty as the backing store for SelectionBrush
-        public static readonly DependencyProperty SelectionBrushProperty = DependencyProperty.Register(
-            "SelectionBrush",
-            typeof(Brush),
-            typeof(SgzDataGrid),
-            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlue"))
-        );
-
 
         /// <summary>
-        /// 
+        /// Get or set the selected cells background when the datagrid is unfocus.
         /// </summary>
-        [Description(""), Category("Brush")]
-        // [Browsable(false)]
+        [Description("Get or set the selected cells background when the datagrid is unfocus."), Category("Brush")]
         public Brush SelectionInactiveBrush
         {
             get { return (Brush)GetValue(SelectionInactiveBrushProperty); }
             set { SetValue(SelectionInactiveBrushProperty, value); }
         }
 
-        // DependencyProperty as the backing store for SelectionInactiveBrush
-        public static readonly DependencyProperty SelectionInactiveBrushProperty = DependencyProperty.Register(
-            "SelectionInactiveBrush",
-            typeof(Brush),
-            typeof(SgzDataGrid),
-            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlueMouseOver"))
-        );
 
         /// <summary>
-        /// 
+        /// Get or set the active cell background color.
         /// </summary>
-        [Description(""), Category("Brush")]
+        [Description("Get or set the active cell background color."), Category("Brush")]
         public Brush SelectedCellBorderBrush
         {
             get { return (Brush)GetValue(SelectedCellBorderBrushProperty); }
             set { SetValue(SelectedCellBorderBrushProperty, value); }
-        }
+        } 
 
-        // DependencyProperty as the backing store for SelectedCellBorderBrush
-        public static readonly DependencyProperty SelectedCellBorderBrushProperty = DependencyProperty.Register(
-            "SelectedCellBorderBrush",
-            typeof(Brush),
-            typeof(SgzDataGrid),
-            new PropertyMetadata(new SolidColorBrush(Colors.Black))
-        );
 
+        #endregion Cells
 
 
 
@@ -191,6 +172,9 @@ namespace SugzTools.Controls
             typeof(SgzDataGrid),
             new PropertyMetadata(false)
         );
+
+
+        #region Headers
 
 
         // DependencyProperty as the backing store for HeaderBackground
@@ -246,6 +230,42 @@ namespace SugzTools.Controls
             typeof(SgzDataGrid),
             new PropertyMetadata(HorizontalAlignment.Center)
         );
+
+
+        #endregion Headers
+
+
+        #region Cells
+
+
+        // DependencyProperty as the backing store for SelectionBrush
+        public static readonly DependencyProperty SelectionBrushProperty = DependencyProperty.Register(
+            "SelectionBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlue"))
+        );
+
+
+        // DependencyProperty as the backing store for SelectionInactiveBrush
+        public static readonly DependencyProperty SelectionInactiveBrushProperty = DependencyProperty.Register(
+            "SelectionInactiveBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxBlueMouseOver"))
+        );
+
+
+        // DependencyProperty as the backing store for SelectedCellBorderBrush
+        public static readonly DependencyProperty SelectedCellBorderBrushProperty = DependencyProperty.Register(
+            "SelectedCellBorderBrush",
+            typeof(Brush),
+            typeof(SgzDataGrid),
+            new PropertyMetadata(new SolidColorBrush(Colors.Black))
+        ); 
+
+
+        #endregion Cells
 
 
         #endregion Dependency Properties
@@ -380,6 +400,46 @@ namespace SugzTools.Controls
 
 
 
+        public bool AddProperty(DependencyProperty[] properties, object propertyType, string propertyName, bool readOnly)
+        {
+            // Set the model property and the binding
+            if (!(propertyType is Type))
+                propertyType = propertyType.GetType();
+
+            if (!classGen.AddProperty((Type)propertyType, propertyName, readOnly))
+                return false;
+
+            foreach(var column in Columns)
+            {
+                FrameworkElementFactory factory = ((DataGridTemplateColumn)column).CellTemplate.VisualTree;
+                Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+                properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
+            }
+            
+
+
+            return true;
+        }
+
+        public bool AddProperty(DependencyProperty[] properties, object propertyType, string propertyName, bool readOnly, int columnIndex)
+        {
+            // Set the model property and the binding
+            if (!(propertyType is Type))
+                propertyType = propertyType.GetType();
+
+            if (!classGen.AddProperty((Type)propertyType, propertyName, readOnly))
+                return false;
+
+            FrameworkElementFactory factory = ((DataGridTemplateColumn)Columns[columnIndex]).CellTemplate.VisualTree;
+            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+            properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
+
+
+            return true;
+        }
+        
+
+
         public void AddRow()
         {
             AddRow(null, new object[0]);
@@ -508,5 +568,4 @@ namespace SugzTools.Controls
 }
 
 
-//TODO: SelectedRow background
-//TODO: HeaderColumn  Style, prendre la vrai DataGridHeaderBorder
+//TODO: voir pour binder un event ou une command

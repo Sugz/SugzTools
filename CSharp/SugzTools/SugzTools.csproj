@@ -102,6 +102,7 @@
     <Compile Include="Controls\SgzRadioButton\SgzRadioButton.cs" />
     <Compile Include="Controls\SgzTextBox\SgzTextBox.cs" />
     <Compile Include="Controls\SgzToolBar\SgzToolBar.cs" />
+    <Compile Include="Controls\SgzTreeView\SgzTreeView.cs" />
     <Compile Include="Controls\SgzWindow\SgzWindow.cs" />
     <Compile Include="Converters\BorderClipConverter.cs" />
     <Compile Include="Converters\CornerRadiusLessThicknessConverter.cs" />
@@ -216,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SgzToolBar\SgzToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SgzTreeView\SgzTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

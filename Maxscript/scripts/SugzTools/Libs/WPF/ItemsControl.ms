@@ -287,7 +287,7 @@ fn DataGrid
 	gridLinesVisibility:
 	headerBackground:
 	headerForeground:
-	headerHorizontalAlignment:
+	columnHeaderHorizontalAlignment:
 	headersVisibility:
 	horizontalGridLinesBrush:
 	isReadOnly:
@@ -378,7 +378,7 @@ fn DataGrid
 	if gridLinesVisibility != unsupplied then _control.GridLinesVisibility = gridLinesVisibility
 	if headerBackground != unsupplied then _control.HeaderBackground = SolidColorBrush headerBackground
 	if headerForeground != unsupplied then _control.HeaderForeground = SolidColorBrush headerForeground
-	if headerHorizontalAlignment != unsupplied then _control.HeaderHorizontalAlignment = Enums.HorizontalAlignment headerHorizontalAlignment
+	if columnHeaderHorizontalAlignment != unsupplied then _control.ColumnHeaderHorizontalAlignment = Enums.HorizontalAlignment headerHorizontalAlignment
 	if headersVisibility != unsupplied then _control.HeadersVisibility = Enums.DataGridHeadersVisibility headersVisibility
 	if horizontalGridLinesBrush != unsupplied then _control.HorizontalGridLinesBrush = SolidColorBrush horizontalGridLinesBrush
 	if isReadOnly != unsupplied then _control.IsReadOnly = isReadOnly

@@ -127,7 +127,6 @@
                          Grid.Column="2"
                          RowBackground="Transparent"
                          HeadersVisibility="All"
-                         VerticalContentAlignment="Stretch" 
                          IsSelectable="False"
                          HeaderBackground="{StaticResource MaxRolloutBorder}"
                          HeaderForeground="{StaticResource MaxText}"
@@ -135,7 +134,18 @@
                          HeaderPressedBrush="{StaticResource MaxBlueMouseOver}"
                          GridLinesVisibility="All"
                          BorderBrush="Black"
-                         SelectedCellBorderBrush="#FFC8C8C8" />
+                         SelectedCellBorderBrush="#FFC8C8C8">
+            
+            <!--<sgz:SgzDataGrid.Columns>
+                <DataGridTemplateColumn Header="Birthday">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Node.Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </sgz:SgzDataGrid.Columns>-->
+        </sgz:SgzDataGrid>
 
 
     </Grid>

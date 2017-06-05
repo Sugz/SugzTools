@@ -284,7 +284,7 @@ struct WpfStruct
 		location:
 		content:
 		load:
-		closed: =
+		close: =
 	(
 		/*<Function>
 		Description:

@@ -373,7 +373,7 @@ namespace SugzTools.Controls
 
         public bool AddColumn(
             FrameworkElement model,
-            DependencyProperty[] properties,
+            DependencyProperty[] bindings,
             object propertyType,
             string propertyName,
             string headerName,
@@ -390,7 +390,7 @@ namespace SugzTools.Controls
 
             FrameworkElementFactory factory = new FrameworkElementFactory() { Type = model.GetType() };
             Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-            properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
+            bindings.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
 
 
             SetFactory(model, factory);
@@ -400,7 +400,19 @@ namespace SugzTools.Controls
 
 
 
-        public bool AddProperty(DependencyProperty[] properties, object propertyType, string propertyName, bool readOnly)
+        public bool AddProperty(object propertyType, string propertyName, bool readOnly)
+        {
+            // Set the model property and the binding
+            if (!(propertyType is Type))
+                propertyType = propertyType.GetType();
+
+            if (!classGen.AddProperty((Type)propertyType, propertyName, readOnly))
+                return false;
+
+            return true;
+        }
+
+        public bool AddProperty(DependencyProperty[] bindings, object propertyType, string propertyName, bool readOnly)
         {
             // Set the model property and the binding
             if (!(propertyType is Type))
@@ -413,15 +425,13 @@ namespace SugzTools.Controls
             {
                 FrameworkElementFactory factory = ((DataGridTemplateColumn)column).CellTemplate.VisualTree;
                 Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-                properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
+                bindings.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
             }
             
-
-
             return true;
         }
 
-        public bool AddProperty(DependencyProperty[] properties, object propertyType, string propertyName, bool readOnly, int columnIndex)
+        public bool AddProperty(DependencyProperty[] bindings, object propertyType, string propertyName, bool readOnly, int columnIndex)
         {
             // Set the model property and the binding
             if (!(propertyType is Type))
@@ -432,12 +442,20 @@ namespace SugzTools.Controls
 
             FrameworkElementFactory factory = ((DataGridTemplateColumn)Columns[columnIndex]).CellTemplate.VisualTree;
             Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-            properties.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
+            bindings.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
 
 
             return true;
         }
         
+
+
+        public void AddBindings(DependencyProperty[] bindings, string propertyName, int columnIndex)
+        {
+            FrameworkElementFactory factory = ((DataGridTemplateColumn)Columns[columnIndex]).CellTemplate.VisualTree;
+            Binding binding = new Binding(propertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+            bindings.ForEach(property => factory.SetBinding((DependencyProperty)property, binding));
+        }
 
 
         public void AddRow()

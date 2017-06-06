@@ -305,7 +305,7 @@ struct WpfStruct
 		if content != unsupplied then _wnd.Content = content
 		
 		if load != unsupplied then dotNet.addEventHandler _wnd "Load" load
-		if close != unsupplied then dotNet.addEventHandler _wnd "FormClosed" closed
+		if close != unsupplied then dotNet.addEventHandler _wnd "FormClosed" close
 		dotNet.setLifetimeControl _wnd #dotnet
 		
 		_wnd

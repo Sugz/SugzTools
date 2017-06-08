@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -94,7 +95,7 @@ namespace SugzTools.Src
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="logicalCollection"></param>
-        internal static void GetLogicalChildren(DependencyObject parent, List<DependencyObject> logicalCollection)
+        public static void GetLogicalChildren(DependencyObject parent, List<DependencyObject> logicalCollection)
         {
             IEnumerable children = LogicalTreeHelper.GetChildren(parent);
             foreach (object child in children)
@@ -255,6 +256,25 @@ namespace SugzTools.Src
 
             return attachedProperties;
         }
+
+
+        public static IEnumerable<BindingBase> GetBindingObjects(object control)
+        {
+            List<BindingBase> bindings = new List<BindingBase>();
+            List<DependencyProperty> dpList = new List<DependencyProperty>();
+            dpList.AddRange(GetDependencyProperties(control));
+            dpList.AddRange(GetAttachedProperties(control));
+
+            foreach (DependencyProperty dp in dpList)
+            {
+                BindingBase b = BindingOperations.GetBindingBase(control as DependencyObject, dp);
+                if (b != null)
+                    bindings.Add(b);
+            }
+
+            return bindings;
+        }
+
 
 
         /// <summary>

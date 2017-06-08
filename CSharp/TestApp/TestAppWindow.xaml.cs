@@ -1,7 +1,7 @@
 ﻿using SugzTools;
 using SugzTools.Controls;
 using SugzTools.Icons;
-using SugzTools.Max;
+using SugzTools.Temp;
 using SugzTools.Src;
 using System;
 using System.Collections;
@@ -46,28 +46,103 @@ namespace TestApp
         {
             InitializeComponent();
 
-            SetUpDataGrid();
+            //SetUpDataGrid();
 
+            SetUpTV();
 
-            //Tests = new ObservableCollection<SugzTools.Test>()
-            //{
-            //    new SugzTools.Test() { Node = new Temp() { Name = "Object 01" } },
-            //    new SugzTools.Test() { Node = new Temp() { Name = "Object 02" } },
-            //    new SugzTools.Test() { Node = new Temp() { Name = "Object 03" } },
-            //};
+            DockPanel panel = new DockPanel();
+            SgzIcon icon = new SgzIcon();
+            DockPanel.SetDock(icon, Dock.Left);
+            SgzButton btn = new SgzButton();
+            DockPanel.SetDock(btn, Dock.Right);
+            TextBlock txt = new TextBlock();
+            DockPanel.SetDock(txt, Dock.Left);
 
-            //DataContext = this;
-            //dg.ItemsSource = Tests;
+            panel.Children.Add(icon);
+            panel.Children.Add(btn);
+            panel.Children.Add(txt);
 
-            //FrameworkElementFactory factory = new FrameworkElementFactory() { Type = typeof(TextBlock) };
-            //Binding binding = new Binding("Node.Name") { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-            //factory.SetBinding(TextBlock.TextProperty, binding);
-
-            //DataGridTemplateColumn column = new DataGridTemplateColumn();
-            //column.CellTemplate = new DataTemplate() { VisualTree = factory };
-            //dg.Columns.Add(column);
+            GetTemplate(panel);
         }
 
+        private void SetUpTV()
+        {
+
+            #region Templates
+
+
+            //Binding nameBinding = new Binding("Name") { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+            //Binding childrenBinding = new Binding("Children") { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+
+
+
+            Dictionary<DependencyProperty, string> dict = new Dictionary<DependencyProperty, string> { { TextBlock.TextProperty, "Name" } };
+
+            DockPanel layerPanel = new DockPanel();
+            SgzIcon layerIcon = new SgzIcon() { Icon = Geo.MdiViewSequential, Width = 12, Height = 12, VerticalAlignment = VerticalAlignment.Center };
+            layerIcon.Click += (s, e) => Console.WriteLine("************\nPressed from Layer !!\n************");
+            TextBlock layerTxt = new TextBlock() { Foreground = new SolidColorBrush(Colors.Red), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(5,0,0,0) };
+            FrameworkElementFactory[] layerFactories = new FrameworkElementFactory[]
+            {
+                TemplateGenerator.GetFrameworkElementFactory(layerIcon),
+                TemplateGenerator.GetFrameworkElementFactory(layerTxt, dict)
+            };
+
+
+            DockPanel nodePanel = new DockPanel();
+            SgzIcon nodeIcon = new SgzIcon() { Icon = Geo.MdiWebpack, Width = 12, Height = 12, VerticalAlignment = VerticalAlignment.Center };
+            nodeIcon.Click += (s, e) => Console.WriteLine("************\nPressed from Node !!\n************");
+            TextBlock nodeTxt = new TextBlock() { Foreground = new SolidColorBrush(Colors.Blue), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(5, 0, 0, 0) };
+            FrameworkElementFactory[] nodeFactories = new FrameworkElementFactory[]
+            {
+                TemplateGenerator.GetFrameworkElementFactory(nodeIcon),
+                TemplateGenerator.GetFrameworkElementFactory(nodeTxt, dict)
+            };
+
+
+            tv.AddTemplate(typeof(Layer), TemplateGenerator.GetTemplate(layerPanel, layerFactories, true));
+            tv.AddTemplate(typeof(Node), TemplateGenerator.GetTemplate(nodePanel, nodeFactories));
+
+            #endregion Templates
+
+
+            Node node1 = new Node() { Name = "Node 01" };
+            Node node2 = new Node() { Name = "Node 02" };
+
+            Layer layer01 = new Layer()
+            {
+                Name = "Layer 01",
+                Nodes = new ObservableCollection<Node>() { node1, node2 }
+            };
+
+            Layer layer02 = new Layer()
+            {
+                Name = "Layer 02",
+                Nodes = new ObservableCollection<Node>() { node1, node2 },
+                Layers = new ObservableCollection<Layer>() { layer01 }
+            };
+
+            ObservableCollection<Layer> Layers = new ObservableCollection<Layer>() { layer01, layer02 };
+
+            tv.ItemsSource = Layers;
+
+        }
+
+
+        private void GetTemplate(DependencyObject obj)
+        {
+            List<DependencyObject> objects = new List<DependencyObject>();
+            Helpers.GetLogicalChildren(obj, objects);
+            //objects.ForEach(x => Console.WriteLine(x.GetType()));
+            foreach (DependencyObject o in objects)
+            {
+
+            }
+        }
+
+
+
+        /*
         private void SetUpDataGrid()
         {
             //SgzButton btn = new SgzButton();
@@ -138,7 +213,7 @@ namespace TestApp
             dg.AddRow(new object[] { node3 });
 
         }
-
+        */
 
         private void Btn_Click(object sender, RoutedEventArgs e)
         {

@@ -72,55 +72,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel VerticalAlignment="Top">
-            <Expander IsExpanded="True">
-                <StackPanel Margin="0,5">
-                    <UniformGrid Columns="2">
-                        <DockPanel Margin="5,0">
-                            <TextBlock Text="fgrahjkfeza" />
-                            <TextBox DockPanel.Dock="Right"
-                                     Width="48"
-                                     HorizontalAlignment="Right" />
-                        </DockPanel>
-                        <DockPanel Margin="5,0">
-                            <TextBox Width="60"
-                                     HorizontalAlignment="Right"
-                                     DockPanel.Dock="Right" />
-                            <TextBlock Text="fgrahjkfeza" />
-                        </DockPanel>
-                    </UniformGrid>
-
-                </StackPanel>
-            </Expander>
-            <sgz:SgzExpander IsExpanded="True"
-                             Margin="5">
-                <StackPanel Margin="0,5">
-                    <sgz:SgzUniformGrid Columns="2"
-                                        b:Spacing.All="5">
-                        <sgz:SgzNumericUpDown />
-                        <sgz:SgzNumericUpDown FieldWidth="40" />
-                    </sgz:SgzUniformGrid>
-
-                </StackPanel>
-            </sgz:SgzExpander>
-            <sgz:SgzIcon Icon="MdiMenuRight"
-                         Width="5"
-                         Height="10"
-                         Stretch="Fill"
-                         RenderTransformOrigin="0.5,0.5">
-                <sgz:SgzIcon.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform Angle="45" />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </sgz:SgzIcon.RenderTransform>
-            </sgz:SgzIcon>
-        </StackPanel>
-        <GridSplitter Grid.Column="1"
-                      Width="5"
-                      HorizontalAlignment="Center" />
+        <sgz:SgzTreeView x:Name="tv" />
 
         <sgz:SgzDataGrid x:Name="dg"
                          Margin="2,20,2,2"
@@ -134,18 +86,8 @@
                          HeaderPressedBrush="{StaticResource MaxBlueMouseOver}"
                          GridLinesVisibility="All"
                          BorderBrush="Black"
-                         SelectedCellBorderBrush="#FFC8C8C8">
-            
-            <!--<sgz:SgzDataGrid.Columns>
-                <DataGridTemplateColumn Header="Birthday">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Node.Name}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </sgz:SgzDataGrid.Columns>-->
-        </sgz:SgzDataGrid>
+                         SelectedCellBorderBrush="#FFC8C8C8" />
+
 
 
     </Grid>

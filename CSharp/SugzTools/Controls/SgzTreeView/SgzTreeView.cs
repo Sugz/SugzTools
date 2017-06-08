@@ -15,7 +15,7 @@ namespace SugzTools.Controls
         #region Fields
 
 
-
+        private SgzDataTemplateSelector _TemplateSelector = new SgzDataTemplateSelector();
 
 
         #endregion Fields
@@ -48,7 +48,7 @@ namespace SugzTools.Controls
         }
         public SgzTreeView()
         {
-
+            ItemTemplateSelector = _TemplateSelector;
         }
 
 
@@ -58,7 +58,10 @@ namespace SugzTools.Controls
         #region Methods
 
 
-
+        public void AddTemplate(Type type, DataTemplate template)
+        {
+            _TemplateSelector.Templates.Add(type, template);
+        }
 
 
         #endregion Methods

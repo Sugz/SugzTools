@@ -15,11 +15,11 @@ namespace SugzTools.Src
     {
 
         /// <summary>
-        /// Transfer each properties and events handlers from the model to the factory
+        /// Transfer each properties and events handlers from the model to the FrameworkElementFactory
         /// </summary>
         /// <param name="control"></param>
         /// <param name="factory"></param>
-        private static void SetFactory(UIElement model, FrameworkElementFactory factory)
+        public static void TransferPropertiesAndEventHandlers(UIElement model, FrameworkElementFactory factory)
         {
             // Transfer properties of the control to the factory
             IEnumerable<DependencyProperty> dep = Helpers.GetDependencyProperties(model).Concat(Helpers.GetAttachedProperties(model));
@@ -38,10 +38,14 @@ namespace SugzTools.Src
             }
         }
 
-
-        private static void SetFactoryBinding(FrameworkElementFactory factory, Dictionary<DependencyProperty, string> bindings)
+        /// <summary>
+        /// Set bindings to the FrameworkElementFactory
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <param name="bindings"></param>
+        public static void SetFactoryBinding(FrameworkElementFactory factory, Dictionary<DependencyProperty, string> bindings)
         {
-            foreach(var binding in bindings)
+            foreach(KeyValuePair<DependencyProperty, string> binding in bindings)
             {
                 Binding b = new Binding(binding.Value) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
                 factory.SetBinding(binding.Key, b);
@@ -49,14 +53,28 @@ namespace SugzTools.Src
         }
 
 
+
+        /// <summary>
+        /// Create a FrameworkElementFactory from a control and get all of its properties and event handlers.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
         public static FrameworkElementFactory GetFrameworkElementFactory(UIElement control)
         {
             return GetFrameworkElementFactory(control, null);
         }
+
+        /// <summary>
+        /// Create a FrameworkElementFactory from a control and get all of its properties and event handlers.
+        /// Assign binding to the FrameworkElementFactory.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="bindings"></param>
+        /// <returns></returns>
         public static FrameworkElementFactory GetFrameworkElementFactory(UIElement control, Dictionary<DependencyProperty, string> bindings)
         {
             FrameworkElementFactory factory = new FrameworkElementFactory() { Type = control.GetType() };
-            SetFactory(control, factory);
+            TransferPropertiesAndEventHandlers(control, factory);
             if (bindings != null)
                 SetFactoryBinding(factory, bindings);
 
@@ -65,66 +83,77 @@ namespace SugzTools.Src
 
 
 
-        public static DataTemplate GetTemplate(UIElement control, Dictionary<DependencyProperty, string> bindings, bool isHierarchical = false)
+        /// <summary>
+        /// Get a FrameworkElementFactory from a container that will contain the provided FrameworkElementFactorys.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="factories"></param>
+        /// <returns></returns>
+        public static FrameworkElementFactory AddFactoriestoContainer(UIElement container, FrameworkElementFactory[] factories)
         {
-            if (isHierarchical)
-            {
-                return new HierarchicalDataTemplate()
-                {
-                    VisualTree = GetFrameworkElementFactory(control, bindings),
-                    ItemsSource = new Binding("Children") { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }
-                };
-            }
-
-
-            return new DataTemplate() { VisualTree = GetFrameworkElementFactory(control, bindings) };
-        }
-
-
-        public static DataTemplate GetTemplate(UIElement container, FrameworkElementFactory[] factories, bool isHierarchical = false)
-        {
-            //List<DependencyObject> objects = new List<DependencyObject>();
-            //Helpers.GetLogicalChildren(container, objects);
-
             FrameworkElementFactory containerFactory = new FrameworkElementFactory(container.GetType());
             for (int i = 0; i < factories.Length; i++)
-            {
                 containerFactory.AppendChild(factories[i]);
-            }
-                
 
-            if (isHierarchical)
-            {
-                return new HierarchicalDataTemplate()
-                {
-                    VisualTree = containerFactory,
-                    ItemsSource = new Binding("Children") { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }
-                };
-            }
-                
-
-            return new DataTemplate() { VisualTree = containerFactory };
+            return containerFactory;
         }
 
 
 
-        //public static DataTemplate GetTemplate(DependencyObject obj, Type templateType, Dictionary<DependencyProperty, string> bindings)
-        //{
+        /// <summary>
+        /// Get a DataTemplate from a FrameworkElementFactory.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="factories"></param>
+        /// <returns></returns>
+        public static DataTemplate GetTemplate(FrameworkElementFactory factory)
+        {
+            return new DataTemplate() { VisualTree = factory };
+        }
+
+        /// <summary>
+        /// Get a DataTemplate composed of a container that contain the provided FrameworkElementFactorys.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="factories"></param>
+        /// <returns></returns>
+        public static DataTemplate GetTemplate(UIElement container, FrameworkElementFactory[] factories)
+        {
+            return new DataTemplate() { VisualTree = AddFactoriestoContainer(container, factories) };
+        }
 
 
 
-        //    List<DependencyObject> objects = new List<DependencyObject>();
-        //    Helpers.GetLogicalChildren(obj, objects);
+        /// <summary>
+        /// Get a HierarchicalDataTemplate from a FrameworkElementFactory.
+        /// Use The property Children for the hierarchical binding.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="factories"></param>
+        /// <returns></returns>
+        public static HierarchicalDataTemplate GetHierarchicalTemplate(FrameworkElementFactory factory)
+        {
+            return new HierarchicalDataTemplate()
+            {
+                VisualTree = factory,
+                ItemsSource = new Binding("Children") { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }
+            };
+        }
 
-
-        //    foreach(DependencyObject o in objects)
-        //    {
-        //        FrameworkElementFactory factory = new FrameworkElementFactory() { Type = o.GetType() };
-        //        SetFactory(o, factory);
-        //    }
-
-        //    return null;
-        //}
-
+        /// <summary>
+        /// Get a HierarchicalDataTemplate composed of a container that contain the provided FrameworkElementFactorys.
+        /// Use The property Children for the hierarchical binding.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="factories"></param>
+        /// <returns></returns>
+        public static HierarchicalDataTemplate GetHierarchicalTemplate(UIElement container, FrameworkElementFactory[] factories)
+        {
+            return new HierarchicalDataTemplate()
+            {
+                VisualTree = AddFactoriestoContainer(container, factories),
+                ItemsSource = new Binding("Children") { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }
+            };
+        }
     }
 }

@@ -20,6 +20,7 @@
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzRadioButton/SgzRadioButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzTextBox/SgzTextBox.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzToolBar/SgzToolBar.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzTreeView/SgzTreeView.xaml" />
         
     </ResourceDictionary.MergedDictionaries>
 

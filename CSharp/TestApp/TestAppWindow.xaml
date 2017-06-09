@@ -72,7 +72,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <sgz:SgzTreeView x:Name="tv" />
+        <sgz:SgzTreeView x:Name="tv" 
+                         Margin="5"
+                         FullRowSelection="False"/>
 
         <sgz:SgzDataGrid x:Name="dg"
                          Margin="2,20,2,2"
@@ -80,13 +82,12 @@
                          RowBackground="Transparent"
                          HeadersVisibility="All"
                          IsSelectable="False"
-                         HeaderBackground="{StaticResource MaxRolloutBorder}"
+                         HeaderBackground="{StaticResource MaxButton}"
                          HeaderForeground="{StaticResource MaxText}"
                          HeaderHoverBrush="{StaticResource MaxButtonMouseOver}"
                          HeaderPressedBrush="{StaticResource MaxBlueMouseOver}"
                          GridLinesVisibility="All"
-                         BorderBrush="Black"
-                         SelectedCellBorderBrush="#FFC8C8C8" />
+                         VerticalContentAlignment="Stretch" />
 
 
 

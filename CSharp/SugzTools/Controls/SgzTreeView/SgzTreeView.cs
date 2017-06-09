@@ -24,6 +24,24 @@ namespace SugzTools.Controls
         #region Properties
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Appearance")]
+        public bool FullRowSelection
+        {
+            get { return (bool)GetValue(FullRowSelectionProperty); }
+            set { SetValue(FullRowSelectionProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for FullRowSelection
+        public static readonly DependencyProperty FullRowSelectionProperty = DependencyProperty.Register(
+            "FullRowSelection",
+            typeof(bool),
+            typeof(SgzTreeView),
+            new PropertyMetadata(false)
+        );
+
 
 
 
@@ -44,7 +62,7 @@ namespace SugzTools.Controls
 
         static SgzTreeView()
         {
-            //DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzTreeView), new FrameworkPropertyMetadata(typeof(SgzTreeView)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SgzTreeView), new FrameworkPropertyMetadata(typeof(SgzTreeView)));
         }
         public SgzTreeView()
         {

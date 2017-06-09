@@ -269,6 +269,13 @@ struct renamerStc
 	(
 		sgzRenamer.selectionChangedCB = NodeEventCallback mouseUp:true selectionChanged:SelectionChanged
 	),
+
+
+	fn SetLifeTime = 
+	(
+		for _control in #(nameGetIcon, nameCloseIcon, prefixGetIcon, prefixCloseIcon, suffixGetIcon, suffixCloseIcon) do 
+			dotNet.setLifetimeControl _control #dotnet
+	),
 	
 
 	fn Run = 

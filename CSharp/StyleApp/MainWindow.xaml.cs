@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SugzTools.Temp;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,28 +23,28 @@ namespace StyleApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        class People
-        {
-            public string Type { get; set; }
-            public string Name { get; set; }
-            public int Age { get; set; }
-        }
-
-
-        ObservableCollection<People> Peoples;
 
         public MainWindow()
         {
-            InitializeComponent();
+            Node node1 = new Node() { Name = "Node 01" };
+            Node node2 = new Node() { Name = "Node 02" };
 
-            Peoples = new ObservableCollection<People>()
+            Layer layer01 = new Layer()
             {
-                new People() { Type = "Male", Name = "Test 01", Age = 21 },
-                new People() { Type = "Female", Name = "Test 02", Age = 18 },
+                Name = "Layer 01",
+                Nodes = new ObservableCollection<Node>() { node1, node2 }
             };
 
+            Layer layer02 = new Layer()
+            {
+                Name = "Layer 02",
+                Nodes = new ObservableCollection<Node>() { node1, node2 },
+                Layers = new ObservableCollection<Layer>() { layer01 }
+            };
 
-            dg.ItemsSource = Peoples;
+            ObservableCollection<Layer> Layers = new ObservableCollection<Layer>() { layer01, layer02 };
+
+            tv.ItemsSource = Layers;
         }
 
     }

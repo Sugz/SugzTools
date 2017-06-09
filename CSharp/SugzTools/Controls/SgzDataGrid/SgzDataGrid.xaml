@@ -275,6 +275,8 @@
         <Setter Property="RowBackground" Value="Transparent" />
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
         <Setter Property="GridLinesVisibility" Value="None" />
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource MaxRolloutBorder}" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource MaxRolloutBorder}" />
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="CanUserAddRows" Value="False" />

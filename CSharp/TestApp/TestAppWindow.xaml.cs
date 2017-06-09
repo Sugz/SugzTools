@@ -62,7 +62,7 @@ namespace TestApp
             SgzIcon layerIcon = new SgzIcon() { Icon = Geo.MdiViewSequential, Width = 12, Height = 12, VerticalAlignment = VerticalAlignment.Center };
             DockPanel.SetDock(layerIcon, Dock.Left);
             layerIcon.Click += (s, e) => Console.WriteLine("************\nPressed from Layer !!\n************");
-            TextBlock layerTxt = new TextBlock() { Foreground = new SolidColorBrush(Colors.Red), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(5,0,0,1) };
+            TextBlock layerTxt = new TextBlock() { Foreground = Resource<SolidColorBrush>.GetColor("MaxText"), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(5,0,0,1) };
             FrameworkElementFactory[] layerFactories = new FrameworkElementFactory[]
             {
                 TemplateGenerator.GetFrameworkElementFactory(layerIcon),
@@ -72,7 +72,7 @@ namespace TestApp
 
             SgzIcon nodeIcon = new SgzIcon() { Icon = Geo.MdiWebpack, Width = 12, Height = 12, VerticalAlignment = VerticalAlignment.Center };
             nodeIcon.Click += (s, e) => Console.WriteLine("************\nPressed from Node !!\n************");
-            TextBlock nodeTxt = new TextBlock() { Foreground = new SolidColorBrush(Colors.Blue), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(5,0,0,1) };
+            TextBlock nodeTxt = new TextBlock() { Foreground = Resource<SolidColorBrush>.GetColor("MaxText"), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(5,0,0,1) };
             FrameworkElementFactory[] nodeFactories = new FrameworkElementFactory[]
             {
                 TemplateGenerator.GetFrameworkElementFactory(nodeIcon),
@@ -87,25 +87,43 @@ namespace TestApp
             #endregion Templates
 
 
+
+            #region ItemsSource
+
+
             Node node1 = new Node() { Name = "Node 01" };
             Node node2 = new Node() { Name = "Node 02" };
+            Node node3 = new Node() { Name = "Node 03" };
+            Node node4 = new Node() { Name = "Node 04" };
+            Node node5 = new Node() { Name = "Node 05" };
+            Node node6 = new Node() { Name = "Node 06" };
 
             Layer layer01 = new Layer()
             {
                 Name = "Layer 01",
-                Nodes = new ObservableCollection<Node>() { node1, node2 }
+                Children = new ObservableCollection<object>() { node1, node2 }
+            };
+
+            Layer layer03 = new Layer()
+            {
+                Name = "Layer 03",
+                Children = new ObservableCollection<object>() { node5, node6 },
             };
 
             Layer layer02 = new Layer()
             {
                 Name = "Layer 02",
-                Nodes = new ObservableCollection<Node>() { node1, node2 },
-                Layers = new ObservableCollection<Layer>() { layer01 }
+                Children = new ObservableCollection<object>() { layer03, node3, node4 },
             };
 
-            ObservableCollection<Layer> Layers = new ObservableCollection<Layer>() { layer01, layer02 };
+            
 
-            tv.ItemsSource = Layers;
+            ObservableCollection<object> Layers = new ObservableCollection<object>() { layer01, layer02 };
+
+            tv.ItemsSource = Layers; 
+
+
+            #endregion ItemsSource
 
         }
 

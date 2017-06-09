@@ -31,8 +31,8 @@
                             Padding="3,4,4,5"
                             Width="16">
                         <Path x:Name="ExpandPath"
-                              Data="M0,0 L0,8 L8,0 z"
-                              Fill="{StaticResource MaxButton}">
+                              Data="M0,0 L0,6 L6,0 z"
+                              Fill="{StaticResource MaxCaretBrush}">
                             <Path.RenderTransform>
                                 <RotateTransform Angle="135"
                                                  CenterY="3"
@@ -50,15 +50,10 @@
                                                         CenterX="3" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource MaxBlue}" />
                         </Trigger>
                             
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource MaxButtonMouseOver}" />
-                        </Trigger>
-                        
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource MaxBlueMouseOver}" />
                         </Trigger>
                             
                         <MultiTrigger>
@@ -66,7 +61,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsChecked" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource MaxBlueMouseOver}" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource MaxButtonMouseOver}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                         
@@ -74,6 +69,84 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--Code by bendewey : https://stackoverflow.com/a/672123/3971575-->
+    <ControlTemplate x:Key="SgzTreeViewItemFullRowSelectionTemplate" TargetType="{x:Type TreeViewItem}">
+        <StackPanel>
+            <Border Name="Bd"
+                    Height="{Binding RowHeight, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1"
+                    Padding="{TemplateBinding Padding}">
+                <Grid Margin="{Binding Converter={StaticResource LeftMarginMultiplier}, RelativeSource={RelativeSource TemplatedParent}}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="19" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton x:Name="Expander"
+                                  Style="{StaticResource SgzExpandCollapseToggleStyle}"
+                                  IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClickMode="Press" />
+
+                    <ContentPresenter x:Name="PART_Header"
+                                      Grid.Column="1"
+                                      ContentSource="Header"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                </Grid>
+            </Border>
+            <ItemsPresenter x:Name="ItemsHost" />
+        </StackPanel>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsExpanded" Value="false">
+                <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            
+            <Trigger Property="HasItems" Value="false">
+                <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+            </Trigger>
+            
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasHeader" Value="false" />
+                    <Condition Property="Width" Value="Auto" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="PART_Header" Property="MinWidth" Value="75" />
+            </MultiTrigger>
+            
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HasHeader" Value="false" />
+                    <Condition Property="Height" Value="Auto" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="PART_Header" Property="MinHeight" Value="19" />
+            </MultiTrigger>
+            
+            <Trigger Property="IsSelected" Value="true">
+                <Setter TargetName="Bd" Property="Background"
+                        Value="{Binding SelectionBackground, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            </Trigger>
+            
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="true" />
+                    <Condition Property="IsSelectionActive" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="Bd" Property="Background"
+                        Value="{Binding SelectionInactiveBackground, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            </MultiTrigger>
+            
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
     
     
     <Style x:Key="SgzTreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
@@ -83,6 +156,9 @@
         <Setter Property="Padding" Value="1,0,0,0" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource SgzTreeViewItemFocusVisual}" />
+        <Setter Property="IsExpanded" Value="{Binding SgzIsItemExpanded, Mode=TwoWay}" />
+        <Setter Property="IsSelected" Value="{Binding SgzIsItemSelected, Mode=TwoWay}" />
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -99,9 +175,10 @@
                         </Grid.RowDefinitions>
                             
                         <Border x:Name="Bd"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Height="{Binding RowHeight, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}"
                                 Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
                                 Grid.Column="1"
                                 Padding="{TemplateBinding Padding}"
                                 SnapsToDevicePixels="true" />
@@ -125,7 +202,7 @@
                         
                     <ControlTemplate.Triggers>
 
-                        <DataTrigger Binding="{Binding FullRowSelection, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}" Value="true">
+                        <DataTrigger Binding="{Binding SelectedRowVisual, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}" Value="Row">
                             <Setter TargetName="Bd" Property="Grid.Column" Value="0" />
                             <Setter TargetName="Bd" Property="Grid.ColumnSpan" Value="3" />
                         </DataTrigger>
@@ -139,7 +216,8 @@
                         </Trigger>
                             
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{Binding SelectionBackground, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
                         </Trigger>
                             
@@ -148,13 +226,15 @@
                                 <Condition Property="IsSelected" Value="true" />
                                 <Condition Property="IsSelectionActive" Value="false" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{Binding SelectionInactiveBackground, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}" />
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
                         </MultiTrigger>
                             
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
+
                     </ControlTemplate.Triggers>
                         
                 </ControlTemplate>
@@ -171,6 +251,11 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
+
+            <DataTrigger Binding="{Binding SelectedRowVisual, RelativeSource={RelativeSource AncestorType={x:Type local:SgzTreeView}}}" Value="FullRow">
+                <Setter Property="Template" Value="{StaticResource SgzTreeViewItemFullRowSelectionTemplate}" />
+            </DataTrigger>
+
         </Style.Triggers>
             
     </Style>
@@ -182,6 +267,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{StaticResource MaxText}" />
         <Setter Property="Padding" Value="1" />
+        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />

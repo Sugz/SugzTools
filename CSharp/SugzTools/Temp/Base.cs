@@ -6,21 +6,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using SugzTools.Controls;
 
 namespace SugzTools.Temp
 {
-    public class Base : INotifyPropertyChanged
+    public class Base : SgzTreeViewItem
     {
-        // INotifyPropertyChanged
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        #endregion // End INotifyPropertyChanged
-
-
         private string _Name;
         public string Name
         {
@@ -31,8 +22,9 @@ namespace SugzTools.Temp
                 OnPropertyChanged();
             }
         }
-
-
-
     }
+
+    public class Node : Base { }
+
+    public class Layer : Base { }
 }

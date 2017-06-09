@@ -40,8 +40,6 @@ namespace SugzTools.Controls
 
 
 
-
-
         #region Constructors
 
 

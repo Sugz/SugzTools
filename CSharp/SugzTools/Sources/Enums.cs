@@ -64,4 +64,13 @@
     }
 
 
+
+    public enum TreeViewSelectedRowVisual
+    {
+        Item,
+        Row,
+        FullRow,
+    }
+
+
 }

@@ -74,7 +74,8 @@
 
         <sgz:SgzTreeView x:Name="tv" 
                          Margin="5"
-                         FullRowSelection="False"/>
+                         SelectedRowVisual="FullRow"
+                         RowHeight="22"/>
 
         <sgz:SgzDataGrid x:Name="dg"
                          Margin="2,20,2,2"

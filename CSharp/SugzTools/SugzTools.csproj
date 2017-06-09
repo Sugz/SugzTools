@@ -104,12 +104,15 @@
     <Compile Include="Controls\SgzToolBar\SgzToolBar.cs" />
     <Compile Include="Controls\SgzTreeView\SgzDataTemplateSelector.cs" />
     <Compile Include="Controls\SgzTreeView\SgzTreeView.cs" />
+    <Compile Include="Controls\SgzTreeView\SgzTreeViewItem.cs" />
+    <Compile Include="Controls\SgzTreeView\TreeViewItemExtensions.cs" />
     <Compile Include="Controls\SgzWindow\SgzWindow.cs" />
     <Compile Include="Converters\BorderClipConverter.cs" />
     <Compile Include="Converters\CornerRadiusLessThicknessConverter.cs" />
     <Compile Include="Converters\CornerRadiusMultiplierConverter.cs" />
     <Compile Include="Converters\GridLineVisibilityToBorderThicknessConverter.cs" />
     <Compile Include="Converters\InvertableBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Converters\LesserThanConverter.cs" />
     <Compile Include="Converters\MultiplyPercentageConverter.cs" />
     <Compile Include="Converters\NegativeWidthToLeftMarginConverter.cs" />
@@ -153,8 +156,6 @@
     <Compile Include="Sources\TemplateGenerator.cs" />
     <Compile Include="Sources\TMath.cs" />
     <Compile Include="Temp\Base.cs" />
-    <Compile Include="Temp\Layer.cs" />
-    <Compile Include="Temp\Node.cs" />
     <Compile Include="Themes\FocusVisualStyles.cs" />
     <Compile Include="TODO.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

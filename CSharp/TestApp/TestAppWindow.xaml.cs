@@ -102,7 +102,6 @@ namespace TestApp
             {
                 Name = "Layer 01",
                 Children = new ObservableCollection<object>() { node1, node2 },
-                SgzIsItemSelected = true
             };
 
             Layer layer03 = new Layer()
@@ -115,7 +114,6 @@ namespace TestApp
             {
                 Name = "Layer 02",
                 Children = new ObservableCollection<object>() { layer03, node3, node4 },
-                SgzIsItemSelected = true
             };
 
             

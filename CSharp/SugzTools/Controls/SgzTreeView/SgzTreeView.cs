@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 
 namespace SugzTools.Controls
 {
@@ -29,7 +30,7 @@ namespace SugzTools.Controls
         private ItemsControl _DropItem;
         private Point _DragStartPoint;
         private SolidColorBrush _Transparent = new SolidColorBrush(Colors.Transparent);
-        private List<SgzTreeViewItem> _SelectedItems;
+        private static TreeViewItem _selectTreeViewItemOnMouseUp;
 
         #endregion Fields
 
@@ -151,6 +152,11 @@ namespace SugzTools.Controls
         public SgzTreeView()
         {
             ItemTemplateSelector = _TemplateSelector;
+
+            GotFocus += OnTreeViewItemGotFocus;
+            PreviewMouseLeftButtonDown += OnTreeViewItemPreviewMouseDown;
+            PreviewMouseLeftButtonUp += OnTreeViewItemPreviewMouseUp;
+
             //Loaded += SetDragDropEventHandlers;
         }
 
@@ -164,12 +170,6 @@ namespace SugzTools.Controls
         #region Private
 
 
-        /// <summary>
-        /// Get TreeViewItem parent node
-        /// Code by Rohit: https://stackoverflow.com/a/29006266/3971575
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
         private ItemsControl GetTreeViewItemParent(TreeViewItem item)
         {
             DependencyObject parent = VisualTreeHelper.GetParent(item);
@@ -191,7 +191,7 @@ namespace SugzTools.Controls
 
         #endregion Methods
 
-
+        /*
         #region DragDrop
 
 
@@ -289,142 +289,160 @@ namespace SugzTools.Controls
 
 
         #endregion DragDrop
-
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Description(""), Category("Common")]
-        public bool IsMultipleSelection
-        {
-            get { return (bool)GetValue(IsMultipleSelectionProperty); }
-            set { SetValue(IsMultipleSelectionProperty, value); }
-        }
-
-        // DependencyProperty as the backing store for IsMultipleSelection
-        public static readonly DependencyProperty IsMultipleSelectionProperty = DependencyProperty.Register(
-            "IsMultipleSelection",
-            typeof(bool),
-            typeof(SgzTreeView),
-            new PropertyMetadata(false, OnMultipleSelectionChanged)
-        );
-
-        private static void OnMultipleSelectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is SgzTreeView treeView && e.NewValue is bool)
-            {
-                if ((bool)e.NewValue)
-                    treeView.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(treeView.OnTreeViewItemClicked), true);
-                else
-                    treeView.RemoveHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(treeView.OnTreeViewItemClicked));
-            }
-        }
-
-        private void OnTreeViewItemClicked(object sender, MouseButtonEventArgs e)
-        {
-            TreeViewItem item = Helpers.FindAnchestor<TreeViewItem>((DependencyObject)e.OriginalSource);
-            if (item != null)
-            {
-                switch (Keyboard.Modifiers)
-                {
-                    case ModifierKeys.Control:
-                        SelectMultipleItemsRandomly(item);
-                        break;
-                    case ModifierKeys.Shift:
-                        SelectMultipleItemsContinuously(item);
-                        break;
-                    default:
-                        SelectSingleItem(item);
-                        break;
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Attached DependencyProperty for IsItemSelected
-        /// </summary>
-        public static readonly DependencyProperty IsItemSelectedProperty = DependencyProperty.RegisterAttached(
-            "IsItemSelected",
-            typeof(bool),
-            typeof(SgzTreeView),
-            new PropertyMetadata(false, OnIsItemSelectedChanged)
-        );
-        public static bool GetIsItemSelected(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(IsItemSelectedProperty);
-        }
-        public static void SetIsItemSelected(DependencyObject obj, bool value)
-        {
-            obj.SetValue(IsItemSelectedProperty, value);
-        }
-
-        private static void OnIsItemSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is TreeViewItem treeViewItem && VisualTreeHelper.GetParent(d) is TreeView treeView)
-            {
-                var selectedItems = GetSelectedItems(treeView);
-                if (selectedItems != null)
-                {
-                    if (GetIsItemSelected(treeViewItem))
-                    {
-                        selectedItems.Add(treeViewItem.Header);
-                    }
-                    else
-                    {
-                        selectedItems.Remove(treeViewItem.Header);
-                    }
-                }
-            }
-        }
-
-
-
-        /// <summary>
-        /// Attached DependencyProperty for SelectedItems
-        /// </summary>
-        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.RegisterAttached(
-            "SelectedItems",
-            typeof(IList),
-            typeof(SgzTreeView)
-        );
-        public static IList GetSelectedItems(DependencyObject obj)
-        {
-            return (IList)obj.GetValue(SelectedItemsProperty);
-        }
-        public static void SetSelectedItems(DependencyObject obj, IList value)
-        {
-            obj.SetValue(SelectedItemsProperty, value);
-        }
-
-
-        /// <summary>
-        /// Attached DependencyProperty for StartItem
-        /// </summary>
-        public static readonly DependencyProperty StartItemProperty = DependencyProperty.RegisterAttached(
-            "StartItem",
-            typeof(TreeViewItem),
-            typeof(SgzTreeView)
-        );
-        public static TreeViewItem GetStartItem(DependencyObject obj)
-        {
-            return (TreeViewItem)obj.GetValue(StartItemProperty);
-        }
-        public static void SetStartItem(DependencyObject obj, TreeViewItem value)
-        {
-            obj.SetValue(StartItemProperty, value);
-        }
-
-
-
-
+        */
 
 
 
         
 
+
+        public static readonly DependencyProperty IsItemSelectedProperty = DependencyProperty.RegisterAttached(
+            "IsItemSelected", 
+            typeof(Boolean), 
+            typeof(SgzTreeView), 
+            new PropertyMetadata(false, OnIsItemSelectedPropertyChanged)
+        );
+
+        public static bool GetIsItemSelected(TreeViewItem element)
+        {
+            return (bool)element.GetValue(IsItemSelectedProperty);
+        }
+
+        public static void SetIsItemSelected(TreeViewItem element, Boolean value)
+        {
+            if (element == null) return;
+
+            element.SetValue(IsItemSelectedProperty, value);
+        }
+
+        private static void OnIsItemSelectedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DependencyObject treeView = VisualTreeHelper.GetParent(d);
+            while (!(treeView is TreeView))
+                treeView = VisualTreeHelper.GetParent(treeView);
+
+            if (d is TreeViewItem treeViewItem&& treeView != null)
+            {
+                var selectedItems = GetSelectedItems((TreeView)treeView);
+                if (selectedItems != null)
+                {
+                    if (GetIsItemSelected(treeViewItem))
+                        selectedItems.Add(treeViewItem.Header);
+                    else
+                        selectedItems.Remove(treeViewItem.Header);
+                }
+            }
+        }
+
+
+
+
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.RegisterAttached(
+            "SelectedItems", 
+            typeof(IList), 
+            typeof(SgzTreeView)
+        );
+
+        public static IList GetSelectedItems(TreeView element)
+        {
+            return (IList)element.GetValue(SelectedItemsProperty);
+        }
+
+        public static void SetSelectedItems(TreeView element, IList value)
+        {
+            element.SetValue(SelectedItemsProperty, value);
+        }
+
+
+
+
+        private static readonly DependencyProperty StartItemProperty = DependencyProperty.RegisterAttached(
+            "StartItem", 
+            typeof(TreeViewItem), 
+            typeof(SgzTreeView)
+        );
+
+        private static TreeViewItem GetStartItem(TreeView element)
+        {
+            return (TreeViewItem)element.GetValue(StartItemProperty);
+        }
+
+        private static void SetStartItem(TreeView element, TreeViewItem value)
+        {
+            element.SetValue(StartItemProperty, value);
+        }
+
+
+
+        private void OnTreeViewItemGotFocus(object sender, RoutedEventArgs e)
+        {
+            _selectTreeViewItemOnMouseUp = null;
+
+            if (e.OriginalSource is TreeView)
+                return;
+
+            var treeViewItem = FindTreeViewItem(e.OriginalSource as DependencyObject);
+            if (Mouse.LeftButton == MouseButtonState.Pressed && GetIsItemSelected(treeViewItem) && Keyboard.Modifiers != ModifierKeys.Control)
+            {
+                _selectTreeViewItemOnMouseUp = treeViewItem;
+                return;
+            }
+
+            SelectItems(treeViewItem);
+        }
+
+        private void OnTreeViewItemPreviewMouseDown(object sender, MouseEventArgs e)
+        {
+            var treeViewItem = FindTreeViewItem(e.OriginalSource as DependencyObject);
+
+            if (treeViewItem != null && treeViewItem.IsFocused)
+                OnTreeViewItemGotFocus(sender, e);
+        }
+
+        private void OnTreeViewItemPreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var treeViewItem = FindTreeViewItem(e.OriginalSource as DependencyObject);
+
+            if (treeViewItem == _selectTreeViewItemOnMouseUp)
+                SelectItems(treeViewItem);
+        }
+
+
+        private TreeViewItem FindTreeViewItem(DependencyObject dependencyObject)
+        {
+            if (!(dependencyObject is Visual || dependencyObject is Visual3D))
+                return null;
+
+            if (dependencyObject is TreeViewItem treeViewItem)
+                return treeViewItem;
+
+            return FindTreeViewItem(VisualTreeHelper.GetParent(dependencyObject));
+        }
+
+
+
+        private void SelectItems(TreeViewItem treeViewItem)
+        {
+            if (treeViewItem != null)
+            {
+                if ((Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Shift)) == (ModifierKeys.Control | ModifierKeys.Shift))
+                {
+                    SelectMultipleItemsContinuously(treeViewItem, true);
+                }
+                else if (Keyboard.Modifiers == ModifierKeys.Control)
+                {
+                    SelectMultipleItemsRandomly(treeViewItem);
+                }
+                else if (Keyboard.Modifiers == ModifierKeys.Shift)
+                {
+                    SelectMultipleItemsContinuously(treeViewItem);
+                }
+                else
+                {
+                    SelectSingleItem(treeViewItem);
+                }
+            }
+        }
 
         private void DeSelectAllItems(TreeViewItem treeViewItem)
         {
@@ -452,20 +470,18 @@ namespace SugzTools.Controls
             }
         }
 
-
-        private void SelectSingleItem(TreeViewItem item)
+        private void SelectSingleItem(TreeViewItem treeViewItem)
         {
             // first deselect all items
             DeSelectAllItems(null);
-            SetIsItemSelected(item, true);
-            SetStartItem(this, item);
+            SetIsItemSelected(treeViewItem, true);
+            SetStartItem(this, treeViewItem);
         }
-
 
         private void SelectMultipleItemsRandomly(TreeViewItem treeViewItem)
         {
             SetIsItemSelected(treeViewItem, !GetIsItemSelected(treeViewItem));
-            if (GetStartItem(this) == null)
+            if (GetStartItem(this) == null || Keyboard.Modifiers == ModifierKeys.Control)
             {
                 if (GetIsItemSelected(treeViewItem))
                     SetStartItem(this, treeViewItem);
@@ -477,8 +493,7 @@ namespace SugzTools.Controls
             }
         }
 
-
-        private void SelectMultipleItemsContinuously(TreeViewItem treeViewItem)
+        private void SelectMultipleItemsContinuously(TreeViewItem treeViewItem, bool shiftControl = false)
         {
             TreeViewItem startItem = GetStartItem(this);
             if (startItem != null)
@@ -491,7 +506,7 @@ namespace SugzTools.Controls
 
                 ICollection<TreeViewItem> allItems = new List<TreeViewItem>();
                 GetAllItems(null, allItems);
-                DeSelectAllItems(null);
+                //DeSelectAllItems(treeView, null);
                 bool isBetween = false;
                 foreach (var item in allItems)
                 {
@@ -509,11 +524,14 @@ namespace SugzTools.Controls
                     if (isBetween)
                     {
                         SetIsItemSelected(item, true);
+                        continue;
                     }
+
+                    if (!shiftControl)
+                        SetIsItemSelected(item, false);
                 }
             }
         }
-
 
         private void GetAllItems(TreeViewItem treeViewItem, ICollection<TreeViewItem> allItems)
         {
@@ -528,12 +546,12 @@ namespace SugzTools.Controls
                     }
                 }
             }
+
             else
             {
                 for (int i = 0; i < Items.Count; i++)
                 {
-                    TreeViewItem item = ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
-                    if (item != null)
+                    if (ItemContainerGenerator.ContainerFromIndex(i) is TreeViewItem item)
                     {
                         allItems.Add(item);
                         GetAllItems(item, allItems);
@@ -541,8 +559,6 @@ namespace SugzTools.Controls
                 }
             }
         }
-
-
 
     }
 }

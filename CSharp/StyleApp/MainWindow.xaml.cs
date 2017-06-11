@@ -26,25 +26,7 @@ namespace StyleApp
 
         public MainWindow()
         {
-            Node node1 = new Node() { Name = "Node 01" };
-            Node node2 = new Node() { Name = "Node 02" };
-
-            Layer layer01 = new Layer()
-            {
-                Name = "Layer 01",
-                Nodes = new ObservableCollection<Node>() { node1, node2 }
-            };
-
-            Layer layer02 = new Layer()
-            {
-                Name = "Layer 02",
-                Nodes = new ObservableCollection<Node>() { node1, node2 },
-                Layers = new ObservableCollection<Layer>() { layer01 }
-            };
-
-            ObservableCollection<Layer> Layers = new ObservableCollection<Layer>() { layer01, layer02 };
-
-            tv.ItemsSource = Layers;
+            
         }
 
     }

@@ -381,7 +381,7 @@ namespace SugzTools.Controls
             if (e.OriginalSource is TreeView)
                 return;
 
-            var treeViewItem = FindTreeViewItem(e.OriginalSource as DependencyObject);
+            TreeViewItem treeViewItem = FindTreeViewItem(e.OriginalSource as DependencyObject);
             if (Mouse.LeftButton == MouseButtonState.Pressed && GetIsItemSelected(treeViewItem) && Keyboard.Modifiers != ModifierKeys.Control)
             {
                 _selectTreeViewItemOnMouseUp = treeViewItem;
@@ -393,7 +393,7 @@ namespace SugzTools.Controls
 
         private void OnTreeViewItemPreviewMouseDown(object sender, MouseEventArgs e)
         {
-            var treeViewItem = FindTreeViewItem(e.OriginalSource as DependencyObject);
+            TreeViewItem treeViewItem = FindTreeViewItem(e.OriginalSource as DependencyObject);
 
             if (treeViewItem != null && treeViewItem.IsFocused)
                 OnTreeViewItemGotFocus(sender, e);

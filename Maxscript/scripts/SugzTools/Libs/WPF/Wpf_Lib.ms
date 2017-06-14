@@ -283,8 +283,8 @@ struct WpfStruct
 		borderStyle:
 		location:
 		content:
-		load:
-		close: =
+		loaded:
+		closed: =
 	(
 		/*<Function>
 		Description:
@@ -304,8 +304,8 @@ struct WpfStruct
 		if location != unsupplied then _wnd.StartPosition  = Enums.FormStartPosition location
 		if content != unsupplied then _wnd.Content = content
 		
-		if load != unsupplied then dotNet.addEventHandler _wnd "Load" load
-		if close != unsupplied then dotNet.addEventHandler _wnd "FormClosed" close
+		if loaded != unsupplied then dotNet.addEventHandler _wnd "Load" loaded
+		if closed != unsupplied then dotNet.addEventHandler _wnd "FormClosed" closed
 		dotNet.setLifetimeControl _wnd #dotnet
 		
 		_wnd

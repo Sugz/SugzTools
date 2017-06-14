@@ -232,7 +232,7 @@ struct renamerStc
 	),
 
 
-	fn Loaded  = 
+	fn OnLoad  = 
 	(
 		if not sgzRenamer.listBtn.IsChecked then SetPreviewListVisibility()
 		sgzRenamer.selectedObjects = _sgz._extMxs.SortObjects (getCurrentSelection())
@@ -240,7 +240,7 @@ struct renamerStc
 	),
 	
 	
-	fn Closed  = 
+	fn OnClose  = 
 	(
 		sgzRenamer.selectionChangedCB = sgzRenamer.renamerForm = undefined
 		updateToolbarButtons()
@@ -251,7 +251,7 @@ struct renamerStc
 	(
 		if mainGrid != undefined then
 		(
-			renamerForm = Wpf.Window title:"Renamer" content:mainGrid location:#centerParent width:750 minimumSize:#(261, 200) load:Loaded close:Closed
+			renamerForm = Wpf.Window title:"Renamer" content:mainGrid location:#centerParent width:750 minimumSize:#(261, 200) loaded:OnLoad closed:OnClose
 			renamerForm.ShowModeless()
 			dotNet.setLifetimeControl renamerForm #dotnet
 		)

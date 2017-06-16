@@ -420,14 +420,15 @@
             <Item mode="2" modeName="AM_ITEM" actionTableID="0" actionID="40462" />
             <Item mode="1" modeName="AM_SEPARATOR" />
             <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Cylinder`Objects Primitives" />
+            <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Capsule`Objects Primitives" />
             <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Sphere`Objects Primitives" />
             <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Box`Objects Primitives" />
             <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="plane`Objects Primitives" />
             <Item mode="1" modeName="AM_SEPARATOR" />
             <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Lines`Objects Shapes" />
             <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Ngon`Objects Shapes" />
+            <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Circle`Objects Shapes" />
             <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Rectangle`Objects Shapes" />
-            <Item mode="2" modeName="AM_ITEM" actionTableID="647394" actionID="Arc`Objects Shapes" />
         </Menu>
         <Menu title="tools 1" flags="2">
             <Item mode="5" modeName="AM_ITEM_SUBMENU" actionTableID="0" actionID="59228" flat="1" />

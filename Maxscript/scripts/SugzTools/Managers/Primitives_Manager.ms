@@ -40,12 +40,33 @@ struct PrimitivesManagerStc
 		$.heightsegs = 1
 		$.sides = 12
 	),
+
+
+	/* Sphere parameters ############################################################################################*/
+	fn SetSphere = 
+	(
+		$.segs = 12
+	),
+
+
+	/* Capsule parameters ############################################################################################*/
+	fn SetCapsule = 
+	(
+		$.sides = 12
+	),
 	
 	
 	/* Set NGon parameters ############################################################################################*/
 	fn SetNgon = 
 	(
 		$.nsides = 12
+	),
+
+
+	/* Set Shape parameters ############################################################################################*/
+	fn SetShape = 
+	(
+		$.render_mapcoords = true
 	),
 	
 	
@@ -54,15 +75,19 @@ struct PrimitivesManagerStc
 	(
 		if isCreatingObject() then 
 		(
+			obj = GetAnimByHandle nd[1]
 			case of 
 			(
-				(isCreatingObject Plane): _sgz._pMan.SetPlane()
-				(isCreatingObject Cylinder): _sgz._pMan.SetCylinder()
-				(isCreatingObject NGon): _sgz._pMan.SetNgon()
+				(isKindOf obj Plane): _sgz._pMan.SetPlane()
+				(isKindOf obj Cylinder): _sgz._pMan.SetCylinder()
+				(isKindOf obj Sphere): _sgz._pMan.SetSphere()
+				(isKindOf obj Capsule): _sgz._pMan.SetCapsule()
+				(isKindOf obj NGon): _sgz._pMan.SetNgon()
+				(isKindOf obj Shape): _sgz._pMan.SetShape()
 			)
 			
 			-- avoid the line to goes back to origin
-			if not isCreatingObject Line then max modify mode
+			if not (isKindOf obj Line)  then max modify mode
 		)
 	),
 	

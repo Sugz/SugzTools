@@ -400,16 +400,16 @@ struct CompLocComponentStc
 				
 			-- Write values
 			i = 2
-			for component in sceneComponents do 
+			for component in _cl.sceneComponents do 
 			(
 				format "%: %\n" (i-1) component.name
 				
 				(_csv.excel.application.Range("A" + i as string)).value = component.name
-				(_csv.excel.application.Range("B" + i as string)).value = GetHotspot component.hotspot
+				(_csv.excel.application.Range("B" + i as string)).value = _cl.GetHotspot component.hotspot
 				(_csv.excel.application.Range("C" + i as string)).value = component.fov as string
-				(_csv.excel.application.Range("D" + i as string)).value = GetRelatives component.transparent
-				(_csv.excel.application.Range("E" + i as string)).value = GetRelatives component.hidden
-				(_csv.excel.application.Range("F" + i as string)).value = GetRelatives component.animated
+				(_csv.excel.application.Range("D" + i as string)).value = _cl.GetRelatives component.transparent
+				(_csv.excel.application.Range("E" + i as string)).value = _cl.GetRelatives component.hidden
+				(_csv.excel.application.Range("F" + i as string)).value = _cl.GetRelatives component.animated
 				
 				i += 1
 			)
@@ -422,6 +422,15 @@ struct CompLocComponentStc
 			messageBox "The writing on the excel file has gone well ;)"
 		)
 		
+	),
+	
+	/* Use a backgroundworker to avoid blocking the UI when exporting the excel list ############################################################################################*/
+	fn ExcelExportBackgroundWorker = 
+	(
+		clearListener()
+		Worker = DotNetObject "CSharpUtilities.SynchronizingBackgroundWorker"
+		dotNet.addEventHandler Worker "DoWork" ExcelExport
+		if not Worker.IsBusy do Worker.RunWorkerAsync()
 	),
 	
 	
@@ -1592,6 +1601,7 @@ struct CompLocComponentStc
 				if doesFileExist (file = "$userscripts\SugzTools\Scripts\CompLoc_Component.ms") then 
 				(
 					fileIn file
+-- 					_cl.ExcelExportBackgroundWorker()
 					_cl.ExcelExport()
 				)
 			)

@@ -72,10 +72,54 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <sgz:SgzTreeView x:Name="tv" 
-                         Margin="5"
-                         SelectedRowVisual="FullRow"
-                         RowHeight="22"/>
+        <sgz:SgzStackPanel b:Spacing.Vertical="10">
+
+            <ItemsControl>
+                <sgz:SgzTextBox Watermark="test..."
+                                Margin="5">
+                    <sgz:SgzTextBox.UIElement0>
+                        <sgz:SgzIcon Icon="MdiStepForward"
+                                     Padding="6, 7, 6, 6"
+                                     VerticalAlignment="Center"
+                                     Cursor="Arrow" />
+                    </sgz:SgzTextBox.UIElement0>
+                    <sgz:SgzTextBox.UIElement2>
+                        <sgz:SgzIcon Icon="MdiWindowClose"
+                                     Padding="6"
+                                     VerticalAlignment="Center"
+                                     Cursor="Arrow" />
+                    </sgz:SgzTextBox.UIElement2>
+                </sgz:SgzTextBox>
+            </ItemsControl>
+
+            <sgz:SgzExpandersControl VerticalContentAlignment="Top">
+                <sgz:SgzExpander Header="Test"
+                                 Margin="5">
+                    <sgz:SgzTextBox Watermark="test..."
+                                    Margin="5">
+                        <sgz:SgzTextBox.UIElement0>
+                            <sgz:SgzIcon Icon="MdiStepForward"
+                                         Padding="6, 7, 6, 6"
+                                         VerticalAlignment="Center"
+                                         Cursor="Arrow" />
+                        </sgz:SgzTextBox.UIElement0>
+                        <sgz:SgzTextBox.UIElement2>
+                            <sgz:SgzIcon Icon="MdiWindowClose"
+                                         Padding="6"
+                                         VerticalAlignment="Center"
+                                         Cursor="Arrow" />
+                        </sgz:SgzTextBox.UIElement2>
+                    </sgz:SgzTextBox>
+                </sgz:SgzExpander>
+            </sgz:SgzExpandersControl>
+            
+            <sgz:SgzTreeView x:Name="tv"
+                             Margin="5"
+                             SelectedRowVisual="FullRow"
+                             RowHeight="22" />
+        </sgz:SgzStackPanel>
+        
+        
 
         <sgz:SgzDataGrid x:Name="dg"
                          Margin="2,20,2,2"

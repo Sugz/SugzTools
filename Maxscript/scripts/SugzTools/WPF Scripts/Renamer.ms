@@ -9,7 +9,7 @@ global Wpf, sgzRenamer
 struct renamerStc
 (
 	mainGrid, leftPanel, previewList, gridSplitter, listBtn,
-	nameGrp, nameTxt, prefixTxt, suffixTxt,
+	nameGrp, nameGetIcon, nameCloseIcon, nameTxt, prefixGetIcon, prefixCloseIcon, prefixTxt, suffixGetIcon, suffixCloseIcon, suffixTxt,
 	trimGrp, trimFirstSpn, trimLastSpn,
 	removeGrp, removeIndexSpn, removeLengthSpn,
 	replaceGrp, replaceOldStrTxt, replaceNewStrTxt, replaceFirstBtn, replaceAllBtn, replaceMatchCaseBtn,
@@ -24,6 +24,9 @@ struct renamerStc
 	leftPanelMinWidth = 235,
 
 	selectedObjects = #(),
+
+
+
 
 
 	fn Rename obj index = 
@@ -246,6 +249,13 @@ struct renamerStc
 		updateToolbarButtons()
 	),
 	
+	
+-- 	fn SetLifeTime = 
+-- 	(
+-- 		for _control in #(nameGetIcon, nameCloseIcon, nameTxt, prefixGetIcon, prefixCloseIcon, prefixTxt, suffixGetIcon, suffixCloseIcon, suffixTxt, renamerBtn, renamerForm) do 
+-- 			if _control != undefined then dotNet.setLifetimeControl _control #dotnet
+-- 	),
+	
 
 	fn CreateForm = 
 	(
@@ -253,7 +263,11 @@ struct renamerStc
 		(
 			renamerForm = Wpf.Window title:"Renamer" content:mainGrid location:#centerParent width:750 minimumSize:#(261, 200) loaded:OnLoad closed:OnClose
 			renamerForm.ShowModeless()
+
 			dotNet.setLifetimeControl renamerForm #dotnet
+-- 			dotNet.setLifetimeControl (nameTxt.uiElement0) #dotnet
+
+-- 			SetLifeTime()
 		)
 	),
 
@@ -271,11 +285,7 @@ struct renamerStc
 	),
 
 
-	fn SetLifeTime = 
-	(
-		for _control in #(nameGetIcon, nameCloseIcon, prefixGetIcon, prefixCloseIcon, suffixGetIcon, suffixCloseIcon) do 
-			dotNet.setLifetimeControl _control #dotnet
-	),
+	
 	
 
 	fn Run = 
@@ -285,6 +295,7 @@ struct renamerStc
 			fileIn file
 			SetUI()
 			AddCallback()
+			
 		)
 	)
 	

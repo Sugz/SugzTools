@@ -84,59 +84,59 @@ fn SetControlsCaptionsFn input =
 
 /* Align a pivot axis to and edge ***************************************************************************************************************************************************************/
 fn AlignPivotToEdge axis =
+(
+	/*<Function>
+	Description:
+		Align a pivot axis to an edge
+	Arguments:
+		<Name> : the axis to align 
+	Return:
+	Further Infos:
+		Pivot direction by Miauu: http://www.scriptspot.com/3ds-max/scripts/align-pivot-to-direction
+	</Function>*/
+	
+	if _sgz._sel.IsSelectionOne() then 
 	(
-		/*<Function>
-		Description:
-			Align a pivot axis to and edge
-		Arguments:
-			<Name> : the axis to align 
-		Return:
-		Further Infos:
-			Pivot direction by Miauu: http://www.scriptspot.com/3ds-max/scripts/align-pivot-to-direction
-		</Function>*/
-		
-		if _sgz._sel.IsSelectionOne() then 
+		-- Check only one edge is selected
+		edges = _sgz._mod.GetEdgeSelection $
+		if edges.numberSet == 1 then 
 		(
-			-- Check only one edge is selected
-			edges = _sgz._mod.GetEdgeSelection $
-			if edges.numberSet == 1 then 
-			(
-				-- Get the two verts and get a vector from their position
+			-- Get the two verts and get a vector from their position
 -- 				positions = #()
 -- 				for i in (_sgz._mod.GetVertsUsingEdge $ edges) do 
 -- 				(
 -- 					append positions (_sgz._mod.GetVerts $ i)
 -- 				)
-				
-				positions = for i in (_sgz._mod.GetVertsUsingEdge $ edges) collect (_sgz._mod.GetVerts $ i)
-				
-				dir = normalize (positions[2] - positions[1])
-				tm = $.transform
-				vec = case axis of
-				(
-					#x: - $.transform[1] 
-					#y: - $.transform[2] 
-					#z: - $.transform[3] 
-				)
-				
-				rtm = angleaxis (acos (dot vec dir)) (normalize (cross dir vec))
-				tempObjTM = translate (rotate (scalematrix tm.scale) (tm.rotation*rtm)) tm.pos
-					
-				worldAlignPivot $
-				rotation = inverse tempObjTM.rotation
-				in coordsys local $.rotation *= rotation
-				$.objectoffsetrot *= rotation
-				$.objectoffsetpos *= rotation
-				
-				subobjectlevel = 0
+			
+			positions = for i in (_sgz._mod.GetVertsUsingEdge $ edges) collect (_sgz._mod.GetVerts $ i)
+			
+			dir = normalize (positions[2] - positions[1])
+			tm = $.transform
+			vec = case axis of
+			(
+				#x: - $.transform[1] 
+				#y: - $.transform[2] 
+				#z: - $.transform[3] 
 			)
 			
-			else _sgz._extMxs.Prompt "Select one edge"
+			rtm = angleaxis (acos (dot vec dir)) (normalize (cross dir vec))
+			tempObjTM = translate (rotate (scalematrix tm.scale) (tm.rotation*rtm)) tm.pos
+				
+			worldAlignPivot $
+			rotation = inverse tempObjTM.rotation
+			in coordsys local $.rotation *= rotation
+			$.objectoffsetrot *= rotation
+			$.objectoffsetpos *= rotation
+			
+			subobjectlevel = 0
 		)
 		
-		
-		
+		else _sgz._extMxs.Prompt "Select one edge"
 	)
+	
+	
+	
+)
 
 
 

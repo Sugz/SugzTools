@@ -223,6 +223,7 @@ struct MacrosCollectionStc
 					(
 						fileIn file
 						sgzRenamer.CreateForm()
+-- 						sgzRenamer.SetLifeTime()
 					)	
 			)
 

@@ -231,10 +231,7 @@ namespace SugzTools.Controls
         public SgzExpander()
         {
             // Enable the drag drop icon if it's a children of a SgzExpandersControl
-            Loaded += (s, e) =>
-            {
-                CanDragDrop = Parent is SgzExpandersControl;
-            };
+            Loaded += (s, e) => CanDragDrop = Parent is SgzExpandersControl;
             Expanded += (s, e) => ExpandChanged?.Invoke(this, new SgzExpanderEventArgs(IsExpanded));
             Collapsed += (s, e) => ExpandChanged?.Invoke(this, new SgzExpanderEventArgs(IsExpanded));
         }
@@ -271,7 +268,7 @@ namespace SugzTools.Controls
         public bool IsExpanded { get; set; }
         public SgzExpanderEventArgs(bool isExpanded)
         {
-
+            IsExpanded = isExpanded;
         }
     }
 }

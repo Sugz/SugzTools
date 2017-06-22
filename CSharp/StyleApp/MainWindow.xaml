@@ -9,18 +9,15 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Height="350"
-        Width="525"
+        Width="198.155"
         Background="{DynamicResource MaxRollout}">
     
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
-    <Grid x:Name="mainGrid" >
+    <Grid x:Name="mainGrid">
 
-        <TreeView x:Name="tv"
-                  Style="{DynamicResource TreeViewStyle1}"
-                  ItemContainerStyle="{DynamicResource TreeViewItemStyle1}" />
     </Grid>
 
 </Window>

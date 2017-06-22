@@ -131,7 +131,7 @@
     <Style TargetType="{x:Type local:SgzExpandersControl}" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AllowDrop" Value="True"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalOnly" />

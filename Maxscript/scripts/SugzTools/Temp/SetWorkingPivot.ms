@@ -1,8 +1,9 @@
 try(destroyDialog ::Roll) catch()
 Rollout Roll "Sugz"
 (
-	button setWpBtn "Set WP" across:2
-	checkbutton wpBtn "Use WP"
+	label wpTxt "Working Pivot:" across:3 offset:[0,4]
+	button setWpBtn "Set" width:50 offset:[10,0]
+	checkbutton wpBtn "Use" width:50 offset:[7,0]
 	
 	local SetWorkingPivotPosCB = undefined
 	
@@ -51,7 +52,15 @@ Rollout Roll "Sugz"
 	
 	fn SetWorkingPivotFromVerts = 
 	(
-		
+		objSnap = snapshotasmesh $
+		dir = [0,0,0]
+		for vert in ((getVertSelection objSnap) as array) do dir += getNormal objSnap vert
+
+		edges = (polyOp.getEdgesUsingVert $ (polyOp.getVertSelection $) as array)[1]
+		vertsPos = for i in (polyop.getVertsUsingEdge $ edges) collect (polyop.getVert $ i)
+		dirUp = normalize (vertsPos[2] - vertsPos[1])
+
+		SetWorkingPivot dir dirUp
 	)
 	
 	
@@ -75,14 +84,17 @@ Rollout Roll "Sugz"
 		
 		SetWorkingPivot dir dirUp
 	)
+
+
+
 	
 	
-	fn SetWorkingPivotPos ev nd = 
+	fn SetWorkingPivotPos = 
 	(
 		updateWP = false
 		case subObjectLevel of
 		(
-			0: updateWP = false
+			0: updateWP = true
 			1: if ((polyOp.GetVertSelection $) as array).count != 0 then updateWP = true
 			2: if ((polyOp.GetEdgeSelection $) as array).count != 0 then updateWP = true
 			3: if ((polyOp.GetEdgeSelection $) as array).count != 0 then updateWP = true
@@ -93,12 +105,25 @@ Rollout Roll "Sugz"
 		if updateWP then 
 		(
 			WorkingPivot.UseMode = false
-			matrix = WorkingPivot.getTM()
-			matrix.translation = getSubObjCenter $
-			WorkingPivot.setTM matrix
+
+			if subObjectLevel == 0 
+				then WorkingPivot.resetTMToNode $
+			else
+			(
+				matrix = WorkingPivot.getTM()
+				matrix.translation = getSubObjCenter $
+				WorkingPivot.setTM matrix
+			)
+
 			WorkingPivot.UseMode = true
 		)
 		
+	)
+
+
+	fn AddCallback = 
+	(
+		SetWorkingPivotPosCB = NodeEventCallback mouseUp:true subobjectSelectionChanged:(fn x ev nd = SetWorkingPivotPos()) geometryChanged:(fn x ev nd = SetWorkingPivotPos())
 	)
 	
 	
@@ -118,7 +143,7 @@ Rollout Roll "Sugz"
 		
 		
 		wpBtn.state = WorkingPivot.UseMode = true
--- 		SetWorkingPivotPosCB = NodeEventCallback mouseUp:true subobjectSelectionChanged:SetWorkingPivotPos
+		AddCallback()
 	)
 	
 	
@@ -126,8 +151,11 @@ Rollout Roll "Sugz"
 	(
 		WorkingPivot.UseMode = state
 		
-		if state then()
--- 			then SetWorkingPivotPosCB = NodeEventCallback mouseUp:true subobjectSelectionChanged:SetWorkingPivotPos --geometryChanged:ResetWorkingPivotPos
+		if state then 
+		(
+			SetWorkingPivotPos()
+			AddCallback()
+		)
 		else 
 		(
 			SetWorkingPivotPosCB = undefined
@@ -139,4 +167,4 @@ Rollout Roll "Sugz"
 	
 	
 )
-createDialog Roll 188 300 style:#(#style_titlebar, #style_sysmenu, #style_toolwindow)
+createDialog Roll 188 50 style:#(#style_titlebar, #style_sysmenu, #style_toolwindow)

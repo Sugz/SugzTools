@@ -50,6 +50,7 @@ Rollout Roll "Sugz"
 	)
 	
 	
+	
 	fn SetWorkingPivotFromVerts = 
 	(
 		objSnap = snapshotasmesh $
@@ -91,39 +92,36 @@ Rollout Roll "Sugz"
 	
 	fn SetWorkingPivotPos = 
 	(
-		updateWP = false
+		local pos
 		case subObjectLevel of
 		(
-			0: updateWP = true
-			1: if ((polyOp.GetVertSelection $) as array).count != 0 then updateWP = true
-			2: if ((polyOp.GetEdgeSelection $) as array).count != 0 then updateWP = true
-			3: if ((polyOp.GetEdgeSelection $) as array).count != 0 then updateWP = true
-			4: if ((polyOp.GetFaceSelection $) as array).count != 0 then updateWP = true
-			5: if ((polyOp.GetFaceSelection $) as array).count != 0 then updateWP = true
+			0: pos = $.pos
+			1: if ((polyOp.GetVertSelection $) as array).count != 0 then getSubObjCenter $
+			2: if ((polyOp.GetEdgeSelection $) as array).count != 0 then getSubObjCenter $
+			3: if ((polyOp.GetEdgeSelection $) as array).count != 0 then getSubObjCenter $
+			4: if ((polyOp.GetFaceSelection $) as array).count != 0 then getSubObjCenter $
+			5: if ((polyOp.GetFaceSelection $) as array).count != 0 then getSubObjCenter $
 		)
 		
-		if updateWP then 
+		if pos != undefined then 
 		(
 			WorkingPivot.UseMode = false
-
-			if subObjectLevel == 0 
-				then WorkingPivot.resetTMToNode $
-			else
-			(
-				matrix = WorkingPivot.getTM()
-				matrix.translation = getSubObjCenter $
-				WorkingPivot.setTM matrix
-			)
-
+			
+			matrix = WorkingPivot.getTM()
+			matrix.translation = pos
+			WorkingPivot.setTM matrix
+			
 			WorkingPivot.UseMode = true
 		)
-		
 	)
+	
+	
+	fn UpdateWpPos ev nd = SetWorkingPivotPos()
 
 
 	fn AddCallback = 
 	(
-		SetWorkingPivotPosCB = NodeEventCallback mouseUp:true subobjectSelectionChanged:(fn x ev nd = SetWorkingPivotPos()) geometryChanged:(fn x ev nd = SetWorkingPivotPos())
+		SetWorkingPivotPosCB = NodeEventCallback mouseUp:true subobjectSelectionChanged:UpdateWpPos geometryChanged:UpdateWpPos controllerOtherEvent:UpdateWpPos
 	)
 	
 	
@@ -133,7 +131,7 @@ Rollout Roll "Sugz"
 			
 		case subObjectLevel of
 		(
-			0: WorkingPivot.resetTMToNode $
+			0: WorkingPivot.setTM ($.transform)
 			1: SetWorkingPivotFromVerts()
 			2: SetWorkingPivotFromEdges()
 			3: SetWorkingPivotFromEdges()

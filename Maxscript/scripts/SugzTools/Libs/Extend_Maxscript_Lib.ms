@@ -163,7 +163,7 @@ struct ExtendMxsLibraryStc
 	
 	
 	
-	/* Convert a value to an array ############################################################################################*/
+	/* Convert a value to an Array ############################################################################################*/
 	fn AsArray input =
 	(
 		/*<Function>
@@ -176,6 +176,28 @@ struct ExtendMxsLibraryStc
 		</Function>*/
 		
 		if not isKindOf input array then #(input) else input
+	
+	),
+
+
+	/* Convert a value to a BitArray ############################################################################################*/
+	fn AsBitArray input =
+	(
+		/*<Function>
+		Description:
+			Convert a value to an array
+		Arguments:
+			<Var>  input: a variable that need to be an array
+		Return:
+			Array<Var> the input as array
+		</Function>*/
+		
+		case (classOf input) of 
+		(
+			Integer: #{input}
+			array: input as BitArray
+			BitArray: input
+		)
 	
 	),
 	

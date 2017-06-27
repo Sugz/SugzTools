@@ -1,10 +1,19 @@
 global ep
 struct EditablePolyStc
 (
+	-- Source: DenisT: http://forums.cgsociety.org/archive/index.php?t-1033451.html
+	fn firstBit arg = 
+	(
+		local b
+		for n in arg while (b = n; off) do ()
+		b
+	),
+
 
 	fn SetCurrentObject obj = 
 	(
 		setCommandPanelTaskMode #modify
+		select obj
 		curObj = modpanel.getCurrentObject()
 		if not (isKindOf curObj Edit_Poly or isKindOf curObj Editable_Poly) then 
 		(
@@ -18,6 +27,20 @@ struct EditablePolyStc
 		)
 
 		curObj
+	),
+
+
+	fn GetSnapShot obj = 
+	(
+		obj = copy obj
+		modPanel.setCurrentObject obj
+		for _mod in obj.modifiers do 
+			if not isKindOf _mod Edit_Poly then deleteModifier obj _mod
+				
+		collapseStack obj
+		ss = snapshotAsMesh obj
+		delete obj
+		ss
 	),
 
 
@@ -40,17 +63,7 @@ struct EditablePolyStc
 			else 
 			(
 				if (isKindOf arg Array) then arg = arg[1]
-				if (isKindOf arg BitArray) then 
-				(
-					-- Source: DenisT: http://forums.cgsociety.org/archive/index.php?t-1033451.html
-					fn firstBit arr = 
-					(
-						local b
-						for n in arr while (b = n; off) do ()
-						b
-					)
-					arg = firstBit arg
-				)
+				if (isKindOf arg BitArray) then arg = firstBit arg
 				case (classOf curObj) of 
 				(
 					Edit_Poly: curObj.GetVertex arg
@@ -160,7 +173,7 @@ struct EditablePolyStc
 
 
 	/* Edge #########################################################################################################################################################################*/
-	fn GetEdgeSel obj = 
+	fn GetEdgeSelection obj = 
 	(
 		try 
 		(
@@ -181,7 +194,7 @@ struct EditablePolyStc
 
 
 	/* Face #########################################################################################################################################################################*/
-	fn GetFaceSel obj = 
+	fn GetFaceSelection obj = 
 	(
 		try 
 		(
@@ -192,11 +205,63 @@ struct EditablePolyStc
 				Editable_Poly: polyOp.getFaceSelection curObj
 			)
 		)
-		catch(_sgz._extMxs.Prompt "Issue occurs in Modeling Library: GetFaceSel()")
+		catch(_sgz._extMxs.Prompt "Issue occurs in Modeling Library: GetFaceSelection()")
 	),
 
 
-	
+	fn GetFacesUsingEdge obj arg = 
+	(
+		try
+		(
+			faces = #{}
+			if (isKindOf arg Integer) then arg = #{arg}
+			if (isKindOf arg Array) then arg = arg as BitArray
+
+			curObj = SetCurrentObject obj
+			faces = case (classOf curObj) of 
+			(
+				Edit_Poly: 
+				(
+					curObj.convertSelection #Edge #Face
+					GetFaceSelection curObj
+				)
+				Editable_Poly: polyOp.getFacesUsingEdge curObj arg
+			)
+		)
+		catch(_sgz._extMxs.Prompt "Issue occurs in Modeling Library: GetVertsUsingEdge()")
+	),
+
+
+	fn GetFacesNormal obj arg = 
+	(
+		try 
+		(
+			curObj = SetCurrentObject obj
+			if (isKindOf arg Array AND arg.count > 1) OR (isKindOf arg BitArray AND arg.numberSet > 1) then 
+			(
+				case (classOf curObj) of 
+				(
+					Edit_Poly:
+					(
+						ss = GetSnapShot obj
+						for i in arg collect (GetFaceNormal ss i)
+					)
+					Editable_Poly: for i in arg collect polyOp.getFaceNormal curObj i
+				)
+			)
+			else 
+			(
+				if (isKindOf arg Array) then arg = arg[1]
+				if (isKindOf arg BitArray) then arg = firstBit arg
+				case (classOf curObj) of 
+				(
+					Edit_Poly: GetFaceNormal (GetSnapShot obj) arg
+					Editable_Poly: fNormal = polyOp.getFaceNormal curObj arg
+				)
+			)
+		)
+		catch(_sgz._extMxs.Prompt "Issue occurs in EditablePoly Library: GetVert()")
+	),
 
 
 
@@ -210,10 +275,10 @@ struct EditablePolyStc
 		verts = case subobjectlevel of
 		(
 			1: this.GetVertSel obj
-			2: this.GetVertsUsingEdge obj (this.GetEdgeSel obj)
-			3: this.GetVertsUsingEdge obj (this.GetEdgeSel obj)
-			4: this.GetVertsUsingFace obj (this.GetFaceSel obj)
-			5: this.GetVertsUsingFace obj (this.GetFaceSel obj)
+			2: this.GetVertsUsingEdge obj (this.GetEdgeSelection obj)
+			3: this.GetVertsUsingEdge obj (this.GetEdgeSelection obj)
+			4: this.GetVertsUsingFace obj (this.GetFaceSelection obj)
+			5: this.GetVertsUsingFace obj (this.GetFaceSelection obj)
 			
 		)
 		for vert in verts do center += GetVert obj vert

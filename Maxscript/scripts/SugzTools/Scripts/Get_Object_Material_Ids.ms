@@ -13,7 +13,7 @@ Rollout MaterialIDsRoll "Material IDs"
 
 	on getmatIdsBtn pressed do 
 	(
-		if _sgz._sel.GetSelectionCountFn() then 
+		if not _sgz._sel.IsSelectionEmpty() then 
 		(
 			-- Define the selection as the object use in the script and get its face Ids
 			matIdObj = $	

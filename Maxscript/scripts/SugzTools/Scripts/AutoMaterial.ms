@@ -210,7 +210,7 @@ struct AutoMaterialStc
 		-- Change the wirecolor ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		on colorClr changed clr do 
 		(
-			if applyLayerColorBtn.state then (LayerManager.current).wireColor = clr
+			if useLayerColorBtn.state then (LayerManager.current).wireColor = clr
 			else 
 			(
 				_sgz._autoMtl.wireColor = clr

@@ -85,6 +85,13 @@ struct xmlStc
 
 	fn SetAttribute _node _attribute _value = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		_node.SetAttribute _attribute _value
 	),
 

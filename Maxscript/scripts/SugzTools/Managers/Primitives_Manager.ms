@@ -67,6 +67,7 @@ struct PrimitivesManagerStc
 	fn SetShape = 
 	(
 		$.render_mapcoords = true
+		$.render_threshold = 80
 	),
 	
 	

@@ -1,3 +1,5 @@
+/*CodeDoc do not include */
+
 -- Set properties and event handlers for a System.Windows.Controls.Primitives.Selector ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 fn Selector 
 	_control

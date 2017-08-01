@@ -14,7 +14,8 @@ SugzTools INI Manager
 # Sources:
 DeleteUserProp() by DenisT: http://forums.cgsociety.org/showthread.php?f=98&t=797430&
 ArePtsEquivalent() by Vojtech Cada: http://creativescratchpad.blogspot.fr/2013/01/maxscript-float-comparison.html#
-GetWinFolders() by TimHawker post : http://forums.cgsociety.org/archive/index.php?t-1090567.html
+GetWinFolders() by TimHawker : http://forums.cgsociety.org/archive/index.php?t-1090567.html
+GetFirstBit() by DenisT: http://forums.cgsociety.org/archive/index.php?t-1033451.html
 
 # ToDo:
 rename library variable from _extMax to _mxs
@@ -198,6 +199,27 @@ struct ExtendMxsLibraryStc
 			array: input as BitArray
 			BitArray: input
 		)
+	
+	),
+
+
+	/* Get the first bit from a BitArray ############################################################################################*/
+	fn GetFirstBit arg = 
+	(
+		/*<Function>
+		Description:
+			Get the first bit from a BitArray
+		Arguments:
+			<BitArray> arg: a BitArray
+		Return:
+			<Integer> the first bit from the input bitarray
+		Infos:
+			DenisT: http://forums.cgsociety.org/archive/index.php?t-1033451.html
+		</Function>*/
+		
+		local b
+		for n in arg while (b = n; off) do ()
+		b
 	
 	),
 	

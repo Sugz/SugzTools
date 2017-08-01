@@ -156,19 +156,15 @@ global _sgz
 		
 		
 		
-		/* Macroscripts ############################################################################################*/
-		fn InstallMacros = 
-		(
-			for macro in (getFiles "$sugzTools\Macroscripts\*") do fileIn macro
-		),
-		
-		
-		
 		/* Startup  ############################################################################################*/
-		fn StartupScripts =
+		fn Startup =
 		(
-			-- AutoSave toolbar
-			if execute (getIniSetting _sgz._ini "AutoSave" "toolbar") and (doesFileExist file = "$sugzTools\AutoSave\AutoSave_Toolbar.ms") do fileIn file--"$sugzTools\AutoSave\AutoSave_Toolbar.ms"
+			-- Macroscripts / Plugins
+			for file in (join (getFiles "$sugzTools\Macroscripts\*") (getFiles "$sugzTools\Plugins\*")) do fileIn file
+
+			-- AutoSave toolbar (implement the ini check directly on the file)
+-- 			if execute (getIniSetting _sgz._ini "AutoSave" "toolbar") and (doesFileExist file = "$sugzTools\AutoSave\AutoSave_Toolbar.ms") do fileIn file--"$sugzTools\AutoSave\AutoSave_Toolbar.ms"
+			
 		),
 
 
@@ -231,12 +227,14 @@ global _sgz
 			exitCode = 0
 			try (SetUserPaths()) catch(exitCode = "SetUserPaths() raised an issue...")
 			try (DefineStructs()) catch(exitCode = "DefineStructs() raised an issue...")
-			try (SetIni()) catch(exitCode = "SetIni() raised an issue...\n")
-			try (InstallMacros()) catch(exitCode = "InstallMacros() raised an issue...")
-			try (StartupScripts()) catch(exitCode = "StartupScripts() raised an issue...")
+			try (SetIni()) catch(exitCode = "SetIni() raised an issue...")
+			try (Startup()) catch(exitCode = "Startup() raised an issue...")
 			try (CustomizeUI()) catch(exitCode = "CustomizeUI() raised an issue...")
 				
-			if exitCode == 0 then
+
+			if exitCode != 0 
+				then format "SugzTools failed to load :(%\n" exitCode
+			else 
 			(
 				_tSvn.GetSvnPath()
 				_gfxCm.Run()
@@ -245,8 +243,6 @@ global _sgz
 				if execute (getIniSetting _sgz._ini "MainUi" "startup") then MainView() 						-- Main UI
 				format "SugzTools succesfully loaded :)\n"
 			)
-			
-			else format "%\nSugzTools failed to load :(\n" exitCode
 		),
 
 		

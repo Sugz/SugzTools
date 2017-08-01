@@ -2,8 +2,15 @@ global ep
 struct EditablePolyStc
 (
 	-- Source: DenisT: http://forums.cgsociety.org/archive/index.php?t-1033451.html
-	fn firstBit arg = 
+	fn GetFirstBit arg = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		local b
 		for n in arg while (b = n; off) do ()
 		b
@@ -12,9 +19,15 @@ struct EditablePolyStc
 
 	fn SetCurrentObject obj = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		setCommandPanelTaskMode #modify
-		select obj
-		curObj = modpanel.getCurrentObject()
+		curObj = obj
 		if not (isKindOf curObj Edit_Poly or isKindOf curObj Editable_Poly) then 
 		(
 			for _mod in obj.modifiers do 
@@ -32,6 +45,13 @@ struct EditablePolyStc
 
 	fn GetSnapShot obj = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		obj = copy obj
 		modPanel.setCurrentObject obj
 		for _mod in obj.modifiers do 
@@ -47,6 +67,13 @@ struct EditablePolyStc
 	/* Vertex #########################################################################################################################################################################*/
 	fn GetVert obj arg = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		-- curobject is in local space so polyOp.getVert need to be set back to world space: (polyOp.getVert curObj arg) * $.transform 
 		try 
 		(
@@ -77,6 +104,13 @@ struct EditablePolyStc
 
 	fn GetVertCount obj = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try 
 		(
 			curObj = SetCurrentObject obj
@@ -92,6 +126,13 @@ struct EditablePolyStc
 
 	fn GetVertSel obj = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try 
 		(
 			curObj = SetCurrentObject obj
@@ -107,6 +148,12 @@ struct EditablePolyStc
 
 	fn SetVertSel obj arg = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
 		
 		try 
 		(
@@ -127,6 +174,13 @@ struct EditablePolyStc
 
 	fn GetVertsUsingEdge obj arg =
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try
 		(
 			verts = #{}
@@ -150,6 +204,13 @@ struct EditablePolyStc
 
 	fn GetVertsUsingFace obj arg =
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try
 		(
 			verts = #{}
@@ -175,6 +236,13 @@ struct EditablePolyStc
 	/* Edge #########################################################################################################################################################################*/
 	fn GetEdgeSelection obj = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try 
 		(
 			curObj = SetCurrentObject obj
@@ -196,6 +264,13 @@ struct EditablePolyStc
 	/* Face #########################################################################################################################################################################*/
 	fn GetFaceSelection obj = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try 
 		(
 			curObj = SetCurrentObject obj
@@ -211,6 +286,13 @@ struct EditablePolyStc
 
 	fn GetFacesUsingEdge obj arg = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try
 		(
 			faces = #{}
@@ -234,6 +316,13 @@ struct EditablePolyStc
 
 	fn GetFacesNormal obj arg = 
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		try 
 		(
 			curObj = SetCurrentObject obj
@@ -271,6 +360,13 @@ struct EditablePolyStc
 	/* General #########################################################################################################################################################################*/
 	fn GetSubObjCenter obj  =
 	(
+		/*<Function>
+		Description:
+		Arguments:
+		Return:
+		Infos:
+		</Function>*/
+		
 		center = [0, 0, 0]
 		verts = case subobjectlevel of
 		(

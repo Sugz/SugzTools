@@ -1,3 +1,5 @@
+/*CodeDoc do not include */
+
 -- Set most of the properties and event handlers for a System.Windows.Controls.Image ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 fn Image
 	source:

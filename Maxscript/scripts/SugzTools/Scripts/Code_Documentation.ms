@@ -105,22 +105,24 @@ Script design to get all the documentation from sugztools code
 			infos = trimRight (readLine ms) " = " + "\r\n\r\n"
 			
 			-- Go after the begining of the description
-			while not descriptifFound do 
-			(
-				if trimLeft (readline ms) == "/*<Function>" then descriptifFound = true
-			)
+			while not eof ms do print (trimLeft (readline ms))
+-- 			while not descriptifFound do 
+-- 			(
+-- 				if trimLeft (readline ms) == "/*<Function>" then descriptifFound = true
+-- 			)
 
+			
 			-- Read every line of the descritpion, add new line for new description categories (arguments, return, further infos) and stop when find the end of description
-			while not descriptifEnd do 
-			(
-				_line = trimLeft (readline ms)
-				if _line == "</Function>*/" then descriptifEnd = true
-				else 
-				(
-					if _line == "Arguments:" or _line == "Return:" or _line == "Further Infos:" then infos += "\r\n"
-					infos += _line + "\r\n"
-				)
-			)
+-- 			while not descriptifEnd do 
+-- 			(
+-- 				_line = trimLeft (readline ms)
+-- 				if _line == "</Function>*/" then descriptifEnd = true
+-- 				else 
+-- 				(
+-- 					if _line == "Arguments:" or _line == "Return:" or _line == "Further Infos:" then infos += "\r\n"
+-- 					infos += _line + "\r\n"
+-- 				)
+-- 			)
 			
 			flush ms 
 			close ms 

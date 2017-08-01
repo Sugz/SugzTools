@@ -155,7 +155,6 @@ struct CompLocComponentStc
 				listbox animatedLbx "Animated Objects" height:3 width:150 align:#center offset:[0,5]
 				
 			
-				
 				on view open do 
 				(
 					if this.hotspot != undefined then hotspotLbl.text = substring (this.hotspot.name) ((GetNode()).name.count + 2) -1
@@ -685,7 +684,7 @@ struct CompLocComponentStc
 				</Function>*/
 				
 				items = #()
-				for obj in _cl.excludedObjects do append items obj.name
+				for obj in _cl.excludedObjects where isValidNode obj do append items obj.name
 				excludedLbx.items = items
 				
 			)
@@ -1050,12 +1049,6 @@ struct CompLocComponentStc
 
 
 
-		-- Set the hotspot ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 		-- Add Relative object to a scene component -----------------------------------------------------------------------------------------------------------------------------------------------------------
 		fn AddRelative component relatives relativeType = 
 		(
@@ -1287,13 +1280,14 @@ struct CompLocComponentStc
 		/* Copy relatives from selected object  ***************************************************************************************************************************************************************/
 		on copyBtn pressed do 
 		(
-			if _sgz._sel.IsSelectionOne() AND (_ca.CheckForCustAttr $ #comploc)[1] then 
+			if _cl.sceneComponents.count != 0 then 
 			(
-				--tempRelatives.hotspot = $.hotspot
-				tempRelatives.fov = $.fov
-				tempRelatives.hidden = for obj in $.hidden where obj.node != undefined collect obj.node
-				tempRelatives.transparent = for obj in $.transparent where obj.node != undefined collect obj.node
-				tempRelatives.animated = for obj in $.animated where obj.node != undefined collect obj.node
+				component = getNodeByName sceneComponentsLbx.selected
+				tempRelatives.hotspot = hotspotDdl.selected
+				tempRelatives.fov = component.fov
+				tempRelatives.hidden = for obj in component.hidden where obj.node != undefined collect obj.node
+				tempRelatives.transparent = for obj in component.transparent where obj.node != undefined collect obj.node
+				tempRelatives.animated = for obj in component.animated where obj.node != undefined collect obj.node
 			)
 		)
 
@@ -1302,13 +1296,19 @@ struct CompLocComponentStc
 		/* Paste relatives to selected object  ***************************************************************************************************************************************************************/
 		on pasteBtn pressed do 
 		(
-			if _sgz._sel.IsSelectionOne() AND (_ca.CheckForCustAttr $ #comploc)[1] then 
+			if _cl.sceneComponents.count != 0 then 
 			(
-				--$.hotspot = tempRelatives.hotspot
-				$.fov = tempRelatives.fov
-				for obj in tempRelatives.hidden do append $.hidden (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
-				for obj in tempRelatives.transparent do append $.transparent (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
-				for obj in tempRelatives.animated do append $.animated (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
+				component = getNodeByName sceneComponentsLbx.selected
+				component.hotspot.pos = _sgz._extMxs.GetHashTableValue (_cl.hotspotHT) (tempRelatives.hotspot)
+				component.hotspot.name = component.name + "_" + tempRelatives.hotspot
+				component.fov = component.hotspot.fov = tempRelatives.fov
+				for obj in tempRelatives.hidden do append component.hidden (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
+				for obj in tempRelatives.transparent do append component.transparent (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
+				for obj in tempRelatives.animated do append component.animated (nodeTransformMonitor node:obj forwardTransformChangeMsgs:false)
+
+				SetRelatives()
+				viewport.setCamera component.hotspot
+				select component
 			)
 		)
 		

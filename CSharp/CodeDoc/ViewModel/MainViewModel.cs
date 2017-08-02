@@ -5,6 +5,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System;
 
 namespace CodeDoc.ViewModel
 {
@@ -54,7 +55,8 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            string _path = @"C:\Users\cplantec\AppData\Local\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs";
+
+            string _path = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs";
             Folders.Add(new CDFolder(_path));
         }
 

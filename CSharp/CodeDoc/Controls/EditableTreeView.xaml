@@ -1,0 +1,52 @@
+﻿<TreeView x:Class="CodeDoc.Controls.EditableTreeView"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:local="clr-namespace:CodeDoc.Controls"
+          mc:Ignorable="d"
+          d:DesignHeight="300"
+          d:DesignWidth="300"
+          ItemTemplate="{DynamicResource TVDataTemplate}"
+          KeyDown="TreeView_KeyDown"
+          SelectedItemChanged="TreeView_SelectedItemChanged">
+
+    <TreeView.Resources>
+        <!--TreeView DataTemplate-->
+        <HierarchicalDataTemplate x:Key="TVDataTemplate"
+                                  ItemsSource="{Binding Children}">
+            <Grid Height="20">
+                <!-- Normal state -->
+                <TextBlock x:Name="textBlock"
+                           Text="{Binding Text}"
+                           Margin="3,0,0,3"
+                           MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                           VerticalAlignment="Bottom"
+                           Foreground="{DynamicResource MaxText}" />
+                <!-- This state is active in the edit mode -->
+                <TextBox x:Name="textBox"
+                         Cursor="IBeam"
+                         Visibility="Collapsed"
+                         Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         LostFocus="TextBox_LostFocus"
+                         IsVisibleChanged="TextBox_IsVisibleChanged"
+                         KeyDown="TextBox_KeyDown"
+                         SelectionBrush="{DynamicResource MaxBlue}" />
+            </Grid>
+
+            <!-- With triggers we switch between the three states of the header depending on its focused property and the control-level property "IsInEditMode" -->
+            <HierarchicalDataTemplate.Triggers>
+                <MultiDataTrigger>
+                    <!-- Selected, editing is generally active - the text box is displayed -->
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}}" Value="True" />
+                        <Condition Binding="{Binding IsInEditMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EditableTreeView}}}" Value="True" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="textBlock" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="textBox" Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+            </HierarchicalDataTemplate.Triggers>
+        </HierarchicalDataTemplate>
+    </TreeView.Resources>
+    
+</TreeView>

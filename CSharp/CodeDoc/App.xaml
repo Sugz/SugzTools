@@ -41,18 +41,6 @@
             </ControlTemplate>
 
 
-            <!--TreeView DataTemplate-->
-            <HierarchicalDataTemplate x:Key="TVDataTemplate"
-                                      ItemsSource="{Binding Children}">
-                <DockPanel Height="20">
-                    <local:EditableTextBlock Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <!--<TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
-                </DockPanel>
-            </HierarchicalDataTemplate>
-
-            
-            
-
         </ResourceDictionary>
 
 

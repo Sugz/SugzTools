@@ -79,12 +79,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\EditableTextBlock.cs" />
+    <Compile Include="Controls\EditableTreeView.xaml.cs">
+      <DependentUpon>EditableTreeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\CDFile.cs" />
     <Compile Include="Model\CDFolder.cs" />
     <Compile Include="Model\CDScript.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="Controls\EditableTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

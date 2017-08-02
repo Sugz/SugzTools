@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
-        xmlns:ctrl="clr-namespace:CodeDoc.Controls"
+        xmlns:local="clr-namespace:CodeDoc.Controls"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         mc:Ignorable="d ignore"
         Title="SugzTools Code Documentation"
@@ -41,14 +41,14 @@
                 </sgz:SgzButton>
             </StackPanel>
         </Border>
-        <TreeView Grid.Column="1"
-                  ItemsSource="{Binding Folders}"
-                  BorderBrush="{DynamicResource MaxRolloutBorder}"
-                  Background="{DynamicResource MaxRollout}"
-                  BorderThickness="1"
-                  Foreground="{DynamicResource MaxText}"
-                  Padding="0,5"
-                  ItemTemplate="{DynamicResource TVDataTemplate}" />
+        <local:EditableTreeView Grid.Column="1"
+                                ItemsSource="{Binding Folders}"
+                                BorderBrush="{DynamicResource MaxRolloutBorder}"
+                                Background="{DynamicResource MaxRollout}"
+                                BorderThickness="1"
+                                Foreground="{DynamicResource MaxText}"
+                                Padding="0,5"
+                                ItemTemplate="{DynamicResource TVDataTemplate}" />
         <GridSplitter HorizontalAlignment="Stretch"
                       Background="{DynamicResource MaxRolloutBorder}"
                       Grid.Column="2"

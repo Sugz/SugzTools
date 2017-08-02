@@ -1,4 +1,3 @@
-global ep
 struct EditablePolyStc
 (
 	-- Source: DenisT: http://forums.cgsociety.org/archive/index.php?t-1033451.html
@@ -384,4 +383,3 @@ struct EditablePolyStc
 
 
 )
-ep = EditablePolyStc()

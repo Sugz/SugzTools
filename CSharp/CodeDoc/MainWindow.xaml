@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:ctrl="clr-namespace:CodeDoc.Controls"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         mc:Ignorable="d ignore"
         Title="SugzTools Code Documentation"
         Height="380"
         Width="750"
-        Background="{DynamicResource MaxBackground}"
+        Background="{StaticResource MaxBackground}"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         Icon="Resources/CodeDoc.ico">
 
@@ -19,20 +20,40 @@
 
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <sgz:SgzTreeView />
+        <Border BorderBrush="{DynamicResource MaxRolloutBorder}"
+                Background="{DynamicResource MaxRollout}"
+                BorderThickness="1,1,0,1">
+            <StackPanel>
+                <sgz:SgzButton Command="{Binding AddFolderCommand}"
+                               Width="Auto"
+                               Height="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                               IsTransparent="True">
+                    <sgz:SgzIcon Icon="MdiFolderPlus"
+                                 IsEnabled="False"
+                                 Width="18"
+                                 Height="18" />
+                </sgz:SgzButton>
+            </StackPanel>
+        </Border>
+        <TreeView Grid.Column="1"
+                  ItemsSource="{Binding Folders}"
+                  BorderBrush="{DynamicResource MaxRolloutBorder}"
+                  Background="{DynamicResource MaxRollout}"
+                  BorderThickness="1"
+                  Foreground="{DynamicResource MaxText}"
+                  Padding="0,5"
+                  ItemTemplate="{DynamicResource TVDataTemplate}" />
         <GridSplitter HorizontalAlignment="Stretch"
                       Background="{DynamicResource MaxRolloutBorder}"
-                      Grid.Column="1"
+                      Grid.Column="2"
                       Template="{DynamicResource GridSplitterTemplate}" />
-        <Border Background="{DynamicResource MaxRollout}"
-                BorderBrush="{DynamicResource MaxRolloutBorder}"
-                BorderThickness="1"
-                Grid.Column="2" />
+
 
     </Grid>
 </Window>

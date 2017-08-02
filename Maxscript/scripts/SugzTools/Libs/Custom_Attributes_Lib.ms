@@ -75,7 +75,7 @@ struct CustomAttributesLibraryStc
 			Find a custom attributes on a object and delete it
 		Arguments:
 			<Name> attr: the attribute as name
-			Array <Node> nodeList: define the array to limit the search <Optional>
+			Array<Node> nodeList: define the array to limit the search <Optional>
 		</Function>*/
 		
 		for obj in nodeList where custAttributes.count obj != 0 do 

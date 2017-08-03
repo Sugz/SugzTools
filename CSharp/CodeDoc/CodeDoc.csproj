@@ -84,7 +84,10 @@
     </Compile>
     <Compile Include="Model\CDFile.cs" />
     <Compile Include="Model\CDFolder.cs" />
+    <Compile Include="Model\CDFunction.cs" />
     <Compile Include="Model\CDScript.cs" />
+    <Compile Include="Model\ICDItem.cs" />
+    <Compile Include="Sources\CDConfig.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Controls\EditableTreeView.xaml">

@@ -112,6 +112,7 @@
     <Compile Include="Converters\CornerRadiusMultiplierConverter.cs" />
     <Compile Include="Converters\GridLineVisibilityToBorderThicknessConverter.cs" />
     <Compile Include="Converters\InvertableBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\InvertVisibilityConverter.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Converters\LesserThanConverter.cs" />
     <Compile Include="Converters\MultiplyPercentageConverter.cs" />

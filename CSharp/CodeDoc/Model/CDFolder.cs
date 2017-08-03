@@ -10,19 +10,22 @@ namespace CodeDoc.Model
 {
     public class CDFolder : CDFile
     {
-        public CDFolder(string path) : base(path) { }
+        public CDFolder(string path) : base(path)
+        {
+            Type = CDItemType.Folder;
+        }
 
         protected override string GetText()
         {
             return System.IO.Path.GetFileName(Path);
         }
 
-        protected override ObservableCollection<CDFile> GetChildren()
+        protected override ObservableCollection<ICDItem> GetChildren()
         {
             if (!Directory.Exists(Path))
                 return null;
 
-            ObservableCollection<CDFile> children = new ObservableCollection<CDFile>();
+            ObservableCollection<ICDItem> children = new ObservableCollection<ICDItem>();
             Directory.GetFiles(Path).ToList().ForEach(x => children.Add(new CDScript(x)));
             return children;
         }

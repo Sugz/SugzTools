@@ -6,6 +6,7 @@
         xmlns:ignore="http://www.galasoft.ch/ignore"
         xmlns:local="clr-namespace:CodeDoc.Controls"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
+        xmlns:c="clr-namespace:SugzTools.Converters;assembly=SugzTools"
         mc:Ignorable="d ignore"
         Title="SugzTools Code Documentation"
         Height="380"
@@ -15,10 +16,14 @@
         Icon="Resources/CodeDoc.ico">
 
     <Window.Resources>
-
+        <c:InvertVisibilityConverter x:Key="InvertVisibility" />
     </Window.Resources>
 
     <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
             <ColumnDefinition Width="200" />
@@ -39,6 +44,15 @@
                                  Width="18"
                                  Height="18" />
                 </sgz:SgzButton>
+                <sgz:SgzButton Command="{Binding SaveConfigCommand}"
+                               Width="Auto"
+                               Height="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                               IsTransparent="True">
+                    <sgz:SgzIcon Icon="MdiContentSave"
+                                 IsEnabled="False"
+                                 Width="18"
+                                 Height="18" />
+                </sgz:SgzButton>
             </StackPanel>
         </Border>
         <local:EditableTreeView Grid.Column="1"
@@ -47,13 +61,45 @@
                                 Background="{DynamicResource MaxRollout}"
                                 BorderThickness="1"
                                 Foreground="{DynamicResource MaxText}"
-                                Padding="0,5"
-                                ItemTemplate="{DynamicResource TVDataTemplate}" />
+                                Padding="0,5" />
         <GridSplitter HorizontalAlignment="Stretch"
                       Background="{DynamicResource MaxRolloutBorder}"
                       Grid.Column="2"
                       Template="{DynamicResource GridSplitterTemplate}" />
 
+        <Border Grid.Row="1"
+                Grid.ColumnSpan="4"
+                Background="{DynamicResource MaxRollout}"
+                BorderBrush="{DynamicResource MaxRolloutBorder}"
+                Margin="0,5,0,0">
+            <Grid Margin="5,0">
+                <ProgressBar x:Name="progressBar"
+                             Grid.Row="1"
+                             Grid.ColumnSpan="4"
+                             Value="{Binding Progress}"
+                             Height="10">
+                    <ProgressBar.Style>
+                        <Style TargetType="{x:Type ProgressBar}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Progress}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Progress}" Value="100">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
+                <TextBlock Grid.Row="1"
+                           Grid.ColumnSpan="4"
+                           Text="{Binding Status, Mode=OneWay}"
+                           Foreground="{DynamicResource MaxText}"
+                           VerticalAlignment="Bottom"
+                           Margin="0,0,0,3"
+                           Visibility="{Binding Visibility, ElementName=progressBar, Converter={StaticResource InvertVisibility}}" />
+            </Grid>
+        </Border>
 
     </Grid>
 </Window>

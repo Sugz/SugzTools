@@ -9,16 +9,20 @@ namespace CodeDoc.Model
 {
     public class CDScript : CDFile
     {
-        public CDScript(string path) : base(path) { }
+        public CDScript(string path) : base(path)
+        {
+            Type = CDItemType.Script;
+        }
 
         protected override string GetText()
         {
             return System.IO.Path.GetFileNameWithoutExtension(Path);
         }
 
-        protected override ObservableCollection<CDFile> GetChildren()
+        protected override ObservableCollection<ICDItem> GetChildren()
         {
-            return null;
+            //TODO: correct implementation
+            return new ObservableCollection<ICDItem>();
         }
     }
 }

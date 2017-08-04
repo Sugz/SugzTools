@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Timers;
+using System.Windows.Input;
 
 namespace CodeDoc.ViewModel
 {
@@ -23,13 +24,17 @@ namespace CodeDoc.ViewModel
 
         #region Fields
 
-
+        private bool _BottomPanelIsOpen = false;
         private CDConfig _Config = new CDConfig();
         private string _Status = string.Empty;
         private int _Progress = 0;
+        private ObservableCollection<CDFolder> _Folders = new ObservableCollection<CDFolder>();
         private RelayCommand _AddFolderCommand;
+        private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
-        Timer timer = new Timer() { Interval = 5000 };
+        Timer timer = new Timer() { Interval = 3000 };
+        Cursor _Cursor = Cursors.Arrow;
+        BackgroundWorker worker = new BackgroundWorker();
 
         #endregion Fields
 
@@ -40,10 +45,29 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
+        public bool BottomPanelIsOpen
+        {
+            get { return _BottomPanelIsOpen; }
+            set { Set(ref _BottomPanelIsOpen, value); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Status
         {
             get { return _Status; }
             set { Set(ref _Status, value); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Cursor Cursor
+        {
+            get { return _Cursor; }
+            set { Set(ref _Cursor, value); }
         }
 
         /// <summary>
@@ -58,7 +82,12 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
-        public ObservableCollection<CDFolder> Folders { get; private set; } = new ObservableCollection<CDFolder>();
+        public ObservableCollection<CDFolder> Folders
+        {
+            get { return _Folders; }
+            set { Set(ref _Folders, value); }
+        }
+
 
         /// <summary>
         /// 
@@ -67,6 +96,16 @@ namespace CodeDoc.ViewModel
         {
             get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(AddFolder)); ; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand LoadConfigCommand
+        {
+            get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(LoadConfig)); ; }
+        }
+
+        
 
         /// <summary>
         /// 
@@ -88,10 +127,10 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            string libs = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs";
-            string scripts = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Scripts";
-            Folders.Add(new CDFolder(libs));
-            Folders.Add(new CDFolder(scripts));
+            //string libs = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs";
+            //string scripts = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Scripts";
+            //Folders.Add(new CDFolder(libs));
+            //Folders.Add(new CDFolder(scripts));
         }
 
 
@@ -146,11 +185,22 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
+        private void LoadConfig()
+        {
+            Folders = _Config.LoadConfig(worker);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void SaveConfig()
         {
-            BackgroundWorker worker = new BackgroundWorker();
+            Status = "Exporting Config...";
+            Cursor = Cursors.Wait;
+            BottomPanelIsOpen = true;
             worker.WorkerReportsProgress = true;
-            worker.DoWork += (object sender, DoWorkEventArgs e) => _Config.ExportConfig(Folders, worker);
+            worker.DoWork += (object sender, DoWorkEventArgs e) => _Config.SaveConfig(Folders, worker);
             worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
             worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) => DisplaySatus("The config has been exported");
             worker.RunWorkerAsync();
@@ -164,8 +214,10 @@ namespace CodeDoc.ViewModel
         private void DisplaySatus(string status)
         {
             Status = status;
+            Cursor = Cursors.Arrow;
             timer.Elapsed += (s, ev) =>
             {
+                BottomPanelIsOpen = false;
                 Status = string.Empty;
                 timer.Enabled = false;
             };

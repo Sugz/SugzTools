@@ -13,6 +13,14 @@ namespace CodeDoc.Model
         {
             Type = CDItemType.Script;
         }
+        public CDScript(string path, string text) : base(path, text)
+        {
+            Type = CDItemType.Script;
+        }
+        public CDScript(string path, string text, ObservableCollection<ICDItem> children) : base(path, text, children)
+        {
+            Type = CDItemType.Script;
+        }
 
         protected override string GetText()
         {

@@ -20,7 +20,7 @@ namespace CodeDoc.Src
         int progress = 0;
 
 
-        public void ExportConfig(ObservableCollection<CDFolder> folders, BackgroundWorker worker)
+        public void SaveConfig(ObservableCollection<CDFolder> folders, BackgroundWorker worker)
         {
             folders.ForEach(x => itemCount += ((CDFolder)x).Children.Count + 1);
 
@@ -64,6 +64,37 @@ namespace CodeDoc.Src
         }
 
 
+        public ObservableCollection<CDFolder> LoadConfig(BackgroundWorker worker)
+        {
+            ObservableCollection<CDFolder> folders = new ObservableCollection<CDFolder>();
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(path);
 
+            XmlElement rootNode = xDoc.DocumentElement;
+            rootNode.ChildNodes.ForEach(x => folders.Add((CDFolder)LoadItem((XmlElement)x, worker)));
+
+            return folders;
+        }
+
+        private ICDItem LoadItem(XmlElement node, BackgroundWorker worker)
+        {
+            string text = node.GetAttribute("Text");
+            string path = node.GetAttribute("Path");
+            string name = node.Name;
+            ICDItem item = null;
+            switch (node.Name)
+            {
+                case "Folder":
+                    ObservableCollection<ICDItem> scripts = new ObservableCollection<ICDItem>();
+                    node.ChildNodes.ForEach(x => scripts.Add((CDScript)LoadItem((XmlElement)x, worker)));
+                    item = new CDFolder(path, text, scripts);
+                    break;
+
+                case "Script":
+                    item = new CDScript(path, text);
+                    break;
+            }
+            return item;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace CodeDoc.Model
         protected ObservableCollection<ICDItem> _Children;
 
         public CDItemType Type { get; set; }
-        public string Path { get; protected set; }
+        public string Path { get; set; }
         public string Text
         {
             get { return _Text ?? (_Text = GetText()); }
@@ -31,7 +31,17 @@ namespace CodeDoc.Model
         {
             Path = path;
         }
-
+        public CDFile(string path, string text)
+        {
+            Path = path;
+            Text = text;
+        }
+        public CDFile(string path, string text, ObservableCollection<ICDItem> children)
+        {
+            Path = path;
+            Text = text;
+            Children = children;
+        }
 
         protected abstract string GetText();
         protected abstract ObservableCollection<ICDItem> GetChildren();

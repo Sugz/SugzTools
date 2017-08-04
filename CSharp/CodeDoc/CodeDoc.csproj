@@ -82,6 +82,7 @@
     <Compile Include="Controls\EditableTreeView.xaml.cs">
       <DependentUpon>EditableTreeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SgzSlidingDockPanel.cs" />
     <Compile Include="Model\CDFile.cs" />
     <Compile Include="Model\CDFolder.cs" />
     <Compile Include="Model\CDFunction.cs" />

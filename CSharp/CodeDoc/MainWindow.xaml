@@ -13,95 +13,107 @@
         Width="750"
         Background="{StaticResource MaxBackground}"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
-        Icon="Resources/CodeDoc.ico">
+        Icon="Resources/CodeDoc.ico"
+        Cursor="{Binding Cursor}">
 
     <Window.Resources>
         <c:InvertVisibilityConverter x:Key="InvertVisibility" />
     </Window.Resources>
+    
+    <Grid>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-    <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="25" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30" />
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <Border BorderBrush="{DynamicResource MaxRolloutBorder}"
-                Background="{DynamicResource MaxRollout}"
-                BorderThickness="1,1,0,1">
-            <StackPanel>
-                <sgz:SgzButton Command="{Binding AddFolderCommand}"
-                               Width="Auto"
-                               Height="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                               IsTransparent="True">
-                    <sgz:SgzIcon Icon="MdiFolderPlus"
-                                 IsEnabled="False"
-                                 Width="18"
-                                 Height="18" />
-                </sgz:SgzButton>
-                <sgz:SgzButton Command="{Binding SaveConfigCommand}"
-                               Width="Auto"
-                               Height="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                               IsTransparent="True">
-                    <sgz:SgzIcon Icon="MdiContentSave"
-                                 IsEnabled="False"
-                                 Width="18"
-                                 Height="18" />
-                </sgz:SgzButton>
-            </StackPanel>
-        </Border>
-        <local:EditableTreeView Grid.Column="1"
-                                ItemsSource="{Binding Folders}"
-                                BorderBrush="{DynamicResource MaxRolloutBorder}"
-                                Background="{DynamicResource MaxRollout}"
-                                BorderThickness="1"
-                                Foreground="{DynamicResource MaxText}"
-                                Padding="0,5" />
-        <GridSplitter HorizontalAlignment="Stretch"
-                      Background="{DynamicResource MaxRolloutBorder}"
-                      Grid.Column="2"
-                      Template="{DynamicResource GridSplitterTemplate}" />
-
-        <Border Grid.Row="1"
-                Grid.ColumnSpan="4"
-                Background="{DynamicResource MaxRollout}"
-                BorderBrush="{DynamicResource MaxRolloutBorder}"
-                Margin="0,5,0,0">
-            <Grid Margin="5,0">
+            <Border BorderBrush="{DynamicResource MaxRolloutBorder}"
+                    Background="{DynamicResource MaxRollout}"
+                    BorderThickness="1,1,0,1">
+                <local:SgzSlidingDockPanel Width="30">
+                    <sgz:SgzButton Command="{Binding AddFolderCommand}"
+                                   Width="30"
+                                   Height="30"
+                                   IsTransparent="True"
+                                   DockPanel.Dock="Top"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top">
+                        <sgz:SgzIcon Icon="MdiFolderPlus"
+                                     IsEnabled="False"
+                                     Width="16"
+                                     Height="18" />
+                    </sgz:SgzButton>
+                    <sgz:SgzButton Command="{Binding LoadConfigCommand}"
+                                   Width="30"
+                                   Height="30"
+                                   IsTransparent="True"
+                                   DockPanel.Dock="Top"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top">
+                        <sgz:SgzIcon Icon="MdiFolderUpload"
+                                     IsEnabled="False"
+                                     Width="16"
+                                     Height="18" />
+                    </sgz:SgzButton>
+                    <sgz:SgzButton Command="{Binding SaveConfigCommand}"
+                                   Width="30"
+                                   Height="30"
+                                   IsTransparent="True"
+                                   DockPanel.Dock="Top"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top">
+                        <sgz:SgzIcon Icon="MdiContentSave"
+                                     IsEnabled="False"
+                                     Width="15"
+                                     Height="15" />
+                    </sgz:SgzButton>
+                </local:SgzSlidingDockPanel>
+            </Border>
+            <local:EditableTreeView Grid.Column="1"
+                                    ItemsSource="{Binding Folders}"
+                                    BorderBrush="{DynamicResource MaxRolloutBorder}"
+                                    Background="{DynamicResource MaxRollout}"
+                                    BorderThickness="1"
+                                    Foreground="{DynamicResource MaxText}"
+                                    Padding="0,5" />
+            <GridSplitter HorizontalAlignment="Stretch"
+                          Background="{DynamicResource MaxRolloutBorder}"
+                          Grid.Column="2"
+                          Template="{DynamicResource GridSplitterTemplate}" />
+        </Grid>
+        
+        <Border Background="{DynamicResource MaxRollout}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom">
+            <Border.Effect>
+                <DropShadowEffect Direction="90"
+                                  Opacity="0.2"
+                                  ShadowDepth="2" />
+            </Border.Effect>
+            <local:SgzSlidingDockPanel IsOpen="{Binding BottomPanelIsOpen}"
+                                       AnimationType="Height"
+                                       Height="0"
+                                       OpenSize="25"
+                                       ShowButton="False"
+                                       AnimationDuration="150"
+                                       Margin="5,0">
+                <TextBlock Text="{Binding Status, Mode=OneWay}"
+                           Foreground="{DynamicResource MaxText}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,0,0"
+                           Width="175" />
                 <ProgressBar x:Name="progressBar"
                              Grid.Row="1"
                              Grid.ColumnSpan="4"
                              Value="{Binding Progress}"
-                             Height="10">
-                    <ProgressBar.Style>
-                        <Style TargetType="{x:Type ProgressBar}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Progress}" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Progress}" Value="100">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ProgressBar.Style>
-                </ProgressBar>
-                <TextBlock Grid.Row="1"
-                           Grid.ColumnSpan="4"
-                           Text="{Binding Status, Mode=OneWay}"
-                           Foreground="{DynamicResource MaxText}"
-                           VerticalAlignment="Bottom"
-                           Margin="0,0,0,3"
-                           Visibility="{Binding Visibility, ElementName=progressBar, Converter={StaticResource InvertVisibility}}" />
-            </Grid>
+                             Height="10" />
+            </local:SgzSlidingDockPanel>
         </Border>
-
+        
     </Grid>
+    
 </Window>
     
     

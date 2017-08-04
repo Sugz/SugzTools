@@ -14,6 +14,14 @@ namespace CodeDoc.Model
         {
             Type = CDItemType.Folder;
         }
+        public CDFolder(string path, string text) : base(path, text)
+        {
+            Type = CDItemType.Folder;
+        }
+        public CDFolder(string path, string text, ObservableCollection<ICDItem> children) : base(path, text, children)
+        {
+            Type = CDItemType.Folder;
+        }
 
         protected override string GetText()
         {

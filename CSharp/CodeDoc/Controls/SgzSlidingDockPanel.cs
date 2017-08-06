@@ -114,18 +114,18 @@ namespace CodeDoc.Controls
                 _OpenCloseBtn.Icon = Geo.MdiArrowRight;
                 _OpenCloseBtn.Width = 30;
                 _OpenCloseBtn.Height = 30;
-                _OpenCloseBtn.Padding = new Thickness(5);
-                _OpenCloseBtn.Foreground = new SolidColorBrush(Color.FromRgb(200, 200, 200));
+                _OpenCloseBtn.Padding = new Thickness(9);
+                _OpenCloseBtn.Foreground = new SolidColorBrush(Color.FromRgb(150, 150, 150));
                 _OpenCloseBtn.HoverBrush = new SolidColorBrush(Colors.White);
                 _OpenCloseBtn.PressedBrush = new SolidColorBrush(Colors.White);
                 _OpenCloseBtn.HorizontalAlignment = HorizontalAlignment.Right;
-                _OpenCloseBtn.VerticalAlignment = VerticalAlignment.Top;
+                _OpenCloseBtn.VerticalAlignment = VerticalAlignment.Bottom;
 
                 _OpenCloseBtn.RenderTransform = _RotateTransform;
                 _OpenCloseBtn.RenderTransformOrigin = new Point(.5, .5);
 
                 Children.Insert(0, _OpenCloseBtn);
-                SetDock(_OpenCloseBtn, Dock.Top);
+                SetDock(_OpenCloseBtn, Dock.Bottom);
 
                 _OpenCloseBtn.Click += (s, ev) => IsOpen = !IsOpen;
 

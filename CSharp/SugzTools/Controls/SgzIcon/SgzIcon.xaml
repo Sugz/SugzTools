@@ -17,27 +17,37 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:SgzIcon}">
                     <Border Background="{TemplateBinding Background}">
-                        <Path x:Name="PART_Path"
-                              Margin="{TemplateBinding Padding}"
-                              Fill="{TemplateBinding Foreground}"
-                              Stroke="{TemplateBinding BorderBrush}"
-                              StrokeThickness="{TemplateBinding BorderThickness}"
-                              Data="{TemplateBinding Data}"
-                              Stretch="{TemplateBinding Stretch}"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
+                        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Path x:Name="PART_Path"
+                                  Width="{TemplateBinding IconWidth}"
+                                  Height="{TemplateBinding IconHeight}"
+                                  Margin="{TemplateBinding Padding}"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Stroke="{TemplateBinding BorderBrush}"
+                                  StrokeThickness="{TemplateBinding BorderThickness}"
+                                  Data="{TemplateBinding Data}"
+                                  Stretch="{TemplateBinding Stretch}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <TextBlock x:Name="PART_Text"
+                                       Text="{TemplateBinding Content}"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </DockPanel>
                     </Border>
 
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Path" Property="Fill"
-                                    Value="{Binding HoverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Path" Property="Fill" Value="{Binding HoverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Text" Property="Foreground" Value="{Binding HoverBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                             
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="PART_Path" Property="Fill" 
-                                    Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Path" Property="Fill" Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="PART_Text" Property="Foreground" Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                         
                     </ControlTemplate.Triggers>

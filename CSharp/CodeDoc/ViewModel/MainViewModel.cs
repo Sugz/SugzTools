@@ -2,8 +2,10 @@
 using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -24,6 +26,7 @@ namespace CodeDoc.ViewModel
 
         #region Fields
 
+
         private bool _BottomPanelIsOpen = false;
         private CDConfig _Config = new CDConfig();
         private string _Status = string.Empty;
@@ -32,9 +35,11 @@ namespace CodeDoc.ViewModel
         private RelayCommand _AddFolderCommand;
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
-        Timer timer = new Timer() { Interval = 3000 };
+        Timer _Timer = new Timer() { Interval = 3000 };
         Cursor _Cursor = Cursors.Arrow;
-        BackgroundWorker worker = new BackgroundWorker();
+        BackgroundWorker _Worker = new BackgroundWorker();
+        CommonOpenFileDialog _OpenFileDialog;
+
 
         #endregion Fields
 
@@ -154,13 +159,33 @@ namespace CodeDoc.ViewModel
         /// <returns></returns>
         private string SelectFolder()
         {
-            CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog();
-            commonOpenFileDialog.IsFolderPicker = true;
-            CommonFileDialogResult result = commonOpenFileDialog.ShowDialog();
+            DefineOpenFileDialog();
 
-            if (result == CommonFileDialogResult.Ok && Directory.Exists(commonOpenFileDialog.FileName))
-                return commonOpenFileDialog.FileName;
+            CommonFileDialogResult result = _OpenFileDialog.ShowDialog();
+            if (result == CommonFileDialogResult.Ok && Directory.Exists(_OpenFileDialog.FileName))
+                return _OpenFileDialog.FileName;
             return string.Empty;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void DefineOpenFileDialog()
+        {
+            if (_OpenFileDialog is null)
+            {
+                _OpenFileDialog = new CommonOpenFileDialog();
+                _OpenFileDialog.IsFolderPicker = true;
+                foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+                {
+                    string key = environmentVariable.Key as string;
+                    if (key.StartsWith("ADSK_3DSMAX_x64_"))
+                    {
+                        _OpenFileDialog.AddPlace(Environment.GetEnvironmentVariable("LocalAppData") + $@"\Autodesk\3dsMax\{key.Substring(key.Length - 4)} - 64bit\ENU\", FileDialogAddPlaceLocation.Top);
+                        _OpenFileDialog.AddPlace((string)environmentVariable.Value, FileDialogAddPlaceLocation.Top);
+                    }
+                }
+            }
         }
 
 
@@ -187,7 +212,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void LoadConfig()
         {
-            Folders = _Config.LoadConfig(worker);
+            Folders = _Config.LoadConfig(_Worker);
         }
 
 
@@ -199,11 +224,11 @@ namespace CodeDoc.ViewModel
             Status = "Exporting Config...";
             Cursor = Cursors.Wait;
             BottomPanelIsOpen = true;
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += (object sender, DoWorkEventArgs e) => _Config.SaveConfig(Folders, worker);
-            worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
-            worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) => DisplaySatus("The config has been exported");
-            worker.RunWorkerAsync();
+            _Worker.WorkerReportsProgress = true;
+            _Worker.DoWork += (object sender, DoWorkEventArgs e) => _Config.SaveConfig(Folders, _Worker);
+            _Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
+            _Worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) => DisplaySatus("The config has been exported");
+            _Worker.RunWorkerAsync();
         }
 
 
@@ -215,13 +240,13 @@ namespace CodeDoc.ViewModel
         {
             Status = status;
             Cursor = Cursors.Arrow;
-            timer.Elapsed += (s, ev) =>
+            _Timer.Elapsed += (s, ev) =>
             {
                 BottomPanelIsOpen = false;
                 Status = string.Empty;
-                timer.Enabled = false;
+                _Timer.Enabled = false;
             };
-            timer.Enabled = true;
+            _Timer.Enabled = true;
         }
 
 

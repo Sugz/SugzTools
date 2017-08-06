@@ -78,6 +78,48 @@ namespace SugzTools.Controls
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Layout")]
+        // [Browsable(false)]
+        public double IconWidth
+        {
+            get { return (double)GetValue(IconWidthProperty); }
+            set { SetValue(IconWidthProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for IconWidth
+        public static readonly DependencyProperty IconWidthProperty = DependencyProperty.Register(
+            "IconWidth",
+            typeof(double),
+            typeof(SgzIcon),
+            new PropertyMetadata(double.NaN)
+        );
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Layout")]
+        // [Browsable(false)]
+        public double IconHeight
+        {
+            get { return (double)GetValue(IconHeightProperty); }
+            set { SetValue(IconHeightProperty, value); }
+        }
+
+        // DependencyProperty as the backing store for IconHeight
+        public static readonly DependencyProperty IconHeightProperty = DependencyProperty.Register(
+            "IconHeight",
+            typeof(double),
+            typeof(SgzIcon),
+            new PropertyMetadata(double.NaN)
+        );
+
+
+
+
 
         /// <summary>
         /// Define the MouseOver brush color

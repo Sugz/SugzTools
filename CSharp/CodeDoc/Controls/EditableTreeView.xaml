@@ -22,7 +22,13 @@
                            Margin="3,0,0,3"
                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                            VerticalAlignment="Bottom"
-                           Foreground="{DynamicResource MaxText}" />
+                           Foreground="{DynamicResource MaxText}">
+                    <TextBlock.ContextMenu>
+                        <ContextMenu>
+                            <TextBlock Text="{Binding Path}" />
+                        </ContextMenu>
+                    </TextBlock.ContextMenu>
+                </TextBlock>
                 <!-- This state is active in the edit mode -->
                 <TextBox x:Name="textBox"
                          Cursor="IBeam"

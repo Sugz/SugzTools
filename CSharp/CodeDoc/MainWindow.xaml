@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:CodeDoc.Controls"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         xmlns:c="clr-namespace:SugzTools.Converters;assembly=SugzTools"
+        xmlns:icons="clr-namespace:SugzTools.Icons;assembly=SugzTools"
         mc:Ignorable="d ignore"
         Title="SugzTools Code Documentation"
         Height="380"
@@ -18,6 +19,7 @@
 
     <Window.Resources>
         <c:InvertVisibilityConverter x:Key="InvertVisibility" />
+        
     </Window.Resources>
 
     <Grid>
@@ -32,93 +34,109 @@
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="{DynamicResource MaxRolloutBorder}"
-                BorderThickness="0,0,1,0">
-            <local:SgzSlidingDockPanel Width="30"
-                                       OpenSize="118"
-                                       AnimationDuration="250">
-                <local:SgzSlidingDockPanel.Resources>
-                    <Style x:Key="AnimateBgStyle"
-                           TargetType="{x:Type sgz:SgzIcon}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver"
-                                     Value="true">
-                                <Setter Property="Background"
-                                        Value="{StaticResource MaxBackground}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </local:SgzSlidingDockPanel.Resources>
-                <sgz:SgzIcon Command="{Binding AddFolderCommand}"
-                             Icon="MdiFolderPlus"
-                             Content="ADD FOLDER"
-                             Width="Auto"
-                             Height="30"
-                             IconWidth="16"
-                             IconHeight="18"
-                             Padding="7"
-                             DockPanel.Dock="Top"
-                             VerticalAlignment="Top"
-                             VerticalContentAlignment="Center"
-                             HoverBrush="White"
-                             PressedBrush="White"
-                             Style="{DynamicResource AnimateBgStyle}" />
-                <sgz:SgzIcon Command="{Binding LoadConfigCommand}"
-                             Icon="MdiFolderUpload"
-                             Content="LOAD CONFIG"
-                             Width="Auto"
-                             Height="30"
-                             IconWidth="16"
-                             IconHeight="18"
-                             Padding="7"
-                             DockPanel.Dock="Top"
-                             VerticalAlignment="Top"
-                             VerticalContentAlignment="Center"
-                             HoverBrush="White"
-                             PressedBrush="White"
-                             Style="{DynamicResource AnimateBgStyle}" />
-                <sgz:SgzIcon Command="{Binding SaveConfigCommand}"
-                             Icon="MdiContentSave"
-                             Content="SAVE CONFIG"
-                             Width="Auto"
-                             Height="30"
-                             IconWidth="15"
-                             IconHeight="14"
-                             Padding="8,7,7,7"
-                             DockPanel.Dock="Top"
-                             VerticalAlignment="Top"
-                             VerticalContentAlignment="Center"
-                             HoverBrush="White"
-                             PressedBrush="White"
-                             Style="{DynamicResource AnimateBgStyle}" />
-            </local:SgzSlidingDockPanel>
-        </Border>
+        <local:SgzSlidingDockPanel Width="30"
+                                   OpenSize="118"
+                                   AnimationDuration="250">
+            <local:SgzSlidingDockPanel.Resources>
+                <Style x:Key="AnimateBgStyle" TargetType="{x:Type sgz:SgzIcon}">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background"
+                                    Value="{StaticResource MaxButtonMouseOver}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </local:SgzSlidingDockPanel.Resources>
+            <sgz:SgzIcon Command="{Binding AddFolderCommand}"
+                         Icon="MdiFolderPlus"
+                         Content="ADD FOLDER"
+                         Width="Auto"
+                         Height="30"
+                         IconWidth="16"
+                         IconHeight="18"
+                         Padding="7"
+                         DockPanel.Dock="Top"
+                         VerticalAlignment="Top"
+                         VerticalContentAlignment="Center"
+                         HoverBrush="White"
+                         PressedBrush="White"
+                         Style="{DynamicResource AnimateBgStyle}" />
+            <sgz:SgzIcon Command="{Binding LoadConfigCommand}"
+                         Icon="MdiFolderUpload"
+                         Content="LOAD CONFIG"
+                         Width="Auto"
+                         Height="30"
+                         IconWidth="16"
+                         IconHeight="18"
+                         Padding="7"
+                         DockPanel.Dock="Top"
+                         VerticalAlignment="Top"
+                         VerticalContentAlignment="Center"
+                         HoverBrush="White"
+                         PressedBrush="White"
+                         Style="{DynamicResource AnimateBgStyle}" />
+            <sgz:SgzIcon Command="{Binding SaveConfigCommand}"
+                         Icon="MdiContentSave"
+                         Content="SAVE CONFIG"
+                         Width="Auto"
+                         Height="30"
+                         IconWidth="15"
+                         IconHeight="14"
+                         Padding="8,7,7,7"
+                         DockPanel.Dock="Top"
+                         VerticalAlignment="Top"
+                         VerticalContentAlignment="Center"
+                         HoverBrush="White"
+                         PressedBrush="White"
+                         Style="{DynamicResource AnimateBgStyle}" />
+        </local:SgzSlidingDockPanel>
         <local:EditableTreeView Grid.Column="1"
                                 ItemsSource="{Binding Folders}"
                                 Background="Transparent"
-                                BorderThickness="0"
+                                BorderBrush="{DynamicResource MaxRolloutBorder}"
+                                BorderThickness="1,0"
                                 Foreground="{DynamicResource MaxText}"
-                                Padding="0,5" />
+                                Padding="0,5"
+                                SelectedItem="{Binding TVSelectedItem, Mode=TwoWay}"
+                                HorizontalContentAlignment="Stretch"/>
         <GridSplitter HorizontalAlignment="Stretch"
                       Background="{DynamicResource MaxRolloutBorder}"
                       Grid.Column="2"
                       Template="{DynamicResource GridSplitterTemplate}" />
-        <DockPanel Margin="5,0"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"
-                   Grid.ColumnSpan="4"
-                   Grid.Row="1">
-            <TextBlock Text="{Binding Status, Mode=OneWay}"
-                       Foreground="{DynamicResource MaxText}"
-                       VerticalAlignment="Center"
-                       Margin="0,0,0,0"
-                       Width="175" />
-            <ProgressBar x:Name="progressBar"
-                         Grid.Row="1"
-                         Grid.ColumnSpan="4"
-                         Value="{Binding Progress}"
-                         Height="10" />
-        </DockPanel>
+        <Border BorderBrush="{DynamicResource MaxRolloutBorder}"
+                BorderThickness="0,1,0,0"
+                Grid.ColumnSpan="4"
+                Grid.Row="1">
+            <Grid Margin="5,0">
+                <DockPanel Visibility="{Binding PathFieldVisibility}">
+                    <sgz:SgzIcon Command="{Binding ValidatePathCommand}"
+                                 DockPanel.Dock="Right"
+                                 Height="22"
+                                 Icon="MdiCheck"
+                                 Foreground="#FF00AA00"
+                                 Margin="10,0,0,0"
+                                 Padding="5"
+                                 IsEnabled="False">
+                    </sgz:SgzIcon>
+                    <TextBox Text="{Binding PathField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             VerticalAlignment="Center" />
+                </DockPanel>
+                
+                <DockPanel>
+                    <TextBlock Text="{Binding Status, Mode=OneWay}"
+                               Foreground="{DynamicResource MaxText}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0" />
+                    <ProgressBar x:Name="progressBar"
+                                 Grid.Row="1"
+                                 Grid.ColumnSpan="4"
+                                 Value="{Binding Progress}"
+                                 Height="10"
+                                 Visibility="{Binding ProgressBarVisibility}" />
+                </DockPanel>
+                
+            </Grid>
+        </Border>
     </Grid>
 
 </Window>

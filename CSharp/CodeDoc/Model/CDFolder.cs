@@ -23,6 +23,11 @@ namespace CodeDoc.Model
             Type = CDItemType.Folder;
         }
 
+        protected override bool GetIsValidPath()
+        {
+            return Directory.Exists(Path);
+        }
+
         protected override string GetText()
         {
             return System.IO.Path.GetFileName(Path);
@@ -30,7 +35,7 @@ namespace CodeDoc.Model
 
         protected override ObservableCollection<ICDItem> GetChildren()
         {
-            if (!Directory.Exists(Path))
+            if (!IsValidPath)
                 return null;
 
             ObservableCollection<ICDItem> children = new ObservableCollection<ICDItem>();

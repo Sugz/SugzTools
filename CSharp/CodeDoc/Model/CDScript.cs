@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,11 @@ namespace CodeDoc.Model
             Type = CDItemType.Script;
         }
 
+
+        protected override bool GetIsValidPath()
+        {
+            return File.Exists(Path);
+        }
         protected override string GetText()
         {
             return System.IO.Path.GetFileNameWithoutExtension(Path);
@@ -32,5 +38,7 @@ namespace CodeDoc.Model
             //TODO: correct implementation
             return new ObservableCollection<ICDItem>();
         }
+
+        
     }
 }

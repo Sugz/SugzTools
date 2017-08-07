@@ -17,7 +17,7 @@
     </Window.Resources>
 
     <Grid x:Name="mainGrid">
-
+        <TreeView ItemContainerStyle="{DynamicResource TreeViewItemStyle1}" />
     </Grid>
 
 </Window>

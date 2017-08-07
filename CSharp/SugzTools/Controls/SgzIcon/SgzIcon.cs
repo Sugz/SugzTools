@@ -19,7 +19,7 @@ namespace SugzTools.Controls
         #region Fields
 
 
-        private Geo _Icon; 
+        //private Geo _Icon; 
 
 
         #endregion Fields
@@ -44,15 +44,38 @@ namespace SugzTools.Controls
         /// Get an icon from https://materialdesignicons.com/
         /// </summary>
         [Description("Get or set an icon from https://materialdesignicons.com/"), Category("Common")]
-        public Geo Icon
+        //public Geo Icon
+        //{
+        //    get { return _Icon; }
+        //    set
+        //    {
+        //        _Icon = value;
+        //        Data = Resource<PathGeometry>.GetIcon(value.ToString());
+        //    }
+        //}
+
+        public Geo? Icon
         {
-            get { return _Icon; }
-            set
-            {
-                _Icon = value;
-                Data = Resource<PathGeometry>.GetIcon(value.ToString());
-            }
+            get { return (Geo?)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
         }
+
+        // DependencyProperty as the backing store for Icon
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
+            "Icon",
+            typeof(Geo?),
+            typeof(SgzIcon),
+            new PropertyMetadata(null, OnIconChanged)
+        );
+
+        private static void OnIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SgzIcon _this = d as SgzIcon;
+            if (_this.Icon != null)
+                _this.Data = Resource<PathGeometry>.GetIcon(_this.Icon.ToString());
+        }
+
+
 
 
 

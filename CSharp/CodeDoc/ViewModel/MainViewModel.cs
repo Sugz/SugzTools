@@ -12,6 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Timers;
 using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace CodeDoc.ViewModel
 {
@@ -27,7 +29,8 @@ namespace CodeDoc.ViewModel
         #region Fields
 
 
-        private bool _BottomPanelIsOpen = false;
+        private Visibility _ProgressBarVisibility = Visibility.Collapsed;
+        private Visibility _PathFieldVisibility = Visibility.Collapsed;
         private CDConfig _Config = new CDConfig();
         private string _Status = string.Empty;
         private int _Progress = 0;
@@ -35,10 +38,14 @@ namespace CodeDoc.ViewModel
         private RelayCommand _AddFolderCommand;
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
-        Timer _Timer = new Timer() { Interval = 3000 };
-        Cursor _Cursor = Cursors.Arrow;
-        BackgroundWorker _Worker = new BackgroundWorker();
-        CommonOpenFileDialog _OpenFileDialog;
+        private RelayCommand _ValidatePathCommand;
+        private Timer _Timer = new Timer() { Interval = 3000, AutoReset = false };
+        private Cursor _Cursor = Cursors.Arrow;
+        private BackgroundWorker _Worker = new BackgroundWorker();
+        private CommonOpenFileDialog _OpenFileDialog;
+        private ICDItem _TVSelectedItem;
+        private string _PathField;
+        private bool _CanValidatePath = false;
 
 
         #endregion Fields
@@ -50,11 +57,22 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
-        public bool BottomPanelIsOpen
+        public Visibility ProgressBarVisibility
         {
-            get { return _BottomPanelIsOpen; }
-            set { Set(ref _BottomPanelIsOpen, value); }
+            get { return _ProgressBarVisibility; }
+            set { Set(ref _ProgressBarVisibility, value); }
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Visibility PathFieldVisibility
+        {
+            get { return _PathFieldVisibility; }
+            set { Set(ref _PathFieldVisibility, value); }
+        }
+
 
         /// <summary>
         /// 
@@ -75,6 +93,7 @@ namespace CodeDoc.ViewModel
             set { Set(ref _Cursor, value); }
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -83,6 +102,7 @@ namespace CodeDoc.ViewModel
             get { return _Progress; }
             set { Set(ref _Progress, value); }
         }
+
 
         /// <summary>
         /// 
@@ -102,6 +122,7 @@ namespace CodeDoc.ViewModel
             get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(AddFolder)); ; }
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -110,7 +131,6 @@ namespace CodeDoc.ViewModel
             get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(LoadConfig)); ; }
         }
 
-        
 
         /// <summary>
         /// 
@@ -120,6 +140,66 @@ namespace CodeDoc.ViewModel
             get { return _SaveConfigCommand ?? (_SaveConfigCommand = new RelayCommand(SaveConfig)); ; }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand ValidatePathCommand
+        {
+            get { return _ValidatePathCommand ?? (_ValidatePathCommand = new RelayCommand(ValidatePath, () => _CanValidatePath)); ; }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICDItem TVSelectedItem
+        {
+            get { return _TVSelectedItem; }
+            set
+            {
+                _TVSelectedItem = value;
+                if (_TVSelectedItem is CDFile selectedItem)
+                {
+                    if (selectedItem.IsValidPath)
+                    {
+                        PathFieldVisibility = Visibility.Collapsed;
+                        DisplaySatus(selectedItem.Path);
+                    }
+                    else
+                    {
+                        Status = string.Empty;
+                        PathField = selectedItem.Path;
+                        PathFieldVisibility = Visibility.Visible;
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PathField
+        {
+            get { return _PathField; }
+            set
+            {
+                _CanValidatePath = false;
+                if (_TVSelectedItem is CDFile selectedItem)
+                {
+                    selectedItem.Path = value;
+                    Set(ref _PathField, value);
+
+                    if (selectedItem.IsValidPath)
+                        _CanValidatePath = true;
+
+                    ValidatePathCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        
 
         #endregion Properties
 
@@ -190,20 +270,12 @@ namespace CodeDoc.ViewModel
 
 
         /// <summary>
-        /// Let the user choose a folder to add to the processing list
+        /// Let the user choose a folder to add to the folders list if it doesn't exist already
         /// </summary>
         private void AddFolder()
         {
-            string selectedFolder = SelectFolder();
-            if (selectedFolder != string.Empty)
-            {
-                CDFolder folder = new CDFolder(selectedFolder);
-
-                // Only add a folder if it doesn't already exist in Folders
-                if (!Folders.Any(x => x.Equals(folder)))
-                    Folders.Add(folder);
-            }
-
+            if (SelectFolder() is string selectedFolder && !Folders.Any(x => x.Path.Equals(selectedFolder)))
+                Folders.Add(new CDFolder(selectedFolder));
         }
 
 
@@ -223,11 +295,15 @@ namespace CodeDoc.ViewModel
         {
             Status = "Exporting Config...";
             Cursor = Cursors.Wait;
-            BottomPanelIsOpen = true;
+            ProgressBarVisibility = Visibility.Visible;
             _Worker.WorkerReportsProgress = true;
             _Worker.DoWork += (object sender, DoWorkEventArgs e) => _Config.SaveConfig(Folders, _Worker);
             _Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
-            _Worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) => DisplaySatus("The config has been exported");
+            _Worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
+            {
+                DisplaySatus("The config has been exported", true, true);
+                Cursor = Cursors.Arrow;
+            };
             _Worker.RunWorkerAsync();
         }
 
@@ -236,17 +312,31 @@ namespace CodeDoc.ViewModel
         /// Set the UI status message for 5 seconds
         /// </summary>
         /// <param name="status"></param>
-        private void DisplaySatus(string status)
+        private void DisplaySatus(string status, bool useTimer = false, bool showProgressBar = false)
         {
+            _Timer.Stop();
+
             Status = status;
-            Cursor = Cursors.Arrow;
-            _Timer.Elapsed += (s, ev) =>
+            if (!showProgressBar)
+                ProgressBarVisibility = Visibility.Collapsed;
+
+            if (useTimer)
             {
-                BottomPanelIsOpen = false;
-                Status = string.Empty;
-                _Timer.Enabled = false;
-            };
-            _Timer.Enabled = true;
+                _Timer.Elapsed += (s, ev) =>
+                {
+                    ProgressBarVisibility = Visibility.Collapsed;
+                    Status = string.Empty;
+                };
+                _Timer.Start();
+            }
+        }
+
+
+        private void ValidatePath()
+        {
+            PathFieldVisibility = Visibility.Collapsed;
+            if (_TVSelectedItem is CDFile selectedItem)
+                DisplaySatus(selectedItem.Path);
         }
 
 

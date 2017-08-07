@@ -28,7 +28,7 @@ namespace CodeDoc.ViewModel
 
         #region Fields
 
-
+        
         private Visibility _ProgressBarVisibility = Visibility.Collapsed;
         private Visibility _PathFieldVisibility = Visibility.Collapsed;
         private CDConfig _Config = new CDConfig();
@@ -39,9 +39,9 @@ namespace CodeDoc.ViewModel
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
         private RelayCommand _ValidatePathCommand;
-        private Timer _Timer = new Timer() { Interval = 3000, AutoReset = false };
+        private Timer _Timer = new Timer() { Interval = 5000, AutoReset = false };
         private Cursor _Cursor = Cursors.Arrow;
-        private BackgroundWorker _Worker = new BackgroundWorker();
+        //private BackgroundWorker _Worker = new BackgroundWorker();
         private CommonOpenFileDialog _OpenFileDialog;
         private ICDItem _TVSelectedItem;
         private string _PathField;
@@ -212,6 +212,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            SetUp();
             //string libs = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs";
             //string scripts = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Scripts";
             //Folders.Add(new CDFolder(libs));
@@ -279,12 +280,36 @@ namespace CodeDoc.ViewModel
         }
 
 
+
+        private void SetUpConfig()
+        {
+            Progress = 0;
+            Cursor = Cursors.Wait;
+            ProgressBarVisibility = Visibility.Visible;
+            _Config.Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
         private void LoadConfig()
         {
-            Folders = _Config.LoadConfig(_Worker);
+            SetUpConfig();
+            Status = CDConstants.LoadingData;
+            _Config.Worker.DoWork += _Config.LoadConfig;
+            _Config.Worker.RunWorkerCompleted += LoadConfigCompleted;
+            _Config.Worker.RunWorkerAsync();
+        }
+
+
+        private void LoadConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Folders = e.Result as ObservableCollection<CDFolder>;
+            DisplaySatus(CDConstants.DataLoaded, true, true);
+            Cursor = Cursors.Arrow;
+            _Config.Worker.DoWork -= _Config.LoadConfig;
+            _Config.Worker.RunWorkerCompleted -= LoadConfigCompleted;
         }
 
 
@@ -293,18 +318,26 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SaveConfig()
         {
-            Status = "Exporting Config...";
-            Cursor = Cursors.Wait;
-            ProgressBarVisibility = Visibility.Visible;
-            _Worker.WorkerReportsProgress = true;
-            _Worker.DoWork += (object sender, DoWorkEventArgs e) => _Config.SaveConfig(Folders, _Worker);
-            _Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
-            _Worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) =>
-            {
-                DisplaySatus("The config has been exported", true, true);
-                Cursor = Cursors.Arrow;
-            };
-            _Worker.RunWorkerAsync();
+            SetUpConfig();
+            Status = CDConstants.SavingData;
+            _Config.Worker.DoWork += SaveConfigWork;
+            _Config.Worker.RunWorkerCompleted += SaveConfigCompleted;
+            _Config.Worker.RunWorkerAsync();
+        }
+
+
+        //private void SaveConfigWork(object sender, DoWorkEventArgs e)
+        //{
+        //    _Config.SaveConfig(Folders);
+        //}
+
+
+        private void SaveConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            DisplaySatus(CDConstants.DataSaved, true, true);
+            Cursor = Cursors.Arrow;
+            _Config.Worker.DoWork -= SaveConfigWork;
+            _Config.Worker.RunWorkerCompleted -= SaveConfigCompleted;
         }
 
 
@@ -331,12 +364,29 @@ namespace CodeDoc.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void ValidatePath()
         {
             PathFieldVisibility = Visibility.Collapsed;
             if (_TVSelectedItem is CDFile selectedItem)
                 DisplaySatus(selectedItem.Path);
+        }
+
+
+        /// <summary>
+        /// Create the CodeDoc appdata folder and set data.xml
+        /// </summary>
+        private void SetUp()
+        {
+            if (!Directory.Exists(CDConstants.Folder))
+                Directory.CreateDirectory(CDConstants.Folder);
+
+            if (File.Exists(CDConstants.Data))
+                LoadConfig();
+            else
+                DisplaySatus(CDConstants.DataNotFind, true);
         }
 
 

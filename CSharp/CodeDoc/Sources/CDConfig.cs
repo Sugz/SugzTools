@@ -1,4 +1,5 @@
 ﻿using CodeDoc.Model;
+using GalaSoft.MvvmLight;
 using SugzTools.Src;
 using System;
 using System.Collections.Generic;
@@ -7,94 +8,149 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace CodeDoc.Src
 {
-    public class CDConfig
+    public class CDConfig : ObservableObject
     {
-        private string path = @"d:\test.xml";
-        private XmlTextWriter writer;
-        int itemCount = 0;
-        int progress = 0;
+        #region Fields
+
+        //private BackgroundWorker _Worker;
+        private XmlTextWriter _Writer;
+        private int _ItemCount = 0;
+        private int _Progress = 0;
+
+        #endregion Fields
 
 
-        public void SaveConfig(ObservableCollection<CDFolder> folders, BackgroundWorker worker)
+        #region Properties
+
+        public BackgroundWorker Worker { get; set; }
+
+
+        #endregion Properties
+
+        public CDConfig()
         {
-            folders.ForEach(x => itemCount += ((CDFolder)x).Children.Count + 1);
+            Worker = new BackgroundWorker();
+            Worker.WorkerReportsProgress = true;
+        }
 
-            writer = new XmlTextWriter(path, Encoding.UTF8);
+
+        private void ResetProgress()
+        {
+            _Progress = 0;
+            _ItemCount = 0;
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="folders"></param>
+        /// <param name="worker"></param>
+        public void SaveConfig(ObservableCollection<CDFolder> folders)
+        {
+            ResetProgress();
+            folders.ForEach(x => _ItemCount += ((CDFolder)x).Children.Count + 1);
+
+            _Writer = new XmlTextWriter(CDConstants.Data, Encoding.UTF8);
             //writer = new XmlTextWriter(Console.Out);
-            writer.Formatting = Formatting.Indented;
-            writer.Indentation = 4;
+            _Writer.Formatting = Formatting.Indented;
+            _Writer.Indentation = 4;
 
-            writer.WriteStartDocument();
-            writer.WriteStartElement("CodeDocConfig");
+            _Writer.WriteStartDocument();
+            _Writer.WriteStartElement("CodeDocConfig");
 
-            folders.ForEach(x => SaveItem((ICDItem)x, worker));
+            folders.ForEach(x => SaveItem((ICDItem)x));
 
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-            writer.Flush();
-            writer.Close();
+            _Writer.WriteEndElement();
+            _Writer.WriteEndDocument();
+            _Writer.Flush();
+            _Writer.Close();
             
         }
 
 
-        private void SaveItem(ICDItem _item, BackgroundWorker worker)
+        /// <summary>
+        /// Save a treeview node a xml node and update 
+        /// </summary>
+        /// <param name="_item"></param>
+        /// <param name="worker"></param>
+        private void SaveItem(ICDItem _item)
         {
-            progress += 1;
-            worker.ReportProgress(progress * 100 / itemCount);
+            _Progress += 1;
+            Worker.ReportProgress(_Progress * 100 / _ItemCount);
 
             if (_item is CDFile item)
             {
-                writer.WriteStartElement(item.Type.ToString());
-                writer.WriteAttributeString("Path", item.Path);
-                writer.WriteAttributeString("Text", item.Text);
+                _Writer.WriteStartElement(item.Type.ToString());
+                _Writer.WriteAttributeString("Path", item.Path);
+                _Writer.WriteAttributeString("Text", item.Text);
 
-                item.Children.ForEach(x => SaveItem((ICDItem)x, worker));
+                item.Children.ForEach(x => SaveItem((ICDItem)x));
 
-                writer.WriteEndElement();
+                _Writer.WriteEndElement();
             }
             else
             {
-                writer.WriteString(_item.Type.ToString());
+                _Writer.WriteString(_item.Type.ToString());
             }
         }
 
 
-        public ObservableCollection<CDFolder> LoadConfig(BackgroundWorker worker)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="worker"></param>
+        /// <returns></returns>
+        public void LoadConfig(object sender, DoWorkEventArgs e)
         {
             ObservableCollection<CDFolder> folders = new ObservableCollection<CDFolder>();
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(path);
+            XDocument doc = XDocument.Load(CDConstants.Data);
 
-            XmlElement rootNode = xDoc.DocumentElement;
-            rootNode.ChildNodes.ForEach(x => folders.Add((CDFolder)LoadItem((XmlElement)x, worker)));
+            ResetProgress();
+            _ItemCount = doc.Descendants().Count() - 1;
 
-            return folders;
+            XElement root = doc.Root;
+            var test = doc.Root.Elements();
+            doc.Root.Elements().ForEach(x => folders.Add((CDFolder)LoadItem((XElement)x)));
+
+            e.Result = folders;
         }
 
-        private ICDItem LoadItem(XmlElement node, BackgroundWorker worker)
-        {
-            string text = node.GetAttribute("Text");
-            string path = node.GetAttribute("Path");
-            string name = node.Name;
-            ICDItem item = null;
-            switch (node.Name)
-            {
-                case "Folder":
-                    ObservableCollection<ICDItem> scripts = new ObservableCollection<ICDItem>();
-                    node.ChildNodes.ForEach(x => scripts.Add((CDScript)LoadItem((XmlElement)x, worker)));
-                    item = new CDFolder(path, text, scripts);
-                    break;
 
-                case "Script":
-                    item = new CDScript(path, text);
-                    break;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private ICDItem LoadItem(XElement node)
+        {
+            _Progress += 1;
+            Worker.ReportProgress(_Progress * 100 / _ItemCount);
+
+            string path = node.Attribute("Path").Value;
+            string text = node.Attribute("Text").Value;
+            ICDItem item = null;
+            if (node.Name == "Folder")
+            {
+                ObservableCollection<ICDItem> scripts = new ObservableCollection<ICDItem>();
+                node.Descendants().ForEach(x => scripts.Add((CDScript)LoadItem((XElement)x)));
+                item = new CDFolder(path, text, scripts);
+            }
+            if (node.Name == "Script")
+            {
+                item = new CDScript(path, text);
             }
             return item;
         }
+
     }
 }
+;

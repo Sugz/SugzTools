@@ -24,7 +24,7 @@
                 
                 <!-- Normal state -->
                 <TextBlock x:Name="textBlock"
-                           Text="{Binding Text}"
+                           Text="{Binding Text, Mode=TwoWay}"
                            Margin="3,0,0,3"
                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                            VerticalAlignment="Bottom"

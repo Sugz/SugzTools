@@ -36,14 +36,14 @@ namespace CodeDoc.Model
             get { return _Path; }
             set
             {
-                _Path = value;
+                Set(ref _Path, value);
                 IsValidPath = GetIsValidPath();
             }
         }
         public string Text
         {
             get { return _Text ?? (_Text = GetText()); }
-            set { _Text = value; }
+            set { Set(ref _Text, value); }
         }
         public ObservableCollection<ICDItem> Children
         {

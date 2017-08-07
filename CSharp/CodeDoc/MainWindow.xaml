@@ -31,7 +31,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="25" />
+            <RowDefinition Height="26" />
         </Grid.RowDefinitions>
 
         <local:SgzSlidingDockPanel Width="30"
@@ -107,32 +107,57 @@
                 BorderThickness="0,1,0,0"
                 Grid.ColumnSpan="4"
                 Grid.Row="1">
-            <Grid Margin="5,0">
+            <Grid>
                 <DockPanel Visibility="{Binding PathFieldVisibility}">
                     <sgz:SgzIcon Command="{Binding ValidatePathCommand}"
                                  DockPanel.Dock="Right"
-                                 Height="22"
-                                 Icon="MdiCheck"
-                                 Foreground="#FF00AA00"
-                                 Margin="10,0,0,0"
-                                 Padding="5"
-                                 IsEnabled="False">
+                                 Height="Auto"
+                                 Width="35"
+                                 Padding="11,5"
+                                 HoverBrush="{DynamicResource MaxBlue}">
+                        <sgz:SgzIcon.Style>
+                            <Style TargetType="{x:Type sgz:SgzIcon}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Icon" Value="MdiClose" />
+                                        <Setter Property="Foreground" Value="{DynamicResource MaxRed}" />
+                                    </Trigger>
+                                    
+                                    <Trigger Property="IsEnabled" Value="true">
+                                        <Setter Property="Icon" Value="MdiCheck" />
+                                        <Setter Property="Foreground" Value="{DynamicResource MaxBlue}" />
+                                    </Trigger>
+                                    
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsEnabled" Value="true" />
+                                            <Condition Property="IsMouseOver" Value="true" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" Value="{DynamicResource MaxButtonMouseOver}" />
+                                    </MultiTrigger>
+                                    
+                                    
+                                </Style.Triggers>
+                            </Style>
+                        </sgz:SgzIcon.Style>
                     </sgz:SgzIcon>
                     <TextBox Text="{Binding PathField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             VerticalAlignment="Center" />
+                             VerticalAlignment="Center" 
+                             Margin="5,0,0,1"/>
                 </DockPanel>
                 
-                <DockPanel>
+                <DockPanel Margin="5,0">
                     <TextBlock Text="{Binding Status, Mode=OneWay}"
                                Foreground="{DynamicResource MaxText}"
                                VerticalAlignment="Center"
-                               Margin="0,0,10,0" />
-                    <ProgressBar x:Name="progressBar"
-                                 Grid.Row="1"
-                                 Grid.ColumnSpan="4"
-                                 Value="{Binding Progress}"
-                                 Height="10"
-                                 Visibility="{Binding ProgressBarVisibility}" />
+                               Margin="0,0,10,0" 
+                               Width="175"/>
+                    <sgz:SgzProgressBar x:Name="progressBar"
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="4"
+                                        Value="{Binding Progress}"
+                                        Height="10"
+                                        Visibility="{Binding ProgressBarVisibility}" />
                 </DockPanel>
                 
             </Grid>

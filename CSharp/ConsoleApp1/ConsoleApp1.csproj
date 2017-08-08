@@ -53,6 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeDoc\CodeDoc.csproj">
+      <Project>{d5a67bf9-835f-4acf-80fc-672cccd6149f}</Project>
+      <Name>CodeDoc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SugzTools\SugzTools.csproj">
       <Project>{a808c545-3c87-45ef-8f4a-47d8bd55cdd1}</Project>
       <Name>SugzTools</Name>

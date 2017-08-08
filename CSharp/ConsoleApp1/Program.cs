@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Max;
+using CodeDoc.Src;
+using System.Diagnostics;
 
 namespace ConsoleApp1
 {
@@ -14,9 +16,11 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             //TestRenamer();
-            TestClassGen();
+            //TestClassGen();
 
-            Console.ReadLine();
+            TestCodeDocRelativePath();
+
+            //Console.ReadLine();
         }
 
 
@@ -51,6 +55,23 @@ namespace ConsoleApp1
             }
                 
             
+        }
+
+
+
+        private static void TestCodeDocRelativePath()
+        {
+            Debug.WriteLine("");
+
+            string relative = CDConstants.GetRelativePath(@"C:\Users\cplantec\AppData\Local\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs\Custom_Attributes_Lib.ms");
+            Debug.WriteLine($"{relative}\n=> {CDConstants.GetPath(relative)}");
+
+            Debug.WriteLine("");
+
+            relative = CDConstants.GetRelativePath(@"C:\Program Files\Autodesk\3ds Max 2016\scripts\HaywoodTools\alignUVsAverage.ms");
+            Debug.WriteLine($"{relative}\n=> {CDConstants.GetPath(relative)}");
+
+            Debug.WriteLine("");
         }
     }
 }

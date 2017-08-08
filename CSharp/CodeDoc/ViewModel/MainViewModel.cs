@@ -28,30 +28,52 @@ namespace CodeDoc.ViewModel
 
         #region Fields
 
-        
+        private string _DataFolder = Properties.Settings.Default.DataFolder;
+
         private Visibility _ProgressBarVisibility = Visibility.Collapsed;
         private Visibility _PathFieldVisibility = Visibility.Collapsed;
-        private CDConfig _Config = new CDConfig();
+        private bool _ShowOptionPanel = false;
+        
+        private Timer _Timer = new Timer() { Interval = 5000, AutoReset = false };
+        private Cursor _Cursor = Cursors.Arrow;
+        private CommonOpenFileDialog _OpenFileDialog;
+
+        private CDConfig _Config;
+        private ObservableCollection<CDFolder> _Folders = new ObservableCollection<CDFolder>();
+        private ICDItem _TVSelectedItem;
+
         private string _Status = string.Empty;
         private int _Progress = 0;
-        private ObservableCollection<CDFolder> _Folders = new ObservableCollection<CDFolder>();
+        private string _PathField;
+        private bool _CanValidatePath = false;
+
         private RelayCommand _AddFolderCommand;
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
         private RelayCommand _ValidatePathCommand;
-        private Timer _Timer = new Timer() { Interval = 5000, AutoReset = false };
-        private Cursor _Cursor = Cursors.Arrow;
-        //private BackgroundWorker _Worker = new BackgroundWorker();
-        private CommonOpenFileDialog _OpenFileDialog;
-        private ICDItem _TVSelectedItem;
-        private string _PathField;
-        private bool _CanValidatePath = false;
-
+        private RelayCommand _SetDataFolderCommand;
+        private RelayCommand _ApplyDefaultsCommand;
+        private RelayCommand _ShowOptionPanelCommand;
 
         #endregion Fields
 
 
         #region Properties
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string DataFolder
+        {
+            get { return _DataFolder; }
+            set
+            {
+                Set(ref _DataFolder, value);
+                Properties.Settings.Default.DataFolder = value;
+                Properties.Settings.Default.Save();
+            }
+        }
 
 
         /// <summary>
@@ -71,6 +93,16 @@ namespace CodeDoc.ViewModel
         {
             get { return _PathFieldVisibility; }
             set { Set(ref _PathFieldVisibility, value); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool ShowOptionPanel
+        {
+            get { return _ShowOptionPanel; }
+            set { Set(ref _ShowOptionPanel, value); }
         }
 
 
@@ -117,42 +149,6 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
-        public RelayCommand AddFolderCommand
-        {
-            get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(AddFolder)); ; }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public RelayCommand LoadConfigCommand
-        {
-            get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(LoadConfig)); ; }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public RelayCommand SaveConfigCommand
-        {
-            get { return _SaveConfigCommand ?? (_SaveConfigCommand = new RelayCommand(SaveConfig)); ; }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public RelayCommand ValidatePathCommand
-        {
-            get { return _ValidatePathCommand ?? (_ValidatePathCommand = new RelayCommand(ValidatePath, () => _CanValidatePath)); ; }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
         public ICDItem TVSelectedItem
         {
             get { return _TVSelectedItem; }
@@ -164,7 +160,7 @@ namespace CodeDoc.ViewModel
                     if (selectedItem.IsValidPath)
                     {
                         PathFieldVisibility = Visibility.Collapsed;
-                        DisplaySatus(selectedItem.Path);
+                        Status = selectedItem.Path;
                     }
                     else
                     {
@@ -199,7 +195,69 @@ namespace CodeDoc.ViewModel
             }
         }
 
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand AddFolderCommand
+        {
+            get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(AddFolder)); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand LoadConfigCommand
+        {
+            get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(LoadConfig)); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand SaveConfigCommand
+        {
+            get { return _SaveConfigCommand ?? (_SaveConfigCommand = new RelayCommand(SaveConfig)); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand ValidatePathCommand
+        {
+            get { return _ValidatePathCommand ?? (_ValidatePathCommand = new RelayCommand(ValidatePath, () => _CanValidatePath)); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand SetDataFolderCommand
+        {
+            get { return _SetDataFolderCommand ?? (_SetDataFolderCommand = new RelayCommand(SetDataFolder)); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand ApplyDefaultsCommand
+        {
+            get { return _ApplyDefaultsCommand ?? (_ApplyDefaultsCommand = new RelayCommand(ApplyDefaults)); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand ShowOptionPanelCommand
+        {
+            get { return _ShowOptionPanelCommand ?? (_ShowOptionPanelCommand = new RelayCommand(() => ShowOptionPanel = !ShowOptionPanel)); }
+        }
+
 
         #endregion Properties
 
@@ -213,6 +271,7 @@ namespace CodeDoc.ViewModel
         public MainViewModel()
         {
             SetUp();
+
             //string libs = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs";
             //string scripts = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Scripts";
             //Folders.Add(new CDFolder(libs));
@@ -238,25 +297,27 @@ namespace CodeDoc.ViewModel
         /// Use CommonOpenFileDialog to select a folder
         /// </summary>
         /// <returns></returns>
-        private string SelectFolder()
+        private string SelectFolder(string initialPath = null)
         {
-            DefineOpenFileDialog();
-
+            DefineOpenFileDialog(initialPath);
+            
             CommonFileDialogResult result = _OpenFileDialog.ShowDialog();
             if (result == CommonFileDialogResult.Ok && Directory.Exists(_OpenFileDialog.FileName))
                 return _OpenFileDialog.FileName;
             return string.Empty;
         }
 
+
         /// <summary>
         /// 
         /// </summary>
-        private void DefineOpenFileDialog()
+        private void DefineOpenFileDialog(string initialPath)
         {
             if (_OpenFileDialog is null)
             {
                 _OpenFileDialog = new CommonOpenFileDialog();
                 _OpenFileDialog.IsFolderPicker = true;
+                _OpenFileDialog.InitialDirectory = initialPath;
                 foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
                 {
                     string key = environmentVariable.Key as string;
@@ -280,7 +341,9 @@ namespace CodeDoc.ViewModel
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void SetUpConfig()
         {
             Progress = 0;
@@ -303,6 +366,11 @@ namespace CodeDoc.ViewModel
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoadConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Folders = e.Result as ObservableCollection<CDFolder>;
@@ -326,12 +394,22 @@ namespace CodeDoc.ViewModel
         }
 
 
-        //private void SaveConfigWork(object sender, DoWorkEventArgs e)
-        //{
-        //    _Config.SaveConfig(Folders);
-        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveConfigWork(object sender, DoWorkEventArgs e)
+        {
+            _Config.SaveConfig(Folders);
+        }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             DisplaySatus(CDConstants.DataSaved, true, true);
@@ -364,6 +442,7 @@ namespace CodeDoc.ViewModel
             }
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -371,7 +450,7 @@ namespace CodeDoc.ViewModel
         {
             PathFieldVisibility = Visibility.Collapsed;
             if (_TVSelectedItem is CDFile selectedItem)
-                DisplaySatus(selectedItem.Path);
+                Status = selectedItem.Path;
         }
 
 
@@ -380,13 +459,33 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SetUp()
         {
-            if (!Directory.Exists(CDConstants.Folder))
-                Directory.CreateDirectory(CDConstants.Folder);
+            if (_DataFolder == string.Empty)
+                DataFolder = CDConstants.AppDataFolder;
+            _Config = new CDConfig(DataFolder);
 
-            if (File.Exists(CDConstants.Data))
+            if (File.Exists(DataFolder + CDConstants.DataFile))
                 LoadConfig();
             else
                 DisplaySatus(CDConstants.DataNotFind, true);
+        }
+
+
+        /// <summary>
+        /// Select a folder to store data.xml
+        /// </summary>
+        private void SetDataFolder()
+        {
+            if (SelectFolder(CDConstants.AppDataFolder) is string selectedFolder)
+                DataFolder = selectedFolder;
+        }
+
+
+        /// <summary>
+        /// Revert settings to their default value
+        /// </summary>
+        private void ApplyDefaults()
+        {
+            DataFolder = CDConstants.AppDataFolder;
         }
 
 

@@ -10,14 +10,8 @@ namespace CodeDoc.Model
 {
     public class CDFolder : CDFile
     {
-        public CDFolder(string path) : base(path)
-        {
-            Type = CDItemType.Folder;
-        }
-        public CDFolder(string path, string text) : base(path, text)
-        {
-            Type = CDItemType.Folder;
-        }
+        public CDFolder(string path) : this(path, null, null) { }
+        public CDFolder(string path, string text) : this(path, text, null) { }
         public CDFolder(string path, string text, ObservableCollection<ICDItem> children) : base(path, text, children)
         {
             Type = CDItemType.Folder;

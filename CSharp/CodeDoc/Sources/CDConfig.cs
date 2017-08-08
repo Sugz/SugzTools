@@ -23,6 +23,7 @@ namespace CodeDoc.Src
         private XmlTextWriter _Writer;
         private int _ItemCount = 0;
         private int _Progress = 0;
+        private string _Path;
 
         #endregion Fields
 
@@ -34,10 +35,12 @@ namespace CodeDoc.Src
 
         #endregion Properties
 
-        public CDConfig()
+
+        public CDConfig(string path)
         {
             Worker = new BackgroundWorker();
             Worker.WorkerReportsProgress = true;
+            _Path = path + CDConstants.DataFile;
         }
 
 
@@ -59,7 +62,7 @@ namespace CodeDoc.Src
             ResetProgress();
             folders.ForEach(x => _ItemCount += ((CDFolder)x).Children.Count + 1);
 
-            _Writer = new XmlTextWriter(CDConstants.Data, Encoding.UTF8);
+            _Writer = new XmlTextWriter(_Path, Encoding.UTF8);
             //writer = new XmlTextWriter(Console.Out);
             _Writer.Formatting = Formatting.Indented;
             _Writer.Indentation = 4;
@@ -112,7 +115,7 @@ namespace CodeDoc.Src
         public void LoadConfig(object sender, DoWorkEventArgs e)
         {
             ObservableCollection<CDFolder> folders = new ObservableCollection<CDFolder>();
-            XDocument doc = XDocument.Load(CDConstants.Data);
+            XDocument doc = XDocument.Load(_Path);
 
             ResetProgress();
             _ItemCount = doc.Descendants().Count() - 1;

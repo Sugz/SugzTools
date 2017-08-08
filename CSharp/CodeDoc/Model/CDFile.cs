@@ -31,6 +31,10 @@ namespace CodeDoc.Model
             get { return _IsValidPath; }
             set { Set(ref _IsValidPath, value); }
         }
+        //public string RelativePath
+        //{
+
+        //}
         public string Path
         {
             get { return _Path; }
@@ -56,15 +60,8 @@ namespace CodeDoc.Model
 
         #region Constructors
 
-        public CDFile(string path)
-        {
-            Path = path;
-        }
-        public CDFile(string path, string text)
-        {
-            Path = path;
-            Text = text;
-        }
+        public CDFile(string path) : this(path, null, null) { }
+        public CDFile(string path, string text) : this(path, text, null) { }
         public CDFile(string path, string text, ObservableCollection<ICDItem> children)
         {
             Path = path;

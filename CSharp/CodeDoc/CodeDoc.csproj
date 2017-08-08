@@ -83,6 +83,7 @@
       <DependentUpon>EditableTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SgzSlidingDockPanel.cs" />
+    <Compile Include="Model\CDBrowser.cs" />
     <Compile Include="Model\CDFile.cs" />
     <Compile Include="Model\CDFolder.cs" />
     <Compile Include="Model\CDFunction.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Model\ICDItem.cs" />
     <Compile Include="Sources\CDConfig.cs" />
     <Compile Include="Sources\CDConstants.cs" />
+    <Compile Include="ViewModel\DataViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Controls\EditableTreeView.xaml">

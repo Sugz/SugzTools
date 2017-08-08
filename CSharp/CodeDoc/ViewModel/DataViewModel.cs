@@ -2,6 +2,7 @@
 using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using SugzTools.Src;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -17,6 +20,7 @@ namespace CodeDoc.ViewModel
 {
     public class DataViewModel : ViewModelBase
     {
+
         private XmlTextWriter _Writer;
         private int _ItemCount = 0;
         private int _Progress = 0;
@@ -40,13 +44,12 @@ namespace CodeDoc.ViewModel
         }
 
 
-
         /// <summary>
         /// 
         /// </summary>
         public RelayCommand AddFolderCommand
         {
-            get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(AddFolder)); }
+            get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(LoadConfig)); }
         }
 
 
@@ -69,13 +72,22 @@ namespace CodeDoc.ViewModel
 
 
 
-        public DataViewModel(string path)
+        #region Constructor
+
+
+        public DataViewModel()
         {
             _Browser = new CDBrowser();
             _Worker = new BackgroundWorker();
             _Worker.WorkerReportsProgress = true;
-            _DataPath = path + CDConstants.DataFile;
-        }
+            //_DataPath = path + CDConstants.DataFile;
+        } 
+
+
+        #endregion Constructor
+
+
+
 
 
         private void ResetProgress()
@@ -96,15 +108,18 @@ namespace CodeDoc.ViewModel
 
 
 
+
+
         /// <summary>
         /// 
         /// </summary>
-        private void SetUpConfig()
+        private void SetUpConfig(string status)
         {
-            //Progress = 0;
-            //Cursor = Cursors.Wait;
-            //ProgressBarVisibility = Visibility.Visible;
-            //_Config.Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
+            ResetProgress();
+            MessengerInstance.Send(new CDDataMessage(status, _Progress, Cursors.Wait, Visibility.Visible));
+
+            //TODO: send message for the progress report (or bind directly to a property here if the progressbar isn't needed somewhere else)
+            _Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => _Progress = e.ProgressPercentage;
         }
 
 
@@ -114,8 +129,8 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void LoadConfig()
         {
-            //SetUpConfig();
-            //Status = CDConstants.LoadingData;
+            SetUpConfig(CDConstants.LoadingData);
+
             _Worker.DoWork += LoadConfigWorker;
             _Worker.RunWorkerCompleted += LoadConfigCompleted;
             _Worker.RunWorkerAsync();
@@ -131,7 +146,7 @@ namespace CodeDoc.ViewModel
         {
             XDocument doc = XDocument.Load(_DataPath);
 
-            ResetProgress();
+            
             _ItemCount = doc.Descendants().Count() - 1;
 
             XElement root = doc.Root;

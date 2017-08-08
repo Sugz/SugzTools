@@ -14,6 +14,7 @@ using System.Timers;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace CodeDoc.ViewModel
 {
@@ -272,11 +273,17 @@ namespace CodeDoc.ViewModel
         {
             SetUp();
 
+            MessengerInstance.Register<GenericMessage<Cursor>>(this, NotifyMe);
+
             //string libs = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs";
             //string scripts = Environment.GetEnvironmentVariable("LocalAppData") + @"\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Scripts";
             //Folders.Add(new CDFolder(libs));
             //Folders.Add(new CDFolder(scripts));
         }
+
+        
+
+
 
 
         #endregion Constructor
@@ -490,6 +497,14 @@ namespace CodeDoc.ViewModel
 
 
         #endregion Methods
+
+
+
+
+        private void NotifyMe(GenericMessage<Cursor> obj)
+        {
+            Cursor = obj.Content;
+        }
 
     }
 }

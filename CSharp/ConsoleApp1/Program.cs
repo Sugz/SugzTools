@@ -63,13 +63,13 @@ namespace ConsoleApp1
         {
             Debug.WriteLine("");
 
-            string relative = CDConstants.GetRelativePath(@"C:\Users\cplantec\AppData\Local\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs\Custom_Attributes_Lib.ms");
-            Debug.WriteLine($"{relative}\n=> {CDConstants.GetPath(relative)}");
+            string relative = CDMaxPath.GetRelativePath($@"{CDConstants.MaxAppData}\2016 - 64bit\ENU\scripts\SugzTools\Libs\Custom_Attributes_Lib.ms");
+            Debug.WriteLine($"{relative}\n=> {CDMaxPath.GetPath(relative)}");
 
             Debug.WriteLine("");
 
-            relative = CDConstants.GetRelativePath(@"C:\Program Files\Autodesk\3ds Max 2016\scripts\HaywoodTools\alignUVsAverage.ms");
-            Debug.WriteLine($"{relative}\n=> {CDConstants.GetPath(relative)}");
+            relative = CDMaxPath.GetRelativePath(@"C:\Program Files\Autodesk\3ds Max 2016\scripts\HaywoodTools\alignUVsAverage.ms");
+            Debug.WriteLine($"{relative}\n=> {CDMaxPath.GetPath(relative)}");
 
             Debug.WriteLine("");
         }

@@ -91,6 +91,7 @@
     <Compile Include="Model\ICDItem.cs" />
     <Compile Include="Sources\CDConfig.cs" />
     <Compile Include="Sources\CDConstants.cs" />
+    <Compile Include="Sources\CDMaxPath.cs" />
     <Compile Include="ViewModel\DataViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

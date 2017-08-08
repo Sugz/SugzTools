@@ -93,7 +93,7 @@ namespace CodeDoc.Src
             if (_item is CDFile item)
             {
                 _Writer.WriteStartElement(item.Type.ToString());
-                _Writer.WriteAttributeString("Path", item.Path);
+                _Writer.WriteAttributeString("Path", item.RelativePath);
                 _Writer.WriteAttributeString("Text", item.Text);
 
                 item.Children.ForEach(x => SaveItem((ICDItem)x));
@@ -138,7 +138,7 @@ namespace CodeDoc.Src
             _Progress += 1;
             Worker.ReportProgress(_Progress * 100 / _ItemCount);
 
-            string path = node.Attribute("Path").Value;
+            string path = CDMaxPath.GetPath(node.Attribute("Path").Value);
             string text = node.Attribute("Text").Value;
             ICDItem item = null;
             if (node.Name == "Folder")

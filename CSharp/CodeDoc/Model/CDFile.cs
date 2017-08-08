@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using CodeDoc.Src;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,10 +32,10 @@ namespace CodeDoc.Model
             get { return _IsValidPath; }
             set { Set(ref _IsValidPath, value); }
         }
-        //public string RelativePath
-        //{
-
-        //}
+        public string RelativePath
+        {
+            get { return CDMaxPath.GetRelativePath(Path); }
+        }
         public string Path
         {
             get { return _Path; }

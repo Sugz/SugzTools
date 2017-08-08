@@ -98,7 +98,6 @@
             </sgz:SgzCheckButton>
         </local:SgzSlidingDockPanel>
         
-
         <local:EditableTreeView Grid.Column="1"
                                 ItemsSource="{Binding Folders}"
                                 Background="Transparent"
@@ -113,6 +112,16 @@
                       Background="{DynamicResource MaxRolloutBorder}"
                       Grid.Column="2"
                       Template="{DynamicResource GridSplitterTemplate}" />
+
+        <Button Grid.Column="3"
+                Grid.RowSpan="2" 
+                Width="75"
+                Height="30"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="Test"
+                DataContext="{Binding Data, Source={StaticResource Locator}}"
+                Command="{Binding AddFolderCommand}"/>
 
 
         <local:SgzSlidingDockPanel Grid.Column="1"

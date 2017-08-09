@@ -8,11 +8,27 @@ using SugzTools.Themes;
 
 namespace SugzTools.Controls
 {
+    [TemplatePart(Name = "PART_CheckMark", Type = typeof(Border))]
     public class SgzCheckBox : CheckBox
     {
 
 
         #region Properties
+
+
+        /// <summary>
+        /// Get or set if the checkbox looks like a toggle
+        /// </summary>
+        [Description("Get or set if the checkbox looks like a toggle."), Category("Appearance")]
+        public bool IsToggle
+        {
+            get { return (bool)GetValue(IsToggleProperty); }
+            set { SetValue(IsToggleProperty, value); }
+        }
+
+        
+
+
 
 
         /// <summary>
@@ -70,7 +86,6 @@ namespace SugzTools.Controls
         }
 
 
-
         /// <summary>
         /// Get or set the space bewteen the checkbox and the content
         /// </summary>
@@ -87,6 +102,15 @@ namespace SugzTools.Controls
 
 
         #region Dependency Properties
+
+
+        // DependencyProperty as the backing store for IsToggle
+        public static readonly DependencyProperty IsToggleProperty = DependencyProperty.Register(
+            "IsToggle",
+            typeof(bool),
+            typeof(SgzCheckBox),
+            new PropertyMetadata(false)
+        );
 
 
         // DependencyProperty as the backing store for TriState
@@ -161,6 +185,16 @@ namespace SugzTools.Controls
 
 
         #endregion Constructors
+
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            if (IsToggle && GetTemplateChild("PART_CheckMark") is Border PART_CheckMark)
+            {
+
+            }
+        }
 
 
 

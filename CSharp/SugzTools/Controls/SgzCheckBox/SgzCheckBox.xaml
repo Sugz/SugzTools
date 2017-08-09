@@ -3,11 +3,47 @@
                     xmlns:local="clr-namespace:SugzTools.Controls"
                     xmlns:src="clr-namespace:SugzTools.Src">
 
+    <!---->
+    
     <!--Merged Dictionaries-->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <ControlTemplate x:Key="ToggleCheckBoxTemplate" TargetType="{x:Type local:SgzCheckBox}">
+        <DockPanel Background="Transparent"
+                   Height="{TemplateBinding Height}"
+                   Width="{TemplateBinding Width}"
+                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+            <Border x:Name="PART_Mouse"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                    Height="{TemplateBinding Height}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    DockPanel.Dock="Right">
+                <Border.Width>
+                    <MultiBinding Converter="{StaticResource MultiplyPercentage}" ConverterParameter="200">
+                        <Binding Path="Height" ElementName="PART_Mouse" />
+                    </MultiBinding>
+                </Border.Width>
+                <Border x:Name="PART_CheckMark"
+                        Background="{TemplateBinding CheckedBrush}"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                        HorizontalAlignment="Left">
+                    <Border.CornerRadius>
+                        <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
+                            <Binding Path="CornerRadius" ElementName="PART_Mouse" />
+                            <Binding Path="BorderThickness" ElementName="PART_Mouse" />
+                        </MultiBinding>
+                    </Border.CornerRadius>
+                </Border>
+
+            </Border>
+        </DockPanel>
+    </ControlTemplate>
 
     <!--SgzCheckBoxStyle-->
     <Style TargetType="{x:Type local:SgzCheckBox}" BasedOn="{StaticResource MaxControlStyle}">
@@ -29,8 +65,8 @@
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Width="12"
-                                    Height="12"
+                                    Width="{TemplateBinding Height}"
+                                    Height="{TemplateBinding Height}"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center" />
                             <Path x:Name="PART_CheckMark"
@@ -81,6 +117,9 @@
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource MaxRolloutBorder}"/>
+            </Trigger>
+            <Trigger Property="IsToggle" Value="True">
+                <Setter Property="Template" Value="{StaticResource ToggleCheckBoxTemplate}" />
             </Trigger>
         </Style.Triggers>
         

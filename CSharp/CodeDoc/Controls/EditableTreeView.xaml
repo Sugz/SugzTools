@@ -4,6 +4,7 @@
           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
           xmlns:local="clr-namespace:CodeDoc.Controls"
+          xmlns:src="clr-namespace:CodeDoc.Src"
           xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
           xmlns:c="clr-namespace:SugzTools.Converters;assembly=SugzTools"
           mc:Ignorable="d"
@@ -50,7 +51,7 @@
                              VerticalAlignment="Center"
                              Visibility="{Binding IsValidPath,Converter={StaticResource VisToBool}, ConverterParameter=Inverted}"
                              IsEnabled="False"
-                             ToolTip="Path is not valid" 
+                             ToolTip="{x:Static src:CDConstants.InvalidPath }" 
                              ToolTipService.ShowOnDisabled="True"/>
             </Grid>
 

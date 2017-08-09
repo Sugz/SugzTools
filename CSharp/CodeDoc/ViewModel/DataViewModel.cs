@@ -32,7 +32,7 @@ namespace CodeDoc.ViewModel
         private ObservableCollection<CDFolder> _Datas = new ObservableCollection<CDFolder>();
         private ICDItem _TVSelectedItem;
         private string _DataPathField;
-        private Visibility _DataPathFieldVisibility = Visibility.Collapsed;
+        private bool _DataPathFieldIsOpen = false;
         private Cursor _Cursor = Cursors.Arrow;
         private int _Progress = 0;
 
@@ -41,7 +41,6 @@ namespace CodeDoc.ViewModel
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
         private RelayCommand _ValidateDataPathCommand;
-
 
         #endregion Fields
 
@@ -56,7 +55,7 @@ namespace CodeDoc.ViewModel
             get
             {
                 if (name == "DataPathField" && !_CanValidateDataPath)
-                    return "The path is not valid.";
+                    return CDConstants.InvalidPath;
 
                 return null;
             }
@@ -101,12 +100,14 @@ namespace CodeDoc.ViewModel
                 {
                     if (selectedItem.IsValidPath)
                     {
-                        DataPathFieldVisibility = Visibility.Collapsed;
+                        //DataPathFieldVisibility = Visibility.Collapsed;
+                        DataPathFieldIsOpen = false;
                         MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
                     }
                     else
                     {
-                        DataPathFieldVisibility = Visibility.Visible;
+                        //DataPathFieldVisibility = Visibility.Visible;
+                        DataPathFieldIsOpen = true;
                         DataPathField = selectedItem.Path;
                         MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
                     }
@@ -144,14 +145,16 @@ namespace CodeDoc.ViewModel
             set { MessengerInstance.Send(new GenericMessage<Visibility>(value)); }
         }
 
+
         /// <summary>
         /// 
         /// </summary>
-        public Visibility DataPathFieldVisibility
+        public bool DataPathFieldIsOpen
         {
-            get { return _DataPathFieldVisibility; }
-            set { Set(ref _DataPathFieldVisibility, value); }
+            get { return _DataPathFieldIsOpen; }
+            set { Set(ref _DataPathFieldIsOpen, value); }
         }
+
 
         /// <summary>
         /// 
@@ -211,7 +214,9 @@ namespace CodeDoc.ViewModel
         public RelayCommand ValidateDataPathCommand
         {
             get { return _ValidateDataPathCommand ?? (_ValidateDataPathCommand = new RelayCommand(ValidatePath, () => _CanValidateDataPath)); }
-        } 
+        }
+
+
 
 
         #endregion Properties
@@ -447,7 +452,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void ValidatePath()
         {
-            DataPathFieldVisibility = Visibility.Collapsed;
+            DataPathFieldIsOpen = false;
             if (_TVSelectedItem is CDFile selectedItem)
                 MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
         } 

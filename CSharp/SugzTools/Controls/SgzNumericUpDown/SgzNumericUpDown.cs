@@ -533,8 +533,7 @@ namespace SugzTools.Controls
 
         private void AttachTextBox()
         {
-            TextBox textBox = GetTemplateChild("PART_Textbox") as TextBox;
-            if (textBox != null)
+            if (GetTemplateChild("PART_Textbox") is TextBox textBox)
             {
                 PART_Textbox = textBox;
                 PART_Textbox.PreviewTextInput += PART_TextBox_PreviewTextInput;

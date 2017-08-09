@@ -24,14 +24,13 @@ namespace CodeDoc.Controls
     public class SgzSlidingDockPanel : DockPanel
     {
 
-        
-
         #region Fields
 
 
         private SgzIcon _OpenCloseBtn = new SgzIcon();
         private RotateTransform _RotateTransform = new RotateTransform();
-        private double _CloseSize = 0d;
+        private double _CloseSize;
+        private double _OpenSize;
         Timer _Timer = new Timer();
 
         #endregion Fields
@@ -62,7 +61,25 @@ namespace CodeDoc.Controls
         /// 
         /// </summary>
         [Description(""), Category("Layout")]
-        public double OpenSize { get; set; } = 150d;
+        [TypeConverter(typeof(LengthConverter))]
+        public double CloseSize
+        {
+            get { return (double)GetValue(CloseSizeProperty); }
+            set { SetValue(CloseSizeProperty, value); }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Layout")]
+        [TypeConverter(typeof(LengthConverter))]
+        public double OpenSize
+        {
+            get { return (double)GetValue(OpenSizeProperty); }
+            set { SetValue(OpenSizeProperty, value); }
+        }
+
 
         //TODO: use the horizontal / vertical alignment ?
         [Description(""), Category("Appearance")]
@@ -84,6 +101,21 @@ namespace CodeDoc.Controls
             new PropertyMetadata(false, (d, e) => ((SgzSlidingDockPanel)d).PlayAnimation())
         );
 
+        // DependencyProperty as the backing store for CloseSize
+        public static readonly DependencyProperty CloseSizeProperty = DependencyProperty.Register(
+            "CloseSize",
+            typeof(double),
+            typeof(SgzSlidingDockPanel),
+            new PropertyMetadata(0d)
+        );
+
+        // DependencyProperty as the backing store for OpenSize
+        public static readonly DependencyProperty OpenSizeProperty = DependencyProperty.Register(
+            "OpenSize",
+            typeof(double),
+            typeof(SgzSlidingDockPanel),
+            new PropertyMetadata(500d)
+        );
 
         #endregion Dependency Properties
 
@@ -107,7 +139,7 @@ namespace CodeDoc.Controls
 
         private void SgzSlidingDockPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            _CloseSize = AnimationType == AnimationType.Height ? ActualHeight : ActualWidth;
+            //TODO: use minwidth maxwidth to define the two sizes ?
 
             if (ShowButton)
             {
@@ -135,7 +167,7 @@ namespace CodeDoc.Controls
 
         private void PlayAnimation()
         {
-            DoubleAnimation sizeAnimation = new DoubleAnimation(IsOpen ? OpenSize : _CloseSize, TimeSpan.FromMilliseconds(AnimationDuration));
+            DoubleAnimation sizeAnimation = new DoubleAnimation(IsOpen ? OpenSize : CloseSize, TimeSpan.FromMilliseconds(AnimationDuration));
             BeginAnimation(AnimationType == AnimationType.Width ? WidthProperty : HeightProperty, sizeAnimation);
 
             if (AnimationType == AnimationType.Height)

@@ -12,6 +12,7 @@ namespace CodeDoc.Src
         public static string DataLoaded = "The config has been loaded.";
         public static string SavingData = "Saving the config...";
         public static string DataSaved = "The config has been saved.";
+        public static string InvalidPath = "The path is not valid.";
         public static string Path = "Path";
         public static string Text = "Text";
         public static string Folder = "Folder";

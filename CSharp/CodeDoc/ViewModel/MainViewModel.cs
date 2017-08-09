@@ -31,7 +31,7 @@ namespace CodeDoc.ViewModel
 
 
         private Visibility _ProgressBarVisibility = Visibility.Collapsed;
-        private bool _ShowOptionPanel = false;
+        private bool _ShowOptionPanel = true;
         private Timer _Timer = new Timer() { Interval = 5000, AutoReset = false };
         private string _Status = string.Empty;
 
@@ -86,8 +86,16 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public RelayCommand ShowOptionPanelCommand
         {
-            get { return _ShowOptionPanelCommand ?? (_ShowOptionPanelCommand = new RelayCommand(() => ShowOptionPanel = !ShowOptionPanel)); }
+            get { return _ShowOptionPanelCommand ?? (_ShowOptionPanelCommand = new RelayCommand(test)); }
         }
+
+        private void test()
+        {
+            ShowOptionPanel = !ShowOptionPanel;
+        }
+
+
+
 
 
         #endregion Properties

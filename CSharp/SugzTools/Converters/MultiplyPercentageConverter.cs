@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace SugzTools.Converters
@@ -17,9 +13,11 @@ namespace SugzTools.Converters
                 if (values.Length > 1)
                     return (double)values[0] * ((double)values[1] / 100.0);
                 else
+                {
                     return (double)values[0] * (System.Convert.ToDouble(parameter) / 100);
+                }
+                    
             }
-                
 
             return null;
         }

@@ -30,6 +30,17 @@ namespace SugzTools.Controls
 
 
         /// <summary>
+        /// Get or set the focus color
+        /// </summary>
+        [Description("Get or set the focus color"), Category("Brush")]
+        public Brush FocusBrush
+        {
+            get { return (Brush)GetValue(FocusBrushProperty); }
+            set { SetValue(FocusBrushProperty, value); }
+        }
+
+
+        /// <summary>
         /// Get or set the radius of the control's corner
         /// </summary>
         [Description("Get or set the radius of the control's corner"), Category("Appearance")]
@@ -82,6 +93,15 @@ namespace SugzTools.Controls
 
 
         #region Dependency Properties
+
+
+        // DependencyProperty as the backing store for FocusBrush
+        public static readonly DependencyProperty FocusBrushProperty = DependencyProperty.Register(
+            "FocusBrush",
+            typeof(Brush),
+            typeof(SgzTextBox),
+            new PropertyMetadata(Resource<SolidColorBrush>.GetColor("MaxFocusBorder"))
+        );
 
 
         // DependencyProperty as the backing store for CornerRadius

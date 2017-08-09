@@ -15,7 +15,7 @@ using System.Xml.Linq;
 
 namespace CodeDoc.Src
 {
-    public class CDConfig : ObservableObject
+    public class CDConfig : ViewModelBase
     {
         #region Fields
 

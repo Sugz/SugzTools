@@ -55,7 +55,7 @@
                                        Visibility="Collapsed"
                                        Grid.Column="1" />
                             <Border x:Name="PART_Focus"
-                                    BorderBrush="{StaticResource MaxFocusBorder}"
+                                    BorderBrush="{TemplateBinding FocusBrush}"
                                     BorderThickness="0"
                                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"

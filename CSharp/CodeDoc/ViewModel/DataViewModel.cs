@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -18,24 +20,69 @@ using System.Xml.Linq;
 
 namespace CodeDoc.ViewModel
 {
-    public class DataViewModel : ViewModelBase
+    public class DataViewModel : ViewModelBase, IDataErrorInfo
     {
 
-        private XmlTextWriter _Writer;
+        #region Fields
+
+        private string _DataFile;
+        private bool _CanValidateDataPath = false;
         private int _ItemCount = 0;
-        private int _Progress = 0;
-        private string _DataPath;
-        private CDBrowser _Browser;
-        private BackgroundWorker _Worker;
+        private CDBrowser _Browser = new CDBrowser();
+        private BackgroundWorker _Worker = new BackgroundWorker() { WorkerReportsProgress = true };
+        private XmlTextWriter _Writer;
+        
+        private string _DataFolder;
         private ObservableCollection<CDFolder> _Datas = new ObservableCollection<CDFolder>();
+        private ICDItem _TVSelectedItem;
+        private string _DataPathField;
+        private Visibility _DataPathFieldVisibility = Visibility.Collapsed;
+        private Cursor _Cursor = Cursors.Arrow;
+        private int _Progress = 0;
+
+        private RelayCommand _SetDataFolderCommand;
         private RelayCommand _AddFolderCommand;
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
+        private RelayCommand _ValidateDataPathCommand;
+
+
+        #endregion Fields
+
+
+
+        string IDataErrorInfo.Error => string.Empty;
+
+        string IDataErrorInfo.this[string name]
+        {
+            get
+            {
+                if (name == "DataPathField" && !_CanValidateDataPath)
+                    return "The path is not valid.";
+
+                return null;
+            }
+        }
 
 
 
         /// <summary>
-        /// 
+        /// The folder use to store Data.xml
+        /// </summary>
+        public string DataFolder
+            {
+                get { return _DataFolder; }
+                set
+                {
+                    Set(ref _DataFolder, value);
+                    _DataFile = value + CDConstants.DataFile;
+                    Properties.Settings.Default.DataFolder = value;
+                    Properties.Settings.Default.Save();
+                }
+            }
+
+        /// <summary>
+        /// The collection of CDFolders that will be displayed in the treeview
         /// </summary>
         public ObservableCollection<CDFolder> Datas
         {
@@ -43,15 +90,106 @@ namespace CodeDoc.ViewModel
             set { Set(ref _Datas, value); }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICDItem TVSelectedItem
+        {
+            get { return _TVSelectedItem; }
+            set
+            {
+                _TVSelectedItem = value;
+                if (_TVSelectedItem is CDFile selectedItem)
+                {
+                    if (selectedItem.IsValidPath)
+                    {
+                        DataPathFieldVisibility = Visibility.Collapsed;
+                        MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
+                    }
+                    else
+                    {
+                        DataPathFieldVisibility = Visibility.Visible;
+                        DataPathField = selectedItem.Path;
+                        MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string DataPathField
+        {
+            get { return _DataPathField; }
+            set
+            {
+                _CanValidateDataPath = false;
+                if (TVSelectedItem is CDFile selectedItem)
+                {
+                    Set(ref _DataPathField, value);
+                    selectedItem.Path = value;
+                    if (selectedItem.IsValidPath)
+                        _CanValidateDataPath = true;
+
+                    ValidateDataPathCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Set the visibility of the ProgressBar
+        /// </summary>
+        public Visibility ProgressBarVisibility
+        {
+            set { MessengerInstance.Send(new GenericMessage<Visibility>(value)); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Visibility DataPathFieldVisibility
+        {
+            get { return _DataPathFieldVisibility; }
+            set { Set(ref _DataPathFieldVisibility, value); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Cursor Cursor
+        {
+            get { return _Cursor; }
+            set { Set(ref _Cursor, value); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Progress
+        {
+            get { return _Progress; }
+            set { Set(ref _Progress, value); }
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand SetDataFolderCommand
+        {
+            get { return _SetDataFolderCommand ?? (_SetDataFolderCommand = new RelayCommand(SetDataFolder)); }
+        }
 
         /// <summary>
         /// 
         /// </summary>
         public RelayCommand AddFolderCommand
         {
-            get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(LoadConfig)); }
+            get { return _AddFolderCommand ?? (_AddFolderCommand = new RelayCommand(AddFolder)); }
         }
-
 
         /// <summary>
         /// 
@@ -61,14 +199,27 @@ namespace CodeDoc.ViewModel
             get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(LoadConfig)); }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand SaveConfigCommand
+        {
+            get { return _SaveConfigCommand ?? (_SaveConfigCommand = new RelayCommand(SaveConfig)); }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        //public RelayCommand SaveConfigCommand
-        //{
-        //    get { return _SaveConfigCommand ?? (_SaveConfigCommand = new RelayCommand(SaveConfig)); }
-        //}
+        public RelayCommand ValidateDataPathCommand
+        {
+            get { return _ValidateDataPathCommand ?? (_ValidateDataPathCommand = new RelayCommand(ValidatePath, () => _CanValidateDataPath)); }
+        }
+
+        
+
+
+
+
 
 
 
@@ -77,24 +228,41 @@ namespace CodeDoc.ViewModel
 
         public DataViewModel()
         {
-            _Browser = new CDBrowser();
-            _Worker = new BackgroundWorker();
-            _Worker.WorkerReportsProgress = true;
-            //_DataPath = path + CDConstants.DataFile;
-        } 
+            _Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
+            MessengerInstance.Register<NotificationMessage>(this, x => DataFolder = x.Notification);
+
+            InitializeData();
+        }
 
 
         #endregion Constructor
 
 
-
-
-
-        private void ResetProgress()
+        /// <summary>
+        /// Create the CodeDoc appdata folder and set data.xml
+        /// </summary>
+        private void InitializeData()
         {
-            _Progress = 0;
-            _ItemCount = 0;
+            DataFolder = Properties.Settings.Default.DataFolder;
+            if (DataFolder == string.Empty)
+                DataFolder = CDConstants.AppDataFolder;
+
+            if (File.Exists(_DataFile))
+                LoadConfig();
+            else
+                MessengerInstance.Send(new CDStatusMessage(CDConstants.DataNotFind, true, false));
         }
+
+
+        /// <summary>
+        /// Select a folder to store data.xml
+        /// </summary>
+        private void SetDataFolder()
+        {
+            if (_Browser.GetFolder(CDConstants.AppDataFolder) is string selectedFolder)
+                DataFolder = selectedFolder;
+        }
+
 
 
         /// <summary>
@@ -111,16 +279,17 @@ namespace CodeDoc.ViewModel
 
 
         /// <summary>
-        /// 
+        /// Reset and show the progressbar
+        /// Display the loading data status
         /// </summary>
         private void SetUpConfig(string status)
         {
-            ResetProgress();
-            MessengerInstance.Send(new CDDataMessage(status, _Progress, Cursors.Wait, Visibility.Visible));
-
-            //TODO: send message for the progress report (or bind directly to a property here if the progressbar isn't needed somewhere else)
-            _Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => _Progress = e.ProgressPercentage;
+            Progress = 0;
+            MessengerInstance.Send(new CDStatusMessage(status, false, false));
+            Cursor = Cursors.Wait;
+            ProgressBarVisibility = Visibility.Visible;
         }
+
 
 
 
@@ -130,7 +299,6 @@ namespace CodeDoc.ViewModel
         private void LoadConfig()
         {
             SetUpConfig(CDConstants.LoadingData);
-
             _Worker.DoWork += LoadConfigWorker;
             _Worker.RunWorkerCompleted += LoadConfigCompleted;
             _Worker.RunWorkerAsync();
@@ -144,14 +312,12 @@ namespace CodeDoc.ViewModel
         /// <returns></returns>
         public void LoadConfigWorker(object sender, DoWorkEventArgs e)
         {
-            XDocument doc = XDocument.Load(_DataPath);
+            ObservableCollection<CDFolder> folders = new ObservableCollection<CDFolder>();
+            XDocument doc = XDocument.Load(_DataFile);
+            _ItemCount = doc.Root.Descendants().Count();
 
-            
-            _ItemCount = doc.Descendants().Count() - 1;
-
-            XElement root = doc.Root;
-            var test = doc.Root.Elements();
-            doc.Root.Elements().ForEach(x => Datas.Add((CDFolder)LoadItem((XElement)x)));
+            doc.Root.Elements().ForEach(x => folders.Add((CDFolder)LoadItem((XElement)x)));
+            e.Result = folders;
         }
 
 
@@ -162,16 +328,15 @@ namespace CodeDoc.ViewModel
         /// <returns></returns>
         private ICDItem LoadItem(XElement node)
         {
-            _Progress += 1;
-            _Worker.ReportProgress(_Progress * 100 / _ItemCount);
+            _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 
-            string path = node.Attribute("Path").Value;
+            string path = CDMaxPath.GetPath(node.Attribute("Path").Value);
             string text = node.Attribute("Text").Value;
             ICDItem item = null;
             if (node.Name == "Folder")
             {
                 ObservableCollection<ICDItem> scripts = new ObservableCollection<ICDItem>();
-                node.Descendants().ForEach(x => scripts.Add((CDScript)LoadItem((XElement)x)));
+                node.Elements().ForEach(x => scripts.Add((CDScript)LoadItem((XElement)x)));
                 item = new CDFolder(path, text, scripts);
             }
             if (node.Name == "Script")
@@ -181,6 +346,7 @@ namespace CodeDoc.ViewModel
             return item;
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -188,10 +354,105 @@ namespace CodeDoc.ViewModel
         /// <param name="e"></param>
         private void LoadConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //DisplaySatus(CDConstants.DataLoaded, true, true);
-            //Cursor = Cursors.Arrow;
+            Datas = e.Result as ObservableCollection<CDFolder>;
+            MessengerInstance.Send(new CDStatusMessage(CDConstants.DataLoaded, true, true));
+            Cursor = Cursors.Arrow;
             _Worker.DoWork -= LoadConfigWorker;
             _Worker.RunWorkerCompleted -= LoadConfigCompleted;
+        }
+
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SaveConfig()
+        {
+            SetUpConfig(CDConstants.SavingData);
+            _Worker.DoWork += SaveConfigWork;
+            _Worker.RunWorkerCompleted += SaveConfigCompleted;
+            _Worker.RunWorkerAsync();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveConfigWork(object sender, DoWorkEventArgs e)
+        {
+            _ItemCount = 0;
+            Datas.ForEach(x => _ItemCount += ((CDFolder)x).Children.Count + 1);
+
+            _Writer = new XmlTextWriter(_DataFile, Encoding.UTF8);
+            //writer = new XmlTextWriter(Console.Out);
+            _Writer.Formatting = Formatting.Indented;
+            _Writer.Indentation = 4;
+
+            _Writer.WriteStartDocument();
+            _Writer.WriteStartElement("CodeDocConfig");
+
+            Datas.ForEach(x => SaveItem((ICDItem)x));
+
+            _Writer.WriteEndElement();
+            _Writer.WriteEndDocument();
+            _Writer.Flush();
+            _Writer.Close();
+        }
+
+
+        /// <summary>
+        /// Save a Data item as xml node and report progress
+        /// </summary>
+        /// <param name="_item"></param>
+        /// <param name="worker"></param>
+        private void SaveItem(ICDItem _item)
+        {
+            _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
+
+            if (_item is CDFile item)
+            {
+                _Writer.WriteStartElement(item.Type.ToString());
+                _Writer.WriteAttributeString("Path", item.RelativePath);
+                _Writer.WriteAttributeString("Text", item.Text);
+
+                item.Children.ForEach(x => SaveItem((ICDItem)x));
+
+                _Writer.WriteEndElement();
+            }
+            else
+            {
+                _Writer.WriteString(_item.Type.ToString());
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessengerInstance.Send(new CDStatusMessage(CDConstants.DataSaved, true, true));
+            Cursor = Cursors.Arrow;
+            _Worker.DoWork -= SaveConfigWork;
+            _Worker.RunWorkerCompleted -= SaveConfigCompleted;
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ValidatePath()
+        {
+            DataPathFieldVisibility = Visibility.Collapsed;
+            if (_TVSelectedItem is CDFile selectedItem)
+                MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
         }
     }
 }

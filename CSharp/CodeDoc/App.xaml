@@ -44,6 +44,13 @@
 
             
             <Style x:Key="LeftPanelButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="DockPanel.Dock" Value="Top" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HoverBrush" Value="White" />
+                <Setter Property="PressedBrush" Value="White" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="true">
                         <Setter Property="Background" Value="{StaticResource MaxButtonMouseOver}" />
@@ -73,7 +80,14 @@
             
             
             
-            <Style x:Key="ValidateButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
+            <Style x:Key="ValidatePathButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
+                <Setter Property="DockPanel.Dock" Value="Right" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Width" Value="35" />
+                <Setter Property="Padding" Value="11,5" />
+                <Setter Property="Margin" Value="0,2" />
+                <Setter Property="HoverBrush" Value="LimeGreen" />
+                <Setter Property="PressedBrush" Value="LimeGreen" />
                 <Style.Triggers>
                     <Trigger Property="IsEnabled" Value="false">
                         <Setter Property="Icon" Value="MdiClose" />
@@ -82,7 +96,7 @@
                                     
                     <Trigger Property="IsEnabled" Value="true">
                         <Setter Property="Icon" Value="MdiCheck" />
-                        <Setter Property="Foreground" Value="{DynamicResource MaxBlue}" />
+                        <Setter Property="Foreground" Value="LimeGreen" />
                     </Trigger>
                                     
                     <MultiTrigger>
@@ -92,6 +106,21 @@
                         </MultiTrigger.Conditions>
                         <Setter Property="Background" Value="{DynamicResource MaxButtonMouseOver}" />
                     </MultiTrigger>
+                </Style.Triggers>
+            </Style>
+
+
+            <Style x:Key="ValidatePathTextBoxStyle" TargetType="{x:Type sgz:SgzTextBox}">
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="FocusBrush" Value="Transparent"/>
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Padding" Value="2,0" />
+                <Setter Property="Margin" Value="5,2,0,2" />
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter Property="ToolTip"
+                                Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                    </Trigger>
                 </Style.Triggers>
             </Style>
 

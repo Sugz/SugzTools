@@ -2,11 +2,7 @@
 using Microsoft.WindowsAPICodePack.Shell;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeDoc.Model
 {
@@ -27,7 +23,7 @@ namespace CodeDoc.Model
             CommonFileDialogResult result = _OpenFileDialog.ShowDialog();
             if (result == CommonFileDialogResult.Ok && Directory.Exists(_OpenFileDialog.FileName))
                 return _OpenFileDialog.FileName;
-            return string.Empty;
+            return null;
         }
 
 

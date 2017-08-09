@@ -18,12 +18,14 @@
                 <ResourceDictionary Source="/SugzTools;component/Resources/Colors.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!--Global View Model Locator-->
-            <vm:ViewModelLocator x:Key="Locator"
-                                 d:IsDataSource="True" />
+            <!-- Global View Model Locator -->
+            <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+            
+            <!-- Dark Panel Color -->
+            <SolidColorBrush x:Key="DarkPanelColor" Color="#FF282828" />
+            
 
-
-            <!--GridSplitterTemplate-->
+            <!-- GridSplitterTemplate -->
             <LinearGradientBrush x:Key="GridSplitterGradiantBrush"
                                  StartPoint="0,0"
                                  EndPoint="0,1">
@@ -42,8 +44,11 @@
             </ControlTemplate>
 
 
-            
-            <Style x:Key="LeftPanelButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
+            <!-- Toolbar Buttons -->
+            <Style x:Key="ToolbarButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="{StaticResource MaxText}"/>
+                <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="Width" Value="Auto" />
                 <Setter Property="Height" Value="30" />
                 <Setter Property="DockPanel.Dock" Value="Top" />
@@ -59,6 +64,7 @@
             </Style>
 
 
+            <!-- Open Options Button -->
             <Style x:Key="OptionsButtonStyle" TargetType="{x:Type sgz:SgzCheckButton}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Height" Value="30" />
@@ -77,9 +83,9 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
-            
-            
+
+
+            <!-- Validate Path Button -->
             <Style x:Key="ValidatePathButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
                 <Setter Property="DockPanel.Dock" Value="Right" />
                 <Setter Property="Height" Value="Auto" />
@@ -109,7 +115,8 @@
                 </Style.Triggers>
             </Style>
 
-
+            
+            <!-- Validate Path Textbox -->
             <Style x:Key="ValidatePathTextBoxStyle" TargetType="{x:Type sgz:SgzTextBox}">
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="FocusBrush" Value="Transparent"/>

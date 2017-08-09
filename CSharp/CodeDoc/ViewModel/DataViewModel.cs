@@ -4,15 +4,11 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using SugzTools.Src;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
@@ -50,6 +46,8 @@ namespace CodeDoc.ViewModel
         #endregion Fields
 
 
+        #region Properties
+
 
         string IDataErrorInfo.Error => string.Empty;
 
@@ -70,16 +68,16 @@ namespace CodeDoc.ViewModel
         /// The folder use to store Data.xml
         /// </summary>
         public string DataFolder
+        {
+            get { return _DataFolder; }
+            set
             {
-                get { return _DataFolder; }
-                set
-                {
-                    Set(ref _DataFolder, value);
-                    _DataFile = value + CDConstants.DataFile;
-                    Properties.Settings.Default.DataFolder = value;
-                    Properties.Settings.Default.Save();
-                }
+                Set(ref _DataFolder, value);
+                _DataFile = value + CDConstants.DataFile;
+                Properties.Settings.Default.DataFolder = value;
+                Properties.Settings.Default.Save();
             }
+        }
 
         /// <summary>
         /// The collection of CDFolders that will be displayed in the treeview
@@ -213,14 +211,10 @@ namespace CodeDoc.ViewModel
         public RelayCommand ValidateDataPathCommand
         {
             get { return _ValidateDataPathCommand ?? (_ValidateDataPathCommand = new RelayCommand(ValidatePath, () => _CanValidateDataPath)); }
-        }
-
-        
+        } 
 
 
-
-
-
+        #endregion Properties
 
 
         #region Constructor
@@ -236,6 +230,9 @@ namespace CodeDoc.ViewModel
 
 
         #endregion Constructor
+
+
+        #region Methods
 
 
         /// <summary>
@@ -453,6 +450,10 @@ namespace CodeDoc.ViewModel
             DataPathFieldVisibility = Visibility.Collapsed;
             if (_TVSelectedItem is CDFile selectedItem)
                 MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
-        }
+        } 
+
+
+        #endregion Methods
+
     }
 }

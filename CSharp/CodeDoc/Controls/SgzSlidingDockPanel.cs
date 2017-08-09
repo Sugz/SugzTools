@@ -64,7 +64,7 @@ namespace CodeDoc.Controls
         [Description(""), Category("Layout")]
         public double OpenSize { get; set; } = 150d;
 
-
+        //TODO: use the horizontal / vertical alignment ?
         [Description(""), Category("Appearance")]
         public AnimationType AnimationType { get; set; } = AnimationType.Width;
 

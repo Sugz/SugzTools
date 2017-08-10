@@ -16,6 +16,7 @@
     <c:CornerRadiusMultiplierConverter x:Key="CornerRadiusMultiplier" />
     <c:GridLineVisibilityToBorderThicknessConverter x:Key="GridLineVisibilityToBorderThickness" />
     <c:InvertableBooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    <c:InvertDoubleConverter x:Key="InvertDouble" />
     <c:LeftMarginMultiplierConverter Length="19" x:Key="LeftMarginMultiplier" />
     <c:LesserThanConverter x:Key="LesserThan" />
     <c:MultiplyPercentageConverter x:Key="MultiplyPercentage" />

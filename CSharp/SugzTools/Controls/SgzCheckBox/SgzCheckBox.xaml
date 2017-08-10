@@ -10,12 +10,14 @@
         <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <ControlTemplate x:Key="ToggleCheckBoxTemplate" TargetType="{x:Type local:SgzCheckBox}">
+
+    <ControlTemplate x:Key="SwitchCheckBoxTemplate" TargetType="{x:Type local:SgzCheckBox}">
         <DockPanel Background="Transparent"
                    Height="{TemplateBinding Height}"
                    Width="{TemplateBinding Width}"
                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
-            <Border x:Name="PART_Mouse"
+            <!-- Border -->
+            <Border x:Name="PART_Border"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -26,23 +28,56 @@
                     DockPanel.Dock="Right">
                 <Border.Width>
                     <MultiBinding Converter="{StaticResource MultiplyPercentage}" ConverterParameter="200">
-                        <Binding Path="Height" ElementName="PART_Mouse" />
+                        <Binding Path="Height" ElementName="PART_Border" />
                     </MultiBinding>
                 </Border.Width>
-                <Border x:Name="PART_CheckMark"
-                        Background="{TemplateBinding CheckedBrush}"
+                
+                <!-- Bullet -->
+                <Border x:Name="PART_Bullet"
+                        Background="{StaticResource MaxFocusBorder}"
                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                        HorizontalAlignment="Left">
+                        HorizontalAlignment="Left"
+                        RenderTransformOrigin="0.5,0.5">
                     <Border.CornerRadius>
                         <MultiBinding Converter="{StaticResource CornerRadiusLessThickness}">
-                            <Binding Path="CornerRadius" ElementName="PART_Mouse" />
-                            <Binding Path="BorderThickness" ElementName="PART_Mouse" />
+                            <Binding Path="CornerRadius" ElementName="PART_Border" />
+                            <Binding Path="BorderThickness" ElementName="PART_Border" />
                         </MultiBinding>
                     </Border.CornerRadius>
                 </Border>
 
             </Border>
+            <ContentPresenter x:Name="PART_Content"
+                              DockPanel.Dock="Left"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalAlignment="Left"
+                              Margin="{Binding Spacing, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource SpacingToMargin}, ConverterParameter={x:Static src:Side.Left}}" />
         </DockPanel>
+        
+        <!--Triggers-->
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="PART_Bullet" Property="Background" Value="White" />
+            </Trigger>
+            
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="PART_Border" Property="Background" Value="{Binding CheckedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                <Setter TargetName="PART_Border" Property="BorderBrush" Value="{Binding CheckedBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+            </Trigger>
+
+            <Trigger Property="Content" Value="{x:Null}">
+                <Setter Property="Spacing" Value="0" />
+            </Trigger>
+
+            <Trigger Property="HorizontalContentAlignment" Value="Right">
+                <Setter TargetName="PART_Border" Property="DockPanel.Dock" Value="Left" />
+                <Setter TargetName="PART_Content" Property="DockPanel.Dock" Value="Right" />
+                <Setter TargetName="PART_Content" Property="HorizontalAlignment" Value="Right" />
+                <Setter TargetName="PART_Content" Property="Margin"
+                        Value="{Binding Spacing, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource SpacingToMargin}, ConverterParameter={x:Static src:Side.Right}}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+        
     </ControlTemplate>
 
     <!--SgzCheckBoxStyle-->
@@ -118,8 +153,8 @@
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource MaxRolloutBorder}"/>
             </Trigger>
-            <Trigger Property="IsToggle" Value="True">
-                <Setter Property="Template" Value="{StaticResource ToggleCheckBoxTemplate}" />
+            <Trigger Property="IsSwitch" Value="True">
+                <Setter Property="Template" Value="{StaticResource SwitchCheckBoxTemplate}" />
             </Trigger>
         </Style.Triggers>
         

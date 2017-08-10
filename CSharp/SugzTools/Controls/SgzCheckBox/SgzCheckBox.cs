@@ -5,12 +5,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System;
 using SugzTools.Themes;
+using System.Windows.Media.Animation;
 
 namespace SugzTools.Controls
 {
-    [TemplatePart(Name = "PART_CheckMark", Type = typeof(Border))]
+    [TemplatePart(Name = "PART_Bullet", Type = typeof(Border))]
     public class SgzCheckBox : CheckBox
     {
+        Border PART_Bullet;
 
 
         #region Properties
@@ -20,10 +22,10 @@ namespace SugzTools.Controls
         /// Get or set if the checkbox looks like a toggle
         /// </summary>
         [Description("Get or set if the checkbox looks like a toggle."), Category("Appearance")]
-        public bool IsToggle
+        public bool IsSwitch
         {
-            get { return (bool)GetValue(IsToggleProperty); }
-            set { SetValue(IsToggleProperty, value); }
+            get { return (bool)GetValue(IsSwitchProperty); }
+            set { SetValue(IsSwitchProperty, value); }
         }
 
         
@@ -104,9 +106,9 @@ namespace SugzTools.Controls
         #region Dependency Properties
 
 
-        // DependencyProperty as the backing store for IsToggle
-        public static readonly DependencyProperty IsToggleProperty = DependencyProperty.Register(
-            "IsToggle",
+        // DependencyProperty as the backing store for IsSwitch
+        public static readonly DependencyProperty IsSwitchProperty = DependencyProperty.Register(
+            "IsSwitch",
             typeof(bool),
             typeof(SgzCheckBox),
             new PropertyMetadata(false)
@@ -190,13 +192,16 @@ namespace SugzTools.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            if (IsToggle && GetTemplateChild("PART_CheckMark") is Border PART_CheckMark)
+            if (IsSwitch && GetTemplateChild("PART_Bullet") is Border border)
             {
+                PART_Bullet = border;
+                PART_Bullet.RenderTransform = new TranslateTransform();
+                PART_Bullet.RenderTransformOrigin = new Point(0, 0);
 
+                Loaded += (s, e) => SwitchAnimation(TimeSpan.Zero);
+                Click += (s, e) => SwitchAnimation(TimeSpan.FromMilliseconds(250));
             }
         }
-
-
 
         #region Methods
 
@@ -222,6 +227,15 @@ namespace SugzTools.Controls
                     break;
             }
         } 
+
+
+        private void SwitchAnimation(TimeSpan time)
+        {
+            double from = IsChecked == true ? 0 : PART_Bullet.ActualWidth; 
+            double to = IsChecked == true ? PART_Bullet.ActualWidth : 0;
+            DoubleAnimation translateAnimation = new DoubleAnimation(from, to, time);
+            PART_Bullet.RenderTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+        }
 
 
         #endregion Methods

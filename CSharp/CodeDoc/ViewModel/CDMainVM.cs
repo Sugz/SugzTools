@@ -24,11 +24,13 @@ namespace CodeDoc.ViewModel
     /// See http://www.mvvmlight.net
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class CDMainVM : ViewModelBase
     {
 
         #region Fields
 
+        private Cursor _Cursor = Cursors.Arrow;
+        private int _Progress = 0;
 
         private bool _StatusPanelIsOpen;
         private Visibility _ProgressBarVisibility = Visibility.Collapsed;
@@ -45,8 +47,26 @@ namespace CodeDoc.ViewModel
 
         #region Properties
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public Cursor Cursor
+        {
+            get { return _Cursor; }
+            set { Set(ref _Cursor, value); }
+        }
 
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Progress
+        {
+            get { return _Progress; }
+            set { Set(ref _Progress, value); }
+        }
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -55,7 +75,6 @@ namespace CodeDoc.ViewModel
             get { return _StatusPanelIsOpen; }
             set { Set(ref _StatusPanelIsOpen, value); }
         }
-
 
         /// <summary>
         /// 
@@ -115,9 +134,11 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+        public CDMainVM()
         {
             MessengerInstance.Register<CDStatusMessage>(this, x => DisplaySatus(x.ShowPanel, x.Status, x.UseTimer, x.ShowProgressBar));
+            MessengerInstance.Register<GenericMessage<int>>(this, x => Progress = x.Content);
+            MessengerInstance.Register<GenericMessage<Cursor>>(this, x => Cursor = x.Content);
             MessengerInstance.Register<GenericMessage<Visibility>>(this, x => ProgressBarVisibility = x.Content);
         }
 

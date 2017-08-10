@@ -15,7 +15,7 @@
         Background="{StaticResource MaxBackground}"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         Icon="Resources/CodeDoc.ico"
-        Cursor="{Binding Data.Cursor, Source={StaticResource Locator}}">
+        Cursor="{Binding Cursor}">
 
     <Window.Resources>
         <c:InvertVisibilityConverter x:Key="InvertVisibility" />
@@ -133,7 +133,8 @@
                                  Foreground="{DynamicResource MaxFocusBorder}"
                                  HoverBrush="White"
                                  PressedBrush="White" />
-                    <sgz:SgzTextBox Text="{Binding Data.DataFolder, Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <sgz:SgzTextBox Text="{Binding Data.DataFolder, Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    BorderThickness="0"/>
 
                 </DockPanel>
 
@@ -202,7 +203,7 @@
                         <sgz:SgzProgressBar x:Name="progressBar"
                                             Grid.Row="1"
                                             Grid.ColumnSpan="4"
-                                            Value="{Binding Data.Progress, Source={StaticResource Locator}}"
+                                            Value="{Binding Progress}"
                                             Height="10"
                                             Visibility="{Binding ProgressBarVisibility}" />
                     </DockPanel>

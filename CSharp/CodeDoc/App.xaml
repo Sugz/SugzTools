@@ -91,7 +91,7 @@
                 <Setter Property="Height" Value="Auto" />
                 <Setter Property="Width" Value="35" />
                 <Setter Property="Padding" Value="11,5" />
-                <Setter Property="Margin" Value="0,5" />
+                <Setter Property="Margin" Value="0,4" />
                 <Setter Property="HoverBrush" Value="LimeGreen" />
                 <Setter Property="PressedBrush" Value="LimeGreen" />
                 <Style.Triggers>
@@ -119,10 +119,9 @@
             <!-- Validate Path Textbox -->
             <Style x:Key="ValidatePathTextBoxStyle" TargetType="{x:Type sgz:SgzTextBox}">
                 <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="FocusBrush" Value="Transparent"/>
                 <Setter Property="Height" Value="Auto" />
                 <Setter Property="Padding" Value="2,0" />
-                <Setter Property="Margin" Value="5,5,0,5" />
+                <Setter Property="Margin" Value="5,4,0,4" />
                 <Style.Triggers>
                     <Trigger Property="Validation.HasError" Value="true">
                         <Setter Property="ToolTip"

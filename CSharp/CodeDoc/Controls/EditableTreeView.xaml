@@ -21,14 +21,14 @@
 
         <!-- DataTemplate -->
         <HierarchicalDataTemplate x:Key="TVDataTemplate" ItemsSource="{Binding Children}">
-            <Grid Height="20">
+            <Grid Height="22">
                 
                 <!-- Normal state -->
                 <TextBlock x:Name="textBlock"
                            Text="{Binding Text, Mode=TwoWay}"
-                           Margin="3,0,0,3"
+                           Margin="3,0,0,0"
                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                           VerticalAlignment="Bottom"
+                           VerticalAlignment="Center"
                            Foreground="{DynamicResource MaxText}"
                            HorizontalAlignment="Left" />
                 
@@ -141,7 +141,6 @@
                         BorderThickness="0"
                         Padding="{TemplateBinding Padding}">
                     <Grid Margin="{Binding Converter={StaticResource LeftMarginMultiplier}, RelativeSource={RelativeSource TemplatedParent}}">
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="19" />
                             <ColumnDefinition />

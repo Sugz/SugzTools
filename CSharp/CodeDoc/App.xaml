@@ -45,7 +45,7 @@
 
 
             <!-- Toolbar Buttons -->
-            <Style x:Key="ToolbarButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
+            <Style x:Key="ToolbarButtonStyle_old" TargetType="{x:Type sgz:SgzIcon}">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="{StaticResource MaxText}"/>
                 <Setter Property="BorderThickness" Value="0" />
@@ -63,21 +63,41 @@
                 </Style.Triggers>
             </Style>
 
-
-            <!-- Open Options Button -->
-            <Style x:Key="OptionsButtonStyle" TargetType="{x:Type sgz:SgzCheckButton}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Height" Value="30" />
-                <Setter Property="PressedBrush" Value="{StaticResource MaxBlueMouseOver}" />
+            <!-- Toolbar Base Button Style -->
+            <Style x:Key="ToolbarBaseButtonStyle" TargetType="{x:Type Control}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="{x:Null}" />
                 <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="Height" Value="40" />
                 <Setter Property="VerticalAlignment" Value="Bottom" />
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="true">
                         <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="{StaticResource MaxButtonBorder}" />
                     </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Toolbar Base Button Style -->
+            <Style x:Key="ToolbarButtonStyle" TargetType="{x:Type sgz:SgzButton}" BasedOn="{StaticResource ToolbarBaseButtonStyle}">
+                <Setter Property="PressedBrush" Value="{StaticResource MaxBlueMouseOver}" />
+                <Setter Property="HoverBrush" Value="{StaticResource MaxButtonMouseOver}" />
+                <Setter Property="CornerRadius" Value="0" />
+                <Style.Triggers>
+                    <Trigger Property="IsPressed" Value="true">
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
+            <!-- Open Options CheckButton -->
+            <Style x:Key="OptionButtonStyle" TargetType="{x:Type sgz:SgzCheckButton}" BasedOn="{StaticResource ToolbarBaseButtonStyle}">
+                <Setter Property="PressedBrush" Value="{StaticResource MaxBlueMouseOver}" />
+                <Setter Property="HoverBrush" Value="{StaticResource MaxButtonMouseOver}" />
+                <Setter Property="CornerRadius" Value="0" />
+                <Style.Triggers>
                     <Trigger Property="IsPressed" Value="true">
                         <Setter Property="Foreground" Value="White" />
                     </Trigger>
@@ -85,37 +105,6 @@
             </Style>
 
 
-            <!-- Validate Path Button -->
-            <Style x:Key="ValidatePathButtonStyle" TargetType="{x:Type sgz:SgzIcon}">
-                <Setter Property="DockPanel.Dock" Value="Right" />
-                <Setter Property="Height" Value="Auto" />
-                <Setter Property="Width" Value="35" />
-                <Setter Property="Padding" Value="11,5" />
-                <Setter Property="Margin" Value="0,4" />
-                <Setter Property="HoverBrush" Value="LimeGreen" />
-                <Setter Property="PressedBrush" Value="LimeGreen" />
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="false">
-                        <Setter Property="Icon" Value="MdiClose" />
-                        <Setter Property="Foreground" Value="{DynamicResource MaxRed}" />
-                    </Trigger>
-                                    
-                    <Trigger Property="IsEnabled" Value="true">
-                        <Setter Property="Icon" Value="MdiCheck" />
-                        <Setter Property="Foreground" Value="LimeGreen" />
-                    </Trigger>
-                                    
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="IsEnabled" Value="true" />
-                            <Condition Property="IsMouseOver" Value="true" />
-                        </MultiTrigger.Conditions>
-                        <Setter Property="Background" Value="{DynamicResource MaxButtonMouseOver}" />
-                    </MultiTrigger>
-                </Style.Triggers>
-            </Style>
-
-            
             <!-- Validate Path Textbox -->
             <Style x:Key="ValidatePathTextBoxStyle" TargetType="{x:Type sgz:SgzTextBox}">
                 <Setter Property="BorderThickness" Value="0" />
@@ -130,7 +119,7 @@
                 </Style.Triggers>
             </Style>
 
-
+            
         </ResourceDictionary>
 
 

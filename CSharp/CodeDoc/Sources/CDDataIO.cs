@@ -1,17 +1,12 @@
 ﻿using CodeDoc.Model;
-using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using SugzTools.Src;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
@@ -33,6 +28,7 @@ namespace CodeDoc.Src
         ObservableCollection<CDFolder> _Datas;
 
         #endregion Fields
+
 
 
         #region Properties
@@ -64,7 +60,6 @@ namespace CodeDoc.Src
         public CDDataIO()
         {
             _Worker.ProgressChanged += (s, e) => Progress = e.ProgressPercentage;
-            //MessengerInstance.Register<NotificationMessage>(this, x => _DataFile = x.Notification);
         }
 
 
@@ -85,8 +80,7 @@ namespace CodeDoc.Src
             _Progress = 0;
             Progress = 0;
             Cursor = Cursors.Wait;
-            ProgressBarVisibility = Visibility.Visible;
-            MessengerInstance.Send(new CDStatusMessage(status, false, false));
+            MessengerInstance.Send(new CDStatusMessage(status, false, true));
         }
 
 
@@ -97,11 +91,11 @@ namespace CodeDoc.Src
         /// <summary>
         /// 
         /// </summary>
-        public void LoadConfig()
+        public void LoadDatas()
         {
             SetUpDataIO(CDConstants.LoadingData);
-            _Worker.DoWork += LoadConfigWorker;
-            _Worker.RunWorkerCompleted += LoadConfigCompleted;
+            _Worker.DoWork += LoadDatasWorker;
+            _Worker.RunWorkerCompleted += LoadDatasCompleted;
             _Worker.RunWorkerAsync();
         }
 
@@ -111,7 +105,7 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="worker"></param>
         /// <returns></returns>
-        public void LoadConfigWorker(object sender, DoWorkEventArgs e)
+        public void LoadDatasWorker(object sender, DoWorkEventArgs e)
         {
             ObservableCollection<CDFolder> folders = new ObservableCollection<CDFolder>();
             XDocument doc = XDocument.Load(_DataFile);
@@ -129,7 +123,7 @@ namespace CodeDoc.Src
         /// <returns></returns>
         private ICDItem LoadItem(XElement node)
         {
-            Thread.Sleep(500);
+            //Thread.Sleep(100);
 
             _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 
@@ -155,14 +149,13 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LoadConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void LoadDatasCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //Datas = e.Result as ObservableCollection<CDFolder>;
             MessengerInstance.Send(new GenericMessage<ObservableCollection<CDFolder>>(e.Result as ObservableCollection<CDFolder>));
             MessengerInstance.Send(new CDStatusMessage(CDConstants.DataLoaded, true, true));
             Cursor = Cursors.Arrow;
-            _Worker.DoWork -= LoadConfigWorker;
-            _Worker.RunWorkerCompleted -= LoadConfigCompleted;
+            _Worker.DoWork -= LoadDatasWorker;
+            _Worker.RunWorkerCompleted -= LoadDatasCompleted;
         }
 
 
@@ -176,12 +169,12 @@ namespace CodeDoc.Src
         /// <summary>
         /// 
         /// </summary>
-        public void SaveConfig(ObservableCollection<CDFolder> datas)
+        public void SaveDatas(ObservableCollection<CDFolder> datas)
         {
             _Datas = datas;
             SetUpDataIO(CDConstants.SavingData);
-            _Worker.DoWork += SaveConfigWork;
-            _Worker.RunWorkerCompleted += SaveConfigCompleted;
+            _Worker.DoWork += SaveDatasWork;
+            _Worker.RunWorkerCompleted += SaveDatasCompleted;
             _Worker.RunWorkerAsync();
         }
 
@@ -191,13 +184,12 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveConfigWork(object sender, DoWorkEventArgs e)
+        private void SaveDatasWork(object sender, DoWorkEventArgs e)
         {
             _ItemCount = 0;
             _Datas.ForEach(x => _ItemCount += ((CDFolder)x).Children.Count + 1);
 
             _Writer = new XmlTextWriter(_DataFile, Encoding.UTF8);
-            //writer = new XmlTextWriter(Console.Out);
             _Writer.Formatting = Formatting.Indented;
             _Writer.Indentation = 4;
 
@@ -220,6 +212,8 @@ namespace CodeDoc.Src
         /// <param name="worker"></param>
         private void SaveItem(ICDItem _item)
         {
+            //Thread.Sleep(100);
+
             _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 
             if (_item is CDFile item)
@@ -244,12 +238,12 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void SaveDatasCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessengerInstance.Send(new CDStatusMessage(CDConstants.DataSaved, true, true));
             Cursor = Cursors.Arrow;
-            _Worker.DoWork -= SaveConfigWork;
-            _Worker.RunWorkerCompleted -= SaveConfigCompleted;
+            _Worker.DoWork -= SaveDatasWork;
+            _Worker.RunWorkerCompleted -= SaveDatasCompleted;
         } 
 
 

@@ -32,9 +32,9 @@ namespace CodeDoc.ViewModel
         private Cursor _Cursor = Cursors.Arrow;
         private int _Progress = 0;
 
+        private bool _ShowOptionPanel = false;
         private bool _StatusPanelIsOpen;
         private Visibility _ProgressBarVisibility = Visibility.Collapsed;
-        private bool _ShowOptionPanel = false;
         private Timer _Timer = new Timer() { Interval = 3000, AutoReset = false };
         private string _Status = string.Empty;
 
@@ -161,8 +161,10 @@ namespace CodeDoc.ViewModel
         /// Set the UI status message for 5 seconds
         /// </summary>
         /// <param name="status"></param>
-        private void DisplaySatus(bool showPanel, string status, bool useTimer = false, bool showProgressBar = false)
+        private void DisplaySatus(bool showPanel, string status, bool useTimer, bool showProgressBar)
         {
+            // check wheter an item was selected 
+
             _Timer.Stop();
 
             if (!showPanel)
@@ -170,20 +172,19 @@ namespace CodeDoc.ViewModel
                 StatusPanelIsOpen = false;
                 return;
             }
-                
+
             Status = status;
             StatusPanelIsOpen = true;
-
-            if (!showProgressBar)
-                ProgressBarVisibility = Visibility.Collapsed;
+            ProgressBarVisibility = showProgressBar ? Visibility.Visible : Visibility.Collapsed;
 
             if (useTimer)
             {
                 _Timer.Elapsed += (s, ev) =>
                 {
-                    StatusPanelIsOpen = false;
                     ProgressBarVisibility = Visibility.Collapsed;
+                    StatusPanelIsOpen = false;
                     Status = string.Empty;
+                    MessengerInstance.Send(new CDClosePanelMessage());
                 };
                 _Timer.Start();
             }

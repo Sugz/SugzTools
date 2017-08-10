@@ -146,6 +146,7 @@ namespace CodeDoc.Controls
                 _OpenCloseBtn.Icon = Geo.MdiArrowRight;
                 _OpenCloseBtn.Width = 30;
                 _OpenCloseBtn.Height = 30;
+                _OpenCloseBtn.Margin = new Thickness(0, 0, 10, 0);
                 _OpenCloseBtn.Padding = new Thickness(9);
                 _OpenCloseBtn.Foreground = new SolidColorBrush(Color.FromRgb(150, 150, 150));
                 _OpenCloseBtn.HoverBrush = new SolidColorBrush(Colors.White);

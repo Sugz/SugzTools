@@ -4,7 +4,7 @@
 
 
     <ResourceDictionary.MergedDictionaries>
-        <!--<ResourceDictionary Source="/CodeDoc;component/Controls/EditableTreeView.xaml" />-->
+        <ResourceDictionary Source="/CodeDoc;component/Controls/SgzYesNoButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 

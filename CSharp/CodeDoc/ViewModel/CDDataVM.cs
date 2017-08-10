@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -18,26 +19,24 @@ namespace CodeDoc.ViewModel
 {
     public class CDDataVM : ViewModelBase, IDataErrorInfo
     {
+        enum IOType
+        {
+            Load,
+            Save
+        }
 
         #region Fields
 
         private CDDataIO _DataIO = new CDDataIO();
-
-        //private string _DataFile;
-        private bool _CanValidateDataPath = false;
-        //private int _ItemCount = 0;
         private CDBrowser _Browser = new CDBrowser();
-        //private BackgroundWorker _Worker = new BackgroundWorker() { WorkerReportsProgress = true };
-        //private XmlTextWriter _Writer;
 
         private string _DataFolder;
         private ObservableCollection<CDFolder> _Datas = new ObservableCollection<CDFolder>();
         private bool _ShowSelectedItemPath;
         private ICDItem _TVSelectedItem;
+        private bool _CanValidateDataPath = false;
         private string _DataPathField;
         private Visibility _DataPathFieldVisibility = Visibility.Collapsed;
-        //private Cursor _Cursor = Cursors.Arrow;
-        //private int _Progress = 0;
 
         private RelayCommand _SetDataFolderCommand;
         private RelayCommand _AddFolderCommand;
@@ -76,7 +75,6 @@ namespace CodeDoc.ViewModel
             {
                 Set(ref _DataFolder, value);
                 _DataIO.DataFile = value + CDConstants.DataFile;
-                //MessengerInstance.Send(new NotificationMessage(_DataFile));
                 Properties.Settings.Default.DataFolder = value;
                 Properties.Settings.Default.Save();
             }
@@ -139,20 +137,10 @@ namespace CodeDoc.ViewModel
                     if (selectedItem.IsValidPath)
                         _CanValidateDataPath = true;
 
-                    ValidateDataPathCommand.RaiseCanExecuteChanged();
+                    Application.Current.Dispatcher.Invoke(ValidateDataPathCommand.RaiseCanExecuteChanged);
                 }
             }
         }
-
-
-        /// <summary>
-        /// Set the visibility of the ProgressBar
-        /// </summary>
-        //public Visibility ProgressBarVisibility
-        //{
-        //    set => MessengerInstance.Send(new GenericMessage<Visibility>(value));
-        //}
-
         
         /// <summary>
         /// 
@@ -162,26 +150,6 @@ namespace CodeDoc.ViewModel
             get { return _DataPathFieldVisibility; }
             set { Set(ref _DataPathFieldVisibility, value); }
         }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //public Cursor Cursor
-        //{
-        //    get { return _Cursor; }
-        //    set { Set(ref _Cursor, value); }
-        //}
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //public int Progress
-        //{
-        //    get { return _Progress; }
-        //    set { Set(ref _Progress, value); }
-        //}
 
 
 
@@ -206,7 +174,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public RelayCommand LoadConfigCommand
         {
-            get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(_DataIO.LoadConfig)); }
+            get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(() => UseDataIO(IOType.Load))); }
         }
 
         /// <summary>
@@ -214,7 +182,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public RelayCommand SaveConfigCommand
         {
-            get { return _SaveConfigCommand ?? (_SaveConfigCommand = new RelayCommand(() => _DataIO.SaveConfig(Datas))); }
+            get { return _SaveConfigCommand ?? (_SaveConfigCommand = new RelayCommand(() => UseDataIO(IOType.Save))); }
         }
 
         /// <summary>
@@ -236,14 +204,12 @@ namespace CodeDoc.ViewModel
 
         public CDDataVM()
         {
-            //_Worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => Progress = e.ProgressPercentage;
-            //MessengerInstance.Register<NotificationMessage>(this, x => DataFolder = x.Notification);
-
-
             //Get the data from _DataIO
             MessengerInstance.Register<GenericMessage<ObservableCollection<CDFolder>>>(this, x => Datas = x.Content);
 
-            //ShowSelectedItemPath = Properties.Settings.Default.ShowSelectedItemPath;
+            //Set the status panel when it's closing
+            MessengerInstance.Register<CDClosePanelMessage>(this, x => SetStatusPanel());
+
             InitializeData();
         }
 
@@ -265,7 +231,7 @@ namespace CodeDoc.ViewModel
                 DataFolder = CDConstants.AppDataFolder;
 
             if (File.Exists(_DataIO.DataFile))
-                _DataIO.LoadConfig();
+                _DataIO.LoadDatas();
             else
                 MessengerInstance.Send(new CDStatusMessage(CDConstants.DataNotFind, true, false));
         }
@@ -277,10 +243,8 @@ namespace CodeDoc.ViewModel
         private void SetDataFolder()
         {
             if (_Browser.GetFolder(CDConstants.AppDataFolder) is string selectedFolder)
-                //MessengerInstance.Send(new NotificationMessage(selectedFolder));
                 DataFolder = selectedFolder;
         }
-
 
 
         /// <summary>
@@ -293,178 +257,8 @@ namespace CodeDoc.ViewModel
         }
 
 
-
-
-
         /// <summary>
-        /// Reset and show the progressbar
-        /// Display the loading data status
-        /// </summary>
-        //private void SetUpConfig(string status)
-        //{
-        //    Progress = 0;
-        //    MessengerInstance.Send(new CDStatusMessage(status, false, false));
-        //    Cursor = Cursors.Wait;
-        //    ProgressBarVisibility = Visibility.Visible;
-        //}
-
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //private void LoadConfig()
-        //{
-        //    SetUpConfig(CDConstants.LoadingData);
-        //    _Worker.DoWork += LoadConfigWorker;
-        //    _Worker.RunWorkerCompleted += LoadConfigCompleted;
-        //    _Worker.RunWorkerAsync();
-        //}
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="worker"></param>
-        /// <returns></returns>
-        //public void LoadConfigWorker(object sender, DoWorkEventArgs e)
-        //{
-        //    ObservableCollection<CDFolder> folders = new ObservableCollection<CDFolder>();
-        //    XDocument doc = XDocument.Load(_DataFile);
-        //    _ItemCount = doc.Root.Descendants().Count();
-
-        //    doc.Root.Elements().ForEach(x => folders.Add((CDFolder)LoadItem((XElement)x)));
-        //    e.Result = folders;
-        //}
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        //private ICDItem LoadItem(XElement node)
-        //{
-        //    _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
-
-        //    string path = CDMaxPath.GetPath(node.Attribute("Path").Value);
-        //    string text = node.Attribute("Text").Value;
-        //    ICDItem item = null;
-        //    if (node.Name == "Folder")
-        //    {
-        //        ObservableCollection<ICDItem> scripts = new ObservableCollection<ICDItem>();
-        //        node.Elements().ForEach(x => scripts.Add((CDScript)LoadItem((XElement)x)));
-        //        item = new CDFolder(path, text, scripts);
-        //    }
-        //    if (node.Name == "Script")
-        //    {
-        //        item = new CDScript(path, text);
-        //    }
-        //    return item;
-        //}
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void LoadConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    Datas = e.Result as ObservableCollection<CDFolder>;
-        //    MessengerInstance.Send(new CDStatusMessage(CDConstants.DataLoaded, true, true));
-        //    Cursor = Cursors.Arrow;
-        //    _Worker.DoWork -= LoadConfigWorker;
-        //    _Worker.RunWorkerCompleted -= LoadConfigCompleted;
-        //}
-
-
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //private void SaveConfig()
-        //{
-        //    SetUpConfig(CDConstants.SavingData);
-        //    _Worker.DoWork += SaveConfigWork;
-        //    _Worker.RunWorkerCompleted += SaveConfigCompleted;
-        //    _Worker.RunWorkerAsync();
-        //}
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void SaveConfigWork(object sender, DoWorkEventArgs e)
-        //{
-        //    _ItemCount = 0;
-        //    Datas.ForEach(x => _ItemCount += ((CDFolder)x).Children.Count + 1);
-
-        //    _Writer = new XmlTextWriter(_DataFile, Encoding.UTF8);
-        //    //writer = new XmlTextWriter(Console.Out);
-        //    _Writer.Formatting = Formatting.Indented;
-        //    _Writer.Indentation = 4;
-
-        //    _Writer.WriteStartDocument();
-        //    _Writer.WriteStartElement("CodeDocConfig");
-
-        //    Datas.ForEach(x => SaveItem((ICDItem)x));
-
-        //    _Writer.WriteEndElement();
-        //    _Writer.WriteEndDocument();
-        //    _Writer.Flush();
-        //    _Writer.Close();
-        //}
-
-
-        /// <summary>
-        /// Save a Data item as xml node and report progress
-        /// </summary>
-        /// <param name="_item"></param>
-        /// <param name="worker"></param>
-        //private void SaveItem(ICDItem _item)
-        //{
-        //    _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
-
-        //    if (_item is CDFile item)
-        //    {
-        //        _Writer.WriteStartElement(item.Type.ToString());
-        //        _Writer.WriteAttributeString("Path", item.RelativePath);
-        //        _Writer.WriteAttributeString("Text", item.Text);
-
-        //        item.Children.ForEach(x => SaveItem((ICDItem)x));
-
-        //        _Writer.WriteEndElement();
-        //    }
-        //    else
-        //    {
-        //        _Writer.WriteString(_item.Type.ToString());
-        //    }
-        //}
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void SaveConfigCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    MessengerInstance.Send(new CDStatusMessage(CDConstants.DataSaved, true, true));
-        //    Cursor = Cursors.Arrow;
-        //    _Worker.DoWork -= SaveConfigWork;
-        //    _Worker.RunWorkerCompleted -= SaveConfigCompleted;
-        //}
-
-
-
-        /// <summary>
-        /// 
+        /// Set status panel depending of selected item
         /// </summary>
         private void SetStatusPanel()
         {
@@ -486,6 +280,25 @@ namespace CodeDoc.ViewModel
                 }
             }
         } 
+
+
+        /// <summary>
+        /// Load or save datas
+        /// </summary>
+        /// <param name="type"></param>
+        private void UseDataIO(IOType type)
+        {
+            DataPathFieldVisibility = Visibility.Collapsed;
+            switch (type)
+            {
+                case IOType.Load:
+                    _DataIO.LoadDatas();
+                    break;
+                case IOType.Save:
+                    _DataIO.SaveDatas(Datas);
+                    break;
+            }
+        }
 
 
         #endregion Methods

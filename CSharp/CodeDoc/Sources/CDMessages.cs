@@ -29,4 +29,7 @@ namespace CodeDoc.Src
             ShowProgressBar = showProgressBar;
         }
     }
+
+
+    public class CDClosePanelMessage : MessageBase { }
 }

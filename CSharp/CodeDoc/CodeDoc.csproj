@@ -82,6 +82,7 @@
     <Compile Include="Controls\EditableTreeView.xaml.cs">
       <DependentUpon>EditableTreeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SgzYesNoButton.cs" />
     <Compile Include="Controls\SgzSlidingDockPanel.cs" />
     <Compile Include="Model\CDBrowser.cs" />
     <Compile Include="Model\CDFile.cs" />
@@ -89,15 +90,18 @@
     <Compile Include="Model\CDFunction.cs" />
     <Compile Include="Model\CDScript.cs" />
     <Compile Include="Model\ICDItem.cs" />
-    <Compile Include="Sources\CDConfig.cs" />
     <Compile Include="Sources\CDConstants.cs" />
     <Compile Include="Sources\CDDataIO.cs" />
-    <Compile Include="Sources\CDStatusMessage.cs" />
+    <Compile Include="Sources\CDMessages.cs" />
     <Compile Include="Sources\CDMaxPath.cs" />
     <Compile Include="ViewModel\CDDataVM.cs" />
     <Compile Include="ViewModel\CDMainVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Controls\EditableTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SgzYesNoButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -30,9 +30,10 @@ namespace CodeDoc.ViewModel
         
         private string _DataFolder;
         private ObservableCollection<CDFolder> _Datas = new ObservableCollection<CDFolder>();
+        private bool _ShowSelectedItemPath;
         private ICDItem _TVSelectedItem;
         private string _DataPathField;
-        private bool _DataPathFieldIsOpen = false;
+        private Visibility _DataPathFieldVisibility = Visibility.Collapsed;
         private Cursor _Cursor = Cursors.Arrow;
         private int _Progress = 0;
 
@@ -87,6 +88,25 @@ namespace CodeDoc.ViewModel
             set { Set(ref _Datas, value); }
         }
 
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool ShowSelectedItemPath
+        {
+            get { return _ShowSelectedItemPath; }
+            set
+            {
+                Set(ref _ShowSelectedItemPath, value);
+                Properties.Settings.Default.ShowSelectedItemPath = value;
+                Properties.Settings.Default.Save();
+                SetStatusPanel();
+            }
+        }
+
+
+        //TODO: merge with SetStatusPanel method
         /// <summary>
         /// 
         /// </summary>
@@ -96,24 +116,25 @@ namespace CodeDoc.ViewModel
             set
             {
                 _TVSelectedItem = value;
-                if (_TVSelectedItem is CDFile selectedItem)
-                {
-                    if (selectedItem.IsValidPath)
-                    {
-                        //DataPathFieldVisibility = Visibility.Collapsed;
-                        DataPathFieldIsOpen = false;
-                        MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
-                    }
-                    else
-                    {
-                        //DataPathFieldVisibility = Visibility.Visible;
-                        DataPathFieldIsOpen = true;
-                        DataPathField = selectedItem.Path;
-                        MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
-                    }
-                }
+                SetStatusPanel();
+                //if (_TVSelectedItem is CDFile selectedItem)
+                //{
+                //    if (selectedItem.IsValidPath)
+                //    {
+                //        DataPathFieldVisibility = Visibility.Collapsed;
+                //        if (ShowSelectedItemPath)
+                //            MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
+                //    }
+                //    else
+                //    {
+                //        DataPathFieldVisibility = Visibility.Visible;
+                //        DataPathField = selectedItem.Path;
+                //        MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
+                //    }
+                //}
             }
         }
+
 
         /// <summary>
         /// 
@@ -142,18 +163,19 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public Visibility ProgressBarVisibility
         {
-            set { MessengerInstance.Send(new GenericMessage<Visibility>(value)); }
+            set => MessengerInstance.Send(new GenericMessage<Visibility>(value));
         }
 
-
+        
         /// <summary>
         /// 
         /// </summary>
-        public bool DataPathFieldIsOpen
+        public Visibility DataPathFieldVisibility
         {
-            get { return _DataPathFieldIsOpen; }
-            set { Set(ref _DataPathFieldIsOpen, value); }
+            get { return _DataPathFieldVisibility; }
+            set { Set(ref _DataPathFieldVisibility, value); }
         }
+
 
 
         /// <summary>
@@ -213,7 +235,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public RelayCommand ValidateDataPathCommand
         {
-            get { return _ValidateDataPathCommand ?? (_ValidateDataPathCommand = new RelayCommand(ValidatePath, () => _CanValidateDataPath)); }
+            get { return _ValidateDataPathCommand ?? (_ValidateDataPathCommand = new RelayCommand(SetStatusPanel, () => _CanValidateDataPath)); }
         }
 
 
@@ -245,6 +267,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void InitializeData()
         {
+            ShowSelectedItemPath = Properties.Settings.Default.ShowSelectedItemPath;
             DataFolder = Properties.Settings.Default.DataFolder;
             if (DataFolder == string.Empty)
                 DataFolder = CDConstants.AppDataFolder;
@@ -450,11 +473,31 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
-        private void ValidatePath()
+        private void SetStatusPanel()
         {
-            DataPathFieldIsOpen = false;
+            //DataPathFieldVisibility = Visibility.Collapsed;
+            //if (ShowSelectedItemPath && _TVSelectedItem is CDFile selectedItem)
+            //    MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
+            //else
+            //    MessengerInstance.Send(new CDStatusMessage(false));
+
             if (_TVSelectedItem is CDFile selectedItem)
-                MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
+            {
+                if (selectedItem.IsValidPath)
+                {
+                    DataPathFieldVisibility = Visibility.Collapsed;
+                    if (ShowSelectedItemPath)
+                        MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
+                    else
+                        MessengerInstance.Send(new CDStatusMessage(false));
+                }
+                else
+                {
+                    DataPathFieldVisibility = Visibility.Visible;
+                    DataPathField = selectedItem.Path;
+                    MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
+                }
+            }
         } 
 
 

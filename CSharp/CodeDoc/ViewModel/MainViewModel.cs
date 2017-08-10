@@ -30,9 +30,10 @@ namespace CodeDoc.ViewModel
         #region Fields
 
 
+        private bool _StatusPanelIsOpen;
         private Visibility _ProgressBarVisibility = Visibility.Collapsed;
-        private bool _ShowOptionPanel = true;
-        private Timer _Timer = new Timer() { Interval = 5000, AutoReset = false };
+        private bool _ShowOptionPanel = false;
+        private Timer _Timer = new Timer() { Interval = 3000, AutoReset = false };
         private string _Status = string.Empty;
 
         private RelayCommand _ApplyDefaultsCommand;
@@ -43,6 +44,17 @@ namespace CodeDoc.ViewModel
 
 
         #region Properties
+
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool StatusPanelIsOpen
+        {
+            get { return _StatusPanelIsOpen; }
+            set { Set(ref _StatusPanelIsOpen, value); }
+        }
 
 
         /// <summary>
@@ -86,13 +98,9 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public RelayCommand ShowOptionPanelCommand
         {
-            get { return _ShowOptionPanelCommand ?? (_ShowOptionPanelCommand = new RelayCommand(test)); }
+            get { return _ShowOptionPanelCommand ?? (_ShowOptionPanelCommand = new RelayCommand(() => ShowOptionPanel = !ShowOptionPanel)); }
         }
 
-        private void test()
-        {
-            ShowOptionPanel = !ShowOptionPanel;
-        }
 
 
 
@@ -109,7 +117,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            MessengerInstance.Register<CDStatusMessage>(this, x => DisplaySatus(x.Status, x.UseTimer, x.ShowProgressBar));
+            MessengerInstance.Register<CDStatusMessage>(this, x => DisplaySatus(x.ShowPanel, x.Status, x.UseTimer, x.ShowProgressBar));
             MessengerInstance.Register<GenericMessage<Visibility>>(this, x => ProgressBarVisibility = x.Content);
         }
 
@@ -132,11 +140,19 @@ namespace CodeDoc.ViewModel
         /// Set the UI status message for 5 seconds
         /// </summary>
         /// <param name="status"></param>
-        private void DisplaySatus(string status, bool useTimer = false, bool showProgressBar = false)
+        private void DisplaySatus(bool showPanel, string status, bool useTimer = false, bool showProgressBar = false)
         {
             _Timer.Stop();
 
+            if (!showPanel)
+            {
+                StatusPanelIsOpen = false;
+                return;
+            }
+                
             Status = status;
+            StatusPanelIsOpen = true;
+
             if (!showProgressBar)
                 ProgressBarVisibility = Visibility.Collapsed;
 
@@ -144,6 +160,7 @@ namespace CodeDoc.ViewModel
             {
                 _Timer.Elapsed += (s, ev) =>
                 {
+                    StatusPanelIsOpen = false;
                     ProgressBarVisibility = Visibility.Collapsed;
                     Status = string.Empty;
                 };

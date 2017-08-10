@@ -99,11 +99,11 @@
                       Template="{DynamicResource GridSplitterTemplate}" />
 
         <!-- Options Panel -->
-        <Border Grid.Column="1"
-                Grid.ColumnSpan="3"
-                Background="{DynamicResource DarkPanelColor}"
+        <Border Background="{DynamicResource DarkPanelColor}"
                 BorderBrush="{DynamicResource MaxRolloutBorder}"
                 BorderThickness="1,0,0,0"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
                 HorizontalAlignment="Left">
             <local:SgzSlidingDockPanel ShowButton="False"
                                        IsOpen="{Binding ShowOptionPanel}"
@@ -117,7 +117,7 @@
                            Foreground="{DynamicResource MaxText}" />
 
                 <!-- Data file location -->
-                <DockPanel Margin="10, 0, 0, 5"
+                <DockPanel Margin="10, 0, 0, 10"
                            VerticalAlignment="Top"
                            DockPanel.Dock="Top">
                     <TextBlock Text="Data file location:"
@@ -137,16 +137,17 @@
 
                 </DockPanel>
 
+                <!-- Show Selected Item Path -->
                 <sgz:SgzCheckBox Content="Show treeview selected item path"
-                                 VerticalAlignment="Top"
-                                 Spacing="10"
-                                 Margin="10,5,10,0"
+                                 IsChecked="{Binding Data.ShowSelectedItemPath, Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 IsSwitch="True"
+                                 BorderThickness="0"
+                                 CheckedBrush="{DynamicResource MaxBlue}"
+                                 Height="13"
                                  HorizontalContentAlignment="Right"
-                                 CheckedBrush="{DynamicResource MaxText}"
-                                 IsChecked="True"
-                                 Height="16"
-                                 IsToggle="True"
-                                 CornerRadius="8" />
+                                 Spacing="10"
+                                 Margin="10,10,10,0"
+                                 VerticalAlignment="Top" />
 
                 <!-- Defaults / Apply -->
                 <DockPanel DockPanel.Dock="Bottom"
@@ -169,33 +170,7 @@
             </local:SgzSlidingDockPanel>
         </Border>
 
-        <!-- Status Panel -->
-        <!--<Border BorderBrush="{DynamicResource MaxRolloutBorder}"
-                BorderThickness="0,1,0,0"
-                Grid.ColumnSpan="4"
-                Grid.Row="1">
-            <Grid>
-                -->
-        <!-- Status -->
-        <!--<DockPanel  Margin="5,0">
-                    <TextBlock Text="{Binding Status, Mode=OneWay}"
-                               Foreground="{DynamicResource MaxText}"
-                               VerticalAlignment="Center"
-                               Margin="0,0,10,0"
-                               MinWidth="175" />
-                    <sgz:SgzProgressBar x:Name="progressBar"
-                                        Grid.Row="1"
-                                        Grid.ColumnSpan="4"
-                                        Value="{Binding Data.Progress, Source={StaticResource Locator}}"
-                                        Height="10"
-                                        Visibility="{Binding ProgressBarVisibility}" />
-                </DockPanel>-->
-        <!--
-
-            </Grid>
-        </Border>-->
-
-        <!-- Data path field -->
+        <!-- Bottom panel -->
         <Border Background="{DynamicResource DarkPanelColor}"
                 BorderBrush="{DynamicResource MaxRolloutBorder}"
                 BorderThickness="0,1,0,0"
@@ -206,12 +181,34 @@
                                        OpenSize="30"
                                        AnimationType="Height"
                                        Height="0"
-                                       IsOpen="{Binding Data.DataPathFieldIsOpen, Source={StaticResource Locator}}"
+                                       IsOpen="{Binding StatusPanelIsOpen}"
                                        ShowButton="False">
-                <sgz:SgzIcon Command="{Binding Data.ValidateDataPathCommand, Mode=OneWay, Source={StaticResource Locator}}"
-                             Style="{DynamicResource ValidatePathButtonStyle}" />
-                <sgz:SgzTextBox Text="{Binding Data.DataPathField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Locator}, ValidatesOnDataErrors=True}"
-                                Style="{DynamicResource ValidatePathTextBoxStyle}" />
+                <Grid>
+                    <!-- Data path field -->
+                    <DockPanel Visibility="{Binding Data.DataPathFieldVisibility, Source={StaticResource Locator}}">
+                        <sgz:SgzIcon Command="{Binding Data.ValidateDataPathCommand, Mode=OneWay, Source={StaticResource Locator}}"
+                                     Style="{DynamicResource ValidatePathButtonStyle}" />
+                        <sgz:SgzTextBox Text="{Binding Data.DataPathField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Locator}, ValidatesOnDataErrors=True}"
+                                        Style="{DynamicResource ValidatePathTextBoxStyle}" />
+                    </DockPanel>
+
+                    <!-- Status -->
+                    <DockPanel Margin="5,0">
+                        <TextBlock Text="{Binding Status}"
+                                   Foreground="{DynamicResource MaxText}"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"
+                                   MinWidth="175" />
+                        <sgz:SgzProgressBar x:Name="progressBar"
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="4"
+                                            Value="{Binding Data.Progress, Source={StaticResource Locator}}"
+                                            Height="10"
+                                            Visibility="{Binding ProgressBarVisibility}" />
+                    </DockPanel>
+                </Grid>
+                
+                
             </local:SgzSlidingDockPanel>
         </Border>
     </Grid>

@@ -34,5 +34,17 @@ namespace CodeDoc.Properties {
                 this["DataFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowSelectedItemPath {
+            get {
+                return ((bool)(this["ShowSelectedItemPath"]));
+            }
+            set {
+                this["ShowSelectedItemPath"] = value;
+            }
+        }
     }
 }

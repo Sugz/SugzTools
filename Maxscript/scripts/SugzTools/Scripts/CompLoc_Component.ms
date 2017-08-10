@@ -53,6 +53,7 @@ try(destroyDialog _cl.CLView) catch()
 
 struct TempRelativesStc
 (
+	canPast = false,
 	hotspot,
 	fov,
 	hidden,
@@ -1282,6 +1283,7 @@ struct CompLocComponentStc
 		(
 			if _cl.sceneComponents.count != 0 then 
 			(
+				tempRelatives.canPast = true
 				component = getNodeByName sceneComponentsLbx.selected
 				tempRelatives.hotspot = hotspotDdl.selected
 				tempRelatives.fov = component.fov
@@ -1296,7 +1298,7 @@ struct CompLocComponentStc
 		/* Paste relatives to selected object  ***************************************************************************************************************************************************************/
 		on pasteBtn pressed do 
 		(
-			if _cl.sceneComponents.count != 0 then 
+			if _cl.sceneComponents.count != 0 AND tempRelatives.canPast then 
 			(
 				component = getNodeByName sceneComponentsLbx.selected
 				component.hotspot.pos = _sgz._extMxs.GetHashTableValue (_cl.hotspotHT) (tempRelatives.hotspot)

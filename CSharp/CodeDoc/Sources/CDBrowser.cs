@@ -4,12 +4,20 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace CodeDoc.Model
+namespace CodeDoc.Src
 {
     public class CDBrowser
     {
 
         private CommonOpenFileDialog _OpenFileDialog;
+
+
+        public string GetFile(string initialPath = null)
+        {
+            if (GetResult(false, initialPath) is string file && File.Exists(file))
+                return file;
+            return null;
+        }
 
 
         /// <summary>
@@ -18,10 +26,17 @@ namespace CodeDoc.Model
         /// <returns></returns>
         public string GetFolder(string initialPath = null)
         {
-            DefineOpenFileDialog(initialPath);
+            if (GetResult(false, initialPath) is string folder && Directory.Exists(folder))
+                return folder;
+            return null;
+        }
+
+        private string GetResult(bool isFolderPicker, string initialPath)
+        {
+            DefineOpenFileDialog(isFolderPicker, initialPath);
 
             CommonFileDialogResult result = _OpenFileDialog.ShowDialog();
-            if (result == CommonFileDialogResult.Ok && Directory.Exists(_OpenFileDialog.FileName))
+            if (result == CommonFileDialogResult.Ok)
                 return _OpenFileDialog.FileName;
             return null;
         }
@@ -30,12 +45,12 @@ namespace CodeDoc.Model
         /// <summary>
         /// 
         /// </summary>
-        private void DefineOpenFileDialog(string initialPath)
+        private void DefineOpenFileDialog(bool isFolderPicker, string initialPath)
         {
             if (_OpenFileDialog is null)
             {
                 _OpenFileDialog = new CommonOpenFileDialog();
-                _OpenFileDialog.IsFolderPicker = true;
+                _OpenFileDialog.IsFolderPicker = isFolderPicker;
                 _OpenFileDialog.InitialDirectory = initialPath;
                 foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
                 {

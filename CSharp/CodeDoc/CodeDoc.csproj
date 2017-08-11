@@ -84,12 +84,12 @@
     </Compile>
     <Compile Include="Controls\SgzYesNoButton.cs" />
     <Compile Include="Controls\SgzSlidingDockPanel.cs" />
-    <Compile Include="Model\CDBrowser.cs" />
-    <Compile Include="Model\CDFile.cs" />
+    <Compile Include="Sources\CDBrowser.cs" />
+    <Compile Include="Model\CDFileItem.cs" />
     <Compile Include="Model\CDFolder.cs" />
     <Compile Include="Model\CDFunction.cs" />
     <Compile Include="Model\CDScript.cs" />
-    <Compile Include="Model\ICDItem.cs" />
+    <Compile Include="Model\CDDataItem.cs" />
     <Compile Include="Sources\CDConstants.cs" />
     <Compile Include="Sources\CDDataIO.cs" />
     <Compile Include="Sources\CDMessages.cs" />

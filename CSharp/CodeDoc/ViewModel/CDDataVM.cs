@@ -19,27 +19,30 @@ namespace CodeDoc.ViewModel
 {
     public class CDDataVM : ViewModelBase, IDataErrorInfo
     {
-        enum IOType
-        {
-            Load,
-            Save
-        }
+        
 
         #region Fields
 
         private CDDataIO _DataIO = new CDDataIO();
+        private enum IOType
+        {
+            Load,
+            Save
+        }
         private CDBrowser _Browser = new CDBrowser();
 
         private string _DataFolder;
-        private ObservableCollection<CDFolder> _Datas = new ObservableCollection<CDFolder>();
+        private ObservableCollection<CDFileItem> _Datas = new ObservableCollection<CDFileItem>();
         private bool _ShowSelectedItemPath;
-        private ICDItem _TVSelectedItem;
+        private CDDataItem _TVSelectedItem;
         private bool _CanValidateDataPath = false;
         private string _DataPathField;
+        private bool _CanShowDataPathField = true;
         private Visibility _DataPathFieldVisibility = Visibility.Collapsed;
 
         private RelayCommand _SetDataFolderCommand;
         private RelayCommand _AddFolderCommand;
+        private RelayCommand _AddFileCommand;
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
         private RelayCommand _ValidateDataPathCommand;
@@ -83,7 +86,7 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// The collection of CDFolders that will be displayed in the treeview
         /// </summary>
-        public ObservableCollection<CDFolder> Datas
+        public ObservableCollection<CDFileItem> Datas
         {
             get { return _Datas; }
             set { Set(ref _Datas, value); }
@@ -110,7 +113,7 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
-        public ICDItem TVSelectedItem
+        public CDDataItem TVSelectedItem
         {
             get { return _TVSelectedItem; }
             set
@@ -130,7 +133,7 @@ namespace CodeDoc.ViewModel
             set
             {
                 _CanValidateDataPath = false;
-                if (TVSelectedItem is CDFile selectedItem)
+                if (TVSelectedItem is CDFileItem selectedItem)
                 {
                     Set(ref _DataPathField, value);
                     selectedItem.Path = value;
@@ -172,6 +175,14 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// 
         /// </summary>
+        public RelayCommand AddFileCommand
+        {
+            get { return _AddFileCommand ?? (_AddFileCommand = new RelayCommand(AddFile)); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public RelayCommand LoadConfigCommand
         {
             get { return _LoadConfigCommand ?? (_LoadConfigCommand = new RelayCommand(() => UseDataIO(IOType.Load))); }
@@ -204,14 +215,23 @@ namespace CodeDoc.ViewModel
 
         public CDDataVM()
         {
+            // Get selected treeview item
+            MessengerInstance.Register<CDSelectedItemMessage>(this, x => TVSelectedItem = x.Sender);
+
             //Get the data from _DataIO
-            MessengerInstance.Register<GenericMessage<ObservableCollection<CDFolder>>>(this, x => Datas = x.Content);
+            MessengerInstance.Register<GenericMessage<ObservableCollection<CDFileItem>>>(this, x => Datas = x.Content);
 
             //Set the status panel when it's closing
-            MessengerInstance.Register<CDClosePanelMessage>(this, x => SetStatusPanel());
+            MessengerInstance.Register<CDStatusPanelMessage>(this, x =>
+            {
+                _CanShowDataPathField = !x.IsDisplayingStatus;
+                SetStatusPanel();
+            });
+            
 
             InitializeData();
         }
+
 
 
         #endregion Constructor
@@ -258,11 +278,21 @@ namespace CodeDoc.ViewModel
 
 
         /// <summary>
+        /// Let the user choose a file to add to the folders list if it doesn't exist already
+        /// </summary>
+        private void AddFile()
+        {
+            if (_Browser.GetFile() is string selectedFile && !Datas.Any(x => x.Path.Equals(selectedFile)))
+                Datas.Add(new CDScript(selectedFile));
+        }
+
+
+        /// <summary>
         /// Set status panel depending of selected item
         /// </summary>
         private void SetStatusPanel()
         {
-            if (_TVSelectedItem is CDFile selectedItem)
+            if (_TVSelectedItem is CDFileItem selectedItem)
             {
                 if (selectedItem.IsValidPath)
                 {
@@ -272,7 +302,7 @@ namespace CodeDoc.ViewModel
                     else
                         MessengerInstance.Send(new CDStatusMessage(false));
                 }
-                else
+                else if (_CanShowDataPathField)
                 {
                     DataPathFieldVisibility = Visibility.Visible;
                     DataPathField = selectedItem.Path;
@@ -293,6 +323,7 @@ namespace CodeDoc.ViewModel
             {
                 case IOType.Load:
                     _DataIO.LoadDatas();
+                    TVSelectedItem = null;
                     break;
                 case IOType.Save:
                     _DataIO.SaveDatas(Datas);

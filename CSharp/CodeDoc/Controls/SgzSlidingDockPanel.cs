@@ -29,9 +29,6 @@ namespace CodeDoc.Controls
 
         private SgzIcon _OpenCloseBtn = new SgzIcon();
         private RotateTransform _RotateTransform = new RotateTransform();
-        private double _CloseSize;
-        private double _OpenSize;
-        Timer _Timer = new Timer();
 
         #endregion Fields
 
@@ -147,7 +144,7 @@ namespace CodeDoc.Controls
                 _OpenCloseBtn.Width = 30;
                 _OpenCloseBtn.Height = 30;
                 _OpenCloseBtn.Margin = new Thickness(0, 0, 10, 0);
-                _OpenCloseBtn.Padding = new Thickness(9);
+                _OpenCloseBtn.Padding = new Thickness(8);
                 _OpenCloseBtn.Foreground = new SolidColorBrush(Color.FromRgb(150, 150, 150));
                 _OpenCloseBtn.HoverBrush = new SolidColorBrush(Colors.White);
                 _OpenCloseBtn.PressedBrush = new SolidColorBrush(Colors.White);
@@ -174,11 +171,12 @@ namespace CodeDoc.Controls
             if (AnimationType == AnimationType.Height)
                 _RotateTransform.Angle = -90;
 
+            //BackEase easing = new BackEase() { EasingMode = EasingMode.EaseIn };
             DoubleAnimation rotateAnimation;
             if (IsOpen)
-                rotateAnimation = new DoubleAnimation(0, -180, TimeSpan.FromMilliseconds(AnimationDuration));
+                rotateAnimation = new DoubleAnimation(0, -180, TimeSpan.FromMilliseconds(AnimationDuration));// { EasingFunction = easing };
             else
-                rotateAnimation = new DoubleAnimation(-180, 0, TimeSpan.FromMilliseconds(AnimationDuration));
+                rotateAnimation = new DoubleAnimation(-180, 0, TimeSpan.FromMilliseconds(AnimationDuration));// { EasingFunction = easing };
 
             _RotateTransform.BeginAnimation(RotateTransform.AngleProperty, rotateAnimation);
         }

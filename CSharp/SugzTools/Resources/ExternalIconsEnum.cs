@@ -668,6 +668,7 @@ namespace SugzTools.Icons
 		MdiFileExcelBox,
 		MdiFileExcel,
 		MdiFileExport,
+        MdiFilePlus,
 		MdiFileFind,
 		MdiFileHidden,
 		MdiFileImageBox,

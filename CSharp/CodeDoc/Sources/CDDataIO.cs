@@ -25,7 +25,7 @@ namespace CodeDoc.Src
         private int _ItemCount = 0;
         private BackgroundWorker _Worker = new BackgroundWorker() { WorkerReportsProgress = true };
         private XmlTextWriter _Writer;
-        ObservableCollection<CDFolder> _Datas;
+        ObservableCollection<CDFileItem> _Datas;
 
         #endregion Fields
 
@@ -107,12 +107,12 @@ namespace CodeDoc.Src
         /// <returns></returns>
         public void LoadDatasWorker(object sender, DoWorkEventArgs e)
         {
-            ObservableCollection<CDFolder> folders = new ObservableCollection<CDFolder>();
+            ObservableCollection<CDFileItem> items = new ObservableCollection<CDFileItem>();
             XDocument doc = XDocument.Load(_DataFile);
             _ItemCount = doc.Root.Descendants().Count();
 
-            doc.Root.Elements().ForEach(x => folders.Add((CDFolder)LoadItem((XElement)x)));
-            e.Result = folders;
+            doc.Root.Elements().ForEach(x => items.Add((CDFileItem)LoadItem((XElement)x)));
+            e.Result = items;
         }
 
 
@@ -121,18 +121,18 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private ICDItem LoadItem(XElement node)
+        private CDDataItem LoadItem(XElement node)
         {
-            //Thread.Sleep(100);
+            Thread.Sleep(100);
 
             _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 
             string path = CDMaxPath.GetPath(node.Attribute("Path").Value);
             string text = node.Attribute("Text").Value;
-            ICDItem item = null;
+            CDDataItem item = null;
             if (node.Name == "Folder")
             {
-                ObservableCollection<ICDItem> scripts = new ObservableCollection<ICDItem>();
+                ObservableCollection<CDDataItem> scripts = new ObservableCollection<CDDataItem>();
                 node.Elements().ForEach(x => scripts.Add((CDScript)LoadItem((XElement)x)));
                 item = new CDFolder(path, text, scripts);
             }
@@ -151,7 +151,8 @@ namespace CodeDoc.Src
         /// <param name="e"></param>
         private void LoadDatasCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessengerInstance.Send(new GenericMessage<ObservableCollection<CDFolder>>(e.Result as ObservableCollection<CDFolder>));
+            MessengerInstance.Send(new GenericMessage<ObservableCollection<CDFileItem>>(e.Result as ObservableCollection<CDFileItem>));
+            MessengerInstance.Send(new CDStatusPanelMessage(true));
             MessengerInstance.Send(new CDStatusMessage(CDConstants.DataLoaded, true, true));
             Cursor = Cursors.Arrow;
             _Worker.DoWork -= LoadDatasWorker;
@@ -169,7 +170,7 @@ namespace CodeDoc.Src
         /// <summary>
         /// 
         /// </summary>
-        public void SaveDatas(ObservableCollection<CDFolder> datas)
+        public void SaveDatas(ObservableCollection<CDFileItem> datas)
         {
             _Datas = datas;
             SetUpDataIO(CDConstants.SavingData);
@@ -187,7 +188,7 @@ namespace CodeDoc.Src
         private void SaveDatasWork(object sender, DoWorkEventArgs e)
         {
             _ItemCount = 0;
-            _Datas.ForEach(x => _ItemCount += ((CDFolder)x).Children.Count + 1);
+            _Datas.ForEach(x => _ItemCount += ((CDFileItem)x).Children.Count + 1);
 
             _Writer = new XmlTextWriter(_DataFile, Encoding.UTF8);
             _Writer.Formatting = Formatting.Indented;
@@ -196,7 +197,7 @@ namespace CodeDoc.Src
             _Writer.WriteStartDocument();
             _Writer.WriteStartElement("CodeDocConfig");
 
-            _Datas.ForEach(x => SaveItem((ICDItem)x));
+            _Datas.ForEach(x => SaveItem((CDDataItem)x));
 
             _Writer.WriteEndElement();
             _Writer.WriteEndDocument();
@@ -210,19 +211,19 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="_item"></param>
         /// <param name="worker"></param>
-        private void SaveItem(ICDItem _item)
+        private void SaveItem(CDDataItem _item)
         {
             //Thread.Sleep(100);
 
             _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 
-            if (_item is CDFile item)
+            if (_item is CDFileItem item)
             {
                 _Writer.WriteStartElement(item.Type.ToString());
                 _Writer.WriteAttributeString("Path", item.RelativePath);
                 _Writer.WriteAttributeString("Text", item.Text);
 
-                item.Children.ForEach(x => SaveItem((ICDItem)x));
+                item.Children.ForEach(x => SaveItem((CDDataItem)x));
 
                 _Writer.WriteEndElement();
             }

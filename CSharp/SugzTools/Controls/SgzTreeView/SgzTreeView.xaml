@@ -266,13 +266,13 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
                         <ScrollViewer x:Name="TV_ScrollViewer"
-                                        Background="{TemplateBinding Background}"
-                                        CanContentScroll="false"
-                                        Focusable="false"
-                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                        Padding="{TemplateBinding Padding}"
-                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                      Background="{TemplateBinding Background}"
+                                      CanContentScroll="false"
+                                      Focusable="false"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      Padding="{TemplateBinding Padding}"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
@@ -303,5 +303,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    
 
 </ResourceDictionary>

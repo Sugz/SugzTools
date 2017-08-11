@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace CodeDoc.Model
 {
-    public class CDScript : CDFile
+    public class CDScript : CDFileItem
     {
         public CDScript(string path) : this(path, null, null) { }
         public CDScript(string path, string text) : this(path, text, null) { }
-        public CDScript(string path, string text, ObservableCollection<ICDItem> children) : base(path, text, children)
+        public CDScript(string path, string text, ObservableCollection<CDDataItem> children) : base(path, text, children)
         {
-            Type = CDItemType.Script;
+            Type = CDDataItemType.Script;
         }
 
 
@@ -27,10 +27,10 @@ namespace CodeDoc.Model
             return System.IO.Path.GetFileNameWithoutExtension(Path);
         }
 
-        protected override ObservableCollection<ICDItem> GetChildren()
+        protected override ObservableCollection<CDDataItem> GetChildren()
         {
             //TODO: correct implementation
-            return new ObservableCollection<ICDItem>();
+            return new ObservableCollection<CDDataItem>();
         }
 
         

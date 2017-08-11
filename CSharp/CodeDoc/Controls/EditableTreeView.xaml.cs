@@ -1,6 +1,7 @@
 ﻿// Based on the exemple provided by Yury Vetyukov (Yury.Vetyukov@tuwien.ac.at)
 // https://www.codeproject.com/Articles/893068/WPF-TreeView-with-in-place-editing
 
+using SugzTools.Controls;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -53,19 +54,19 @@ namespace CodeDoc.Controls
         /// 
         /// </summary>
         [Description("")]
-        public new object SelectedItem
-        {
-            get { return GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
-        }
+        //public new object SelectedItem
+        //{
+        //    get { return GetValue(SelectedItemProperty); }
+        //    set { SetValue(SelectedItemProperty, value); }
+        //}
 
-        // DependencyProperty as the backing store for SelectedItem
-        public static readonly new DependencyProperty SelectedItemProperty = DependencyProperty.Register(
-            "SelectedItem",
-            typeof(object),
-            typeof(EditableTreeView),
-            new PropertyMetadata(null, OnSelectedItemChanged)
-        );
+        //// DependencyProperty as the backing store for SelectedItem
+        //public static readonly new DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+        //    "SelectedItem",
+        //    typeof(object),
+        //    typeof(EditableTreeView),
+        //    new PropertyMetadata(null, OnSelectedItemChanged)
+        //);
 
 
         #endregion Properties
@@ -77,13 +78,13 @@ namespace CodeDoc.Controls
         public EditableTreeView()
         {
             InitializeComponent();
-            SelectedItemChanged += EditableTreeView_SelectedItemChanged; ;
+            //SelectedItemChanged += EditableTreeView_SelectedItemChanged; ;
         }
 
-        private void EditableTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            SelectedItem = e.NewValue;
-        }
+        //private void EditableTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //{
+        //    SelectedItem = e.NewValue;
+        //}
 
 
         #endregion Constructor
@@ -112,11 +113,11 @@ namespace CodeDoc.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is TreeViewItem item)
-                item.SetValue(TreeViewItem.IsSelectedProperty, true);
-        }
+        //private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    if (e.NewValue is TreeViewItem item)
+        //        item.SetValue(TreeViewItem.IsSelectedProperty, true);
+        //}
 
 
         /// <summary>

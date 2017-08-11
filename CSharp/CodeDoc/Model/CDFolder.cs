@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace CodeDoc.Model
 {
-    public class CDFolder : CDFile
+    public class CDFolder : CDFileItem
     {
         public CDFolder(string path) : this(path, null, null) { }
         public CDFolder(string path, string text) : this(path, text, null) { }
-        public CDFolder(string path, string text, ObservableCollection<ICDItem> children) : base(path, text, children)
+        public CDFolder(string path, string text, ObservableCollection<CDDataItem> children) : base(path, text, children)
         {
-            Type = CDItemType.Folder;
+            Type = CDDataItemType.Folder;
         }
 
         protected override bool GetIsValidPath()
@@ -27,12 +27,12 @@ namespace CodeDoc.Model
             return System.IO.Path.GetFileName(Path);
         }
 
-        protected override ObservableCollection<ICDItem> GetChildren()
+        protected override ObservableCollection<CDDataItem> GetChildren()
         {
             if (!IsValidPath)
                 return null;
 
-            ObservableCollection<ICDItem> children = new ObservableCollection<ICDItem>();
+            ObservableCollection<CDDataItem> children = new ObservableCollection<CDDataItem>();
             Directory.GetFiles(Path).ToList().ForEach(x => children.Add(new CDScript(x)));
             return children;
         }

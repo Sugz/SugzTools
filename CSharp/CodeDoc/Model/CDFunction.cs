@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace CodeDoc.Model
 {
-    public class CDFunction : ICDItem
+    public class CDFunction : CDDataItem
     {
-        public CDItemType Type { get; set; }
+        public CDDataItemType Type { get; set; }
+        public string Text { get; set; }
 
         public CDFunction()
         {
-            Type = CDItemType.Function;
+            Type = CDDataItemType.Function;
         }
     }
 }

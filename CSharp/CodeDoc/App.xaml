@@ -15,114 +15,137 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
                 <ResourceDictionary Source="/SugzTools;component/Resources/Colors.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Global View Model Locator -->
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
-            
+
             <!-- Dark Panel Color -->
             <SolidColorBrush x:Key="DarkPanelColor" Color="#FF282828" />
-            
+
 
             <!-- GridSplitterTemplate -->
-            <LinearGradientBrush x:Key="GridSplitterGradiantBrush"
-                                 StartPoint="0,0"
-                                 EndPoint="0,1">
-                <GradientStop Color="Transparent" Offset="0" />
-                <GradientStop Color="Gray" Offset="0.5" />
-                <GradientStop Color="Transparent" Offset="1.0" />
-            </LinearGradientBrush>
-            <ControlTemplate x:Key="GridSplitterTemplate" TargetType="{x:Type GridSplitter}">
-                <Border x:Name="Bd"
-                        Background="Transparent" />
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource GridSplitterGradiantBrush}" />
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-
-
-            <!-- Toolbar Buttons -->
-            <Style x:Key="ToolbarButtonStyle_old" TargetType="{x:Type sgz:SgzIcon}">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="BorderBrush" Value="{StaticResource MaxText}"/>
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="Width" Value="Auto" />
-                <Setter Property="Height" Value="30" />
-                <Setter Property="DockPanel.Dock" Value="Top" />
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="HoverBrush" Value="White" />
-                <Setter Property="PressedBrush" Value="White" />
+            <Style x:Key="GridSplitterStyle" TargetType="{x:Type GridSplitter}">
+                <Setter Property="Background" Value="{StaticResource DarkPanelColor}" />
+                <Setter Property="Opacity" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GridSplitter}">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
                 <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Background" Value="{StaticResource MaxButtonMouseOver}" />
-                    </Trigger>
+                    <EventTrigger RoutedEvent="Control.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetProperty="Opacity" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Control.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="Opacity" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
                 </Style.Triggers>
             </Style>
-
-            <!-- Toolbar Base Button Style -->
-            <Style x:Key="ToolbarBaseButtonStyle" TargetType="{x:Type Control}">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="BorderBrush" Value="{x:Null}" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="Height" Value="40" />
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Foreground" Value="White" />
-                        <Setter Property="BorderBrush" Value="{StaticResource MaxButtonBorder}" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
-            <!-- Toolbar Base Button Style -->
-            <Style x:Key="ToolbarButtonStyle" TargetType="{x:Type sgz:SgzButton}" BasedOn="{StaticResource ToolbarBaseButtonStyle}">
-                <Setter Property="PressedBrush" Value="{StaticResource MaxBlueMouseOver}" />
-                <Setter Property="HoverBrush" Value="{StaticResource MaxButtonMouseOver}" />
-                <Setter Property="CornerRadius" Value="0" />
-                <Style.Triggers>
-                    <Trigger Property="IsPressed" Value="true">
-                        <Setter Property="Foreground" Value="White" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
+                
             
-            <!-- Open Options CheckButton -->
-            <Style x:Key="OptionButtonStyle" TargetType="{x:Type sgz:SgzCheckButton}" BasedOn="{StaticResource ToolbarBaseButtonStyle}">
-                <Setter Property="PressedBrush" Value="{StaticResource MaxBlueMouseOver}" />
-                <Setter Property="HoverBrush" Value="{StaticResource MaxButtonMouseOver}" />
-                <Setter Property="CornerRadius" Value="0" />
+            <!-- Toolbar Base Button Style -->
+            <Style x:Key="ToolbarBaseButtonStyle"
+                   TargetType="{x:Type Control}">
+                <Setter Property="Background"
+                        Value="Transparent" />
+                <Setter Property="BorderBrush"
+                        Value="{x:Null}" />
+                <Setter Property="BorderThickness"
+                        Value="0" />
+                <Setter Property="Height"
+                        Value="40" />
+                <Setter Property="VerticalAlignment"
+                        Value="Bottom" />
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Left" />
+                <Setter Property="VerticalContentAlignment"
+                        Value="Center" />
                 <Style.Triggers>
-                    <Trigger Property="IsPressed" Value="true">
-                        <Setter Property="Foreground" Value="White" />
+                    <Trigger Property="IsMouseOver"
+                             Value="true">
+                        <Setter Property="Foreground"
+                                Value="White" />
+                        <Setter Property="BorderBrush"
+                                Value="{StaticResource MaxButtonBorder}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Toolbar Base Button Style -->
+            <Style x:Key="ToolbarButtonStyle"
+                   TargetType="{x:Type sgz:SgzButton}"
+                   BasedOn="{StaticResource ToolbarBaseButtonStyle}">
+                <Setter Property="PressedBrush"
+                        Value="{StaticResource MaxBlueMouseOver}" />
+                <Setter Property="HoverBrush"
+                        Value="{StaticResource MaxButtonMouseOver}" />
+                <Setter Property="CornerRadius"
+                        Value="0" />
+                <Style.Triggers>
+                    <Trigger Property="IsPressed"
+                             Value="true">
+                        <Setter Property="Foreground"
+                                Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Open Options CheckButton -->
+            <Style x:Key="OptionButtonStyle"
+                   TargetType="{x:Type sgz:SgzCheckButton}"
+                   BasedOn="{StaticResource ToolbarBaseButtonStyle}">
+                <Setter Property="PressedBrush"
+                        Value="{StaticResource MaxBlueMouseOver}" />
+                <Setter Property="HoverBrush"
+                        Value="{StaticResource MaxButtonMouseOver}" />
+                <Setter Property="CornerRadius"
+                        Value="0" />
+                <Style.Triggers>
+                    <Trigger Property="IsPressed"
+                             Value="true">
+                        <Setter Property="Foreground"
+                                Value="White" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
 
 
             <!-- Validate Path Textbox -->
-            <Style x:Key="ValidatePathTextBoxStyle" TargetType="{x:Type sgz:SgzTextBox}">
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="Height" Value="Auto" />
-                <Setter Property="Padding" Value="2,0" />
-                <Setter Property="Margin" Value="5,4,0,4" />
+            <Style x:Key="ValidatePathTextBoxStyle"
+                   TargetType="{x:Type sgz:SgzTextBox}">
+                <Setter Property="BorderThickness"
+                        Value="0" />
+                <Setter Property="Height"
+                        Value="Auto" />
+                <Setter Property="Padding"
+                        Value="2,0" />
+                <Setter Property="Margin"
+                        Value="5,4,0,4" />
                 <Style.Triggers>
-                    <Trigger Property="Validation.HasError" Value="true">
+                    <Trigger Property="Validation.HasError"
+                             Value="true">
                         <Setter Property="ToolTip"
                                 Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
 
-            
+
         </ResourceDictionary>
-
-
     </Application.Resources>
 
 </Application>

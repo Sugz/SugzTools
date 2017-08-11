@@ -12,21 +12,21 @@ using System.Threading.Tasks;
 
 namespace CodeDoc.Model
 {
-    public abstract class CDFile : ObservableObject, ICDItem
+    public abstract class CDFileItem : CDDataItem
     {
         #region Fields
 
         protected bool _IsValidPath;
         protected string _Path;
         protected string _Text;
-        protected ObservableCollection<ICDItem> _Children;
+        protected ObservableCollection<CDDataItem> _Children;
 
         #endregion Fields
 
 
         #region Properties
 
-        public CDItemType Type { get; set; }
+        public CDDataItemType Type { get; set; }
         public bool IsValidPath
         {
             get { return _IsValidPath; }
@@ -50,7 +50,7 @@ namespace CodeDoc.Model
             get { return _Text ?? (_Text = GetText()); }
             set { Set(ref _Text, value); }
         }
-        public ObservableCollection<ICDItem> Children
+        public ObservableCollection<CDDataItem> Children
         {
             get { return _Children ?? (_Children = GetChildren()); }
             protected set { _Children = value; }
@@ -61,9 +61,9 @@ namespace CodeDoc.Model
 
         #region Constructors
 
-        public CDFile(string path) : this(path, null, null) { }
-        public CDFile(string path, string text) : this(path, text, null) { }
-        public CDFile(string path, string text, ObservableCollection<ICDItem> children)
+        public CDFileItem(string path) : this(path, null, null) { }
+        public CDFileItem(string path, string text) : this(path, text, null) { }
+        public CDFileItem(string path, string text, ObservableCollection<CDDataItem> children)
         {
             Path = path;
             Text = text;
@@ -77,7 +77,7 @@ namespace CodeDoc.Model
 
         protected abstract bool GetIsValidPath();
         protected abstract string GetText();
-        protected abstract ObservableCollection<ICDItem> GetChildren(); 
+        protected abstract ObservableCollection<CDDataItem> GetChildren(); 
 
         #endregion Methods
 

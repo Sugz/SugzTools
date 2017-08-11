@@ -44,16 +44,6 @@ namespace SugzTools.Controls
         /// Get an icon from https://materialdesignicons.com/
         /// </summary>
         [Description("Get or set an icon from https://materialdesignicons.com/"), Category("Common")]
-        //public Geo Icon
-        //{
-        //    get { return _Icon; }
-        //    set
-        //    {
-        //        _Icon = value;
-        //        Data = Resource<PathGeometry>.GetIcon(value.ToString());
-        //    }
-        //}
-
         public Geo? Icon
         {
             get { return (Geo?)GetValue(IconProperty); }

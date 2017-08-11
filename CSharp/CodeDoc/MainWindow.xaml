@@ -10,8 +10,8 @@
         xmlns:icons="clr-namespace:SugzTools.Icons;assembly=SugzTools"
         mc:Ignorable="d ignore"
         Title="SugzTools Code Documentation"
-        Height="380"
-        Width="750"
+        Height="500"
+        Width="1000"
         Background="{StaticResource MaxBackground}"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         Icon="Resources/CodeDoc.ico"
@@ -45,6 +45,7 @@
                            Command="{Binding Data.AddFolderCommand, Source={StaticResource Locator}}"
                            DockPanel.Dock="Top"
                            Margin="0,5,0,0"
+                           ToolTip="Add a folder to the list"
                            Style="{DynamicResource ToolbarButtonStyle}">
                 <DockPanel HorizontalAlignment="Center">
                     <sgz:SgzIcon Icon="MdiFolderPlus"
@@ -52,16 +53,55 @@
                                  Height="22"
                                  Margin="12,7,11,5"
                                  Foreground="{Binding Foreground, ElementName=AddFolderBtn}"
-                                 IsEnabled="False"/>
+                                 IsEnabled="False" />
                     <TextBlock Text="ADD FOLDER"
                                VerticalAlignment="Center"
                                Foreground="{Binding Foreground, ElementName=AddFolderBtn}"
                                Visibility="{Binding IsOpen, ElementName=Toolbar, Converter={StaticResource BoolToVisibility}}" />
                 </DockPanel>
             </sgz:SgzButton>
+            <sgz:SgzButton x:Name="AddFileBtn"
+                           Command="{Binding Data.AddFileCommand, Source={StaticResource Locator}}"
+                           DockPanel.Dock="Top"
+                           Margin="0,5,0,0"
+                           ToolTip="Add a file to the list"
+                           Style="{DynamicResource ToolbarButtonStyle}">
+                <DockPanel HorizontalAlignment="Center">
+                    <sgz:SgzIcon Icon="MdiFilePlus"
+                                 Width="22"
+                                 Height="22"
+                                 Margin="16,5,10,5"
+                                 Foreground="{Binding Foreground, ElementName=AddFileBtn}"
+                                 IsEnabled="False" />
+                    <TextBlock Text="ADD FILE"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding Foreground, ElementName=AddFileBtn}"
+                               Visibility="{Binding IsOpen, ElementName=Toolbar, Converter={StaticResource BoolToVisibility}}" />
+                </DockPanel>
+            </sgz:SgzButton>
+            <sgz:SgzButton x:Name="RemoveBtn"
+                           Command="{Binding Data.AddFileCommand, Source={StaticResource Locator}}"
+                           DockPanel.Dock="Top"
+                           Margin="0,5,0,0"
+                           ToolTip="Remove an item from the list"
+                           Style="{DynamicResource ToolbarButtonStyle}">
+                <DockPanel HorizontalAlignment="Center">
+                    <sgz:SgzIcon Icon="MdiCloseCircleOutline"
+                                 Width="22"
+                                 Height="22"
+                                 Margin="14,5,10,5"
+                                 Foreground="{Binding Foreground, ElementName=RemoveBtn}"
+                                 IsEnabled="False" />
+                    <TextBlock Text="REMOVE ITEM"
+                               VerticalAlignment="Center"
+                               Foreground="{Binding Foreground, ElementName=RemoveBtn}"
+                               Visibility="{Binding IsOpen, ElementName=Toolbar, Converter={StaticResource BoolToVisibility}}" />
+                </DockPanel>
+            </sgz:SgzButton>
             <sgz:SgzButton x:Name="LoadBtn"
                            Command="{Binding Data.LoadConfigCommand, Source={StaticResource Locator}}"
                            DockPanel.Dock="Top"
+                           ToolTip="Load the configuration"
                            Style="{DynamicResource ToolbarButtonStyle}">
                 <DockPanel>
                     <sgz:SgzIcon Icon="MdiFolderUpload"
@@ -79,13 +119,13 @@
             <sgz:SgzButton x:Name="SaveBtn"
                            Command="{Binding Data.SaveConfigCommand, Source={StaticResource Locator}}"
                            DockPanel.Dock="Top"
+                           ToolTip="Save the configuration"
                            Style="{DynamicResource ToolbarButtonStyle}">
                 <DockPanel>
                     <sgz:SgzIcon Icon="MdiContentSave"
                                  Width="25"
                                  Height="22"
                                  Margin="14,5,10,5"
-                                 Padding="0"
                                  Foreground="{Binding Foreground, ElementName=SaveBtn}"
                                  IsEnabled="False" />
                     <TextBlock Text="SAVE DATA"
@@ -94,10 +134,12 @@
                                Visibility="{Binding IsOpen, ElementName=Toolbar, Converter={StaticResource BoolToVisibility}}" />
                 </DockPanel>
             </sgz:SgzButton>
-            <sgz:SgzCheckButton x:Name="OptionsBtn" DockPanel.Dock="Bottom"
+            <sgz:SgzCheckButton x:Name="OptionsBtn"
+                                DockPanel.Dock="Bottom"
                                 Style="{DynamicResource OptionButtonStyle}"
                                 CheckedBrush="{DynamicResource MaxBlueMouseOver}"
-                                IsChecked="{Binding ShowOptionPanel, Mode=TwoWay}">
+                                IsChecked="{Binding ShowOptionPanel, Mode=TwoWay}"
+                                ToolTip="Open the options">
                 <DockPanel>
                     <sgz:SgzIcon Icon="MdiSettings"
                                  Width="25"
@@ -109,7 +151,7 @@
                     <TextBlock Text="OPTIONS"
                                VerticalAlignment="Center"
                                Foreground="{Binding Foreground, ElementName=OptionsBtn}"
-                               Visibility="{Binding IsOpen, ElementName=Toolbar, Converter={StaticResource BoolToVisibility}}"/>
+                               Visibility="{Binding IsOpen, ElementName=Toolbar, Converter={StaticResource BoolToVisibility}}" />
                 </DockPanel>
             </sgz:SgzCheckButton>
         </local:SgzSlidingDockPanel>
@@ -122,14 +164,11 @@
                                 BorderThickness="1,0"
                                 Foreground="{DynamicResource MaxText}"
                                 Padding="0,7"
-                                SelectedItem="{Binding Data.TVSelectedItem, Mode=TwoWay, Source={StaticResource Locator}}"
                                 HorizontalContentAlignment="Stretch" />
 
         <!-- GridSplitter -->
-        <GridSplitter HorizontalAlignment="Stretch"
-                      Background="{DynamicResource MaxRolloutBorder}"
-                      Grid.Column="2"
-                      Template="{DynamicResource GridSplitterTemplate}" />
+        <GridSplitter Grid.Column="2"
+                      Style="{DynamicResource GridSplitterStyle}" />
 
         <!-- Options Panel -->
         <Border Background="{DynamicResource DarkPanelColor}"
@@ -166,8 +205,8 @@
                                  Foreground="{DynamicResource MaxFocusBorder}"
                                  HoverBrush="White"
                                  PressedBrush="White" />
-                    <sgz:SgzTextBox Text="{Binding Data.DataFolder, Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    BorderThickness="0"/>
+                    <sgz:SgzTextBox Text="{Binding Data.DataFolder, Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    BorderThickness="0" />
 
                 </DockPanel>
 
@@ -244,7 +283,7 @@
                                             Height="10"
                                             Visibility="{Binding ProgressBarVisibility}" />
                     </DockPanel>
-                    
+
                 </Grid>
             </local:SgzSlidingDockPanel>
         </Border>

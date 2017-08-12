@@ -92,8 +92,11 @@
     <Compile Include="Model\CDDataItem.cs" />
     <Compile Include="Sources\CDConstants.cs" />
     <Compile Include="Sources\CDDataIO.cs" />
-    <Compile Include="Sources\CDMessages.cs" />
     <Compile Include="Sources\CDMaxPath.cs" />
+    <Compile Include="Sources\Messages\CDDataIOMessage.cs" />
+    <Compile Include="Sources\Messages\CDSelectedItemMessage.cs" />
+    <Compile Include="Sources\Messages\CDStatusMessage.cs" />
+    <Compile Include="Sources\Messages\CDStatusPanelMessage.cs" />
     <Compile Include="ViewModel\CDDataVM.cs" />
     <Compile Include="ViewModel\CDMainVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

@@ -1,4 +1,5 @@
-﻿using CodeDoc.Model;
+﻿using CodeDoc.Messaging;
+using CodeDoc.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using SugzTools.Src;
@@ -34,9 +35,9 @@ namespace CodeDoc.Src
         #region Properties
 
 
-        public int Progress { set => MessengerInstance.Send(new GenericMessage<int>(value)); }
-        public Cursor Cursor { set => MessengerInstance.Send(new GenericMessage<Cursor>(value)); }
-        public Visibility ProgressBarVisibility { set => MessengerInstance.Send(new GenericMessage<Visibility>(value)); }
+        //public int Progress { set => MessengerInstance.Send(new GenericMessage<int>(value)); }
+        //public Cursor Cursor { set => MessengerInstance.Send(new GenericMessage<Cursor>(value)); }
+        //public Visibility ProgressBarVisibility { set => MessengerInstance.Send(new GenericMessage<Visibility>(value)); }
 
 
         /// <summary>
@@ -59,7 +60,8 @@ namespace CodeDoc.Src
 
         public CDDataIO()
         {
-            _Worker.ProgressChanged += (s, e) => Progress = e.ProgressPercentage;
+            //_Worker.ProgressChanged += (s, e) => Progress = e.ProgressPercentage;
+            _Worker.ProgressChanged += (s, e) => MessengerInstance.Send(new CDDataIOMessage(e.ProgressPercentage));
         }
 
 
@@ -78,8 +80,9 @@ namespace CodeDoc.Src
         private void SetUpDataIO(string status)
         {
             _Progress = 0;
-            Progress = 0;
-            Cursor = Cursors.Wait;
+            //Progress = 0;
+            //Cursor = Cursors.Wait;
+            MessengerInstance.Send(new CDDataIOMessage(0));
             MessengerInstance.Send(new CDStatusMessage(status, false, true));
         }
 
@@ -152,9 +155,8 @@ namespace CodeDoc.Src
         private void LoadDatasCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessengerInstance.Send(new GenericMessage<ObservableCollection<CDFileItem>>(e.Result as ObservableCollection<CDFileItem>));
-            MessengerInstance.Send(new CDStatusPanelMessage(true));
             MessengerInstance.Send(new CDStatusMessage(CDConstants.DataLoaded, true, true));
-            Cursor = Cursors.Arrow;
+            //Cursor = Cursors.Arrow;
             _Worker.DoWork -= LoadDatasWorker;
             _Worker.RunWorkerCompleted -= LoadDatasCompleted;
         }
@@ -213,7 +215,7 @@ namespace CodeDoc.Src
         /// <param name="worker"></param>
         private void SaveItem(CDDataItem _item)
         {
-            //Thread.Sleep(100);
+            Thread.Sleep(100);
 
             _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 
@@ -242,7 +244,7 @@ namespace CodeDoc.Src
         private void SaveDatasCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessengerInstance.Send(new CDStatusMessage(CDConstants.DataSaved, true, true));
-            Cursor = Cursors.Arrow;
+            //Cursor = Cursors.Arrow;
             _Worker.DoWork -= SaveDatasWork;
             _Worker.RunWorkerCompleted -= SaveDatasCompleted;
         } 

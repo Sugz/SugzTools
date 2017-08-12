@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows;
 using GalaSoft.MvvmLight.Messaging;
+using CodeDoc.Messaging;
 
 namespace CodeDoc.ViewModel
 {
@@ -137,9 +138,10 @@ namespace CodeDoc.ViewModel
         public CDMainVM()
         {
             MessengerInstance.Register<CDStatusMessage>(this, x => DisplaySatus(x.ShowPanel, x.Status, x.UseTimer, x.ShowProgressBar));
-            MessengerInstance.Register<GenericMessage<int>>(this, x => Progress = x.Content);
-            MessengerInstance.Register<GenericMessage<Cursor>>(this, x => Cursor = x.Content);
-            MessengerInstance.Register<GenericMessage<Visibility>>(this, x => ProgressBarVisibility = x.Content);
+            MessengerInstance.Register<CDDataIOMessage>(this, x => Progress = x.Progress);
+            //MessengerInstance.Register<GenericMessage<int>>(this, x => Progress = x.Content);
+            //MessengerInstance.Register<GenericMessage<Cursor>>(this, x => Cursor = x.Content);
+            //MessengerInstance.Register<GenericMessage<Visibility>>(this, x => ProgressBarVisibility = x.Content);
         }
 
 

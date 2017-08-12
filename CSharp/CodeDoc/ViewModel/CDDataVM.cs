@@ -1,4 +1,5 @@
-﻿using CodeDoc.Model;
+﻿using CodeDoc.Messaging;
+using CodeDoc.Model;
 using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -318,6 +319,7 @@ namespace CodeDoc.ViewModel
         /// <param name="type"></param>
         private void UseDataIO(IOType type)
         {
+            _CanShowDataPathField = false;
             DataPathFieldVisibility = Visibility.Collapsed;
             switch (type)
             {

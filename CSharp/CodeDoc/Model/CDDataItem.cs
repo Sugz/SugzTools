@@ -1,4 +1,5 @@
-﻿using CodeDoc.Src;
+﻿using CodeDoc.Messaging;
+using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;

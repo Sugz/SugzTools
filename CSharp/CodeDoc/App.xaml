@@ -145,6 +145,56 @@
             </Style>
 
 
+            <!-- Status panel TextBlock -->
+            <Style x:Key="StatusPanelTextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{StaticResource MaxText}" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,0,10,0" />
+                <Setter Property="MinWidth" Value="175" />
+            </Style>
+
+
+            <!--FlowDocument Styles-->
+            <Style x:Key="FlowDocumentStyle" TargetType="{x:Type FlowDocument}">
+                <Setter Property="PagePadding" Value="5,10,5,5" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Cursor" Value="Arrow"/>
+            </Style>
+
+            <Style x:Key="ParagraphStyle" TargetType="{x:Type Paragraph}">
+                <Setter Property="Block.Margin" Value="0" />
+            </Style>
+
+            <Style x:Key="ListStyle"
+                   TargetType="{x:Type List}">
+                <!--<Setter Property="Block.Margin" Value="0,7,0,0" />-->
+                <Setter Property="Block.Padding"
+                        Value="20,0,0,0" />
+            </Style>
+
+            <Style x:Key="FolderChildrenRunStyle" TargetType="{x:Type Run}">
+                <Setter Property="Foreground" Value="{StaticResource MaxText}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="EmailRunStyle" TargetType="{x:Type Run}">
+                <Setter Property="FontStyle" Value="Italic" />
+                <Setter Property="TextDecorations" Value="Underline" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+
+            </Style>
+
+
         </ResourceDictionary>
     </Application.Resources>
 

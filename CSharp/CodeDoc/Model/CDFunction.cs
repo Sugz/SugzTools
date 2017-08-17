@@ -3,17 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace CodeDoc.Model
 {
-    public class CDFunction : CDDataItem
+    public class CDFunction : CDDataItem, IDescriptiveItem
     {
-        public CDDataItemType Type { get; set; }
-        public string Text { get; set; }
 
-        public CDFunction()
+        #region Properties
+
+        public bool IsMissingDescription { get; set; }
+
+        #endregion Properties
+
+
+
+        #region Constructor
+
+
+        public CDFunction(object parent) : base(parent)
         {
             Type = CDDataItemType.Function;
         }
+
+
+        #endregion Constructor
+
+
+        #region Methods
+
+
+        protected override string GetText()
+        {
+            //TODO: implement method
+            return null;
+        } 
+
+
+        #endregion Methods
+
     }
 }

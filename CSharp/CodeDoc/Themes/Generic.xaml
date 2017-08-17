@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/CodeDoc;component/Controls/SgzYesNoButton.xaml" />
+        <ResourceDictionary Source="/CodeDoc;component/Controls/SgzMultiLineTextBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 

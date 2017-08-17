@@ -18,7 +18,7 @@ using System.Xml.Linq;
 
 namespace CodeDoc.ViewModel
 {
-    public class CDDataVM : ViewModelBase, IDataErrorInfo
+    public sealed class CDDataVM : ViewModelBase, IDataErrorInfo
     {
         
 
@@ -35,7 +35,7 @@ namespace CodeDoc.ViewModel
         private string _DataFolder;
         private ObservableCollection<CDFileItem> _Datas = new ObservableCollection<CDFileItem>();
         private bool _ShowSelectedItemPath;
-        private CDDataItem _TVSelectedItem;
+        private CDDataItem _SelectedItem;
         private bool _CanValidateDataPath = false;
         private string _DataPathField;
         private bool _CanShowDataPathField = true;
@@ -44,6 +44,7 @@ namespace CodeDoc.ViewModel
         private RelayCommand _SetDataFolderCommand;
         private RelayCommand _AddFolderCommand;
         private RelayCommand _AddFileCommand;
+        private RelayCommand _RemoveItemCommand;
         private RelayCommand _LoadConfigCommand;
         private RelayCommand _SaveConfigCommand;
         private RelayCommand _ValidateDataPathCommand;
@@ -93,8 +94,6 @@ namespace CodeDoc.ViewModel
             set { Set(ref _Datas, value); }
         }
 
-
-        
         /// <summary>
         /// 
         /// </summary>
@@ -110,20 +109,18 @@ namespace CodeDoc.ViewModel
             }
         }
 
-
         /// <summary>
         /// 
         /// </summary>
-        public CDDataItem TVSelectedItem
+        public CDDataItem SelectedItem
         {
-            get { return _TVSelectedItem; }
+            get { return _SelectedItem; }
             set
             {
-                _TVSelectedItem = value;
+                _SelectedItem = value;
                 SetStatusPanel();
             }
         }
-
 
         /// <summary>
         /// 
@@ -134,7 +131,7 @@ namespace CodeDoc.ViewModel
             set
             {
                 _CanValidateDataPath = false;
-                if (TVSelectedItem is CDFileItem selectedItem)
+                if (SelectedItem is CDFileItem selectedItem)
                 {
                     Set(ref _DataPathField, value);
                     selectedItem.Path = value;
@@ -181,6 +178,15 @@ namespace CodeDoc.ViewModel
             get { return _AddFileCommand ?? (_AddFileCommand = new RelayCommand(AddFile)); }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RelayCommand RemoveItemCommand
+        {
+            get { return _RemoveItemCommand ?? (_RemoveItemCommand = new RelayCommand(RemoveItem)); }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -206,8 +212,6 @@ namespace CodeDoc.ViewModel
         }
 
 
-
-
         #endregion Properties
 
 
@@ -217,7 +221,7 @@ namespace CodeDoc.ViewModel
         public CDDataVM()
         {
             // Get selected treeview item
-            MessengerInstance.Register<CDSelectedItemMessage>(this, x => TVSelectedItem = x.Sender);
+            MessengerInstance.Register<CDSelectedItemMessage>(this, x => SelectedItem = x.Sender);
 
             //Get the data from _DataIO
             MessengerInstance.Register<GenericMessage<ObservableCollection<CDFileItem>>>(this, x => Datas = x.Content);
@@ -274,7 +278,7 @@ namespace CodeDoc.ViewModel
         private void AddFolder()
         {
             if (_Browser.GetFolder() is string selectedFolder && !Datas.Any(x => x.Path.Equals(selectedFolder)))
-                Datas.Add(new CDFolder(selectedFolder));
+                Datas.Add(new CDFolder(null, selectedFolder));
         }
 
 
@@ -284,7 +288,23 @@ namespace CodeDoc.ViewModel
         private void AddFile()
         {
             if (_Browser.GetFile() is string selectedFile && !Datas.Any(x => x.Path.Equals(selectedFile)))
-                Datas.Add(new CDScript(selectedFile));
+                Datas.Add(new CDScript(null, selectedFile));
+        }
+
+
+        /// <summary>
+        /// Remove a item from the list
+        /// </summary>
+        private void RemoveItem()
+        {
+            if (SelectedItem != null)
+            {
+                if (SelectedItem.Parent is null)
+                    Datas.Remove((CDFileItem)SelectedItem);
+                else
+                    ((CDFileItem)SelectedItem.Parent).Children.Remove(SelectedItem);
+            }
+                
         }
 
 
@@ -293,7 +313,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SetStatusPanel()
         {
-            if (_TVSelectedItem is CDFileItem selectedItem)
+            if (_SelectedItem is CDFileItem selectedItem)
             {
                 if (selectedItem.IsValidPath)
                 {
@@ -325,7 +345,7 @@ namespace CodeDoc.ViewModel
             {
                 case IOType.Load:
                     _DataIO.LoadDatas();
-                    TVSelectedItem = null;
+                    SelectedItem = null;
                     break;
                 case IOType.Save:
                     _DataIO.SaveDatas(Datas);

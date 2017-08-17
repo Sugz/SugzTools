@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace CodeDoc.Src
 {
@@ -17,6 +18,33 @@ namespace CodeDoc.Src
         public static string Text = "Text";
         public static string Folder = "Folder";
         public static string Script = "Script";
+        public static Regex LinkParser = new Regex(@"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+        public static string ScriptNoDescription = "This script seems to contain no description, add one ?";
+        public static string UseModifyScript = "*Use / Modify this script at your own risk !*";
+        public static string ScriptDescriptionStart = "/*##############################################################################";
+        public static string ScriptDescriptionEnd = "###############################################################################*/";
+
+
+        public static string[] Comments = { "/*", "--" };
+        public static char[] DescriptionTrimChars = "\t# ".ToCharArray();
+        public static char[] VersionTrimChars = "- ".ToCharArray();
+        public static char[] Delimiters = "<>, ".ToCharArray();
+
+        public static string[] ScriptIntro =
+        {
+            "Title",
+            "Version",
+            "Author",
+            "Contact",
+        };
+        public static string[] ScriptDescription =
+        {
+            "Description",
+            "Required Components",
+            "Sources",
+            "ToDo",
+            "History"
+        };
     }
 }

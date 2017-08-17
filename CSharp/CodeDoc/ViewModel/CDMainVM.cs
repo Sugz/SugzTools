@@ -67,7 +67,6 @@ namespace CodeDoc.ViewModel
         }
 
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -123,9 +122,6 @@ namespace CodeDoc.ViewModel
 
 
 
-
-
-
         #endregion Properties
 
 
@@ -139,9 +135,6 @@ namespace CodeDoc.ViewModel
         {
             MessengerInstance.Register<CDStatusMessage>(this, x => DisplaySatus(x.ShowPanel, x.Status, x.UseTimer, x.ShowProgressBar));
             MessengerInstance.Register<CDDataIOMessage>(this, x => Progress = x.Progress);
-            //MessengerInstance.Register<GenericMessage<int>>(this, x => Progress = x.Content);
-            //MessengerInstance.Register<GenericMessage<Cursor>>(this, x => Cursor = x.Content);
-            //MessengerInstance.Register<GenericMessage<Visibility>>(this, x => ProgressBarVisibility = x.Content);
         }
 
 

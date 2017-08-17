@@ -122,6 +122,7 @@
     <Compile Include="Converters\SpacingToMarginConverter.cs" />
     <Compile Include="Converters\ValueMinusConverter.cs" />
     <Compile Include="Converters\ObjectToUIElementConverter.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Max\Animatable\Animatable.cs" />
     <Compile Include="Max\Cui\Cui.cs" />
     <Compile Include="Max\Cui\Custom_CuiActionCommandAdapter.cs" />

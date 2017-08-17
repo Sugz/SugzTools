@@ -1,10 +1,11 @@
+
 /*##############################################################################
 SugzTools Material Library
 Version 0.01
 Script By Clément "Sugz" Plantec
 plantec.clement@gmail.com
 
-# Script infos:
+# Description:
 Functions to work with materials
 
 # Required Components:
@@ -13,11 +14,11 @@ SugzTools Manager
 # Sources:
 FrozenKiwi : http://stackoverflow.com/questions/22351548/how-do-i-access-materials-in-maxscript-without-material-editor
 
-# To do list:
+# ToDo:
 
 # History:
-
-*Use / Modify this script at your own risk !
+ 
+*Use / Modify this script at your own risk !*
 ###############################################################################*/
 
 

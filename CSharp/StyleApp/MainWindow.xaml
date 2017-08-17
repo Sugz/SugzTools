@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StyleApp"
+        xmlns:control="clr-namespace:StyleApp.Controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         mc:Ignorable="d"
@@ -19,8 +20,20 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
-    <Grid>
-
-    </Grid>
+    <DockPanel >
+        <TextBox AcceptsReturn="True"
+                 AcceptsTab="True"
+                 Height="100"
+                 VerticalAlignment="Top"
+                 Margin="5"
+                 DockPanel.Dock="Top"/>
+        <control:SgzMultiLineTextBox AcceptsTab="True"
+                                     Height="100"
+                                     VerticalAlignment="Top"
+                                     Margin="5"
+                                     Watermark="Test"
+                                     DockPanel.Dock="Top" 
+                                     TextWrapping="Wrap"/>
+    </DockPanel>
 
 </Window>

@@ -8,7 +8,6 @@ namespace CodeDoc.Src
 {
     public class CDBrowser
     {
-
         private CommonOpenFileDialog _OpenFileDialog;
 
 
@@ -33,7 +32,11 @@ namespace CodeDoc.Src
 
         private string GetResult(bool isFolderPicker, string initialPath)
         {
-            DefineOpenFileDialog(isFolderPicker, initialPath);
+            if (_OpenFileDialog is null)
+                DefineOpenFileDialog();
+
+            _OpenFileDialog.IsFolderPicker = isFolderPicker;
+            _OpenFileDialog.InitialDirectory = initialPath;
 
             CommonFileDialogResult result = _OpenFileDialog.ShowDialog();
             if (result == CommonFileDialogResult.Ok)
@@ -45,24 +48,18 @@ namespace CodeDoc.Src
         /// <summary>
         /// 
         /// </summary>
-        private void DefineOpenFileDialog(bool isFolderPicker, string initialPath)
+        private void DefineOpenFileDialog()
         {
-            if (_OpenFileDialog is null)
+            _OpenFileDialog = new CommonOpenFileDialog();
+            foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
             {
-                _OpenFileDialog = new CommonOpenFileDialog();
-                _OpenFileDialog.IsFolderPicker = isFolderPicker;
-                _OpenFileDialog.InitialDirectory = initialPath;
-                foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+                string key = environmentVariable.Key as string;
+                if (key.StartsWith("ADSK_3DSMAX_x64_"))
                 {
-                    string key = environmentVariable.Key as string;
-                    if (key.StartsWith("ADSK_3DSMAX_x64_"))
-                    {
-                        _OpenFileDialog.AddPlace(Environment.GetEnvironmentVariable("LocalAppData") + $@"\Autodesk\3dsMax\{key.Substring(key.Length - 4)} - 64bit\ENU\", FileDialogAddPlaceLocation.Top);
-                        _OpenFileDialog.AddPlace((string)environmentVariable.Value, FileDialogAddPlaceLocation.Top);
-                    }
+                    _OpenFileDialog.AddPlace(Environment.GetEnvironmentVariable("LocalAppData") + $@"\Autodesk\3dsMax\{key.Substring(key.Length - 4)} - 64bit\ENU\", FileDialogAddPlaceLocation.Top);
+                    _OpenFileDialog.AddPlace((string)environmentVariable.Value, FileDialogAddPlaceLocation.Top);
                 }
             }
         }
-
     }
 }

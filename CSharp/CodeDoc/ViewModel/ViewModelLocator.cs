@@ -21,6 +21,7 @@ namespace CodeDoc.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<CDMainVM>();
             SimpleIoc.Default.Register<CDDataVM>();
+            SimpleIoc.Default.Register<CDDescriptionVM>();
         }
 
         /// <summary>
@@ -28,18 +29,14 @@ namespace CodeDoc.ViewModel
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public CDMainVM Main
-        {
-            get { return ServiceLocator.Current.GetInstance<CDMainVM>(); }
-        }
+        public CDMainVM Main => ServiceLocator.Current.GetInstance<CDMainVM>();
 
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public CDDataVM Data
-        {
-            get { return ServiceLocator.Current.GetInstance<CDDataVM>(); }
-        }
+        public CDDataVM Data => ServiceLocator.Current.GetInstance<CDDataVM>();
+
+
+        public CDDescriptionVM Description => ServiceLocator.Current.GetInstance<CDDescriptionVM>();
+
 
         /// <summary>
         /// Cleans up all the resources.

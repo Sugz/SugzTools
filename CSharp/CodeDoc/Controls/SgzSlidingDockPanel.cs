@@ -166,6 +166,7 @@ namespace CodeDoc.Controls
         private void PlayAnimation()
         {
             DoubleAnimation sizeAnimation = new DoubleAnimation(IsOpen ? OpenSize : CloseSize, TimeSpan.FromMilliseconds(AnimationDuration));
+            sizeAnimation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseOut };
             BeginAnimation(AnimationType == AnimationType.Width ? WidthProperty : HeightProperty, sizeAnimation);
 
             if (AnimationType == AnimationType.Height)

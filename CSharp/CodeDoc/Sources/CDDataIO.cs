@@ -124,26 +124,30 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private CDDataItem LoadItem(XElement node)
+        private CDDataItem LoadItem(XElement node, object parent = null)
         {
-            Thread.Sleep(100);
+            //Thread.Sleep(100);
 
             _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 
             string path = CDMaxPath.GetPath(node.Attribute("Path").Value);
             string text = node.Attribute("Text").Value;
-            CDDataItem item = null;
+            //CDDataItem item = null;
             if (node.Name == "Folder")
             {
+                CDFolder item = new CDFolder(parent, path, text);
                 ObservableCollection<CDDataItem> scripts = new ObservableCollection<CDDataItem>();
-                node.Elements().ForEach(x => scripts.Add((CDScript)LoadItem((XElement)x)));
-                item = new CDFolder(path, text, scripts);
+                node.Elements().ForEach(x => scripts.Add(LoadItem((XElement)x, item)));
+                item.Children = scripts;
+                return item;
             }
             if (node.Name == "Script")
             {
-                item = new CDScript(path, text);
+                CDScript item = new CDScript(parent, path, text);
+                return item;
             }
-            return item;
+
+            return null;
         }
 
 
@@ -215,7 +219,7 @@ namespace CodeDoc.Src
         /// <param name="worker"></param>
         private void SaveItem(CDDataItem _item)
         {
-            Thread.Sleep(100);
+            //Thread.Sleep(100);
 
             _Worker.ReportProgress(++_Progress * 100 / _ItemCount);
 

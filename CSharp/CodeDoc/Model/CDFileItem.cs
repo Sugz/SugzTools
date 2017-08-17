@@ -18,15 +18,14 @@ namespace CodeDoc.Model
 
         protected bool _IsValidPath;
         protected string _Path;
-        protected string _Text;
-        protected ObservableCollection<CDDataItem> _Children;
+        protected ObservableCollection<CDDataItem> _Children = new ObservableCollection<CDDataItem>();
 
         #endregion Fields
 
 
         #region Properties
 
-        public CDDataItemType Type { get; set; }
+
         public bool IsValidPath
         {
             get { return _IsValidPath; }
@@ -45,15 +44,10 @@ namespace CodeDoc.Model
                 IsValidPath = GetIsValidPath();
             }
         }
-        public string Text
-        {
-            get { return _Text ?? (_Text = GetText()); }
-            set { Set(ref _Text, value); }
-        }
         public ObservableCollection<CDDataItem> Children
         {
             get { return _Children ?? (_Children = GetChildren()); }
-            protected set { _Children = value; }
+            set { _Children = value; }
         }
 
         #endregion MyRegion
@@ -61,9 +55,9 @@ namespace CodeDoc.Model
 
         #region Constructors
 
-        public CDFileItem(string path) : this(path, null, null) { }
-        public CDFileItem(string path, string text) : this(path, text, null) { }
-        public CDFileItem(string path, string text, ObservableCollection<CDDataItem> children)
+        public CDFileItem(object parent, string path) : this(parent, path, null, null) { }
+        public CDFileItem(object parent, string path, string text) : this(parent, path, text, null) { }
+        public CDFileItem(object parent, string path, string text, ObservableCollection<CDDataItem> children) : base(parent)
         {
             Path = path;
             Text = text;
@@ -76,7 +70,6 @@ namespace CodeDoc.Model
         #region Methods
 
         protected abstract bool GetIsValidPath();
-        protected abstract string GetText();
         protected abstract ObservableCollection<CDDataItem> GetChildren(); 
 
         #endregion Methods

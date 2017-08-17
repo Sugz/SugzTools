@@ -28,22 +28,37 @@ L'autre mec là: http://www.phoenixjp.net/news/fr/index.php?page=2
 ###############################################################################*/
 
 
-fn TestFunction arg opt:arg2 =
-(
-	/*<Function>
-	Description:
-		Not much here...
-	Arguments:
-		Integer arg: un argument quoi
-		String arg2: un argument optionel <Optional> 
-	Return:
-	Infos:
-		Var taMere: dans http://forum.mattguetta.com ton cul ! 
-	</Function>*/
-	
-	
 
+struct TestStruct 
+(
+
+	/* First test function with inside description ############################################################################################*/
+	fn TestFunction arg opt:arg2 =
+	(
+		/*<Function>
+		Arguments:
+			Integer arg: un argument quoi
+			String arg2: un argument optionel <Optional> 
+		Return:
+		Infos:
+			Var taMere: dans http://forum.mattguetta.com ton cul ! 
+		</Function>*/
+
+
+		
+	),
+
+
+	/* Function with just a top description ############################################################################################*/
+	fn SimpleFunction =
+	(
+		
+		
+	)
+	
 )
+
+
 
 
 

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
         xmlns:local="clr-namespace:CodeDoc.Controls"
+        xmlns:src="clr-namespace:CodeDoc.Src"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         xmlns:c="clr-namespace:SugzTools.Converters;assembly=SugzTools"
         xmlns:icons="clr-namespace:SugzTools.Icons;assembly=SugzTools"
@@ -26,7 +27,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="7" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -80,7 +81,7 @@
                 </DockPanel>
             </sgz:SgzButton>
             <sgz:SgzButton x:Name="RemoveBtn"
-                           Command="{Binding Data.AddFileCommand, Source={StaticResource Locator}}"
+                           Command="{Binding Data.RemoveItemCommand, Source={StaticResource Locator}}"
                            DockPanel.Dock="Top"
                            Margin="0,5,0,0"
                            ToolTip="Remove an item from the list"
@@ -163,12 +164,80 @@
                                 BorderBrush="{DynamicResource MaxRolloutBorder}"
                                 BorderThickness="1,0"
                                 Foreground="{DynamicResource MaxText}"
-                                Padding="0,7"
+                                Padding="0,10,0,0"
                                 HorizontalContentAlignment="Stretch" />
 
         <!-- GridSplitter -->
         <GridSplitter Grid.Column="2"
                       Style="{DynamicResource GridSplitterStyle}" />
+
+        <!--FlowDocumentScrollViewer-->
+        <DockPanel Grid.Column="3">
+            <sgz:SgzButton Command="{Binding Description.SetDescriptionPanelCommand, Source={StaticResource Locator}}"
+                           Content="EDIT"
+                           Width="75"
+                           Margin="5"
+                           CornerRadius="0"
+                           IsTransparent="True"
+                           DockPanel.Dock="Bottom"
+                           HorizontalAlignment="Right"
+                           Visibility="{Binding Description.EditButtonVisibility, Source={StaticResource Locator}}" />
+            <FlowDocumentScrollViewer  Foreground="{DynamicResource MaxText}"
+                                       BorderThickness="0"
+                                       ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                       Document="{Binding Description.Document, Source={StaticResource Locator}}" />
+            <!--<FlowDocumentScrollViewer>
+                <FlowDocument>
+                    <Table>
+                        <Table.Columns>
+                            <TableColumn Width="50"/>
+                            <TableColumn />
+                        </Table.Columns>
+                        <TableRowGroup>
+                            <TableRow>
+                                <TableCell>
+                                    <Paragraph>Test</Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <List Margin="0,0,0,10">
+                                        <ListItem>
+                                            <Paragraph>fhgbjkelrgfhrjlzek</Paragraph>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Paragraph>fhgbjkelrgfhrjlzek</Paragraph>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Paragraph>fhgbjkelrgfhrjlzek</Paragraph>
+                                        </ListItem>
+                                    </List>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <Paragraph>
+                                        grzehjl
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <List Margin="0">
+                                        <ListItem>
+                                            <Paragraph>fhgbjkelrgfhrjlzek</Paragraph>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Paragraph>fhgbjkelrgfhrjlzek</Paragraph>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Paragraph>fhgbjkelrgfhrjlzek</Paragraph>
+                                        </ListItem>
+                                    </List>
+                                </TableCell>
+                            </TableRow>
+                        </TableRowGroup>
+                    </Table>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>-->
+        </DockPanel>
+        
 
         <!-- Options Panel -->
         <Border Background="{DynamicResource DarkPanelColor}"
@@ -243,7 +312,7 @@
             </local:SgzSlidingDockPanel>
         </Border>
 
-        <!-- Bottom panel -->
+        <!-- Status panel -->
         <Border Background="{DynamicResource DarkPanelColor}"
                 BorderBrush="{DynamicResource MaxRolloutBorder}"
                 BorderThickness="0,1,0,0"
@@ -268,14 +337,30 @@
                         <sgz:SgzTextBox Text="{Binding Data.DataPathField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Locator}, ValidatesOnDataErrors=True}"
                                         Style="{DynamicResource ValidatePathTextBoxStyle}" />
                     </DockPanel>
+                    
+                    <!-- Missing Description -->
+                    <DockPanel Margin="5,0" Visibility="{Binding Description.MissingDescriptionVisibility, Source={StaticResource Locator}}">
+                        <sgz:SgzButton Command="{Binding Description.DontSetDescriptionCommand, Source={StaticResource Locator}}"
+                                       Content="NO"
+                                       DockPanel.Dock="Right"
+                                       Width="75"
+                                       CornerRadius="0"
+                                       IsTransparent="True" />
+                        <sgz:SgzButton Command="{Binding Description.SetDescriptionPanelCommand, Source={StaticResource Locator}}"
+                                       Content="YES"
+                                       DockPanel.Dock="Right"
+                                       Width="75"
+                                       CornerRadius="0"
+                                       IsTransparent="True" 
+                                       Margin="5,0"/>
+                        <TextBlock Text="{x:Static src:CDConstants.ScriptNoDescription}"
+                                   Style="{DynamicResource StatusPanelTextBlockStyle}" />
+                    </DockPanel>
 
                     <!-- Status -->
                     <DockPanel Margin="5,0">
                         <TextBlock Text="{Binding Status}"
-                                   Foreground="{DynamicResource MaxText}"
-                                   VerticalAlignment="Center"
-                                   Margin="0,0,10,0"
-                                   MinWidth="175" />
+                                   Style="{DynamicResource StatusPanelTextBlockStyle}"/>
                         <sgz:SgzProgressBar x:Name="progressBar"
                                             Grid.Row="1"
                                             Grid.ColumnSpan="4"
@@ -285,6 +370,101 @@
                     </DockPanel>
 
                 </Grid>
+            </local:SgzSlidingDockPanel>
+        </Border>
+
+        <!-- Description Panel -->
+        <Border Background="{DynamicResource DarkPanelColor}"
+                BorderBrush="{DynamicResource MaxRolloutBorder}"
+                BorderThickness="1,0,0,0"
+                Grid.Column="3"
+                Grid.RowSpan="2"
+                HorizontalAlignment="Right">
+            <local:SgzSlidingDockPanel ShowButton="False"
+                                       IsOpen="{Binding Description.DescriptionPanelIsOpen, Source={StaticResource Locator}}"
+                                       Width="0"
+                                       CloseSize="0"
+                                       OpenSize="600"
+                                       AnimationDuration="350"
+                                       LastChildFill="True">
+                <!-- Defaults / Apply -->
+                <DockPanel DockPanel.Dock="Bottom"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom">
+                    <sgz:SgzButton Command="{Binding Description.SetDescriptionPanelCommand, Source={StaticResource Locator}}"
+                                   Content="CANCEL"
+                                   Width="75"
+                                   CornerRadius="0"
+                                   IsTransparent="True"
+                                   Margin="5" />
+                    <sgz:SgzButton Command="{Binding Description.SaveDescriptionCommand, Source={StaticResource Locator}}"
+                                   Content="SAVE"
+                                   Width="75"
+                                   CornerRadius="0"
+                                   IsTransparent="True"
+                                   Margin="5" />
+                </DockPanel >
+
+                <!-- Formulaire -->
+                <ScrollViewer Margin="10"
+                              VerticalScrollBarVisibility="Auto">
+                    <DockPanel>
+                        <sgz:SgzTextBox Text="{Binding Description.ScriptDescription[0], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Watermark="Title"
+                                        VerticalAlignment="Top"
+                                        DockPanel.Dock="Top"
+                                        Margin="0,0,0,10" />
+                        <sgz:SgzTextBox Text="{Binding Description.ScriptDescription[1], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Watermark="Version"
+                                        VerticalAlignment="Top"
+                                        DockPanel.Dock="Top"
+                                        Margin="0,0,0,10" />
+                        <sgz:SgzTextBox Text="{Binding Description.ScriptDescription[2], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Watermark="Author"
+                                        VerticalAlignment="Top"
+                                        DockPanel.Dock="Top"
+                                        Margin="0,0,0,10" />
+                        <sgz:SgzTextBox Text="{Binding Description.ScriptDescription[3], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Watermark="Contact"
+                                        VerticalAlignment="Top"
+                                        DockPanel.Dock="Top"
+                                        Margin="0,0,0,20" />
+                        <sgz:SgzTextBox Text="{Binding Description.ScriptDescription[4], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Watermark="Description"
+                                        VerticalAlignment="Top"
+                                        DockPanel.Dock="Top"
+                                        Margin="0,0,0,20" />
+                        <local:SgzMultiLineTextBox Text="{Binding Description.ScriptDescription[5], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   Watermark="Required Components"
+                                                   VerticalAlignment="Top"
+                                                   DockPanel.Dock="Top"
+                                                   Margin="0,0,0,20"
+                                                   Height="Auto"
+                                                   AcceptsTab="True" />
+                        <local:SgzMultiLineTextBox Text="{Binding Description.ScriptDescription[6], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   Watermark="Sources"
+                                                   VerticalAlignment="Top"
+                                                   DockPanel.Dock="Top"
+                                                   Margin="0,0,0,20"
+                                                   Height="Auto"
+                                                   AcceptsTab="True" />
+                        <local:SgzMultiLineTextBox Text="{Binding Description.ScriptDescription[7], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   Watermark="ToDo"
+                                                   VerticalAlignment="Top"
+                                                   DockPanel.Dock="Top"
+                                                   Margin="0,0,0,20"
+                                                   Height="Auto"
+                                                   AcceptsTab="True" />
+                        <local:SgzMultiLineTextBox Text="{Binding Description.ScriptDescription[8], Source={StaticResource Locator}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   Watermark="History"
+                                                   VerticalAlignment="Top"
+                                                   DockPanel.Dock="Top"
+                                                   Margin="0,0,0,20"
+                                                   Height="Auto"
+                                                   AcceptsTab="True" />
+                    </DockPanel>
+                </ScrollViewer>
+                
             </local:SgzSlidingDockPanel>
         </Border>
 

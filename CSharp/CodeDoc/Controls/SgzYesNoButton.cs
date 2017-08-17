@@ -44,8 +44,12 @@ namespace CodeDoc.Controls
         private void SgzNoYesButton_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             int time = 250;
-            DoubleAnimation vanish = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(time)) { EasingFunction = new BackEase() { EasingMode = EasingMode.EaseIn } };
-            DoubleAnimation show = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(time)) { BeginTime = TimeSpan.FromMilliseconds(time), EasingFunction = new BackEase() { EasingMode = EasingMode.EaseOut } };
+            DoubleAnimation vanish = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(time));
+            vanish.EasingFunction = new BackEase() { EasingMode = EasingMode.EaseIn };
+
+            DoubleAnimation show = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(time));
+            show.BeginTime = TimeSpan.FromMilliseconds(time);
+            show.EasingFunction = new BackEase() { EasingMode = EasingMode.EaseOut };
 
             if (IsEnabled)
             {

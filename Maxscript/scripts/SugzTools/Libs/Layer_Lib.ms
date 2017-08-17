@@ -1,21 +1,24 @@
+
+
+
 /*##############################################################################
 SugzTools Layer Library
 Version 0.01
 Script By Clément "Sugz" Plantec
 plantec.clement@gmail.com
 
-# Script infos:
+# Description:
 Functions to work with layers
 
 # Required Components:
 
 # Sources:
 
-# To do list:
+# ToDo:
 
 # History:
-
-*Use / Modify this script at your own risk !
+ 
+*Use / Modify this script at your own risk !*
 ###############################################################################*/
 
 

@@ -22,6 +22,7 @@ namespace CodeDoc.ViewModel
             SimpleIoc.Default.Register<CDMainVM>();
             SimpleIoc.Default.Register<CDDataVM>();
             SimpleIoc.Default.Register<CDDescriptionVM>();
+            SimpleIoc.Default.Register<CDStatusVM>();
         }
 
         /// <summary>
@@ -31,11 +32,11 @@ namespace CodeDoc.ViewModel
             Justification = "This non-static member is needed for data binding purposes.")]
         public CDMainVM Main => ServiceLocator.Current.GetInstance<CDMainVM>();
 
-
         public CDDataVM Data => ServiceLocator.Current.GetInstance<CDDataVM>();
 
-
         public CDDescriptionVM Description => ServiceLocator.Current.GetInstance<CDDescriptionVM>();
+
+        public CDStatusVM Status => ServiceLocator.Current.GetInstance<CDStatusVM>();
 
 
         /// <summary>

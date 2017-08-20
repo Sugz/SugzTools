@@ -102,6 +102,7 @@
     <Compile Include="ViewModel\CDDataVM.cs" />
     <Compile Include="ViewModel\CDDescriptionVM.cs" />
     <Compile Include="ViewModel\CDMainVM.cs" />
+    <Compile Include="ViewModel\CDStatusVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Controls\EditableTreeView.xaml">
       <SubType>Designer</SubType>

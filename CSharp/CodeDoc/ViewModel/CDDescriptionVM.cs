@@ -24,6 +24,7 @@ namespace CodeDoc.ViewModel
 
         private CDDataItem _SelectedItem;                                                                   // Treeview selected item
         private FlowDocument _Document;                                                                     // The flowdocument
+        private Visibility _MissingDescriptionVisibility = Visibility.Collapsed;                            // The visibility of the missing description panel in the status panel
         private bool _DescriptionPanelIsOpen = false;                                                       // The opening state of the description panel
         private Visibility _EditButtonVisibility = Visibility.Collapsed;                                    // The edit button visibility
         private ObservableCollection<string> _ScriptDescription = new ObservableCollection<string>();       // The collection use to fill and save script description
@@ -64,6 +65,15 @@ namespace CodeDoc.ViewModel
         }
 
         /// <summary>
+        /// Set the visibility of the missing description panel in the status panel
+        /// </summary>
+        public Visibility MissingDescriptionVisibility
+        {
+            get { return _MissingDescriptionVisibility; }
+            set { Set(ref _MissingDescriptionVisibility, value); }
+        }
+
+        /// <summary>
         /// Set the open / close state of the description panel
         /// </summary>
         public bool DescriptionPanelIsOpen
@@ -72,7 +82,7 @@ namespace CodeDoc.ViewModel
             set
             {
                 Set(ref _DescriptionPanelIsOpen, value);
-                MessengerInstance.Send(new CDStatusMessage(StatusPanels.None));
+                MessengerInstance.Send(new CDStatusMessage(false));
             }
         }
 
@@ -100,22 +110,28 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// Open or close the Description panel
         /// </summary>
-        public RelayCommand SetDescriptionPanelCommand => _SetDescriptionPanelCommand ?? 
-            (_SetDescriptionPanelCommand = new RelayCommand(SetDescriptionPanel));
+        public RelayCommand SetDescriptionPanelCommand
+        {
+            get { return _SetDescriptionPanelCommand ?? (_SetDescriptionPanelCommand = new RelayCommand(SetDescriptionPanel)); }
+        }
 
         /// <summary>
         /// Close the Status panel
         /// </summary>
-        public RelayCommand DontSetDescriptionCommand => _DontSetDescriptionCommand ?? 
-            (_DontSetDescriptionCommand = new RelayCommand(() => MessengerInstance.Send(new CDStatusMessage(StatusPanels.None))));
+        public RelayCommand DontSetDescriptionCommand
+        {
+            get { return _DontSetDescriptionCommand ?? (_DontSetDescriptionCommand = new RelayCommand(() => MessengerInstance.Send(new CDStatusMessage(false)))); }
+        }
 
         /// <summary>
         /// Close the Status panel
         /// </summary>
-        public RelayCommand SaveDescriptionCommand => _SaveDescriptionCommand ?? 
-            (_SaveDescriptionCommand = new RelayCommand(SaveDescription));
+        public RelayCommand SaveDescriptionCommand
+        {
+            get { return _SaveDescriptionCommand ?? (_SaveDescriptionCommand = new RelayCommand(SaveDescription)); }
+        }
 
-
+        
 
         #endregion Properties
 
@@ -172,7 +188,8 @@ namespace CodeDoc.ViewModel
                 // Check if there is a description
                 if (item.IsMissingDescription)
                 {
-                    MessengerInstance.Send(new CDStatusMessage(StatusPanels.MissingDescription));
+                    MissingDescriptionVisibility = Visibility.Visible;
+                    MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
                 }
             }
         }

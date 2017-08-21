@@ -61,7 +61,7 @@ namespace CodeDoc.Src
         public CDDataIO()
         {
             //_Worker.ProgressChanged += (s, e) => Progress = e.ProgressPercentage;
-            _Worker.ProgressChanged += (s, e) => MessengerInstance.Send(new CDProgressMessage(e.ProgressPercentage));
+            _Worker.ProgressChanged += (s, e) => MessengerInstance.Send(new CDDataIOMessage(e.ProgressPercentage));
         }
 
 
@@ -82,9 +82,8 @@ namespace CodeDoc.Src
             _Progress = 0;
             //Progress = 0;
             //Cursor = Cursors.Wait;
-            MessengerInstance.Send(new CDProgressMessage(0));
-            //MessengerInstance.Send(new CDStatusMessage(status, false, true));
-            MessengerInstance.Send(new CDStatusMessage(StatusPanels.Progress, status, false));
+            MessengerInstance.Send(new CDDataIOMessage(0));
+            MessengerInstance.Send(new CDStatusMessage(status, false, true));
         }
 
 
@@ -160,7 +159,7 @@ namespace CodeDoc.Src
         private void LoadDatasCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessengerInstance.Send(new GenericMessage<ObservableCollection<CDFileItem>>(e.Result as ObservableCollection<CDFileItem>));
-            MessengerInstance.Send(new CDStatusMessage(StatusPanels.Progress, CDConstants.DataLoaded, true));
+            MessengerInstance.Send(new CDStatusMessage(CDConstants.DataLoaded, true, true));
             //Cursor = Cursors.Arrow;
             _Worker.DoWork -= LoadDatasWorker;
             _Worker.RunWorkerCompleted -= LoadDatasCompleted;
@@ -248,7 +247,8 @@ namespace CodeDoc.Src
         /// <param name="e"></param>
         private void SaveDatasCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessengerInstance.Send(new CDStatusMessage(StatusPanels.Progress, CDConstants.DataSaved, true));
+            MessengerInstance.Send(new CDStatusMessage(CDConstants.DataSaved, true, true));
+            //Cursor = Cursors.Arrow;
             _Worker.DoWork -= SaveDatasWork;
             _Worker.RunWorkerCompleted -= SaveDatasCompleted;
         } 

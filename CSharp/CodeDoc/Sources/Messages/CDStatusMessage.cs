@@ -7,54 +7,24 @@ using System.Threading.Tasks;
 
 namespace CodeDoc.Messaging
 {
-    public enum StatusPanels
-    {
-        Default,
-        None,
-        MissingDescription,
-        DataPathField,
-        Progress
-    }
-
     public class CDStatusMessage : MessageBase
     {
-        public StatusPanels Panel { get; protected set; }
-
-        //public bool ShowPanel { get; protected set; } = true;
+        public bool ShowPanel { get; protected set; } = true;
         public string Status { get; protected set; }
-        public bool AutoClose { get; protected set; }
-        public bool CanClose { get; protected set; }
-        //public bool ShowProgressBar { get; protected set; }
+        public bool UseTimer { get; protected set; }
+        public bool ShowProgressBar { get; protected set; }
 
 
-        //public CDStatusMessage(bool showPanel)
-        //{
-        //    ShowPanel = showPanel;
-        //}
-
-        //public CDStatusMessage(string status, bool autoClose, bool showProgressBar)
-        //{
-        //    Status = status;
-        //    AutoClose = autoClose;
-        //    ShowProgressBar = showProgressBar;
-        //}
-
-
-
-        public CDStatusMessage(StatusPanels panel, bool canClose = false)
+        public CDStatusMessage(bool showPanel)
         {
-            Panel = panel;
-            CanClose = canClose;
+            ShowPanel = showPanel;
         }
 
-        public CDStatusMessage(string status, bool autoClose = false, bool canClose = false) : this(StatusPanels.Default, status, autoClose, canClose) { }
-
-        public CDStatusMessage(StatusPanels panel, string status, bool autoClose, bool canClose = false)
+        public CDStatusMessage(string status, bool useTimer, bool showProgressBar)
         {
-            Panel = panel;
-            AutoClose = autoClose;
             Status = status;
-            CanClose = canClose;
+            UseTimer = useTimer;
+            ShowProgressBar = showProgressBar;
         }
     }
 }

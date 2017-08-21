@@ -327,7 +327,7 @@
                                        ShowButton="False">
                 <Grid>
                     <!-- Data path field -->
-                    <DockPanel Visibility="{Binding DataPathFieldVisibility}">
+                    <DockPanel Visibility="{Binding Data.DataPathFieldVisibility, Source={StaticResource Locator}}">
                         <local:SgzYesNoButton Command="{Binding Data.ValidateDataPathCommand, Mode=OneWay, Source={StaticResource Locator}}"
                                               DockPanel.Dock="Right"
                                               Height="Auto"
@@ -339,8 +339,7 @@
                     </DockPanel>
                     
                     <!-- Missing Description -->
-                    <DockPanel Margin="5,0"
-                               Visibility="{Binding MissingDescriptionVisibility}">
+                    <DockPanel Margin="5,0" Visibility="{Binding Description.MissingDescriptionVisibility, Source={StaticResource Locator}}">
                         <sgz:SgzButton Command="{Binding Description.DontSetDescriptionCommand, Source={StaticResource Locator}}"
                                        Content="NO"
                                        DockPanel.Dock="Right"
@@ -361,13 +360,13 @@
                     <!-- Status -->
                     <DockPanel Margin="5,0">
                         <TextBlock Text="{Binding Status}"
-                                   Style="{DynamicResource StatusPanelTextBlockStyle}" />
+                                   Style="{DynamicResource StatusPanelTextBlockStyle}"/>
                         <sgz:SgzProgressBar x:Name="progressBar"
                                             Grid.Row="1"
                                             Grid.ColumnSpan="4"
                                             Value="{Binding Progress}"
                                             Height="10"
-                                            Visibility="{Binding ProgressVisibility}" />
+                                            Visibility="{Binding ProgressBarVisibility}" />
                     </DockPanel>
 
                 </Grid>

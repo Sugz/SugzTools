@@ -3,6 +3,7 @@ using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -22,9 +23,10 @@ namespace CodeDoc.Model
     /// <summary>
     /// Common interface for script and function
     /// </summary>
-    public interface IDescriptiveItem
+    public interface IReadableItem
     {
-        bool IsMissingDescription { get; set; }
+        //bool IsMissingDescription { get; }
+        StringCollection Description { get; }
     }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,12 +8,22 @@ using System.Windows.Documents;
 
 namespace CodeDoc.Model
 {
-    public class CDFunction : CDDataItem, IDescriptiveItem
+    public class CDFunction : CDDataItem, IReadableItem
     {
+
+        #region Fields
+
+        private StringCollection _Description;
+
+        #endregion Fields
 
         #region Properties
 
-        public bool IsMissingDescription { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public StringCollection Description => _Description ?? (_Description = GetDescription());
+
 
         #endregion Properties
 
@@ -37,7 +48,14 @@ namespace CodeDoc.Model
         {
             //TODO: implement method
             return null;
-        } 
+        }
+
+
+        private StringCollection GetDescription()
+        {
+            //TODO: implement method
+            return null;
+        }
 
 
         #endregion Methods

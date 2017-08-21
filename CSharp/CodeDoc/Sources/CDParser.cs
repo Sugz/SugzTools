@@ -192,38 +192,6 @@ namespace CodeDoc.Src
 
 
         /// <summary>
-        /// Check if a script contain a descripriton
-        /// </summary>
-        /// <param name="streamReader"></param>
-        /// <returns></returns>
-        public static bool ScriptContainDescription(ref StreamReader streamReader)
-        {
-            int index = 0;
-            string str = streamReader.ReadLine();
-
-            // Check if there is a description
-            while (str != CDConstants.UseModifyScript)
-            {
-                // Count the empty lines
-                if (str == string.Empty)
-                    index++;
-
-                if (streamReader.EndOfStream)
-                {
-                    streamReader.Close();
-                    return false;
-                }
-                str = streamReader.ReadLine();
-            }
-
-            // Description is found, return to the first non empty line and parse
-            streamReader.DiscardBufferedData();
-            streamReader.BaseStream.Position = index;
-            return true;
-        }
-
-
-        /// <summary>
         /// Parse and return the description for each titles
         /// </summary>
         /// <param name="description"></param>
@@ -287,7 +255,7 @@ namespace CodeDoc.Src
         public static void FormatScriptDescription(CDScript script, ref FlowDocument document)
         {
             // Get each part of the description associated with their titles
-            if (script.GetDescription() is StringCollection scriptDescription)
+            if (script.Description is StringCollection scriptDescription)
             {
                 foreach (KeyValuePair<string, object> pair in ParseScriptDescription(scriptDescription))
                 {
@@ -388,7 +356,6 @@ namespace CodeDoc.Src
         }
 
 
-
         /// <summary>
         /// Get the formated description of all DataItem types
         /// </summary>
@@ -402,12 +369,13 @@ namespace CodeDoc.Src
                 FormatScriptDescription(script, ref document);
         }
 
+
         /// <summary>
         /// Format and add to a dataitem a full description
         /// </summary>
         /// <param name="item"></param>
         /// <param name="description"></param>
-        public static void SaveDataItemDescription(IDescriptiveItem item, Dictionary<string, string> description)
+        public static void SaveDataItemDescription(IReadableItem item, Dictionary<string, string> description)
         {
             if (item is CDScript script)
                 SaveScriptDescription(script, description);

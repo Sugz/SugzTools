@@ -339,7 +339,7 @@
                     </DockPanel>
                     
                     <!-- Missing Description -->
-                    <DockPanel Margin="5,0" Visibility="{Binding Description.MissingDescriptionVisibility, Source={StaticResource Locator}}">
+                    <!--<DockPanel Margin="5,0" Visibility="{Binding Description.MissingDescriptionVisibility, Source={StaticResource Locator}}">
                         <sgz:SgzButton Command="{Binding Description.DontSetDescriptionCommand, Source={StaticResource Locator}}"
                                        Content="NO"
                                        DockPanel.Dock="Right"
@@ -355,7 +355,7 @@
                                        Margin="5,0"/>
                         <TextBlock Text="{x:Static src:CDConstants.ScriptNoDescription}"
                                    Style="{DynamicResource StatusPanelTextBlockStyle}" />
-                    </DockPanel>
+                    </DockPanel>-->
 
                     <!-- Status -->
                     <DockPanel Margin="5,0">

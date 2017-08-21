@@ -313,7 +313,13 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SetStatusPanel()
         {
-            if (_SelectedItem is CDFileItem selectedItem)
+            //TODO: order of priority: DataPathFieldVisibility before missing description
+            if (SelectedItem is IReadableItem item && item.Description is null)
+            {
+                DataPathFieldVisibility = Visibility.Collapsed;
+                MessengerInstance.Send(new CDStatusMessage(CDConstants.ScriptNoDescription, false, false));
+            }
+            else if (_SelectedItem is CDFileItem selectedItem)
             {
                 if (selectedItem.IsValidPath)
                 {

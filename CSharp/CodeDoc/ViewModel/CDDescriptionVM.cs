@@ -175,23 +175,9 @@ namespace CodeDoc.ViewModel
                 InitializeDocument();
             Document.Blocks.Clear();
 
-            // Get selected item descriprion
+            // Get selected item description and set the edit button visibility
             CDParser.FormatDataItemDescription(SelectedItem, ref _Document);
-
-            // Show the edit button when the selected item isn't a folder
-            if (SelectedItem is CDFolder folder)
-                EditButtonVisibility = Visibility.Collapsed;
-            else if (SelectedItem is IDescriptiveItem item)
-            {
-                EditButtonVisibility = Visibility.Visible;
-
-                // Check if there is a description
-                if (item.IsMissingDescription)
-                {
-                    MissingDescriptionVisibility = Visibility.Visible;
-                    MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
-                }
-            }
+            EditButtonVisibility = SelectedItem.GetType() == typeof(CDFolder) ? Visibility.Collapsed : Visibility.Visible;
         }
 
 
@@ -204,20 +190,19 @@ namespace CodeDoc.ViewModel
             ScriptDescription.Clear();
 
             // Check if there is a description
-            if (SelectedItem is IDescriptiveItem item && !item.IsMissingDescription)
+            if (SelectedItem is CDScript script && script.Description != null)
             {
-                if (item is CDScript script)
-                {
-                    Dictionary<string, object> parseScriptDescription = CDParser.ParseScriptDescription(script.GetDescription());
-                    //Dictionary<string, StringCollection> parseScriptDescription = CDParser.ParseScriptDescription(script.GetDescription());
-                    //foreach(string key in parseScriptDescription.Keys)
-                    //{
-                    //    string value = string.Empty;
-                    //    foreach(string str in parseScriptDescription[key])
-                    //        value += str + "\n";
-                    //    ScriptDescription.Add(value);
-                    //}
-                }
+                //Dictionary<string, object> parseScriptDescription = CDParser.ParseScriptDescription(script.Description);
+
+                //TODO : use Dictionary<string, object> parseScriptDescription
+                //Dictionary<string, StringCollection> parseScriptDescription = CDParser.ParseScriptDescription(script.GetDescription());
+                //foreach(string key in parseScriptDescription.Keys)
+                //{
+                //    string value = string.Empty;
+                //    foreach(string str in parseScriptDescription[key])
+                //        value += str + "\n";
+                //    ScriptDescription.Add(value);
+                //}
             }
         }
 
@@ -231,7 +216,7 @@ namespace CodeDoc.ViewModel
             DescriptionPanelIsOpen = false;
 
             // Check if there is a description
-            if (SelectedItem is IDescriptiveItem item)
+            if (SelectedItem is IReadableItem item)
             {
                 Dictionary<string, string> description = new Dictionary<string, string>();
                 string[] scriptInfos = CDConstants.ScriptIntro.Concat(CDConstants.ScriptDescription).ToArray();

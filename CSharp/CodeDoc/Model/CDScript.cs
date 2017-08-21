@@ -1,25 +1,27 @@
 ﻿using CodeDoc.Src;
-using SugzTools.Src;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Media;
 
 namespace CodeDoc.Model
 {
-    public class CDScript : CDFileItem, IDescriptiveItem
+    public class CDScript : CDFileItem, IReadableItem
     {
+
+        #region Fields
+
+        private StringCollection _Description;                          // The script description
+
+        #endregion Fields
 
         #region Properties
 
-        public bool IsMissingDescription { get; set; }
+        /// <summary>
+        /// Get the script description
+        /// </summary>
+        public StringCollection Description => _Description ?? (_Description = GetDescription());
+
 
         #endregion Properties
 
@@ -58,30 +60,27 @@ namespace CodeDoc.Model
         }
 
 
-
-        public StringCollection GetDescription()
+        private StringCollection GetDescription()
         {
             // Make sure the path is valid
             if (!IsValidPath)
                 return null;
 
-            // Open the file as stream
+            // Open the file as stream, skip empty and first description line then collect all description until the "use / modify" warning
             StreamReader streamReader = new StreamReader(Path, Encoding.GetEncoding("iso-8859-1"));
-            if (!CDParser.ScriptContainDescription(ref streamReader))
-            {
-                IsMissingDescription = true;
-                return null;
-            }
-
             string str = streamReader.ReadLine();
-
-            // Collect all description until the "use / modify" warning
             StringCollection description = new StringCollection();
             while (str != CDConstants.UseModifyScript)
             {
                 str = str.Trim(CDConstants.DescriptionTrimChars);
-                if (str != string.Empty)
+                if (str != string.Empty && str != "/*")
                     description.Add(str);
+
+                if (streamReader.EndOfStream)
+                {
+                    description = null;
+                    break;
+                }
 
                 str = streamReader.ReadLine();
             }

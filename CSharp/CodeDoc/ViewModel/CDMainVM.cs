@@ -30,18 +30,20 @@ namespace CodeDoc.ViewModel
 
         #region Fields
 
-        private Cursor _Cursor = Cursors.Arrow;
-        private int _Progress = 0;
+        private Cursor _Cursor = Cursors.Arrow;                                                             // The window cursor
+        private int _Progress = 0;                                                                          // The progress value of the status progressbar bar
 
-        private bool _ShowOptionPanel = false;
-        private bool _StatusPanelIsOpen;
-        private Visibility _ProgressBarVisibility = Visibility.Collapsed;
-        private Timer _Timer = new Timer() { Interval = 3000, AutoReset = false };
-        private string _Status = string.Empty;
+        private bool _CanCloseStatusPanel = true;                                                           // The authorization to close the status panel
+        private bool _StatusPanelIsOpen;                                                                    // The opening state of the status panel
+        private string _Status = string.Empty;                                                              // The current status to display
+        private Visibility _DataPathFieldVisibility = Visibility.Collapsed;                                 // The visibility of the data path panel
+        private Visibility _MissingDescriptionVisibility = Visibility.Collapsed;                            // The visibility of the missing description panel
+        private Visibility _ProgressVisibility = Visibility.Collapsed;                                      // The visibility of the progress panel 
+        private Timer _Timer = new Timer() { Interval = 3000, AutoReset = false };                          // The timer to close the status panel
 
-        private RelayCommand _ApplyDefaultsCommand;
-        private RelayCommand _ShowOptionPanelCommand;
-
+        private bool _ShowOptionPanel = false;                                                              // The opening state of the option panel
+        private RelayCommand _ShowOptionPanelCommand;                                                       // The command to show or hide the option panel
+        private RelayCommand _ApplyDefaultsCommand;                                                         // The command to apply defaults settings
 
         #endregion Fields
 
@@ -49,7 +51,7 @@ namespace CodeDoc.ViewModel
         #region Properties
 
         /// <summary>
-        /// 
+        /// Get or set the window cursor
         /// </summary>
         public Cursor Cursor
         {
@@ -58,7 +60,7 @@ namespace CodeDoc.ViewModel
         }
 
         /// <summary>
-        /// 
+        /// Get or set the progress value of the status progressbar bar
         /// </summary>
         public int Progress
         {
@@ -67,8 +69,9 @@ namespace CodeDoc.ViewModel
         }
 
 
+
         /// <summary>
-        /// 
+        /// Get or set the opening state of the status panel
         /// </summary>
         public bool StatusPanelIsOpen
         {
@@ -77,25 +80,7 @@ namespace CodeDoc.ViewModel
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public Visibility ProgressBarVisibility
-        {
-            get { return _ProgressBarVisibility; }
-            set { Set(ref _ProgressBarVisibility, value); }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool ShowOptionPanel
-        {
-            get { return _ShowOptionPanel; }
-            set { Set(ref _ShowOptionPanel, value); }
-        }
-
-        /// <summary>
-        /// 
+        /// Get or set the current status to display
         /// </summary>
         public string Status
         {
@@ -103,22 +88,57 @@ namespace CodeDoc.ViewModel
             set { Set(ref _Status, value); }
         }
 
-
         /// <summary>
-        /// 
+        /// Get or set the visibility of the data path panel
         /// </summary>
-        public RelayCommand ApplyDefaultsCommand
+        public Visibility DataPathFieldVisibility
         {
-            get { return _ApplyDefaultsCommand ?? (_ApplyDefaultsCommand = new RelayCommand(ApplyDefaults)); }
+            get { return _DataPathFieldVisibility; }
+            set { Set(ref _DataPathFieldVisibility, value); }
         }
 
         /// <summary>
-        /// 
+        /// Get or set the visibility of the missing description panel
         /// </summary>
-        public RelayCommand ShowOptionPanelCommand
+        public Visibility MissingDescriptionVisibility
         {
-            get { return _ShowOptionPanelCommand ?? (_ShowOptionPanelCommand = new RelayCommand(() => ShowOptionPanel = !ShowOptionPanel)); }
+            get { return _MissingDescriptionVisibility; }
+            set { Set(ref _MissingDescriptionVisibility, value); }
         }
+
+        /// <summary>
+        /// Get or set the visibility of the missing description panel
+        /// </summary>
+        public Visibility ProgressVisibility
+        {
+            get { return _ProgressVisibility; }
+            set { Set(ref _ProgressVisibility, value); }
+        }
+
+
+
+        /// <summary>
+        /// Get or set the opening state of the option panel
+        /// </summary>
+        public bool ShowOptionPanel
+        {
+            get { return _ShowOptionPanel; }
+            set { Set(ref _ShowOptionPanel, value); }
+        }
+        
+        /// <summary>
+        /// Get the command to show or hide the option panel
+        /// </summary>
+        public RelayCommand ShowOptionPanelCommand => _ShowOptionPanelCommand ?? 
+            (_ShowOptionPanelCommand = new RelayCommand(() => ShowOptionPanel = !ShowOptionPanel));
+
+        /// <summary>
+        /// Get the command to apply defaults settings
+        /// </summary>
+        public RelayCommand ApplyDefaultsCommand => _ApplyDefaultsCommand ?? 
+            (_ApplyDefaultsCommand = new RelayCommand(ApplyDefaults));
+
+
 
 
 
@@ -133,8 +153,8 @@ namespace CodeDoc.ViewModel
         /// </summary>
         public CDMainVM()
         {
-            MessengerInstance.Register<CDStatusMessage>(this, x => DisplaySatus(x.ShowPanel, x.Status, x.UseTimer, x.ShowProgressBar));
-            MessengerInstance.Register<CDDataIOMessage>(this, x => Progress = x.Progress);
+            MessengerInstance.Register<CDStatusMessage>(this, x => SetStatusPanel(x.Panel, x.Status, x.AutoClose, x.CanClose));
+            MessengerInstance.Register<CDProgressMessage>(this, x => Progress = x.Progress);
         }
 
 
@@ -152,38 +172,74 @@ namespace CodeDoc.ViewModel
         ////}
 
 
-        /// <summary>
-        /// Set the UI status message for 5 seconds
-        /// </summary>
-        /// <param name="status"></param>
-        private void DisplaySatus(bool showPanel, string status, bool useTimer, bool showProgressBar)
+        private void SetStatusPanel(StatusPanels panel, string status = null, bool autoClose = false, bool canClose = false)
         {
-            // check wheter an item was selected 
+            if (_CanCloseStatusPanel && canClose)
+                _CanCloseStatusPanel = true;
 
-            _Timer.Stop();
-
-            if (!showPanel)
+            Status = status;
+            if (panel is StatusPanels.None && _CanCloseStatusPanel)
             {
                 StatusPanelIsOpen = false;
                 return;
             }
 
-            Status = status;
-            StatusPanelIsOpen = true;
-            ProgressBarVisibility = showProgressBar ? Visibility.Visible : Visibility.Collapsed;
-
-            if (useTimer)
+            else
             {
-                _Timer.Elapsed += (s, ev) =>
+                StatusPanelIsOpen = true;
+                ProgressVisibility = panel is StatusPanels.Progress ? Visibility.Visible : Visibility.Collapsed;
+                DataPathFieldVisibility = panel is StatusPanels.DataPathField ? Visibility.Visible : Visibility.Collapsed;
+                MissingDescriptionVisibility = panel is StatusPanels.MissingDescription ? Visibility.Visible : Visibility.Collapsed;
+
+                if (autoClose)
                 {
-                    ProgressBarVisibility = Visibility.Collapsed;
-                    StatusPanelIsOpen = false;
-                    Status = string.Empty;
-                    MessengerInstance.Send(new CDStatusPanelMessage(false));
-                };
-                _Timer.Start();
+                    _Timer.Elapsed += (s, e) =>
+                    {
+                        if (_CanCloseStatusPanel)
+                        {
+                            StatusPanelIsOpen = false;
+                            DataPathFieldVisibility = MissingDescriptionVisibility = ProgressVisibility = Visibility.Collapsed;
+                            Status = null;
+                        }
+                    };
+                    _Timer.Start();
+                }
             }
         }
+
+
+        /// <summary>
+        /// Set the UI status message for 5 seconds
+        /// </summary>
+        /// <param name="status"></param>
+        //private void DisplaySatus(bool showPanel, string status, bool useTimer, bool showProgressBar)
+        //{
+        //    // check wheter an item was selected 
+
+        //    _Timer.Stop();
+
+        //    if (!showPanel)
+        //    {
+        //        StatusPanelIsOpen = false;
+        //        return;
+        //    }
+
+        //    Status = status;
+        //    StatusPanelIsOpen = true;
+        //    ProgressVisibility = showProgressBar ? Visibility.Visible : Visibility.Collapsed;
+
+        //    if (useTimer)
+        //    {
+        //        _Timer.Elapsed += (s, ev) =>
+        //        {
+        //            ProgressVisibility = Visibility.Collapsed;
+        //            StatusPanelIsOpen = false;
+        //            Status = string.Empty;
+        //            MessengerInstance.Send(new CDStatusPanelMessage(false));
+        //        };
+        //        _Timer.Start();
+        //    }
+        //}
 
 
         /// <summary>
@@ -191,6 +247,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void ApplyDefaults()
         {
+            //TODO: no generic message...
             MessengerInstance.Send(new NotificationMessage(CDConstants.AppDataFolder));
         }
 

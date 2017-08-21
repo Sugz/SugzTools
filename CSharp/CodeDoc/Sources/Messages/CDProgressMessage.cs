@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CodeDoc.Messaging
 {
-    public class CDDataIOMessage
+    public class CDProgressMessage
     {
         public int Progress { get; protected set; }
-        public CDDataIOMessage(int progress)
+        public CDProgressMessage(int progress)
         {
             Progress = progress;
         }

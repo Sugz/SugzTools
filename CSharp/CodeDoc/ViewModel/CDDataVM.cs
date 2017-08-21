@@ -38,8 +38,6 @@ namespace CodeDoc.ViewModel
         private CDDataItem _SelectedItem;
         private bool _CanValidateDataPath = false;
         private string _DataPathField;
-        private bool _CanShowDataPathField = true;
-        private Visibility _DataPathFieldVisibility = Visibility.Collapsed;
 
         private RelayCommand _SetDataFolderCommand;
         private RelayCommand _AddFolderCommand;
@@ -86,7 +84,7 @@ namespace CodeDoc.ViewModel
         }
 
         /// <summary>
-        /// The collection of CDFolders that will be displayed in the treeview
+        /// The collection of CDFileItem that will be displayed in the treeview
         /// </summary>
         public ObservableCollection<CDFileItem> Datas
         {
@@ -141,15 +139,6 @@ namespace CodeDoc.ViewModel
                     Application.Current.Dispatcher.Invoke(ValidateDataPathCommand.RaiseCanExecuteChanged);
                 }
             }
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public Visibility DataPathFieldVisibility
-        {
-            get { return _DataPathFieldVisibility; }
-            set { Set(ref _DataPathFieldVisibility, value); }
         }
 
 
@@ -225,13 +214,6 @@ namespace CodeDoc.ViewModel
 
             //Get the data from _DataIO
             MessengerInstance.Register<GenericMessage<ObservableCollection<CDFileItem>>>(this, x => Datas = x.Content);
-
-            //Set the status panel when it's closing
-            MessengerInstance.Register<CDStatusPanelMessage>(this, x =>
-            {
-                _CanShowDataPathField = !x.IsDisplayingStatus;
-                SetStatusPanel();
-            });
             
 
             InitializeData();
@@ -258,7 +240,7 @@ namespace CodeDoc.ViewModel
             if (File.Exists(_DataIO.DataFile))
                 _DataIO.LoadDatas();
             else
-                MessengerInstance.Send(new CDStatusMessage(CDConstants.DataNotFind, true, false));
+                MessengerInstance.Send(new CDStatusMessage(CDConstants.DataNotFind, true));
         }
 
 
@@ -317,17 +299,15 @@ namespace CodeDoc.ViewModel
             {
                 if (selectedItem.IsValidPath)
                 {
-                    DataPathFieldVisibility = Visibility.Collapsed;
                     if (ShowSelectedItemPath)
-                        MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
+                        MessengerInstance.Send(new CDStatusMessage(selectedItem.Path));
                     else
-                        MessengerInstance.Send(new CDStatusMessage(false));
+                        MessengerInstance.Send(new CDStatusMessage(StatusPanels.None, true));
                 }
-                else if (_CanShowDataPathField)
+                else
                 {
-                    DataPathFieldVisibility = Visibility.Visible;
                     DataPathField = selectedItem.Path;
-                    MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
+                    MessengerInstance.Send(new CDStatusMessage(StatusPanels.DataPathField));
                 }
             }
         } 
@@ -339,8 +319,6 @@ namespace CodeDoc.ViewModel
         /// <param name="type"></param>
         private void UseDataIO(IOType type)
         {
-            _CanShowDataPathField = false;
-            DataPathFieldVisibility = Visibility.Collapsed;
             switch (type)
             {
                 case IOType.Load:

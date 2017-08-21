@@ -19,11 +19,14 @@ namespace CodeDoc.Src
         public static string Folder = "Folder";
         public static string Script = "Script";
         public static Regex LinkParser = new Regex(@"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static string NoDescription = "seems to contain no description, add one with the EDIT button";
 
-        public static string ScriptNoDescription = "This script seems to contain no description, add one ?";
+        public static string ScriptNoDescription = $"This script {NoDescription}";
         public static string UseModifyScript = "*Use / Modify this script at your own risk !*";
         public static string ScriptDescriptionStart = "/*##############################################################################";
         public static string ScriptDescriptionEnd = "###############################################################################*/";
+
+        public static string FunctionNoDescription = $"This function {NoDescription}";
 
 
         public static string[] Comments = { "/*", "--" };

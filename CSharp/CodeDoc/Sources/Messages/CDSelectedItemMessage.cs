@@ -1,4 +1,5 @@
 ﻿using CodeDoc.Model;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,14 @@ namespace CodeDoc.Messaging
     /// </summary>
     public class CDSelectedItemMessage
     {
-        public CDDataItem Sender { get; protected set; }
-        public CDSelectedItemMessage(CDDataItem item)
+        public object Sender { get; protected set; }
+        public CDDataItem NewItem { get; protected set; }
+
+        public CDSelectedItemMessage(CDDataItem item) : this(item, item) { }
+        public CDSelectedItemMessage(object sender, CDDataItem item)
         {
-            Sender = item;
+            Sender = sender;
+            NewItem = item;
         }
     }
 }

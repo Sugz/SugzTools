@@ -179,6 +179,7 @@ namespace CodeDoc.ViewModel
                     ProgressBarVisibility = Visibility.Collapsed;
                     StatusPanelIsOpen = false;
                     Status = string.Empty;
+                    //MessengerInstance.Send(new CDStatusPanelMessage());
                     MessengerInstance.Send(new CDStatusPanelMessage(false));
                 };
                 _Timer.Start();

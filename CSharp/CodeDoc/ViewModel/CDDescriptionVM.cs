@@ -142,7 +142,11 @@ namespace CodeDoc.ViewModel
         public CDDescriptionVM()
         {
             // Get selected treeview item
-            MessengerInstance.Register<CDSelectedItemMessage>(this, x => SelectedItem = x.Sender);
+            MessengerInstance.Register<CDSelectedItemMessage>(this, x =>
+            {
+                if (x.Sender != this)
+                    SelectedItem = x.NewItem;
+            });
         }
 
 
@@ -177,7 +181,10 @@ namespace CodeDoc.ViewModel
 
             // Get selected item description and set the edit button visibility
             CDParser.FormatDataItemDescription(SelectedItem, ref _Document);
-            EditButtonVisibility = SelectedItem.GetType() == typeof(CDFolder) ? Visibility.Collapsed : Visibility.Visible;
+            if (SelectedItem is CDFolder folderItem || (SelectedItem is CDScript scriptItem && !scriptItem.IsValidPath))
+                EditButtonVisibility = Visibility.Collapsed;
+            else
+                EditButtonVisibility = Visibility.Visible;
         }
 
 

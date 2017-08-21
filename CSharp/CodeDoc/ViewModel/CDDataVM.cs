@@ -220,8 +220,12 @@ namespace CodeDoc.ViewModel
 
         public CDDataVM()
         {
-            // Get selected treeview item
-            MessengerInstance.Register<CDSelectedItemMessage>(this, x => SelectedItem = x.Sender);
+            // Get selected treeview item and avoid update when send from this class
+            MessengerInstance.Register<CDSelectedItemMessage>(this, x => 
+            {
+                if (x.Sender != this)
+                    SelectedItem = x.NewItem;
+            });
 
             //Get the data from _DataIO
             MessengerInstance.Register<GenericMessage<ObservableCollection<CDFileItem>>>(this, x => Datas = x.Content);
@@ -230,6 +234,7 @@ namespace CodeDoc.ViewModel
             MessengerInstance.Register<CDStatusPanelMessage>(this, x =>
             {
                 _CanShowDataPathField = !x.IsDisplayingStatus;
+                //_CanShowDataPathField = true;
                 SetStatusPanel();
             });
             
@@ -313,30 +318,30 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SetStatusPanel()
         {
-            //TODO: order of priority: DataPathFieldVisibility before missing description
-            if (SelectedItem is IReadableItem item && item.Description is null)
+            if (_SelectedItem is CDFileItem fileItem && !fileItem.IsValidPath && _CanShowDataPathField)
             {
-                DataPathFieldVisibility = Visibility.Collapsed;
-                MessengerInstance.Send(new CDStatusMessage(CDConstants.ScriptNoDescription, false, false));
+                DataPathFieldVisibility = Visibility.Visible;
+                DataPathField = fileItem.Path;
+                MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
             }
-            else if (_SelectedItem is CDFileItem selectedItem)
+            else
             {
-                if (selectedItem.IsValidPath)
+                MessengerInstance.Send(new CDSelectedItemMessage(this, SelectedItem));
+                DataPathFieldVisibility = Visibility.Collapsed;
+                if (SelectedItem is IReadableItem readableItem && readableItem.Description is null)
                 {
-                    DataPathFieldVisibility = Visibility.Collapsed;
+                    string message = readableItem.GetType() == typeof(CDScript) ? CDConstants.ScriptNoDescription : CDConstants.FunctionNoDescription;
+                    MessengerInstance.Send(new CDStatusMessage(message, false, false));
+                }
+                else if (_SelectedItem is CDFileItem selectedItem)
+                {
                     if (ShowSelectedItemPath)
                         MessengerInstance.Send(new CDStatusMessage(selectedItem.Path, false, false));
                     else
                         MessengerInstance.Send(new CDStatusMessage(false));
                 }
-                else if (_CanShowDataPathField)
-                {
-                    DataPathFieldVisibility = Visibility.Visible;
-                    DataPathField = selectedItem.Path;
-                    MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
-                }
             }
-        } 
+        }
 
 
         /// <summary>

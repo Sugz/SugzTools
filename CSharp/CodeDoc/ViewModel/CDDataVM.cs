@@ -318,15 +318,21 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SetStatusPanel()
         {
+            // Give priority to show the data path field when the selected item path isn't valid
             if (_SelectedItem is CDFileItem fileItem && !fileItem.IsValidPath && _CanShowDataPathField)
             {
                 DataPathFieldVisibility = Visibility.Visible;
                 DataPathField = fileItem.Path;
                 MessengerInstance.Send(new CDStatusMessage(string.Empty, false, false));
             }
+
+            // Hide the data path field and show 
             else
             {
+                // Update the selected item in case it's path became valid 
+                //TODO: replace it by sending the message directl from the fileItem class when isvalidpath becomes true
                 MessengerInstance.Send(new CDSelectedItemMessage(this, SelectedItem));
+
                 DataPathFieldVisibility = Visibility.Collapsed;
                 if (SelectedItem is IReadableItem readableItem && readableItem.Description is null)
                 {

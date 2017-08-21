@@ -284,10 +284,7 @@ namespace CodeDoc.Src
                             if (values.Count > 1)
                                 document.Blocks.Add(FormatList((StringCollection)values, new Thickness(0, 2, 0, 0)));
                             else if (values.Count == 1)
-                            {
-                                //TODO hyperlinks
-                                document.Blocks.Add(new Paragraph(new Run(((StringCollection)values)[0])));
-                            }
+                                document.Blocks.Add(FormatText(((StringCollection)values)[0]));
                         }
                     }
                 }

@@ -25,7 +25,7 @@ namespace CodeDoc.Model
 
         #region Properties
 
-
+        //TODO update selecteditem when isvalidpath changed
         public bool IsValidPath
         {
             get { return _IsValidPath; }

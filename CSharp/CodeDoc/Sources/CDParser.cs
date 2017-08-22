@@ -364,6 +364,12 @@ namespace CodeDoc.Src
                 FormatFolderDescription(folder, ref document);
             else if (item is CDScript script)
                 FormatScriptDescription(script, ref document);
+
+            else if (item is CDFunction function)
+            {
+                foreach (string line in function.Description)
+                    document.Blocks.Add(new Paragraph(new Run(line)));
+            }
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,10 @@ namespace CodeDoc.Model
         #region Fields
 
         private StringCollection _Description;
+        private long _Index;
 
         #endregion Fields
+
 
         #region Properties
 
@@ -23,18 +26,19 @@ namespace CodeDoc.Model
         /// 
         /// </summary>
         public StringCollection Description => _Description ?? (_Description = GetDescription());
-
+        public override string Text { get; set; }
 
         #endregion Properties
-
 
 
         #region Constructor
 
 
-        public CDFunction(object parent) : base(parent)
+        public CDFunction(object parent, string text, long index) : base(parent)
         {
             Type = CDDataItemType.Function;
+            Text = text;
+            _Index = index;
         }
 
 
@@ -44,17 +48,15 @@ namespace CodeDoc.Model
         #region Methods
 
 
-        protected override string GetText()
-        {
-            //TODO: implement method
-            return null;
-        }
-
-
         private StringCollection GetDescription()
         {
             //TODO: implement method
-            return null;
+            StringCollection description = new StringCollection();
+            StreamReader _StreamReader = new StreamReader(((CDScript)Parent).Path, Encoding.GetEncoding("iso-8859-1"));
+            _StreamReader.BaseStream.Position = _Index;
+            description.Add(_StreamReader.ReadLine());
+            description.Add(_Index.ToString());
+            return description;
         }
 
 

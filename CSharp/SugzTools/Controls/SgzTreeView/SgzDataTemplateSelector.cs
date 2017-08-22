@@ -14,8 +14,17 @@ namespace SugzTools.Controls
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (container is FrameworkElement element && item != null)
-                return Templates[item.GetType()];
+            if (container is FrameworkElement element && item.GetType() is Type type)
+            {
+                // Check for current type and parent type
+                while (!Templates.ContainsKey(type))
+                {
+                    if (type.BaseType == typeof(object))
+                        return null;
+                    type = type.BaseType;
+                }
+                return Templates[type];
+            }
 
             return null;
         }

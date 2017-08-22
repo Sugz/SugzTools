@@ -27,7 +27,8 @@ namespace CodeDoc.Src
         public static string ScriptDescriptionEnd = "###############################################################################*/";
 
         public static string FunctionNoDescription = $"This function {NoDescription}";
-
+        public static string[] FunctionDef = { "fn", "function" };
+        public static char[] FunctionTrimChars = "\t ".ToCharArray();
 
         public static string[] Comments = { "/*", "--" };
         public static char[] DescriptionTrimChars = "\t# ".ToCharArray();

@@ -24,13 +24,10 @@ namespace CodeDoc.ViewModel
 
         private CDDataItem _SelectedItem;                                                                   // Treeview selected item
         private FlowDocument _Document;                                                                     // The flowdocument
-        private Visibility _MissingDescriptionVisibility = Visibility.Collapsed;                            // The visibility of the missing description panel in the status panel
-        private bool _DescriptionPanelIsOpen = false;                                                       // The opening state of the description panel
         private Visibility _EditButtonVisibility = Visibility.Collapsed;                                    // The edit button visibility
         private ObservableCollection<string> _ScriptDescription = new ObservableCollection<string>();       // The collection use to fill and save script description
 
         private RelayCommand _SetDescriptionPanelCommand;
-        private RelayCommand _DontSetDescriptionCommand;
         private RelayCommand _SaveDescriptionCommand;
 
         #endregion Fields
@@ -49,9 +46,11 @@ namespace CodeDoc.ViewModel
             {
                 _SelectedItem = value;
                 GetDocument();
-
-                if (DescriptionPanelIsOpen)
-                    DescriptionPanelIsOpen = false;
+                SelectedItem.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == "IsValidPath")
+                        GetDocument();
+                };
             }
         }
 
@@ -64,27 +63,6 @@ namespace CodeDoc.ViewModel
             set { Set(ref _Document, value); }
         }
 
-        /// <summary>
-        /// Set the visibility of the missing description panel in the status panel
-        /// </summary>
-        public Visibility MissingDescriptionVisibility
-        {
-            get { return _MissingDescriptionVisibility; }
-            set { Set(ref _MissingDescriptionVisibility, value); }
-        }
-
-        /// <summary>
-        /// Set the open / close state of the description panel
-        /// </summary>
-        public bool DescriptionPanelIsOpen
-        {
-            get { return _DescriptionPanelIsOpen; }
-            set
-            {
-                Set(ref _DescriptionPanelIsOpen, value);
-                MessengerInstance.Send(new CDStatusMessage(false));
-            }
-        }
 
         /// <summary>
         /// The edit button visibility
@@ -118,14 +96,6 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// Close the Status panel
         /// </summary>
-        public RelayCommand DontSetDescriptionCommand
-        {
-            get { return _DontSetDescriptionCommand ?? (_DontSetDescriptionCommand = new RelayCommand(() => MessengerInstance.Send(new CDStatusMessage(false)))); }
-        }
-
-        /// <summary>
-        /// Close the Status panel
-        /// </summary>
         public RelayCommand SaveDescriptionCommand
         {
             get { return _SaveDescriptionCommand ?? (_SaveDescriptionCommand = new RelayCommand(SaveDescription)); }
@@ -142,11 +112,7 @@ namespace CodeDoc.ViewModel
         public CDDescriptionVM()
         {
             // Get selected treeview item
-            MessengerInstance.Register<CDSelectedItemMessage>(this, x =>
-            {
-                if (x.Sender != this)
-                    SelectedItem = x.NewItem;
-            });
+            MessengerInstance.Register<CDSelectedItemMessage>(this, x => SelectedItem = x.NewItem);
         }
 
 
@@ -181,6 +147,8 @@ namespace CodeDoc.ViewModel
 
             // Get selected item description and set the edit button visibility
             CDParser.FormatDataItemDescription(SelectedItem, ref _Document);
+
+            // SelectedItem can't be a folder and it's path must be valid
             if (SelectedItem is CDFolder folderItem || (SelectedItem is CDScript scriptItem && !scriptItem.IsValidPath))
                 EditButtonVisibility = Visibility.Collapsed;
             else
@@ -193,7 +161,7 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SetDescriptionPanel()
         {
-            DescriptionPanelIsOpen = !DescriptionPanelIsOpen;
+            //DescriptionPanelIsOpen = !DescriptionPanelIsOpen;
             ScriptDescription.Clear();
 
             // Check if there is a description
@@ -220,7 +188,7 @@ namespace CodeDoc.ViewModel
         private void SaveDescription()
         {
             //TODO: the saving stuff
-            DescriptionPanelIsOpen = false;
+            //DescriptionPanelIsOpen = false;
 
             // Check if there is a description
             if (SelectedItem is IReadableItem item)

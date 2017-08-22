@@ -25,16 +25,24 @@ namespace CodeDoc.Model
 
         #region Properties
 
-        //TODO update selecteditem when isvalidpath changed
         public bool IsValidPath
         {
             get { return _IsValidPath; }
-            set { Set(ref _IsValidPath, value); }
+            set
+            {
+                Set(ref _IsValidPath, value);
+
+                // Reload children when path become valid
+                if (value && _Children is null)
+                    Children = GetChildren();
+            }
         }
+
         public string RelativePath
         {
             get { return CDMaxPath.GetRelativePath(Path); }
         }
+
         public string Path
         {
             get { return _Path; }
@@ -44,10 +52,17 @@ namespace CodeDoc.Model
                 IsValidPath = GetIsValidPath();
             }
         }
+
+        public override string Text
+        {
+            get { return _Text ?? (_Text = GetText()); }
+            set { Set(ref _Text, value); }
+        }
+
         public ObservableCollection<CDDataItem> Children
         {
             get { return _Children ?? (_Children = GetChildren()); }
-            set { _Children = value; }
+            set { Set(ref _Children, value); }
         }
 
         #endregion MyRegion
@@ -70,6 +85,7 @@ namespace CodeDoc.Model
         #region Methods
 
         protected abstract bool GetIsValidPath();
+        protected abstract string GetText();
         protected abstract ObservableCollection<CDDataItem> GetChildren(); 
 
         #endregion Methods

@@ -47,11 +47,7 @@ namespace CodeDoc.Model
 
         public CDDataItemType Type { get; set; }
         public object Parent { get; set; }
-        public string Text
-        {
-            get { return _Text ?? (_Text = GetText()); }
-            set { Set(ref _Text, value); }
-        }
+        public abstract string Text { get; set; }
         public bool IsSelected
         {
             get { return _IsSelected; }
@@ -77,7 +73,7 @@ namespace CodeDoc.Model
         #region Methods
 
 
-        protected abstract string GetText();
+        
 
 
         #endregion Methods

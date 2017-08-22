@@ -4,6 +4,7 @@
           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
           xmlns:local="clr-namespace:CodeDoc.Controls"
+          xmlns:model="clr-namespace:CodeDoc.Model"
           xmlns:src="clr-namespace:CodeDoc.Src"
           xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
           xmlns:c="clr-namespace:SugzTools.Converters;assembly=SugzTools"
@@ -11,7 +12,6 @@
           d:DesignHeight="300"
           d:DesignWidth="300"
           Style="{DynamicResource TreeViewStyle}"
-          ItemTemplate="{DynamicResource TVDataTemplate}"
           ItemContainerStyle="{DynamicResource TreeViewItemStyle}"
           KeyDown="TreeView_KeyDown"
           SelectedItemChanged="TreeView_SelectedItemChanged">
@@ -27,8 +27,8 @@
             <c:LeftMarginMultiplierConverter x:Key="LeftMarginMultiplier" />
             <c:InvertableBooleanToVisibilityConverter x:Key="VisToBool" />
 
-            <!-- DataTemplate -->
-            <HierarchicalDataTemplate x:Key="TVDataTemplate" ItemsSource="{Binding Children}">
+            <!-- CDFileItem DataTemplate -->
+            <HierarchicalDataTemplate x:Key="CDFileItemDataTemplate" ItemsSource="{Binding Children}">
                 <Grid x:Name="grid" 
                       Height="22"
                       Background="Transparent">
@@ -74,11 +74,28 @@
                     <!-- Set the grid tooltip -->
                     <DataTrigger Binding="{Binding IsValidPath}" Value="False">
                         <Setter TargetName="grid" Property="ToolTip" Value="{x:Static src:CDConstants.InvalidPath }" />
+                        <Setter TargetName="grid" Property="ToolTip" Value="{x:Static src:CDConstants.InvalidPath }" />
                     </DataTrigger>
                     
                 </HierarchicalDataTemplate.Triggers>
             </HierarchicalDataTemplate>
 
+            <!-- CDFileItem DataTemplate -->
+            <HierarchicalDataTemplate x:Key="CDDataItemDataTemplate">
+                <Grid x:Name="grid"
+                      Height="22"
+                      Background="Transparent">
+
+                    <!-- Normal state -->
+                    <TextBlock x:Name="textBlock"
+                               Text="{Binding Text}"
+                               Margin="3,0,0,2"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource MaxText}"
+                               HorizontalAlignment="Left" />
+                </Grid>
+            </HierarchicalDataTemplate>
+            
             <!-- TreeViewItem Focus Visual -->
             <Style x:Key="TreeViewItemFocusVisual">
                 <Setter Property="Control.Template">

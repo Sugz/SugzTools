@@ -55,7 +55,7 @@ namespace CodeDoc.ViewModel
         #region Properties
 
 
-        string IDataErrorInfo.Error => string.Empty;
+        string IDataErrorInfo.Error => null;
 
         string IDataErrorInfo.this[string name]
         {
@@ -220,12 +220,8 @@ namespace CodeDoc.ViewModel
 
         public CDDataVM()
         {
-            // Get selected treeview item and avoid update when send from this class
-            MessengerInstance.Register<CDSelectedItemMessage>(this, x => 
-            {
-                if (x.Sender != this)
-                    SelectedItem = x.NewItem;
-            });
+            // Get selected treeview item
+            MessengerInstance.Register<CDSelectedItemMessage>(this, x => SelectedItem = x.NewItem);
 
             //Get the data from _DataIO
             MessengerInstance.Register<GenericMessage<ObservableCollection<CDFileItem>>>(this, x => Datas = x.Content);
@@ -329,9 +325,7 @@ namespace CodeDoc.ViewModel
             // Hide the data path field and show 
             else
             {
-                // Update the selected item in case it's path became valid 
-                //TODO: replace it by sending the message directl from the fileItem class when isvalidpath becomes true
-                MessengerInstance.Send(new CDSelectedItemMessage(this, SelectedItem));
+
 
                 DataPathFieldVisibility = Visibility.Collapsed;
                 if (SelectedItem is IReadableItem readableItem && readableItem.Description is null)

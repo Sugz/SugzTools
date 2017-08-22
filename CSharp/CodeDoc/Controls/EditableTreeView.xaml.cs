@@ -1,6 +1,7 @@
 ﻿// Based on the exemple provided by Yury Vetyukov (Yury.Vetyukov@tuwien.ac.at)
 // https://www.codeproject.com/Articles/893068/WPF-TreeView-with-in-place-editing
 
+using CodeDoc.Model;
 using SugzTools.Controls;
 using System;
 using System.ComponentModel;
@@ -28,7 +29,6 @@ namespace CodeDoc.Controls
 
 
         #region Fields
-
 
         private bool _IsInEditMode;
         private string _OldText;
@@ -60,16 +60,26 @@ namespace CodeDoc.Controls
         public EditableTreeView()
         {
             InitializeComponent();
+            SetDataTemplates();
             SelectedItemChanged += EditableTreeView_SelectedItemChanged; ;
         }
 
-        
 
 
         #endregion Constructor
 
 
         #region Methods
+
+        /// <summary>
+        /// Assign data templates
+        /// </summary>
+        private void SetDataTemplates()
+        {
+            ItemTemplateSelector = new SgzDataTemplateSelector();
+            ((SgzDataTemplateSelector)ItemTemplateSelector).Templates.Add(typeof(CDFileItem), (DataTemplate)Resources["CDFileItemDataTemplate"]);
+            ((SgzDataTemplateSelector)ItemTemplateSelector).Templates.Add(typeof(CDDataItem), (DataTemplate)Resources["CDDataItemDataTemplate"]);
+        }
 
 
         // searches for the corresponding TreeViewItem,

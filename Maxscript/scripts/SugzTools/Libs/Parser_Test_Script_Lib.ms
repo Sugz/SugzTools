@@ -37,11 +37,11 @@ struct TestStruct
 	(
 		/*<Function>
 		Arguments:
-			Integer arg: un argument quoi
-			String arg2: un argument optionel <Optional> 
+			<Integer> arg: un argument quoi
+			<String> arg2: un argument optionel <Optional> 
 		Return:
 		Infos:
-			Var taMere: dans http://forum.mattguetta.com ton cul ! 
+			<Var> taMere: dans http://forum.mattguetta.com ton cul ! 
 		</Function>*/
 
 

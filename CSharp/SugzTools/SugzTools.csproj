@@ -122,6 +122,7 @@
     <Compile Include="Converters\SpacingToMarginConverter.cs" />
     <Compile Include="Converters\ValueMinusConverter.cs" />
     <Compile Include="Converters\ObjectToUIElementConverter.cs" />
+    <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Max\Animatable\Animatable.cs" />
     <Compile Include="Max\Cui\Cui.cs" />
@@ -151,10 +152,10 @@
     <Compile Include="Sources\Const.cs" />
     <Compile Include="Sources\ModelGenerator.cs" />
     <Compile Include="Sources\Enums.cs" />
-    <Compile Include="Sources\ExtensionMethods.cs" />
     <Compile Include="Sources\GetResources.cs" />
     <Compile Include="Sources\Helpers.cs" />
     <Compile Include="Sources\NativeMethods.cs" />
+    <Compile Include="Sources\PeekableStreamReaderAdapter.cs" />
     <Compile Include="Sources\Rename.cs" />
     <Compile Include="Sources\TemplateGenerator.cs" />
     <Compile Include="Sources\TMath.cs" />

@@ -1,4 +1,5 @@
 ﻿using SugzTools.Src;
+using SugzTools.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,8 @@ namespace SugzTools.Src
         {
             // Transfer properties of the control to the factory
             IEnumerable<DependencyProperty> dep = Helpers.GetDependencyProperties(model).Concat(Helpers.GetAttachedProperties(model));
-            dep.ForEach(x => factory.SetValue((DependencyProperty)x, model.GetValue((DependencyProperty)x)));
+            dep.ForEach(x => factory.SetValue(x, model.GetValue(x)));
+
 
             // Transfer event handlers of the control to the factory
             FieldInfo[] fields = model.GetType().GetFields(BF.Static | BF.NonPublic | BF.Instance | BF.Public | BF.FlattenHierarchy);

@@ -201,6 +201,7 @@ namespace CodeDoc.Src
             Dictionary<string, object> dictonary = new Dictionary<string, object>();
 
             // Store the intro
+            // TODO: include in a complete for loop to avoid intro that do not contain 4 lines
             for (int i = 0; i < 4; i++)
                 dictonary.Add(CDConstants.ScriptIntro[i], description[i]);
 
@@ -323,6 +324,13 @@ namespace CodeDoc.Src
 
 
         #endregion Script
+
+
+        public static Dictionary<string, object> ParseFunctionDescription(StringCollection description)
+        {
+            //TODO: implement method
+            return null;
+        }
 
 
 

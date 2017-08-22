@@ -1,4 +1,5 @@
 ﻿using CodeDoc.Src;
+using SugzTools.Src;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -15,7 +16,7 @@ namespace CodeDoc.Model
 
         StreamReader _StreamReader;
         private StringCollection _Description;                          // The script description
-        private long _DescriptionEndIndex = 0;                           // The line index for the description end
+        private int _LineCount = 0;                           // The line index for the description end
 
         #endregion Fields
 
@@ -62,24 +63,16 @@ namespace CodeDoc.Model
                 _Description = GetDescription();
 
             ObservableCollection<CDDataItem> children = new ObservableCollection<CDDataItem>();
-            _StreamReader = new StreamReader(Path, Encoding.GetEncoding("iso-8859-1"));
-            _StreamReader.BaseStream.Position = _DescriptionEndIndex;
-            //string line = _StreamReader.ReadLine();
+            PeekableStreamReaderAdapter peekStreamReader = new PeekableStreamReaderAdapter(_StreamReader);
             while (!_StreamReader.EndOfStream)
             {
-                long index = _StreamReader.BaseStream.Position;
-                string function = _StreamReader.ReadLine().Trim(CDConstants.FunctionTrimChars);
-                if (Array.Exists(CDConstants.FunctionDef, x => function.StartsWith(x)))
-                {
-                    //Console.WriteLine($"************\n{line}\n***********");
-                    //int start = line.IndexOf(" ") + 1;
-                    //string text = line.Substring(start, line.IndexOf("=") - start);
-                    children.Add(new CDFunction(this, function, index));
-                }
-                //line = _StreamReader.ReadLine();
-                //_StreamReader.ReadLine();
+                    children.Add(new CDFunction(this, peekLine, _LineCount));
+
+                _LineCount++;
+                peekStreamReader.ReadLine();
             }
 
+            _StreamReader.Close();
             return children.Count != 0 ? children : null;
         }
 
@@ -105,12 +98,10 @@ namespace CodeDoc.Model
                     description = null;
                     break;
                 }
-
-                _DescriptionEndIndex = _StreamReader.BaseStream.Position;
+                _LineCount++;
                 str = _StreamReader.ReadLine();
             }
 
-            _StreamReader.Close();
             return description;
         } 
 

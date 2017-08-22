@@ -47,7 +47,7 @@ namespace CodeDoc.Model
 
         public CDDataItemType Type { get; set; }
         public object Parent { get; set; }
-        public abstract string Text { get; set; }
+        public virtual string Text { get; set; }
         public bool IsSelected
         {
             get { return _IsSelected; }

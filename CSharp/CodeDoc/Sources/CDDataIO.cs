@@ -2,6 +2,7 @@
 using CodeDoc.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using SugzTools.Extensions;
 using SugzTools.Src;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -106,7 +107,7 @@ namespace CodeDoc.Src
             XDocument doc = XDocument.Load(_DataFile);
             _ItemCount = doc.Root.Descendants().Count();
 
-            doc.Root.Elements().ForEach(x => items.Add((CDFileItem)LoadItem((XElement)x)));
+            doc.Root.Elements().ForEach(x => items.Add((CDFileItem)LoadItem(x)));
             e.Result = items;
         }
 
@@ -128,7 +129,7 @@ namespace CodeDoc.Src
             {
                 CDFolder item = new CDFolder(parent, path, text);
                 ObservableCollection<CDDataItem> scripts = new ObservableCollection<CDDataItem>();
-                node.Elements().ForEach(x => scripts.Add(LoadItem((XElement)x, item)));
+                node.Elements().ForEach(x => scripts.Add(LoadItem(x, item)));
                 item.Children = scripts;
                 return item;
             }
@@ -184,7 +185,7 @@ namespace CodeDoc.Src
         private void SaveDatasWork(object sender, DoWorkEventArgs e)
         {
             _ItemCount = 0;
-            _Datas.ForEach(x => _ItemCount += ((CDFileItem)x).Children.Count + 1);
+            _Datas.ForEach(x => _ItemCount += x.Children.Count + 1);
 
             _Writer = new XmlTextWriter(_DataFile, Encoding.UTF8);
             _Writer.Formatting = Formatting.Indented;
@@ -193,7 +194,7 @@ namespace CodeDoc.Src
             _Writer.WriteStartDocument();
             _Writer.WriteStartElement("CodeDocConfig");
 
-            _Datas.ForEach(x => SaveItem((CDDataItem)x));
+            _Datas.ForEach(x => SaveItem(x));
 
             _Writer.WriteEndElement();
             _Writer.WriteEndDocument();
@@ -219,7 +220,7 @@ namespace CodeDoc.Src
                 _Writer.WriteAttributeString("Path", item.RelativePath);
                 _Writer.WriteAttributeString("Text", item.Text);
 
-                item.Children.ForEach(x => SaveItem((CDDataItem)x));
+                item.Children.ForEach(x => SaveItem(x));
 
                 _Writer.WriteEndElement();
             }

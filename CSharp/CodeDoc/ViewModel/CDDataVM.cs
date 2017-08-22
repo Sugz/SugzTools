@@ -330,7 +330,7 @@ namespace CodeDoc.ViewModel
                 DataPathFieldVisibility = Visibility.Collapsed;
                 if (SelectedItem is IReadableItem readableItem && readableItem.Description is null)
                 {
-                    string message = readableItem.GetType() == typeof(CDScript) ? CDConstants.ScriptNoDescription : CDConstants.FunctionNoDescription;
+                    string message = readableItem.GetType() == typeof(CDScript) ? CDConstants.ScriptNoDescription : CDConstants.FnNoDescription;
                     MessengerInstance.Send(new CDStatusMessage(message, false, false));
                 }
                 else if (_SelectedItem is CDFileItem selectedItem)

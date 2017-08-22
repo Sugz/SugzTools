@@ -26,9 +26,12 @@ namespace CodeDoc.Src
         public static string ScriptDescriptionStart = "/*##############################################################################";
         public static string ScriptDescriptionEnd = "###############################################################################*/";
 
-        public static string FunctionNoDescription = $"This function {NoDescription}";
-        public static string[] FunctionDef = { "fn", "function" };
-        public static char[] FunctionTrimChars = "\t ".ToCharArray();
+        public static string FnNoDescription = $"This function {NoDescription}";
+        public static string[] FnDef = { "fn", "function" };
+        public static char[] FnTrimChars = "\t ".ToCharArray();
+        public static char[] FnDescriptionTrimChars = "\t#/*- ".ToCharArray();
+        public static string FnStart = "/*<Function>";
+        public static string FnEnd = "</Function>*/";
 
         public static string[] Comments = { "/*", "--" };
         public static char[] DescriptionTrimChars = "\t# ".ToCharArray();
@@ -49,6 +52,13 @@ namespace CodeDoc.Src
             "Sources",
             "ToDo",
             "History"
+        };
+
+        public static string[] FnDescription =
+        {
+            "Arguments",
+            "Return",
+            "Infos",
         };
     }
 }

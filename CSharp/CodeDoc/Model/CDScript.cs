@@ -66,6 +66,8 @@ namespace CodeDoc.Model
             PeekableStreamReaderAdapter peekStreamReader = new PeekableStreamReaderAdapter(_StreamReader);
             while (!_StreamReader.EndOfStream)
             {
+                string peekLine = peekStreamReader.PeekLine().Trim(CDConstants.FnTrimChars);
+                if (Array.Exists(CDConstants.FnDef, x => peekLine.StartsWith(x)))
                     children.Add(new CDFunction(this, peekLine, _LineCount));
 
                 _LineCount++;

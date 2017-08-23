@@ -328,8 +328,67 @@ namespace CodeDoc.Src
 
         public static Dictionary<string, object> ParseFunctionDescription(StringCollection description)
         {
-            //TODO: implement method
-            return null;
+            Dictionary<string, object> dictonary = new Dictionary<string, object>();
+            dictonary.Add(CDConstants.FnDescription[0].TrimLast(), new StringCollection() { description[0] });
+
+            for (int  i = 1; i < description.Count; i++)
+            {
+                // Get the next title
+                int titleIndex = Array.FindIndex(CDConstants.FnDescription, x => description[i] == x);
+                if (titleIndex != -1)
+                {
+                    int j = i + 1;
+
+                    // legacy description case
+                    if (titleIndex == 0)
+                    {
+                        StringCollection strs = dictonary.Values.First() as StringCollection;
+                        while (j < description.Count && Array.FindIndex(CDConstants.FnDescription, x => description[j] == x) == -1)
+                        {
+                            if (description[j] != strs[0])
+                                strs.Add(description[j]);
+                            j++;
+                        }
+                    }
+                    else
+                    {
+                        // Store the description until finding a title
+                        StringCollection strs = new StringCollection();
+                        while (j < description.Count && Array.FindIndex(CDConstants.FnDescription, x => description[j] == x) == -1)
+                        {
+                            strs.Add(description[j]);
+                            j++;
+                        }
+                        dictonary.Add(CDConstants.FnDescription[titleIndex].TrimLast(), strs.Count != 0 ? strs : null);
+                    }
+                }
+            }
+
+            return dictonary;
+        }
+
+
+        public static void FormatFunctionDescription(CDFunction function, ref FlowDocument document)
+        {
+            // Add the function text in the begining of the description
+            document.Blocks.Add(new Paragraph(new Run(function.Text)));
+
+            // Get each part of the description associated with their titles
+            foreach (KeyValuePair<string, object> pair in ParseFunctionDescription(function.Description))
+            {
+                // Format only titles that have a value
+                if (pair.Value is StringCollection values)
+                {
+                    // Format titles
+                    document.Blocks.Add(FormatTitle(pair.Key));
+
+                    // Format as a list if the StringCollection count is greater than one
+                    if (values.Count > 1)
+                        document.Blocks.Add(FormatList(values, new Thickness(0, 2, 0, 0)));
+                    else if (values.Count == 1)
+                        document.Blocks.Add(FormatText(values[0]));
+                }
+            }
         }
 
 
@@ -375,8 +434,9 @@ namespace CodeDoc.Src
 
             else if (item is CDFunction function)
             {
-                foreach (string line in function.Description)
-                    document.Blocks.Add(new Paragraph(new Run(line)));
+                FormatFunctionDescription(function, ref document);
+                //foreach (string line in function.Description)
+                //    document.Blocks.Add(new Paragraph(new Run(line)));
             }
         }
 

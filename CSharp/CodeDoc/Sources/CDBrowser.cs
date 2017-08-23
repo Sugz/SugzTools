@@ -25,7 +25,7 @@ namespace CodeDoc.Src
         /// <returns></returns>
         public string GetFolder(string initialPath = null)
         {
-            if (GetResult(false, initialPath) is string folder && Directory.Exists(folder))
+            if (GetResult(true, initialPath) is string folder && Directory.Exists(folder))
                 return folder;
             return null;
         }

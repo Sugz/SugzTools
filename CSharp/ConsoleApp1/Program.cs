@@ -17,22 +17,13 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            ReadFile();
+            string test = "test:::";
+            Console.WriteLine(test.TrimEnd());
+            //Console.WriteLine(test.TrimEnd(':'));
+            //Console.WriteLine(test.TrimEnd(':', true));
+
             Console.ReadLine();
         }
 
-
-        public static void ReadFile()
-        {
-            string path = @"C:\Users\Clem\AppData\Local\Autodesk\3dsMax\2016 - 64bit\ENU\scripts\SugzTools\Libs\Custom_Attributes_Lib.ms";
-            StreamReader reader = new StreamReader(path, Encoding.GetEncoding("iso-8859-1"));
-            PeekableStreamReaderAdapter peekStreamReader = new PeekableStreamReaderAdapter(reader);
-
-            while(!reader.EndOfStream)
-            {
-                Console.WriteLine(peekStreamReader.PeekLine());
-                Console.WriteLine(peekStreamReader.ReadLine());
-            }
-        }
     }
 }

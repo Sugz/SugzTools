@@ -71,12 +71,10 @@ namespace CodeDoc.Model
                 _StreamReader.ReadLine();
             }
 
-            // Add the function text in the begining of the description
-            description.Add(Text);
-
-            // Add the line before the function def as description
+            // Add the line before the function def as description (check if it's a comment first)
             string line = _StreamReader.ReadLine().Trim(CDConstants.FnDescriptionTrimChars);
-            description.Add(line);
+            if (line != string.Empty)
+                description.Add(line);
 
             // Read until the begining of the description then store it
             line = _StreamReader.ReadLine();

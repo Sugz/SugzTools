@@ -56,9 +56,10 @@ namespace CodeDoc.Src
 
         public static string[] FnDescription =
         {
-            "Arguments",
-            "Return",
-            "Infos",
+            "Description:",
+            "Arguments:",
+            "Return:",
+            "Infos:",
         };
     }
 }

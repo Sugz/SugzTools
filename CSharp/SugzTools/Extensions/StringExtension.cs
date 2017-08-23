@@ -57,5 +57,15 @@ namespace SugzTools.Extensions
         }
 
 
+        /// <summary>
+        /// Return a string without last char
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string TrimLast(this string s)
+        {
+            return s.Remove(s.Length - 1);
+        }
+
     }
 }

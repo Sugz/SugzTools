@@ -169,6 +169,7 @@ namespace CodeDoc.Src
         }
 
 
+
         /// <summary>
         /// Format history as table with lists in front of the version
         /// </summary>
@@ -395,8 +396,7 @@ namespace CodeDoc.Src
         public static void FormatFunctionDescription(CDFunction function, ref FlowDocument document)
         {
             // Add the function text in the begining of the description
-            //document.Blocks.Add(new Paragraph(new Run(function.Text)));
-            document.Blocks.Add(FormatFunctionName(function.Text));
+            document.Blocks.Add(FormatFunctionName(function.Name));
 
             // Get each part of the description associated with their titles
             foreach (KeyValuePair<string, object> pair in ParseFunctionDescription(function.Description))

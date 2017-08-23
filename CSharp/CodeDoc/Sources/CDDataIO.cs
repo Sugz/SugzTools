@@ -104,7 +104,7 @@ namespace CodeDoc.Src
         public void LoadDatasWorker(object sender, DoWorkEventArgs e)
         {
             ObservableCollection<CDFileItem> items = new ObservableCollection<CDFileItem>();
-            XDocument doc = XDocument.Load(_DataFile);
+            XDocument doc = XDocument.Load(_DataFile); //TODO: enable the button only if the file exist (or error checking with status display that file do not exist)
             _ItemCount = doc.Root.Descendants().Count();
 
             doc.Root.Elements().ForEach(x => items.Add((CDFileItem)LoadItem(x)));

@@ -161,11 +161,8 @@
                 <Setter Property="Block.Margin" Value="0" />
             </Style>
 
-            <Style x:Key="ListStyle"
-                   TargetType="{x:Type List}">
-                <!--<Setter Property="Block.Margin" Value="0,7,0,0" />-->
-                <Setter Property="Block.Padding"
-                        Value="20,0,0,0" />
+            <Style x:Key="ListStyle" TargetType="{x:Type List}">
+                <Setter Property="Block.Padding" Value="20,0,0,0" />
             </Style>
 
             <Style x:Key="FolderChildrenRunStyle" TargetType="{x:Type Run}">

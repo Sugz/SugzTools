@@ -20,6 +20,7 @@ namespace CodeDoc.ViewModel
 {
     public class CDDescriptionVM : ViewModelBase
     {
+
         #region Fields
 
         private CDDataItem _SelectedItem;                                                                   // Treeview selected item
@@ -117,7 +118,6 @@ namespace CodeDoc.ViewModel
 
 
         #endregion Constructor
-
 
 
         #region Methods

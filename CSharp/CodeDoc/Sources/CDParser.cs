@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
@@ -20,7 +21,7 @@ namespace CodeDoc.Src
     public static class CDParser
     {
 
-        #region Hyperlink
+        #region Formating
 
 
         /// <summary>
@@ -34,7 +35,6 @@ namespace CodeDoc.Src
         {
             return (GetHyperLink(text, text, color, overColor));
         }
-
 
 
         /// <summary>
@@ -66,13 +66,6 @@ namespace CodeDoc.Src
 
             return hyperlink;
         }
-
-
-        #endregion Hyperlink
-
-
-
-        #region Formating
 
 
         /// <summary>
@@ -159,6 +152,23 @@ namespace CodeDoc.Src
         }
 
 
+        public static Paragraph FormatFunctionName(string name)
+        {
+            Paragraph paragraph = new Paragraph();
+            foreach (string str in Regex.Split(name, @"(?<=[ :])"))
+            {
+                Run run = new Run(str);
+                if (str.EndsWith(":"))
+                {
+                    run.Foreground = new SolidColorBrush(Color.FromArgb(255, 185, 185, 185));
+                    run.FontStyle = FontStyles.Italic;
+                }
+                paragraph.Inlines.Add(run);
+            }
+            return paragraph;
+        }
+
+
         /// <summary>
         /// Format history as table with lists in front of the version
         /// </summary>
@@ -192,7 +202,7 @@ namespace CodeDoc.Src
 
 
         /// <summary>
-        /// Parse and return the description for each titles
+        /// Parse a script description
         /// </summary>
         /// <param name="description"></param>
         /// <returns></returns>
@@ -209,7 +219,7 @@ namespace CodeDoc.Src
             for (int i = 4; i < description.Count; i++)
             {
                 // Get the next title
-                int titleIndex = Array.FindIndex(CDConstants.ScriptDescription, x => description[i].Contains(x));
+                int titleIndex = Array.FindIndex(CDConstants.ScriptDescription, x => description[i] == x);
                 if (titleIndex != -1)
                 {
                     int j = i + 1;
@@ -219,7 +229,7 @@ namespace CodeDoc.Src
                     {
                         // Get the version number as key and store the rest to the last key until next version number or another title
                         Dictionary<string, StringCollection> versions = new Dictionary<string, StringCollection>();
-                        while (j < description.Count && Array.FindIndex(CDConstants.ScriptDescription, x => description[j].Contains(x)) == -1)
+                        while (j < description.Count && Array.FindIndex(CDConstants.ScriptDescription, x => description[j] == x) == -1)
                         {
                             string curStr = description[j].TrimEnd(":".ToCharArray());
                             if (float.TryParse(curStr, out float f))
@@ -234,7 +244,7 @@ namespace CodeDoc.Src
                     {
                         // Store the description until finding a title
                         StringCollection strs = new StringCollection();
-                        while (j < description.Count && Array.FindIndex(CDConstants.ScriptDescription, x => description[j].Contains(x)) == -1)
+                        while (j < description.Count && Array.FindIndex(CDConstants.ScriptDescription, x => description[j] == x) == -1)
                         {
                             strs.Add(description[j]);
                             j++;
@@ -249,7 +259,7 @@ namespace CodeDoc.Src
 
 
         /// <summary>
-        /// Get a formated description of a script
+        /// Get a formated script description
         /// </summary>
         /// <param name="script"></param>
         /// <returns></returns>
@@ -274,7 +284,7 @@ namespace CodeDoc.Src
                     else if (pair.Value is ICollection values)
                     {
                         // Format titles
-                        document.Blocks.Add(FormatTitle(pair.Key));
+                        document.Blocks.Add(FormatTitle(pair.Key.TrimLast()));
 
                         // Format History
                         if (values is Dictionary<string, StringCollection> history)
@@ -326,12 +336,21 @@ namespace CodeDoc.Src
         #endregion Script
 
 
+
+        #region Function
+
+
+        /// <summary>
+        /// Parse a function description
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
         public static Dictionary<string, object> ParseFunctionDescription(StringCollection description)
         {
             Dictionary<string, object> dictonary = new Dictionary<string, object>();
-            dictonary.Add(CDConstants.FnDescription[0].TrimLast(), new StringCollection() { description[0] });
+            dictonary.Add(CDConstants.FnDescription[0], new StringCollection() { description[0] });
 
-            for (int  i = 1; i < description.Count; i++)
+            for (int i = 1; i < description.Count; i++)
             {
                 // Get the next title
                 int titleIndex = Array.FindIndex(CDConstants.FnDescription, x => description[i] == x);
@@ -339,12 +358,13 @@ namespace CodeDoc.Src
                 {
                     int j = i + 1;
 
-                    // legacy description case
+                    // Description case
                     if (titleIndex == 0)
                     {
                         StringCollection strs = dictonary.Values.First() as StringCollection;
                         while (j < description.Count && Array.FindIndex(CDConstants.FnDescription, x => description[j] == x) == -1)
                         {
+                            // legacy description
                             if (description[j] != strs[0])
                                 strs.Add(description[j]);
                             j++;
@@ -359,7 +379,7 @@ namespace CodeDoc.Src
                             strs.Add(description[j]);
                             j++;
                         }
-                        dictonary.Add(CDConstants.FnDescription[titleIndex].TrimLast(), strs.Count != 0 ? strs : null);
+                        dictonary.Add(CDConstants.FnDescription[titleIndex], strs.Count != 0 ? strs : null);
                     }
                 }
             }
@@ -367,11 +387,16 @@ namespace CodeDoc.Src
             return dictonary;
         }
 
-
+        /// <summary>
+        /// Get a formated function description
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="document"></param>
         public static void FormatFunctionDescription(CDFunction function, ref FlowDocument document)
         {
             // Add the function text in the begining of the description
-            document.Blocks.Add(new Paragraph(new Run(function.Text)));
+            //document.Blocks.Add(new Paragraph(new Run(function.Text)));
+            document.Blocks.Add(FormatFunctionName(function.Text));
 
             // Get each part of the description associated with their titles
             foreach (KeyValuePair<string, object> pair in ParseFunctionDescription(function.Description))
@@ -380,17 +405,32 @@ namespace CodeDoc.Src
                 if (pair.Value is StringCollection values)
                 {
                     // Format titles
-                    document.Blocks.Add(FormatTitle(pair.Key));
+                    document.Blocks.Add(FormatTitle(pair.Key.TrimLast()));
 
-                    // Format as a list if the StringCollection count is greater than one
-                    if (values.Count > 1)
-                        document.Blocks.Add(FormatList(values, new Thickness(0, 2, 0, 0)));
-                    else if (values.Count == 1)
-                        document.Blocks.Add(FormatText(values[0]));
+                    // Description case
+                    if (pair.Key == CDConstants.FnDescription[0])
+                    {
+                        foreach(string s in values)
+                            document.Blocks.Add(FormatText(s));
+                    }
+                    else
+                    {
+                        // Format as a list if the StringCollection count is greater than one
+                        if (values.Count > 1)
+                            document.Blocks.Add(FormatList(values, new Thickness(0, 2, 0, 0)));
+                        else if (values.Count == 1)
+                            document.Blocks.Add(FormatText(values[0]));
+                    }
                 }
             }
         }
 
+
+        #endregion Function
+
+
+
+        #region Folder
 
 
         /// <summary>
@@ -404,7 +444,7 @@ namespace CodeDoc.Src
             List scripts = new List() { Margin = new Thickness(0, 7, 0, 0) };
             foreach (CDScript child in folder.Children)
             {
-                Run run = new Run(child.Text) ;
+                Run run = new Run(child.Text);
                 run.Style = (Style)Application.Current.Resources["FolderChildrenRunStyle"];
                 run.MouseDown += (s, e) =>
                 {
@@ -420,6 +460,13 @@ namespace CodeDoc.Src
         }
 
 
+        #endregion Folder
+
+
+
+        #region Dispatch
+
+
         /// <summary>
         /// Get the formated description of all DataItem types
         /// </summary>
@@ -431,13 +478,8 @@ namespace CodeDoc.Src
                 FormatFolderDescription(folder, ref document);
             else if (item is CDScript script)
                 FormatScriptDescription(script, ref document);
-
             else if (item is CDFunction function)
-            {
                 FormatFunctionDescription(function, ref document);
-                //foreach (string line in function.Description)
-                //    document.Blocks.Add(new Paragraph(new Run(line)));
-            }
         }
 
 
@@ -450,6 +492,9 @@ namespace CodeDoc.Src
         {
             if (item is CDScript script)
                 SaveScriptDescription(script, description);
-        }
+        } 
+
+
+        #endregion Dispatch
     }
 }

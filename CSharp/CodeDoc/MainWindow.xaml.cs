@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CodeDoc.ViewModel;
+using CodeDoc.Properties;
 
 namespace CodeDoc
 {
@@ -15,6 +16,13 @@ namespace CodeDoc
         {
             InitializeComponent();
             Closing += (s, e) => ViewModelLocator.Cleanup();
+
+            if (Settings.Default.UpgradeRequired)
+            {
+                Settings.Default.Upgrade();
+                //Settings.Default.UpgradeRequired = false;
+                Settings.Default.Save();
+            }
         }
     }
 }

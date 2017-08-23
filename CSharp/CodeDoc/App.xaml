@@ -154,6 +154,7 @@
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="Cursor" Value="Arrow"/>
+                <Setter Property="TextAlignment" Value="Left" />
             </Style>
 
             <Style x:Key="ParagraphStyle" TargetType="{x:Type Paragraph}">

@@ -47,11 +47,11 @@ namespace CodeDoc.Src
         };
         public static string[] ScriptDescription =
         {
-            "Description",
-            "Required Components",
-            "Sources",
-            "ToDo",
-            "History"
+            "Description:",
+            "Required Components:",
+            "Sources:",
+            "ToDo:",
+            "History:"
         };
 
         public static string[] FnDescription =

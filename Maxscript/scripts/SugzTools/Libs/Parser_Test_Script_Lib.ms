@@ -49,6 +49,19 @@ struct TestStruct
 	),
 
 
+	/* Function with an additional description ############################################################################################*/
+	fn Bouyaaa =
+	(
+		/*<Function>
+		Description:
+			Additional hyperlink: https://stackoverflow.com/questions/15564944/remove-the-last-three-characters-from-a-string
+		</Function>*/
+
+
+		
+	),
+
+
 	/* Function with just a top description ############################################################################################*/
 	fn SimpleFunction =
 	(

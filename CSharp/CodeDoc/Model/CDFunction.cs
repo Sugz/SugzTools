@@ -55,6 +55,9 @@ namespace CodeDoc.Model
             {
                 string fn = CDConstants.FnDef[fnIndex];
                 Text = text.Remove(text.IndexOf(fn), fn.Length + 1).TrimEnd("= ".ToCharArray());
+
+                if (Text.IndexOf('=') is int index && index != -1)
+                    Text = Text.Substring(0, index - 1);
             }
         }
 
@@ -97,7 +100,7 @@ namespace CodeDoc.Model
                 line = _StreamReader.ReadLine();
             }
 
-            return description;
+            return description.Count > 0 ? description : null;
         }
 
 

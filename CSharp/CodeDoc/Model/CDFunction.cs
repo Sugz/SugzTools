@@ -3,6 +3,7 @@ using SugzTools.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -48,16 +49,16 @@ namespace CodeDoc.Model
 
         #region Methods
 
-
+        /// <summary>
+        /// Return the text inbetween "fn" or "function" and '='
+        /// </summary>
+        /// <param name="text"></param>
         private void GetText(string text)
         {
-            if (Array.FindIndex(CDConstants.FnDef, x => text.StartsWith(x)) is int fnIndex && fnIndex != -1)
+            if (Array.Find(CDConstants.FnDef, x => text.StartsWith(x)) is string fn)
             {
-                string fn = CDConstants.FnDef[fnIndex];
-                Text = text.Remove(text.IndexOf(fn), fn.Length + 1).TrimEnd("= ".ToCharArray());
-
-                if (Text.IndexOf('=') is int index && index != -1)
-                    Text = Text.Substring(0, index - 1);
+                int fnLength = fn.Length + 1;
+                Text = text.Substring(fnLength, text.IndexOf('=') - fnLength).TrimEnd();
             }
         }
 
@@ -100,7 +101,35 @@ namespace CodeDoc.Model
                 line = _StreamReader.ReadLine();
             }
 
+            _StreamReader.Close();
             return description.Count > 0 ? description : null;
+            
+        }
+
+
+        public void PrintFullFunction()
+        {
+            StreamReader _StreamReader = new StreamReader(((CDScript)Parent).Path, Encoding.GetEncoding("iso-8859-1"));
+            int lineCount = 0;
+            while (lineCount != _LineIndex)
+            {
+                lineCount++;
+                _StreamReader.ReadLine();
+            }
+
+            int countOpen = 0;
+            int countClose = 0;
+            while (!_StreamReader.EndOfStream)
+            {
+                string line = _StreamReader.ReadLine();
+                countOpen += line.Count(x => x == '(');
+                countClose += line.Count(x => x == ')');
+                Debug.WriteLine($"{line}");//\nOpen: {countOpen} ---------- Close: {countClose}");
+                if (countOpen != 0 && countClose == countOpen)
+                    break;
+            }
+            _StreamReader.Close();
+
         }
 
 

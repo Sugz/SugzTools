@@ -16,7 +16,9 @@ namespace CodeDoc.Model
     {
         Folder,
         Script,
-        Function
+        Function,
+        Struct,
+        Rollout,
     }
 
 

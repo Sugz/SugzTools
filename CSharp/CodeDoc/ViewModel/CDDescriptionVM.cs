@@ -161,24 +161,27 @@ namespace CodeDoc.ViewModel
         /// </summary>
         private void SetDescriptionPanel()
         {
-            //DescriptionPanelIsOpen = !DescriptionPanelIsOpen;
-            ScriptDescription.Clear();
+            if (SelectedItem is CDFunction function)
+                function.PrintFullFunction();
 
-            // Check if there is a description
-            if (SelectedItem is CDScript script && script.Description != null)
-            {
-                //Dictionary<string, object> parseScriptDescription = CDParser.ParseScriptDescription(script.Description);
+            ////DescriptionPanelIsOpen = !DescriptionPanelIsOpen;
+            //ScriptDescription.Clear();
 
-                //TODO : use Dictionary<string, object> parseScriptDescription
-                //Dictionary<string, StringCollection> parseScriptDescription = CDParser.ParseScriptDescription(script.GetDescription());
-                //foreach(string key in parseScriptDescription.Keys)
+                //// Check if there is a description
+                //if (SelectedItem is CDScript script && script.Description != null)
                 //{
-                //    string value = string.Empty;
-                //    foreach(string str in parseScriptDescription[key])
-                //        value += str + "\n";
-                //    ScriptDescription.Add(value);
+                //    //Dictionary<string, object> parseScriptDescription = CDParser.ParseScriptDescription(script.Description);
+
+                //    //TODO : use Dictionary<string, object> parseScriptDescription
+                //    //Dictionary<string, StringCollection> parseScriptDescription = CDParser.ParseScriptDescription(script.GetDescription());
+                //    //foreach(string key in parseScriptDescription.Keys)
+                //    //{
+                //    //    string value = string.Empty;
+                //    //    foreach(string str in parseScriptDescription[key])
+                //    //        value += str + "\n";
+                //    //    ScriptDescription.Add(value);
+                //    //}
                 //}
-            }
         }
 
 

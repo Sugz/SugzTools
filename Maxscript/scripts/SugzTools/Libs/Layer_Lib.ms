@@ -26,15 +26,9 @@ Functions to work with layers
 struct LayerLibraryStc
 (
 
-	/*  ############################################################################################*/
+	/* Get a layer color ############################################################################################*/
 	fn GetLayerColor layer =
 	(
-		/*<Function>
-		Description:
-		Arguments:
-		Return:
-		Further Infos:
-		</Function>*/
 
 
 	)

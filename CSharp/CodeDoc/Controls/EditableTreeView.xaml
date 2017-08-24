@@ -22,8 +22,8 @@
                 <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
                 <ResourceDictionary Source="/SugzTools;component/Resources/Colors.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        
-        
+
+            <src:TextToInlinesConverter x:Key="TextToInlines" />
             <c:LeftMarginMultiplierConverter x:Key="LeftMarginMultiplier" />
             <c:InvertableBooleanToVisibilityConverter x:Key="VisToBool" />
 
@@ -82,18 +82,19 @@
 
             <!-- CDFileItem DataTemplate -->
             <HierarchicalDataTemplate x:Key="CDDataItemDataTemplate">
-                <Grid x:Name="grid"
-                      Height="22"
-                      Background="Transparent">
-
-                    <!-- Normal state -->
-                    <TextBlock x:Name="textBlock"
-                               Text="{Binding Text}"
-                               Margin="3,0,0,2"
-                               VerticalAlignment="Center"
-                               Foreground="{DynamicResource MaxText}"
-                               HorizontalAlignment="Left" />
-                </Grid>
+                <TextBlock Background="Transparent"
+                           Height="22"
+                           Padding="3,2,0,0"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource MaxText}"
+                           HorizontalAlignment="Left">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource TextToInlines}">
+                            <Binding RelativeSource="{RelativeSource Self}" />
+                            <Binding Path="Text" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </HierarchicalDataTemplate>
             
             <!-- TreeViewItem Focus Visual -->

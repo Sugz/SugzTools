@@ -29,7 +29,7 @@ Add support for Edit_Poly
 ###############################################################################*/
 
 
-
+-- Use with _sgz._mod.
 struct ModelingLibraryStc
 (
 	

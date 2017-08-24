@@ -152,9 +152,24 @@ namespace CodeDoc.Src
         }
 
 
-        public static Paragraph FormatFunctionName(string name)
+        //public static Paragraph FormatFunctionName(string name)
+        //{
+        //    Paragraph paragraph = new Paragraph();
+        //    foreach (string str in Regex.Split(name, @"(?<=[ :])"))
+        //    {
+        //        Run run = new Run(str);
+        //        if (str.EndsWith(":"))
+        //        {
+        //            run.Foreground = new SolidColorBrush(Color.FromArgb(255, 185, 185, 185));
+        //            run.FontStyle = FontStyles.Italic;
+        //        }
+        //        paragraph.Inlines.Add(run);
+        //    }
+        //    return paragraph;
+        //}
+
+        public static IEnumerable<Run> FormatFunctionName(string name)
         {
-            Paragraph paragraph = new Paragraph();
             foreach (string str in Regex.Split(name, @"(?<=[ :])"))
             {
                 Run run = new Run(str);
@@ -163,9 +178,8 @@ namespace CodeDoc.Src
                     run.Foreground = new SolidColorBrush(Color.FromArgb(255, 185, 185, 185));
                     run.FontStyle = FontStyles.Italic;
                 }
-                paragraph.Inlines.Add(run);
+                yield return run;
             }
-            return paragraph;
         }
 
 
@@ -396,7 +410,10 @@ namespace CodeDoc.Src
         public static void FormatFunctionDescription(CDFunction function, ref FlowDocument document)
         {
             // Add the function text in the begining of the description
-            document.Blocks.Add(FormatFunctionName(function.Name));
+            //document.Blocks.Add(FormatFunctionName(function.Text));
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.AddRange(FormatFunctionName(function.Text));
+            document.Blocks.Add(paragraph);
 
             // Get each part of the description associated with their titles
             foreach (KeyValuePair<string, object> pair in ParseFunctionDescription(function.Description))

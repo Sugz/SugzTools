@@ -66,8 +66,9 @@ namespace CodeDoc.Model
             PeekableStreamReaderAdapter peekStreamReader = new PeekableStreamReaderAdapter(_StreamReader);
             while (!_StreamReader.EndOfStream)
             {
+                //TOTO: function detection more complex to avoid for exemple: ModelingLib - fn WorldBBoxMinMaxFn nodes = ( ...Further Infos: function by Denis Trofimov aka DenisT...)
                 string peekLine = peekStreamReader.PeekLine().Trim(CDConstants.FnTrimChars);
-                if (Array.Exists(CDConstants.FnDef, x => peekLine.StartsWith(x)))
+                if (Array.Exists(CDConstants.FnDef, x => peekLine.StartsWith(x) && peekLine.Contains('=')))
                     children.Add(new CDFunction(this, peekLine, _LineCount));
 
                 _LineCount++;

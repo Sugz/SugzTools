@@ -117,6 +117,7 @@
     <Compile Include="Sources\CDDataIO.cs" />
     <Compile Include="Sources\CDMaxPath.cs" />
     <Compile Include="Sources\CDParser.cs" />
+    <Compile Include="Sources\Converters\TextToInlinesConverter.cs" />
     <Compile Include="Sources\Messages\CDDataIOMessage.cs" />
     <Compile Include="Sources\Messages\CDSelectedItemMessage.cs" />
     <Compile Include="Sources\Messages\CDStatusMessage.cs" />

@@ -194,7 +194,7 @@ namespace CodeDoc.ViewModel
             //DescriptionPanelIsOpen = false;
 
             // Check if there is a description
-            if (SelectedItem is IReadableItem item)
+            if (SelectedItem is IDescriptionItem item)
             {
                 Dictionary<string, string> description = new Dictionary<string, string>();
                 string[] scriptInfos = CDConstants.ScriptIntro.Concat(CDConstants.ScriptDescription).ToArray();

@@ -106,6 +106,8 @@
     <Compile Include="Controls\SgzMultiLineTextBox.cs" />
     <Compile Include="Controls\SgzYesNoButton.cs" />
     <Compile Include="Controls\SgzSlidingDockPanel.cs" />
+    <Compile Include="Model\CDRollout.cs" />
+    <Compile Include="Model\CDStruct.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Sources\CDBrowser.cs" />
     <Compile Include="Model\CDFileItem.cs" />

@@ -27,7 +27,6 @@ namespace CodeDoc.Model
     /// </summary>
     public interface IReadableItem
     {
-        //bool IsMissingDescription { get; }
         StringCollection Description { get; }
     }
 

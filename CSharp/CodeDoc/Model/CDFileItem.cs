@@ -18,25 +18,15 @@ namespace CodeDoc.Model
 
         protected bool _IsValidPath;
         protected string _Path;
-        protected ObservableCollection<CDDataItem> _Children = new ObservableCollection<CDDataItem>();
+        //protected ObservableCollection<CDDataItem> _Children = new ObservableCollection<CDDataItem>();
 
         #endregion Fields
 
 
         #region Properties
 
-        public bool IsValidPath
-        {
-            get { return _IsValidPath; }
-            set
-            {
-                Set(ref _IsValidPath, value);
+        public abstract bool IsValidPath { get; set; }
 
-                // Reload children when path become valid
-                if (value && _Children is null)
-                    Children = GetChildren();
-            }
-        }
 
         public string RelativePath
         {
@@ -59,11 +49,11 @@ namespace CodeDoc.Model
             set { Set(ref _Text, value); }
         }
 
-        public ObservableCollection<CDDataItem> Children
-        {
-            get { return _Children ?? (_Children = GetChildren()); }
-            set { Set(ref _Children, value); }
-        }
+        //public ObservableCollection<CDDataItem> Children
+        //{
+        //    get { return _Children ?? (_Children = GetChildren()); }
+        //    set { Set(ref _Children, value); }
+        //}
 
         #endregion MyRegion
 
@@ -86,7 +76,7 @@ namespace CodeDoc.Model
 
         protected abstract bool GetIsValidPath();
         protected abstract string GetText();
-        protected abstract ObservableCollection<CDDataItem> GetChildren(); 
+        //protected abstract ObservableCollection<CDDataItem> GetChildren(); 
 
         #endregion Methods
 

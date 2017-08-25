@@ -3,6 +3,7 @@ using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace CodeDoc.Model
     public interface IReadableItem
     {
         StringCollection Description { get; }
+        StringCollection Code { get; }
     }
 
 
@@ -39,6 +41,7 @@ namespace CodeDoc.Model
         private bool _IsSelected = false;
         private bool _IsExpanded;
         protected string _Text;
+        protected ObservableCollection<CDDataItem> _Children = new ObservableCollection<CDDataItem>();
 
         #endregion Fields
 
@@ -49,6 +52,7 @@ namespace CodeDoc.Model
         public CDDataItemType Type { get; set; }
         public object Parent { get; set; }
         public virtual string Text { get; set; }
+        public virtual ObservableCollection<CDDataItem> Children { get; protected set; }
         public bool IsSelected
         {
             get { return _IsSelected; }

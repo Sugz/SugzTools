@@ -79,7 +79,7 @@ namespace CodeDoc.ViewModel
             set
             {
                 Set(ref _DataFolder, value);
-                _DataIO.DataFile = value + CDConstants.DataFile;
+                //_DataIO.DataFile = value + CDConstants.DataFile;
                 Properties.Settings.Default.DataFolder = value;
                 Properties.Settings.Default.Save();
             }
@@ -235,7 +235,7 @@ namespace CodeDoc.ViewModel
             });
             
 
-            InitializeData();
+            //InitializeData();
         }
 
 
@@ -249,18 +249,18 @@ namespace CodeDoc.ViewModel
         /// <summary>
         /// Create the CodeDoc appdata folder and set data.xml
         /// </summary>
-        private void InitializeData()
-        {
-            ShowSelectedItemPath = Properties.Settings.Default.ShowSelectedItemPath;
-            DataFolder = Properties.Settings.Default.DataFolder;
-            if (DataFolder == string.Empty)
-                DataFolder = CDConstants.AppDataFolder;
+        //private void InitializeData()
+        //{
+        //    ShowSelectedItemPath = Properties.Settings.Default.ShowSelectedItemPath;
+        //    DataFolder = Properties.Settings.Default.DataFolder;
+        //    if (DataFolder == string.Empty)
+        //        DataFolder = CDConstants.AppDataFolder;
 
-            if (File.Exists(_DataIO.DataFile))
-                _DataIO.LoadDatas();
-            else
-                MessengerInstance.Send(new CDStatusMessage(CDConstants.DataNotFind, true, false));
-        }
+        //    if (File.Exists(_DataIO.DataFile))
+        //        _DataIO.LoadDatas();
+        //    else
+        //        MessengerInstance.Send(new CDStatusMessage(CDConstants.DataNotFind, true, false));
+        //}
 
 
         /// <summary>
@@ -355,11 +355,11 @@ namespace CodeDoc.ViewModel
             switch (type)
             {
                 case IOType.Load:
-                    _DataIO.LoadDatas();
+                    //_DataIO.LoadDatas();
                     SelectedItem = null;
                     break;
                 case IOType.Save:
-                    _DataIO.SaveDatas(Datas);
+                    //_DataIO.SaveDatas(Datas);
                     break;
             }
         }

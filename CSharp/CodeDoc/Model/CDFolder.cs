@@ -17,6 +17,32 @@ namespace CodeDoc.Model
     public class CDFolder : CDFileItem
     {
 
+        #region Properties
+
+
+        public override bool IsValidPath
+        {
+            get { return _IsValidPath; }
+            set
+            {
+                Set(ref _IsValidPath, value);
+
+                // Reload children when path become valid
+                if (value && _Children is null)
+                    Children = GetChildren();
+            }
+        }
+
+        public override ObservableCollection<CDDataItem> Children
+        {
+            get => _Children ?? (_Children = GetChildren());
+            protected set => _Children = value;
+        } 
+
+
+        #endregion Properties
+
+
         #region Constructors
 
 
@@ -38,7 +64,7 @@ namespace CodeDoc.Model
 
         protected override string GetText() => System.IO.Path.GetFileName(Path);
 
-        protected override ObservableCollection<CDDataItem> GetChildren()
+        private ObservableCollection<CDDataItem> GetChildren()
         {
             if (!IsValidPath)
                 return null;

@@ -17,7 +17,7 @@ namespace CodeDoc.Model
 
         #region Fields
 
-        private StringCollection _Description;
+        //private StringCollection _Description;
         private int _LineIndex;
 
         #endregion Fields
@@ -28,7 +28,10 @@ namespace CodeDoc.Model
         /// <summary>
         /// 
         /// </summary>
-        public StringCollection Description => _Description ?? (_Description = GetDescription());
+        //public StringCollection Description => _Description ?? (_Description = GetDescription());
+        public StringCollection Description { get; }
+
+        public StringCollection Code { get; protected set; }
 
         #endregion Properties
 
@@ -41,6 +44,12 @@ namespace CodeDoc.Model
             Type = CDDataItemType.Function;
             GetText(text);
             _LineIndex = lineIndex;
+        }
+
+        public CDFunction(object parent, StringCollection code) : base(parent)
+        {
+            Type = CDDataItemType.Struct;
+            Code = code;
         }
 
 

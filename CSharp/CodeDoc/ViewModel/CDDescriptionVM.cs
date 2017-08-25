@@ -3,6 +3,7 @@ using CodeDoc.Model;
 using CodeDoc.Src;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SugzTools.Extensions;
 using SugzTools.Src;
 using System;
 using System.Collections.Generic;
@@ -145,14 +146,20 @@ namespace CodeDoc.ViewModel
                 InitializeDocument();
             Document.Blocks.Clear();
 
-            // Get selected item description and set the edit button visibility
-            CDParser.FormatDataItemDescription(SelectedItem, ref _Document);
+            //if (SelectedItem is IReadableItem item)
+            //    item.Code.ForEach(x => Document.Blocks.Add(new Paragraph(new Run((string)x))));
 
-            // SelectedItem can't be a folder and it's path must be valid
-            if (SelectedItem is CDFolder folderItem || (SelectedItem is CDScript scriptItem && !scriptItem.IsValidPath))
-                EditButtonVisibility = Visibility.Collapsed;
-            else
-                EditButtonVisibility = Visibility.Visible;
+            if (SelectedItem is CDScript script)
+                CDParser.FormatDataItemDescription(SelectedItem, ref _Document);
+
+            //// Get selected item description and set the edit button visibility
+            //CDParser.FormatDataItemDescription(SelectedItem, ref _Document);
+
+            //// SelectedItem can't be a folder and it's path must be valid
+            //if (SelectedItem is CDFolder folderItem || (SelectedItem is CDScript scriptItem && !scriptItem.IsValidPath))
+            //    EditButtonVisibility = Visibility.Collapsed;
+            //else
+            //    EditButtonVisibility = Visibility.Visible;
         }
 
 

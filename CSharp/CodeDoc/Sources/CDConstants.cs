@@ -26,6 +26,8 @@ namespace CodeDoc.Src
         public static string ScriptDescriptionStart = "/*##############################################################################";
         public static string ScriptDescriptionEnd = "###############################################################################*/";
 
+        public static string[] ClassDef = { "struct", "rollout", "fn", "function" };
+
         public static string FnNoDescription = $"This function {NoDescription}";
         public static string[] FnDef = { "fn", "function" };
         public static char[] FnTrimChars = "\t ".ToCharArray();

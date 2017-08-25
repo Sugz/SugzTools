@@ -18,7 +18,9 @@ namespace CodeDoc.Src
 {
     public class CDDataIO : ViewModelBase
     {
-
+        /*
+         * 
+         * 
         #region Fields
 
 
@@ -248,5 +250,9 @@ namespace CodeDoc.Src
 
 
         #endregion Methods
+
+
+        
+        */
     }
 }

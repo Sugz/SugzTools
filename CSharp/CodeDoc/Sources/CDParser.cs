@@ -505,7 +505,7 @@ namespace CodeDoc.Src
         /// </summary>
         /// <param name="item"></param>
         /// <param name="description"></param>
-        public static void SaveDataItemDescription(IDescriptionItem item, Dictionary<string, string> description)
+        public static void SaveDataItemDescription(IReadableItem item, Dictionary<string, string> description)
         {
             if (item is CDScript script)
                 SaveScriptDescription(script, description);

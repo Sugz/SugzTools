@@ -17,40 +17,32 @@ namespace CodeDoc.Model
         #region Fields
 
         protected bool _IsValidPath;
-        protected string _RelativePath;
         protected string _Path;
-        
+        protected ObservableCollection<CDDataItem> _Children = new ObservableCollection<CDDataItem>();
 
         #endregion Fields
 
 
         #region Properties
 
-        /// <summary>
-        /// Get if the path is valid. 
-        /// Load Children if it is
-        /// </summary>
         public bool IsValidPath
         {
             get { return _IsValidPath; }
-            protected set
+            set
             {
                 Set(ref _IsValidPath, value);
 
                 // Reload children when path become valid
-                //if (value && _Children is null)
-                    //Children = GetChildren();
+                if (value && _Children is null)
+                    Children = GetChildren();
             }
         }
 
-        /// <summary>
-        /// Get a formated path to get 3ds max appdata and install folder
-        /// </summary>
-        public string RelativePath => _RelativePath ?? (_RelativePath = CDMaxPath.GetRelativePath(Path));
+        public string RelativePath
+        {
+            get { return CDMaxPath.GetRelativePath(Path); }
+        }
 
-        /// <summary>
-        /// Get or set the full path
-        /// </summary>
         public string Path
         {
             get { return _Path; }
@@ -61,16 +53,17 @@ namespace CodeDoc.Model
             }
         }
 
-        /// <summary>
-        /// The text display in the treeview
-        /// </summary>
         public override string Text
         {
             get { return _Text ?? (_Text = GetText()); }
             set { Set(ref _Text, value); }
         }
 
-        
+        public ObservableCollection<CDDataItem> Children
+        {
+            get { return _Children ?? (_Children = GetChildren()); }
+            set { Set(ref _Children, value); }
+        }
 
         #endregion MyRegion
 
@@ -93,7 +86,7 @@ namespace CodeDoc.Model
 
         protected abstract bool GetIsValidPath();
         protected abstract string GetText();
-        
+        protected abstract ObservableCollection<CDDataItem> GetChildren(); 
 
         #endregion Methods
 

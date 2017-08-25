@@ -328,7 +328,7 @@ namespace CodeDoc.ViewModel
 
 
                 DataPathFieldVisibility = Visibility.Collapsed;
-                if (SelectedItem is IDescriptionItem readableItem && readableItem.Description is null)
+                if (SelectedItem is IReadableItem readableItem && readableItem.Description is null)
                 {
                     string message = readableItem.GetType() == typeof(CDScript) ? CDConstants.ScriptNoDescription : CDConstants.FnNoDescription;
                     MessengerInstance.Send(new CDStatusMessage(message, false, false));

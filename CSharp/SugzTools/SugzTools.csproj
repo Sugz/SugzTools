@@ -45,7 +45,6 @@
   <ItemGroup>
     <Reference Include="Autodesk.Max">
       <HintPath>C:\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="ManagedServices">
       <HintPath>C:\Program Files\Autodesk\3ds Max 2016\ManagedServices.dll</HintPath>
@@ -54,6 +53,12 @@
     <Reference Include="MaxCustomControls">
       <HintPath>C:\Program Files\Autodesk\3ds Max 2016\MaxCustomControls.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
@@ -81,7 +86,9 @@
   <ItemGroup>
     <Compile Include="Behaviors\PanelInnerSpacing.cs" />
     <Compile Include="Controls\Panels\Panels.cs" />
+    <Compile Include="Controls\Panels\SgzSlidingDockPanel.cs" />
     <Compile Include="Controls\SgzButton\SgzButton.cs" />
+    <Compile Include="Controls\SgzButton\Special\SgzYesNoButton.cs" />
     <Compile Include="Controls\SgzCheckBox\SgzCheckBox.cs" />
     <Compile Include="Controls\SgzCheckButton\SgzCheckButton.cs" />
     <Compile Include="Controls\SgzComboBox\SgzComboBox.cs" />
@@ -112,6 +119,7 @@
     <Compile Include="Converters\CornerRadiusMultiplierConverter.cs" />
     <Compile Include="Converters\GridLineVisibilityToBorderThicknessConverter.cs" />
     <Compile Include="Converters\InvertableBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Converters\InvertDoubleConverter.cs" />
     <Compile Include="Converters\InvertVisibilityConverter.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
@@ -149,6 +157,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Resources\ExternalIconsEnum.cs" />
+    <Compile Include="Sources\Browser.cs" />
     <Compile Include="Sources\Const.cs" />
     <Compile Include="Sources\ModelGenerator.cs" />
     <Compile Include="Sources\Enums.cs" />
@@ -174,6 +183,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\SgzButton\SgzButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SgzButton\Special\SgzYesNoButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -278,6 +291,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

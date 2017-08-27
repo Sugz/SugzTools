@@ -4,6 +4,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzButton/SgzButton.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzButton/Special/SgzYesNoButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckBox/SgzCheckBox.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckButton/SgzCheckButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzComboBox/SgzComboBox.xaml" />

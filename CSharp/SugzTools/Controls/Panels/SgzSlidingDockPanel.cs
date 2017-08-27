@@ -1,19 +1,12 @@
-﻿using SugzTools.Controls;
-using SugzTools.Icons;
-using SugzTools.Src;
+﻿using SugzTools.Icons;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Timers;
 
-namespace CodeDoc.Controls
+namespace SugzTools.Controls
 {
     public enum AnimationType
     {
@@ -161,7 +154,7 @@ namespace CodeDoc.Controls
                 OpenCloseBtn.Click += (s, ev) => IsOpen = !IsOpen;
 
             }
-            
+
         }
 
         private void PlayAnimation()

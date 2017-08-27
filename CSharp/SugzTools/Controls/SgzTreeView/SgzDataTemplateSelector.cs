@@ -19,6 +19,14 @@ namespace SugzTools.Controls
                 // Check for current type and parent type
                 while (!Templates.ContainsKey(type))
                 {
+                    // Look type interfaces
+                    Type[] types = Templates.Keys.Intersect(type.GetInterfaces()).ToArray();
+                    if (types.Length != 0)
+                    {
+                        type = types[0];
+                        break;
+                    }
+
                     if (type.BaseType == typeof(object))
                         return null;
                     type = type.BaseType;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SugzTools.Extensions
@@ -13,7 +14,6 @@ namespace SugzTools.Extensions
         {
             return (s.SplitAndKeep(delim.ToString().ToCharArray()));
         }
-
 
         /// <summary>
         /// Split a string while keeping the delimiters
@@ -36,6 +36,69 @@ namespace SugzTools.Extensions
             if (start < s.Length)
             {
                 yield return s.Substring(start);
+            }
+        }
+
+        /// <summary>
+        /// Split a string given a string delimiter and keep the delimiter
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="delim"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> SplitAndKeep(this string s, string delim)
+        {
+            string[] parts = Regex.Split(s, delim);
+            yield return parts[0];
+            for (int i = 1; i < parts.Length; i++)
+            {
+                yield return delim;
+                yield return parts[i];
+            }
+        }
+
+        /// <summary>
+        /// Split a string given string delimiters and keep the delimiters
+        /// Code by Guffa: https://stackoverflow.com/a/2485179/3971575
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="delimiters"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> SplitAndKeep(this string input, string[] delimiters)
+        {
+            int[] nextPosition = delimiters.Select(d => input.IndexOf(d)).ToArray();
+            int pos = 0;
+            while (true)
+            {
+                int firstPos = int.MaxValue;
+                string delimiter = null;
+                for (int i = 0; i < nextPosition.Length; i++)
+                {
+                    if (nextPosition[i] != -1 && nextPosition[i] < firstPos)
+                    {
+                        firstPos = nextPosition[i];
+                        delimiter = delimiters[i];
+                    }
+                }
+                if (firstPos != int.MaxValue)
+                {
+                    if (input.Substring(pos, firstPos - pos) is string sub && sub != string.Empty)
+                        yield return sub;
+                    yield return delimiter;
+                    pos = firstPos + delimiter.Length;
+                    for (int i = 0; i < nextPosition.Length; i++)
+                    {
+                        if (nextPosition[i] != -1 && nextPosition[i] < pos)
+                        {
+                            nextPosition[i] = input.IndexOf(delimiters[i], pos);
+                        }
+                    }
+                }
+                else
+                {
+                    if (input.Substring(pos) is string sub && sub != string.Empty)
+                        yield return sub;
+                    break;
+                }
             }
         }
 

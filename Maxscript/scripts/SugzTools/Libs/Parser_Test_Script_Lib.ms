@@ -1,3 +1,4 @@
+/* First struct ############################################################################################*/
 struct TestStruct 
 (
 
@@ -36,7 +37,38 @@ struct TestStruct
 )
 
 
-struct test(
+
+struct structWithCommentinbetween
+/*<Struct>
+Infos:
+	<Var> taMere: dans http://forum.mattguetta.com ton cul ! 
+</Struct>*/
+(
+
+	/* First test function with inside description ############################################################################################*/
+	fn TestFunction arg opt:arg2 =
+	(
+		/*<Function>
+		Arguments:
+			<Integer> arg: un argument quoi
+			<String> arg2: un argument optionel <Optional> 
+		Return:
+		Infos:
+			<Var> taMere: dans http://forum.mattguetta.com ton cul ! 
+		</Function>*/
+
+
+		
+	)
+)
+
+
+
+struct test( --lalala
+/*<Struct>
+Infos:
+	<Var> taMere: dans http://forum.mattguetta.com ton cul ! 
+</Struct>*/
 
 	/* Function with just a top description ############################################################################################*/
 	fn SimpleFunction =

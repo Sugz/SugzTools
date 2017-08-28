@@ -7,6 +7,7 @@
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzButton/Special/SgzYesNoButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckBox/SgzCheckBox.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckButton/SgzCheckButton.xaml" />
+        <ResourceDictionary Source="/SugzTools;component/Controls/SgzCheckButton/SgzFlatCheckButton.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzComboBox/SgzComboBox.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzContextMenu/SgzContextMenu.xaml" />
         <ResourceDictionary Source="/SugzTools;component/Controls/SgzDataGrid/SgzDataGrid.xaml" />

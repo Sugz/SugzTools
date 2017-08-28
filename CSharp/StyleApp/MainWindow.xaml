@@ -9,8 +9,8 @@
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="350"
-        Width="198.155"
+        Height="720"
+        Width="1280"
         x:Name="Root"
         Background="{DynamicResource MaxRollout}">
 
@@ -20,20 +20,16 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
-    <DockPanel >
-        <TextBox AcceptsReturn="True"
-                 AcceptsTab="True"
-                 Height="100"
-                 VerticalAlignment="Top"
-                 Margin="5"
-                 DockPanel.Dock="Top"/>
-        <control:SgzMultiLineTextBox AcceptsTab="True"
-                                     Height="100"
-                                     VerticalAlignment="Top"
-                                     Margin="5"
-                                     Watermark="Test"
-                                     DockPanel.Dock="Top" 
-                                     TextWrapping="Wrap"/>
-    </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        <Border Background="Red" />
+        <Border Background="#FF3FA229"
+                Grid.Column="1"/>
+        <GridSplitter Width="10"
+                      Margin="0,0,-5,0" />
+    </Grid>
 
 </Window>

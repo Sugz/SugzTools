@@ -1,3 +1,11 @@
+global myVar -- test com
+
+function Osef = 
+(
+
+)
+
+
 /* First struct ############################################################################################*/
 struct TestStruct 
 (
@@ -23,7 +31,6 @@ struct TestStruct
 	fn Bouyaaa =
 	(
 		/*<Function>
-		Description:
 			Additional hyperlink: https://stackoverflow.com/questions/15564944/remove-the-last-three-characters-from-a-string
 		</Function>*/
 

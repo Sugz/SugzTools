@@ -14,6 +14,7 @@
     <c:BorderClipConverter x:Key="BorderClip" />
     <c:CornerRadiusLessThicknessConverter x:Key="CornerRadiusLessThickness" />
     <c:CornerRadiusMultiplierConverter x:Key="CornerRadiusMultiplier" />
+    <c:DockToAlignmentConverter x:Key="DockToAlign" />
     <c:GridLineVisibilityToBorderThicknessConverter x:Key="GridLineVisibilityToBorderThickness" />
     <c:InvertableBooleanToVisibilityConverter x:Key="BoolToVisibility" />
     <c:InvertBooleanConverter x:Key="InvertBool" />

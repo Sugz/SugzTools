@@ -22,7 +22,7 @@
 
     <SolidColorBrush x:Key="MaxFocusBorder" Color="#FFD0D0D0" /> <!--255 208 208 208-->
 
-    <SolidColorBrush x:Key="MaxRed" Color="#FFAC2B2B" />
-    <!--255 208 208 208-->
+    <SolidColorBrush x:Key="MaxRed" Color="#FFAC2B2B" /> <!--255 208 208 208-->
+    <SolidColorBrush x:Key="MaxGreen" Color="#FF468746" /> <!--255 70 135 70-->
 
 </ResourceDictionary>

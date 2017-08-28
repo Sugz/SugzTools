@@ -91,6 +91,7 @@
     <Compile Include="Controls\SgzButton\Special\SgzYesNoButton.cs" />
     <Compile Include="Controls\SgzCheckBox\SgzCheckBox.cs" />
     <Compile Include="Controls\SgzCheckButton\SgzCheckButton.cs" />
+    <Compile Include="Controls\SgzCheckButton\SgzFlatCheckButton.cs" />
     <Compile Include="Controls\SgzComboBox\SgzComboBox.cs" />
     <Compile Include="Controls\SgzContextMenu\SgzContextMenu.cs" />
     <Compile Include="Controls\SgzDataGrid\SgzDataGrid.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Converters\BorderClipConverter.cs" />
     <Compile Include="Converters\CornerRadiusLessThicknessConverter.cs" />
     <Compile Include="Converters\CornerRadiusMultiplierConverter.cs" />
+    <Compile Include="Converters\DockToAlignmentConverter.cs" />
     <Compile Include="Converters\GridLineVisibilityToBorderThicknessConverter.cs" />
     <Compile Include="Converters\InvertableBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InvertBooleanConverter.cs" />
@@ -195,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SgzCheckButton\SgzCheckButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SgzCheckButton\SgzFlatCheckButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -22,7 +22,14 @@
 
     <SolidColorBrush x:Key="MaxFocusBorder" Color="#FFD0D0D0" /> <!--255 208 208 208-->
 
-    <SolidColorBrush x:Key="MaxRed" Color="#FFAC2B2B" /> <!--255 208 208 208-->
-    <SolidColorBrush x:Key="MaxGreen" Color="#FF468746" /> <!--255 70 135 70-->
+    <SolidColorBrush x:Key="MaxRed" Color="#FFAC2B2B" /><!--255 208 208 208-->
+    <SolidColorBrush x:Key="MaxGreen" Color="#FF468746" /><!--255 70 135 70-->
+    
+    
+    <SolidColorBrush x:Key="StringColor" Color="#FFFF9999" /><!--255 255 153 153-->
+    <SolidColorBrush x:Key="BlueText" Color="#FF3399FF" /><!--255 51 153 255-->
+    <SolidColorBrush x:Key="LightBlueText" Color="#FF99CCFF" /><!--255 153 204 255-->
+    <SolidColorBrush x:Key="OrangeText" Color="#FFFF9053" /><!--255 255 144 83-->
+    <SolidColorBrush x:Key="PinkText" Color="#FFFF99FF" /><!--255 255 153 255-->
 
 </ResourceDictionary>

@@ -1,8 +1,8 @@
-global myVar -- test com
+global myVar =1.56test -- test com
 
 function Osef = 
 (
-
+	test = "this is a string -- fkl /*fhejz*/ " -- com in line
 )
 
 
@@ -15,7 +15,7 @@ struct TestStruct
 	(
 		/*<Function>
 		Arguments:
-			<Integer> arg: un argument quoi
+			<Integer> arg: un argument quoi "with a string"
 			<String> arg2: un argument optionel <Optional> 
 		Return:
 		Infos:

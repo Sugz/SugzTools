@@ -53,6 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MaxscriptManager\MaxscriptManager\MaxscriptManager.csproj">
+      <Project>{d561edc3-c546-4e61-9d74-4b3c248a8d42}</Project>
+      <Name>MaxscriptManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeDoc\CodeDoc.csproj">
       <Project>{d5a67bf9-835f-4acf-80fc-672cccd6149f}</Project>
       <Name>CodeDoc</Name>

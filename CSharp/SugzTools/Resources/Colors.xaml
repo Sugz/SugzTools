@@ -26,11 +26,12 @@
     <SolidColorBrush x:Key="MaxGreen" Color="#FF468746" /><!--255 70 135 70-->
 
     <!--Maxscript Parser Brushes-->
+    <SolidColorBrush x:Key="whiteText" Color="#FFD2D2D2" /><!--255 210 210 210-->
     <SolidColorBrush x:Key="CommentText" Color="#FF7D7D7D" /><!--255 125 125 125-->
     <SolidColorBrush x:Key="ControlText" Color="#FF99CC66" /><!--255 153 204 102-->
-    <SolidColorBrush x:Key="StringText" Color="#FFFF9999" /><!--255 255 153 153-->
-    <SolidColorBrush x:Key="DigitText" Color="#FFFF9053" /><!--255 255 144 83-->
-    <SolidColorBrush x:Key="PinkText" Color="#FFFF99FF" /><!--255 255 153 255-->
+    <SolidColorBrush x:Key="StringText" Color="#FFEEA8A8" /><!--255 255 153 153-->
+    <SolidColorBrush x:Key="DigitText" Color="#FFF18D55" /><!--255 255 144 83-->
+    <SolidColorBrush x:Key="PinkText" Color="#FFF0B0F0" /><!--255 255 153 255-->
     <SolidColorBrush x:Key="BlueText" Color="#FF3399FF" /><!--255 51 153 255-->
     <SolidColorBrush x:Key="LightBlueText" Color="#FF99CCFF" /><!--255 153 204 255-->
     <SolidColorBrush x:Key="DarkBlueText" Color="#FF3652A8" /><!--255 54 82 168-->
@@ -40,6 +41,6 @@
     <SolidColorBrush x:Key="YellowText" Color="#FFD9AB66" /><!--255 217 171 102-->
     <SolidColorBrush x:Key="LightGreenText" Color="#FF91CF3C" /><!--255 145 207 60-->
     <SolidColorBrush x:Key="DarkGreenText" Color="#FF54B56F" /><!--255 84 181 111-->
-    <SolidColorBrush x:Key="OptionalArgsText" Color="#FFB9B9B9" /><!--255 185 185 185-->
+    <SolidColorBrush x:Key="OptionalArgsText" Color="#FFAFAFAF" /><!--255 185 185 185-->
     
 </ResourceDictionary>

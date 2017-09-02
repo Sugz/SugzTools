@@ -130,6 +130,7 @@ struct CompLocComponentStc
 			/* Get the node this custom attribute is attached to ***************************************************************************************************************************************************************/
 			function GetNode = (refs.dependentnodes (custattributes.getowner this) firstonly:on)
 			
+			 
 			
 			parameters params rollout:view
 			(

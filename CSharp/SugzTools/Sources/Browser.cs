@@ -64,6 +64,7 @@ namespace SugzTools.Src
         /// </summary>
         private void DefineOpenFileDialog()
         {
+            //TODO use MaxFolder to get them
             _OpenFileDialog = new CommonOpenFileDialog();
             foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
             {

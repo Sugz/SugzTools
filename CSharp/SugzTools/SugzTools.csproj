@@ -134,6 +134,7 @@
     <Compile Include="Converters\ObjectToUIElementConverter.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\TreeViewItemExtensions.cs" />
     <Compile Include="Max\Animatable\Animatable.cs" />
     <Compile Include="Max\Cui\Cui.cs" />
     <Compile Include="Max\Cui\Custom_CuiActionCommandAdapter.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Resources\ExternalIconsEnum.cs" />
     <Compile Include="Sources\Browser.cs" />
     <Compile Include="Sources\Const.cs" />
+    <Compile Include="Sources\MaxFolders.cs" />
     <Compile Include="Sources\ModelGenerator.cs" />
     <Compile Include="Sources\Enums.cs" />
     <Compile Include="Sources\GetResources.cs" />
@@ -265,6 +267,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\BaseStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\FadeInOutScrollViewerStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

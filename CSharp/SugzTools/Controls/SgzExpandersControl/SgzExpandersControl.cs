@@ -74,8 +74,7 @@ namespace SugzTools.Controls
         {
             base.OnApplyTemplate();
 
-            ScrollViewer scrollViewer = GetTemplateChild("PART_ScrollViewer") as ScrollViewer;
-            if (scrollViewer != null)
+            if (GetTemplateChild("PART_ScrollViewer") is ScrollViewer scrollViewer)
                 _ScrollViewer = scrollViewer;
         }
 

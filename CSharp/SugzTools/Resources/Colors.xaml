@@ -26,7 +26,7 @@
     <SolidColorBrush x:Key="MaxGreen" Color="#FF468746" /><!--255 70 135 70-->
 
     <!--Maxscript Parser Brushes-->
-    <SolidColorBrush x:Key="whiteText" Color="#FFD2D2D2" /><!--255 210 210 210-->
+    <SolidColorBrush x:Key="WhiteText" Color="#FFD2D2D2" /><!--255 210 210 210-->
     <SolidColorBrush x:Key="CommentText" Color="#FF7D7D7D" /><!--255 125 125 125-->
     <SolidColorBrush x:Key="ControlText" Color="#FF99CC66" /><!--255 153 204 102-->
     <SolidColorBrush x:Key="StringText" Color="#FFEEA8A8" /><!--255 255 153 153-->

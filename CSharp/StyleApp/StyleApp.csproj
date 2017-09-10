@@ -118,6 +118,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MaxscriptManager\MaxscriptManager\MaxscriptManager.csproj">
+      <Project>{d561edc3-c546-4e61-9d74-4b3c248a8d42}</Project>
+      <Name>MaxscriptManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SugzTools\SugzTools.csproj">
       <Project>{a808c545-3c87-45ef-8f4a-47d8bd55cdd1}</Project>
       <Name>SugzTools</Name>

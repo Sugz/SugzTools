@@ -7,6 +7,7 @@
         xmlns:control="clr-namespace:StyleApp.Controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
+        xmlns:control1="clr-namespace:MaxscriptManager.Control;assembly=MaxscriptManager"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="720"
@@ -21,15 +22,14 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="4*" />
-        </Grid.ColumnDefinitions>
-        <Border Background="Red" />
-        <Border Background="#FF3FA229"
-                Grid.Column="1"/>
-        <GridSplitter Width="10"
-                      Margin="0,0,-5,0" />
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="Test">
+                <MenuItem Header="Test"
+                          IsCheckable="True"
+                          IsChecked="True">
+                </MenuItem>
+            </MenuItem>
+        </Menu>
     </Grid>
 
 </Window>

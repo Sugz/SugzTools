@@ -141,7 +141,7 @@ namespace SugzTools.Src
         /// <typeparam name="T">The type of the control to return</typeparam>
         /// <param name="child"></param>
         /// <returns></returns>
-        internal static T FindAnchestor<T>(DependencyObject child) where T : DependencyObject
+        public static T FindAnchestor<T>(DependencyObject child) where T : DependencyObject
         {
             do
             {

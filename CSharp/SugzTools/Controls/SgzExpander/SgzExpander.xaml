@@ -139,7 +139,7 @@
             <Grid>
                 
                 <!-- Expander -->
-                <StackPanel>
+                <StackPanel VerticalAlignment="Top">
 
                     <!-- Expander Header -->
                     <Border Background="{TemplateBinding HeaderBrush}"

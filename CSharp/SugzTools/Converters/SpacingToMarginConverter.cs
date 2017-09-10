@@ -14,7 +14,6 @@ namespace SugzTools.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Console.WriteLine($"Value: {value.GetType()}, Parameter: {parameter.GetType()}");
             if (value != null && parameter != null)
             {
                 if ((Side)parameter == Side.Right)

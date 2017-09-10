@@ -3,128 +3,21 @@
              xmlns:local="clr-namespace:StyleApp"
              xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
              xmlns:Themes1="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+             xmlns:Control="clr-namespace:MaxscriptManager.Control;assembly=MaxscriptManager"
              x:Class="StyleApp.App"
              StartupUri="MainWindow.xaml">
 
     <Application.Resources>
 
-        <!--255 208 208 208-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SugzTools;component/Themes/MaxStyles.xaml" />
+                <ResourceDictionary Source="/SugzTools;component/Resources/Colors.xaml" />
+                <ResourceDictionary Source="/SugzTools;component/Themes/FadeInOutScrollViewerStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            
 
-
-
-
-
-        <!--3ds Max 2017 Brushes-->
-        <SolidColorBrush x:Key="MaxBackground"
-                         Color="#FF444444" />
-        <!--255 68 68 68-->
-
-        <SolidColorBrush x:Key="MaxRollout"
-                         Color="#FF515151" />
-        <!--255 81 81 81-->
-        <SolidColorBrush x:Key="MaxRolloutBorder"
-                         Color="#FF3E3E3E" />
-        <!--255 62 62 62-->
-        <SolidColorBrush x:Key="MaxRolloutArrow"
-                         Color="#FFB7B7B7" />
-        <!--255 183 183 183-->
-        <SolidColorBrush x:Key="MaxRolloutIcon"
-                         Color="#FF979797" />
-        <!--255 151 151 151-->
-
-        <SolidColorBrush x:Key="MaxButton"
-                         Color="#FF646464" />
-        <!--255 100 100 100-->
-        <SolidColorBrush x:Key="MaxButtonBorder"
-                         Color="#FF494949" />
-        <!--255 73 73 73-->
-        <SolidColorBrush x:Key="MaxButtonMouseOver"
-                         Color="#FF383838" />
-        <!--255 56 56 56-->
-        <SolidColorBrush x:Key="MaxCaretBrush"
-                         Color="#FF9B9B9B" />
-        <!--255 155 155 155-->
-
-        <SolidColorBrush x:Key="MaxText"
-                         Color="#FFE1E1E1" />
-        <!--255 225 225 225-->
-        <SolidColorBrush x:Key="MaxTitle"
-                         Color="#FFFFFFFF" />
-        <!--255 255 255 255-->
-
-        <SolidColorBrush x:Key="MaxBlue"
-                         Color="#FF5F8AC1" />
-        <!--255 95 138 193-->
-        <SolidColorBrush x:Key="MaxBlueMouseOver"
-                         Color="#FF496A93" />
-        <!--255 73 106 147-->
-
-        
-        <SolidColorBrush x:Key="MaxFocusBorder"
-                         Color="#FFD0D0D0" />
-        
-        
-        
-        <SolidColorBrush x:Key="ListBorder" Color="#828790" />
-        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3" />
-        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA" />
-        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5" />
-        <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}" />
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-            <Setter Property="AllowDrop" Value="true" />
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="border"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
-                                SnapsToDevicePixels="True">
-                            <ScrollViewer x:Name="PART_ContentHost"
-                                          Focusable="false"
-                                          HorizontalScrollBarVisibility="Hidden"
-                                          VerticalScrollBarVisibility="Hidden"
-                                          Margin="-3,-123,3,123" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="border" Property="Opacity" Value="0.56" />
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.MouseOver.Border}" />
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="true">
-                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
-                        <Condition Property="IsSelectionActive" Value="false" />
-                    </MultiTrigger.Conditions>
-                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
-                </MultiTrigger>
-            </Style.Triggers>
-        </Style>
-
-
-
-
-
-
-
-
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

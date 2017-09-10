@@ -545,8 +545,7 @@ namespace SugzTools.Controls
 
         private void AttachUpDown()
         {
-            Grid upDown = GetTemplateChild("PART_UpDown") as Grid;
-            if (upDown != null)
+            if (GetTemplateChild("PART_UpDown") is Grid upDown)
             {
                 PART_UpDown = upDown;
                 PART_UpDown.MouseDown += PART_UpDown_MouseDown;
@@ -559,8 +558,7 @@ namespace SugzTools.Controls
 
         private void AttachIncrease()
         {
-            Border increase = GetTemplateChild("PART_Increase") as Border;
-            if (increase != null)
+            if (GetTemplateChild("PART_Increase") is Border increase)
             {
                 PART_Increase = increase;
                 PART_Increase.MouseDown += (s, e) => IncreaseDecrease_MouseDown((Border)s, e, true);
@@ -570,8 +568,7 @@ namespace SugzTools.Controls
 
         private void AttachDecrease()
         {
-            Border decrease = GetTemplateChild("PART_Decrease") as Border;
-            if (decrease != null)
+            if (GetTemplateChild("PART_Decrease") is Border decrease)
             {
                 PART_Decrease = decrease;
                 PART_Decrease.MouseDown += (s, e) => IncreaseDecrease_MouseDown((Border)s, e, false);
@@ -591,14 +588,11 @@ namespace SugzTools.Controls
 
         private ValueType GetTypedValue(double value)
         {
-            int _int;
-            long _long;
-            float _float;
-            if (TryConvertToInt(value, out _int))
+            if (TryConvertToInt(value, out int _int))
                 return _int;
-            if (TryConvertToLong(value, out _long))
+            if (TryConvertToLong(value, out long _long))
                 return _long;
-            if (TryConvertToFloat(value, out _float))
+            if (TryConvertToFloat(value, out float _float))
                 return _float;
 
             return InternalValue;

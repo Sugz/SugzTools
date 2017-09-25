@@ -20,25 +20,46 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            string s = "activeGrid ambientColor ambientColorController animationRange animButtonEnabled animButtonState backgroundColor backgroundColorController backgroundImageFileName currentMaterialLibrary currentTime displayGamma fileInGamma fileOutGamma displaySafeFrames editorFont editorFontSize editorShowPath editorTabWidth escapeEnable environmentMap flyOffTime frameRate globalTracks hardwareLockID heapFree heapSize hotspotAngleSeparation inputTextColor lightLevel lightLevelController lightTintColor lightTintColorController listener localTime macroRecorder manipulateMode maxFileName maxFilePath messageTextColor numEffects numAtmospherics numSubObjectLevels outputTextColor playActiveOnly realTimePlayback renderer renderDisplacements renderEffects renderHeight renderPixelAspect renderWidth rendOutputFilename rendSimplifyAreaLights rootNode rootScene sceneMaterials scriptsPath showEndResult skipRenderedFrames sliderTime stackLimit subObjectLevel ticksPerFrame timeDisplayMode trackViewNodes useEnvironmentMap videoPostTracks";
-            string[] strs = s.Split(' ');
-            strs.ForEach(x => Debug.WriteLine($"<Word>{x}</Word>"));
-            //List<string> strings = new List<string>();
-            //foreach(string s in MConstants.ParserColors["DarkGreenText"])
-            //{
-            //    int dotIndex = s.IndexOf(".");
-            //    if (dotIndex != -1)
-            //    {
-            //        string title = s.Substring(0, dotIndex);
-            //        if (!strings.Contains(title))
-            //            strings.Add(title);
-            //    }
-                
-            //}
-
-            //strings.ForEach(x => Debug.WriteLine(x));
+            TestMethod(HasChildrenDavidDax, "HasChildrenDavidDax");
+            TestMethod(HasChildrenAlternate, "HasChildrenAlternate");
+            TestMethod(HasChildrenClem, "HasChildrenClem");
+            Console.ReadKey(false);
         }
 
+        static void TestMethod(Func<string, bool> method, string MethodName)
+        {
+            string[] TestFolders = new string[] { @"D:\Test\EmptyFolder", @"D:\Test\FolderWithFile", @"D:\Test\FolderWithSubfolder" };
+            int tests = 10000;
+            Random r = new Random();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < tests; ++i)
+            {
+                bool b = method(TestFolders[r.Next(0, TestFolders.Length)]);
+            }
+            Console.WriteLine($"{MethodName}: Elapsed Time: {sw.ElapsedMilliseconds} ms");
+        }
+
+
+        static bool HasChildrenDavidDax(string path)
+        {
+            DirectoryInfo directory = new DirectoryInfo(path);
+            if (directory.GetDirectories().Length != 0 || directory.GetFiles().Length != 0)
+                return true;
+            return false;
+        }
+        static bool HasChildrenAlternate(string path)
+        {
+            IEnumerable<string> subfolders = Directory.EnumerateDirectories(path);
+            IEnumerable<string> subitem = Directory.EnumerateFiles(path);
+            return (subfolders != null && subfolders.Any()) ||
+                (subitem != null && subitem.Any());
+        }
+        static bool HasChildrenClem(string path)
+        {
+            return (Directory.EnumerateDirectories(path) != null ||
+                Directory.EnumerateFiles(path) != null);
+        }
 
     }
 }

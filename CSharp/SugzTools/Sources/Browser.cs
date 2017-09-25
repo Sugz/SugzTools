@@ -18,9 +18,9 @@ namespace SugzTools.Src
         /// Use CommonOpenFileDialog to select a file
         /// </summary>
         /// <returns></returns>
-        public string GetFile(string initialPath = null)
+        public string GetFile(string initialPath = null, Dictionary<string, string> fileTypes = null)
         {
-            if (GetResult(false, initialPath) is string file && File.Exists(file))
+            if (GetResult(false, initialPath, fileTypes) is string file && File.Exists(file))
                 return file;
             return null;
         }
@@ -44,13 +44,28 @@ namespace SugzTools.Src
         /// <param name="isFolderPicker"></param>
         /// <param name="initialPath"></param>
         /// <returns></returns>
-        private string GetResult(bool isFolderPicker, string initialPath)
+        private string GetResult(bool isFolderPicker, string initialPath, Dictionary<string, string> fileTypes = null)
         {
             if (_OpenFileDialog is null)
                 DefineOpenFileDialog();
 
             _OpenFileDialog.IsFolderPicker = isFolderPicker;
             _OpenFileDialog.InitialDirectory = initialPath;
+
+            if (fileTypes != null)
+            {
+                CommonFileDialogFilter all = new CommonFileDialogFilter() { DisplayName = "All Compatibles" };
+                _OpenFileDialog.Filters.Add(all);
+                foreach (KeyValuePair<string, string> pair in fileTypes)
+                {
+                    _OpenFileDialog.Filters.Add(new CommonFileDialogFilter(pair.Key, $"*{pair.Value}"));
+                    all.Extensions.Add(pair.Value.TrimStart('.'));
+                }
+                    
+                
+                
+            }
+
 
             CommonFileDialogResult result = _OpenFileDialog.ShowDialog();
             if (result == CommonFileDialogResult.Ok)

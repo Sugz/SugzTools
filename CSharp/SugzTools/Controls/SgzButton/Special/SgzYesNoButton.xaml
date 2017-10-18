@@ -8,11 +8,12 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="{x:Type local:SgzYesNoButton}">
                     <Border x:Name="Bd"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid >
                             <local:SgzIcon x:Name="PART_No"
                                          Icon="MdiClose"
@@ -24,12 +25,12 @@
                                     <ScaleTransform x:Name="CloseIconScale" ScaleX="1" ScaleY="1" />
                                 </local:SgzIcon.RenderTransform>
                             </local:SgzIcon>
-                                <local:SgzIcon x:Name="PART_Yes"
-                                         Icon="MdiCheck"
-                                         Foreground="LimeGreen"
-                                         IsEnabled="False"
-                                         Padding="{TemplateBinding Padding}"
-                                         RenderTransformOrigin="0.5,0.5">
+                            <local:SgzIcon x:Name="PART_Yes"
+                                           Icon="MdiCheck"
+                                           Foreground="LimeGreen"
+                                           IsEnabled="False"
+                                           Padding="{TemplateBinding Padding}"
+                                           RenderTransformOrigin="0.5,0.5">
                                 <local:SgzIcon.RenderTransform>
                                     <ScaleTransform x:Name="CheckIconScale" ScaleX="0" ScaleY="0" />
                                 </local:SgzIcon.RenderTransform>

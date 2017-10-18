@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StyleApp"
         xmlns:control="clr-namespace:StyleApp.Controls"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         xmlns:control1="clr-namespace:MaxscriptManager.Control;assembly=MaxscriptManager"
         mc:Ignorable="d"
@@ -22,14 +22,8 @@
     </Window.Resources>
 
     <Grid>
-        <Menu VerticalAlignment="Top">
-            <MenuItem Header="Test">
-                <MenuItem Header="Test"
-                          IsCheckable="True"
-                          IsChecked="True">
-                </MenuItem>
-            </MenuItem>
-        </Menu>
+        <md:DialogHost Background="#FFCB1717"
+                                   Style="{DynamicResource DialogHostStyle1}" />
     </Grid>
 
 </Window>

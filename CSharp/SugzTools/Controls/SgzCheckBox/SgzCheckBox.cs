@@ -153,7 +153,7 @@ namespace SugzTools.Controls
 
         // DependencyProperty as the backing store for IntermediateBrush
         public static readonly DependencyProperty IndeterminateBrushProperty = DependencyProperty.Register(
-            "IndeterminateBrus",
+            "IndeterminateBrush",
             typeof(Brush),
             typeof(SgzCheckBox),
             new PropertyMetadata(new SolidColorBrush(Colors.Black))
@@ -231,8 +231,8 @@ namespace SugzTools.Controls
 
         private void SwitchAnimation(TimeSpan time)
         {
-            double from = IsChecked == true ? 0 : PART_Bullet.ActualWidth; 
-            double to = IsChecked == true ? PART_Bullet.ActualWidth : 0;
+            double from = IsChecked == true ? 0 : Height; 
+            double to = IsChecked == true ? Height : 0;
             DoubleAnimation translateAnimation = new DoubleAnimation(from, to, time);
             PART_Bullet.RenderTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
         }

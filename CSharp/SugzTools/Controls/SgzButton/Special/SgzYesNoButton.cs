@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,6 +13,26 @@ namespace SugzTools.Controls
     {
         SgzIcon PART_No;
         SgzIcon PART_Yes;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description(""), Category("Appearance")]
+        public CornerRadius CornerRadius
+        {
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
+        }
+
+        // DependencyProperty as the backing store for CornerRadius
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
+            "CornerRadius",
+            typeof(CornerRadius),
+            typeof(SgzYesNoButton),
+            new PropertyMetadata(new CornerRadius(0))
+        );
+
+
 
 
         static SgzYesNoButton()
